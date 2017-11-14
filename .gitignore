@@ -1,0 +1,5 @@
+node_modules/
+vendor/
+storage/
+composer.lock/
+app/resources/js/lib/SmJS/

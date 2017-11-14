@@ -1,0 +1,1 @@
+export const CREATE_ANCHOR = 'schematic-depiction/schema/Anchor/CREATE_ANCHOR';
