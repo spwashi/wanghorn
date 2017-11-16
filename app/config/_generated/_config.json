@@ -1,1 +1,1 @@
-{"namespace":"EXAMPLE_APP\\","controller":{"namespace":"EXAMPLE_APP\\Controller\\"}}
+{"namespace":"EXAMPLE_APP\\","controller":{"namespace":"EXAMPLE_APP\\Controller\\"},"paths":{"app":"/var/www/wanghorn/app/","config":"/var/www/wanghorn/app/config/","views":"/var/www/wanghorn/app/view/","models":"/var/www/wanghorn/app/config/models/","routes":"/var/www/wanghorn/app/config/routes/","sources":"/var/www/wanghorn/app/config/sources/"}}

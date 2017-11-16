@@ -4,12 +4,14 @@ namespace EXAMPLE_APP_NAMESPACE\Controller;
 
 use Error;
 use Sm\Application\Controller\BaseApplicationController;
+use Sm\Core\Exception\Exception;
 use Sm\Core\Exception\UnimplementedError;
 use Sm\Data\Model\Model;
 use Sm\Data\Property\PropertySchematic;
 use Sm\Query\Modules\Sql\Constraints\PrimaryKeyConstraintSchema;
 use Sm\Query\Modules\Sql\Constraints\UniqueKeyConstraintSchema;
 use Sm\Query\Modules\Sql\Data\Column\ColumnSchema;
+use Sm\Query\Modules\Sql\Data\Column\DateTimeColumnSchema;
 use Sm\Query\Modules\Sql\Data\Column\IntegerColumnSchema;
 use Sm\Query\Modules\Sql\Data\Column\VarcharColumnSchema;
 use Sm\Query\Modules\Sql\MySql\Module\MySqlQueryModule;
@@ -21,7 +23,6 @@ use Sm\Query\Modules\Sql\Statements\CreateTableStatement;
  * The controller that contains the core of the application logic.
  */
 class Dev extends BaseApplicationController {
-    
     protected function propertyToColumn(PropertySchematic $propertySchema) {
         $datatypes = $propertySchema->getRawDataTypes();
         
@@ -40,20 +41,23 @@ class Dev extends BaseApplicationController {
             case 'string':
                 $column = $this->_initStringColumn($propertySchema);
                 break;
+            case 'datetime':
+                $column = $this->_initDatetimeColumn($propertySchema);
+                break;
             default :
-                throw new UnimplementedError("Cannot create property for {$first_datatype} yet");
+                $propertySchema_json = json_encode(get_object_vars($propertySchema));
+                throw new UnimplementedError("Cannot create property for {$first_datatype} yet (for {$propertySchema_json})");
         }
         
         if (isset($column)) {
             $is_null = in_array('[Datatype]null', $datatypes);
-            var_dump($column);
+//            var_dump($column);
             $column->setNullability($is_null);
         }
         
         
         return $column;
     }
-    
     protected function _initIntColumn(PropertySchematic $propertySchema): ColumnSchema {
         $column = IntegerColumnSchema::init()
                                      ->setName($propertySchema->getName())
@@ -61,12 +65,9 @@ class Dev extends BaseApplicationController {
         return $column;
     }
     protected function _initDatetimeColumn(PropertySchematic $propertySchema): ColumnSchema {
-        $column = DateTimeColumn::init()
-                                ->setName($propertySchema->getName())
-                                ->setLength($propertySchema->getLength());
+        $column = DateTimeColumnSchema::init()->setName($propertySchema->getName());
         return $column;
     }
-    
     protected function _initStringColumn(PropertySchematic $propertySchema): ColumnSchema {
         $column = VarcharColumnSchema::init()
                                      ->setName($propertySchema->getName())
@@ -75,15 +76,11 @@ class Dev extends BaseApplicationController {
     }
     
     public function modelsToTables() {
-        $app = $this->app;
-        
-        $models = $app->data->models->getConfiguredModels();
+        $models = $this->app->data->models->getConfiguredModels();
         
         list($all, $queries) = $this->formatModels($models);
         
-        var_dump($models);
-        
-        $do_interpret = 1;
+        $do_interpret = 0;
         
         if ($do_interpret == true) {
             foreach ($queries as $query) {
@@ -92,7 +89,7 @@ class Dev extends BaseApplicationController {
                 echo MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($query);
                 echo "</pre><br>";
                 
-                $app->query->interpret($query);
+                $this->app->query->interpret($query);
             }
         }
         
@@ -100,7 +97,6 @@ class Dev extends BaseApplicationController {
         $joined = join('<br>', $all);
         echo "<pre>{$joined}</pre>";
     }
-    
     public function eg() {
         $application         = $this->app;
         $representationLayer = $application->representation;
@@ -119,7 +115,7 @@ class Dev extends BaseApplicationController {
     }
     
     /**
-     * @param  Model[] $models
+     * @param  \Sm\Data\Model\ModelSchematic[] $models
      *
      * @return array
      * @throws \Error
@@ -139,8 +135,13 @@ class Dev extends BaseApplicationController {
              * @var \Sm\Data\Property\PropertySchematic $property
              */
             foreach ($properties as $propertySmID => $property) {
-                $column = $this->propertyToColumn($property);
-                if (!$column) continue;
+                try {
+                    $column = $this->propertyToColumn($property);
+                    if (!$column) continue;
+                } catch (Exception $exception) {
+                    continue;
+                }
+                
                 if ($meta->isPrimary($property)) {
                     $primaries[] = $column;
                 }

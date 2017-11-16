@@ -3,13 +3,12 @@ const HtmlPlugin = require('html-webpack-plugin');
 const URL        = 'http://localhost/wanghorn/';
 const app_name   = "example-app";
 
-
-module.exports   = {
-    entry:   './app/resources/js/app',
+module.exports = {
+    entry:   './resources/js/app',
     output:  {
         filename:   `${app_name}.js`,
         publicPath: `${URL}public/js/`,
-        path:       `${__dirname}/public/js`
+        path:       path.resolve(__dirname, '../public/js')
     },
     devtool: 'source-map',
     module:  {
@@ -20,6 +19,6 @@ module.exports   = {
         }],
     },
     plugins: [
-        new HtmlPlugin({template: 'app/view/html/react.html'})
+        new HtmlPlugin({template: 'view/html/react.html'})
     ]
 };

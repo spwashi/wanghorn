@@ -1,26 +1,30 @@
-[
-    {
-        "name":       "rt_404",
+{
+    "pattern_prefix": "wanghorn/",
 
-        "pattern":    "404/{error}",
-        "resolution": "#ErrorController::rt_404"
-    },
-    {
-        "name":       "home",
+    "routes":         [
+        {
+            "name":       "rt_404",
 
-        "pattern":    "$",
-        "resolution": "#Home::index"
-    },
-    {
-        "pattern":    "test",
-        "resolution": "#Home::item"
-    },
-    {
-        "pattern":    "wanghorn/one",
-        "resolution": "#Temp::react_1"
-    },
-    {
-        "pattern":    "wanghorn/dev/models",
-        "resolution": "#Dev::modelsToTables"
-    }
-]
+            "pattern":    "404/{path}",
+            "resolution": "#ErrorController::rt_404"
+        },
+        {
+            "name":       "home",
+
+            "pattern":    "$",
+            "resolution": "#Home::item"
+        },
+        {
+            "pattern":    "test",
+            "resolution": "#Home::item"
+        },
+        {
+            "pattern":    "one",
+            "resolution": "#Temp::react_1"
+        },
+        {
+            "pattern":    "dev/models",
+            "resolution": "#Dev::modelsToTables"
+        }
+    ]
+}

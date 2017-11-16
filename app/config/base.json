@@ -27,7 +27,7 @@
     // These are the paths referenced by the application/framework
     //
     "paths":       {
-        "views":   "APP_PATH/VIEW/",
+        "views":   "APP_PATH/view/",
         "models":  "CONFIG_PATH/models/",
         "routes":  "CONFIG_PATH/routes/",
         "sources": "CONFIG_PATH/sources/"

@@ -9,15 +9,15 @@ const sass       = require('gulp-sass');
 
 const directories = {
     src:  {
-        js:  path.resolve(__dirname, 'app', 'resources', 'js',),
-        css: path.resolve(__dirname, 'app', 'resources', 'stylesheets',)
+        js:  path.resolve(__dirname, 'resources/js',),
+        css: path.resolve(__dirname, 'resources/stylesheets',)
     },
     test: {
         js: path.resolve(__dirname, 'tests',)
     },
     dist: {
-        js:  path.resolve(__dirname, 'public', 'js',),
-        css: path.resolve(__dirname, 'public', 'css',),
+        js:  path.resolve(__dirname, '../public/js',),
+        css: path.resolve(__dirname, '../public/css',),
     }
 };
 

@@ -1,5 +1,8 @@
-node_modules/
-vendor/
-storage/
-composer.lock/
-app/resources/js/lib/SmJS/
+/node_modules/
+/app/resources/js/lib/SmJS/
+/vendor/
+/composer.lock
+/.idea/
+app/node_modules/
+Would skip repository app/resources/js/lib/SmJS
+public/
