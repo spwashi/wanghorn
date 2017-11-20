@@ -1,0 +1,89 @@
+CONTAINERS
+    - anchors =
+                [
+                    {
+                        id:      ANCHOR_ID,
+                        alias:   " ALIAS "
+                    },
+                    ...
+                ]
+
+    - ampersands =
+                [
+                    {
+                        id:     AMPERSAND_ID
+                    },
+                    ...
+                ]
+
+
+    - schemas =
+                [
+                    {
+                        id:     ANCHOR_ID,
+
+                        target: AMPERSAND_ID | ANCHOR_ID,
+                        source: INTEGRATION_SCHEME_ID
+                    },
+                    ...
+                ]
+
+    - integration_schemes =
+                [
+                    {
+                        id:             INTEGRATION_SCHEME_ID,
+                        evaluations:    [
+                                            EVALUATION_ID,
+                                            ...
+                                        ]
+                    },
+                    ...
+                ]
+
+    - evaluations =
+                [
+                    {
+                        id:             EVALUATION_ID,
+
+                        instantial:     ANCHOR_ID,
+                        essential:      ANCHOR_ID
+                    }
+                ]
+
+    - operations =
+                [
+                    {
+
+                    }
+                ]
+
+    - evaluation_schemes =
+                [
+                    {
+                        id:             EVALUATION_SCHEME_ID,
+
+                        operations:         {
+                            'OPERATION_ALIAS': OPERATION_ID,
+                            'OPERATION_ALIAS': [
+                                OPERATION_ID,
+                                OPERATION_ID,
+                                OPERATION_ID
+                            ]
+                        }
+                    }
+                ]
+
+
+ANCHOR
+
+AMPERSAND
+    represents where an anchor might belong, but there is not an anchor
+
+
+    - Anchor ID     (or null)
+    - Ampersand ID  (not null)
+
+
+APPLICATION
+    represents the combination of an Integration Scheme (#)
+                               or an Anchor             (&)
