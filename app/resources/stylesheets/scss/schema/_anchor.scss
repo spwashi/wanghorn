@@ -1,15 +1,14 @@
 @import "helper";
+@import "../colors";
 
 .schema--anchor {
-
   > .schema--anchor--label--container {
-    border  : thin solid #2e6da4;
+    border  : thin solid $border-color;
     display : inline-block;
     margin  : 25px auto;
 
     &::before {
       @extend %schema-decorator;
-      content : '&';
     }
 
     > input, > .schema--anchor--label {
@@ -22,7 +21,7 @@
   @extend %_identified;
   display : inline-block;
   &::before {
-    @extend %schema-decorator;
-    content : '&';
-  }
+	   @extend %schema-decorator;
+	   content : '&';
+   }
 }

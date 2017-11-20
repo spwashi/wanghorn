@@ -77,3 +77,4 @@ Anchor.propTypes = {
 };
 
 export {Anchor}
+export default Anchor;

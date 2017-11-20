@@ -39,8 +39,8 @@ const webpackTask   = () => gulp.src(`${directories.src.js}/app/index.js`)
                                 .on('error', error => console.log(error))
                                 .pipe(gulp.dest(directories.dist.js + '/'))
                                 .on('error', error => console.log(error));
-const watchCSS_Task = () => gulp.watch(directories.src.css + '/scss/**/*.scss', ['sass']);
-const watchJS_Task  = () => gulp.watch(directories.src.js + '/app/**/*.js', ['webpack']);
+const watchCSS_Task = () => {sassTask();return gulp.watch(directories.src.css + '/scss/**/*.scss', ['sass'])};
+const watchJS_Task  = () => {webpackTask();return gulp.watch(directories.src.js + '/app/**/*.js', ['webpack'])};
 
 gulp.task('webpack', webpackTask);
 gulp.task('sass', sassTask);

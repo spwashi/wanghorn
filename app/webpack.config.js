@@ -1,6 +1,6 @@
 const path       = require('path');
 const HtmlPlugin = require('html-webpack-plugin');
-const URL        = 'http://localhost/wanghorn/';
+const URL        = 'https://dev.spwashi.com/';
 const app_name   = "example-app";
 
 module.exports = {
