@@ -1,9 +1,9 @@
 import {connect} from "react-redux";
 import React, {Component} from "react";
-import Schema from "./schema";
-import schematic_depiction from "..";
+import {Schema} from "../index";
+import schematic_depiction from "../../index";
 
-export const SchemaContainer = ({schemas, onCreateSchemaClick}) => {
+export const SchemaContainer       = ({schemas, onCreateSchemaClick}) => {
     schemas             = schemas || [];
     onCreateSchemaClick = onCreateSchemaClick || (() => {});
     return (
@@ -15,9 +15,6 @@ export const SchemaContainer = ({schemas, onCreateSchemaClick}) => {
         </div>
     );
 };
-
-export default SchemaContainer
-
 export const ActiveSchemaContainer = connect(
     state => {
         const appState = state[schematic_depiction.constants.NAME] || {};

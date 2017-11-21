@@ -9,9 +9,10 @@ use Sm\Representation\Module\Twig\TwigViewModule;
 #####              APPLICATION CONSTANTS                                     #######
 ####################################################################################
 require_once EXAMPLE_APP__CONFIG_PATH . 'autoload/autoload.php';
-const EXAMPLE_APP__URL            = 'http://localhost/wanghorn';
-const EXAMPLE_APP__URL_PUBLIC     = EXAMPLE_APP__URL . '/public';
-const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__PATH . 'app/view/twig/';
+const EXAMPLE_APP__URL            = 'http://localhost/wanghorn/';
+const EXAMPLE_APP__URL_PUBLIC     = EXAMPLE_APP__URL . 'public/';
+const EXAMPLE_APP__PUBLIC_PATH    = EXAMPLE_APP__PATH . '../public/';
+const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__PATH . 'view/twig/';
 
 ####################################################################################
 #####              This is what actually configures the app.                 #######

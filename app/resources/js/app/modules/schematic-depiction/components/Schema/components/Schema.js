@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-import IntegrationScheme from "../../IntegrationScheme";
+import IntegrationScheme from "../../../modules/IntegrationScheme";
 import Perspective from "./../Perspective";
 import AnchorPlaceholder from "../../Anchor/components/AnchorPlaceholder";
 
@@ -13,7 +13,7 @@ const ApplicationContainer = ({schemaID, integrationSchemeID}) => {
 	)
 };
 
-const Schema = ({schemaID, integrationSchemeID}) => {
+export const Schema = ({schemaID, integrationSchemeID}) => {
 	return (
 		<div className="schema--schema">
 			<header>

@@ -1,11 +1,12 @@
 require("babel-polyfill");
 
-const gulp       = require('gulp');
-const path       = require('path');
-const sourcemaps = require('gulp-sourcemaps');
-const webpack    = require('webpack-stream');
-const mocha      = require('gulp-mocha');
-const sass       = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const gulp         = require('gulp');
+const path         = require('path');
+const sourcemaps   = require('gulp-sourcemaps');
+const webpack      = require('webpack-stream');
+const mocha        = require('gulp-mocha');
+const sass         = require('gulp-sass');
 
 const directories = {
     src:  {
@@ -33,6 +34,10 @@ const sassTask      = () => gulp.src(directories.src.css + '/scss/**/*.scss')
                                 .pipe(sourcemaps.init())
                                 .pipe(sass().on('error', sass.logError))
                                 .pipe(sourcemaps.write())
+                                .pipe(autoprefixer({
+                                                       browsers: ['last 2 versions'],
+                                                       cascade:  false
+                                                   }))
                                 .pipe(gulp.dest(directories.dist.css));
 const webpackTask   = () => gulp.src(`${directories.src.js}/app/index.js`)
                                 .pipe(webpack(require('./webpack.config.js')))

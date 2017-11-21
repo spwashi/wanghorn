@@ -1,8 +1,8 @@
-import {CREATE_ANCHOR} from "./AnchorActionTypes";
+import * as actionTypes from "./AnchorActionTypes";
 
 export default (state, action) => {
 	switch (action.type) {
-		case CREATE_ANCHOR:
+		case actionTypes.CREATE_ANCHOR:
 			console.log(state);
 			break;
 	}

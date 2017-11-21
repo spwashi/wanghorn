@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {AnchorPlaceholder} from "../../../../Anchor";
+import {AnchorPlaceholder} from "../../../../../components/Anchor/index";
 
 class EvaluationArgument extends Component {
     constructor(props) {
