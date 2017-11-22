@@ -5,7 +5,7 @@ import {Provider} from "react-redux";
 
 import reducer from "./rootReducer";
 import {createSchema} from "./modules/schematic-depiction/actions"
-import {ActiveSchemaContainer} from "./modules/schematic-depiction/components/Schema/components/schemaContainer";
+import {ActiveSchemaContainer} from "./modules/schematic-depiction/components/Schema/components/SchemaContainer";
 
 const app_elem = document.getElementById('app');
 const store    = createStore(reducer);

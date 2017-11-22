@@ -1,4 +1,4 @@
-import {CREATE_EVALUATION} from "./IntegrationSchemeActionTypes";
+import {CREATE_EVALUATION} from "./actionTypes";
 
 export default (state, action) => {
     switch (action.type) {

@@ -3,8 +3,8 @@
 define('SM_IS_CLI', php_sapi_name() === 'cli');
 error_reporting(E_ALL);
 
+const EXAMPLE_APP__NAME        = 'wanghorn';
 const EXAMPLE_APP__PATH        = __DIR__ . '/';
-const EXAMPLE_APP__SRC_PATH    = __DIR__ . '/src/';
 const EXAMPLE_APP__CONFIG_PATH = __DIR__ . '/config/';
 
 
@@ -35,14 +35,18 @@ try {
         $route    = $app->communication->getRoute($request);
         $response = $route->resolve();
         $result   = $app->communication->dispatch(Http::class, $response) ?? null;
+        
         die();
     } catch (RouteNotFoundException $exception) {
         
         ###- Create and dispatch the error response -###
-        $request     = NamedRequest::init('rt_404')->setParentRequest($originalRequest);
-        $args        = [ 'path' => $originalRequest->getUrlPath(), ];
-        $error_route = $app->communication->getRoute($request)->prime(null, $args);
-        $result      = $app->communication->dispatch(Http::REDIRECT, $error_route);
+        $request     = NamedRequest::init('rt_404')
+                                   ->setParentRequest($originalRequest);
+        $args        = ['path' => $originalRequest->getUrlPath()];
+        $error_route = $app->communication->getRoute($request)
+                                          ->prime(null, $args);
+        $result      = $app->communication->dispatch(Http::REDIRECT,
+                                                     $error_route);
         
         die();
     }

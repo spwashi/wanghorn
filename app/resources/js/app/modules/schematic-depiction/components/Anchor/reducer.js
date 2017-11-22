@@ -1,4 +1,4 @@
-import * as actionTypes from "./AnchorActionTypes";
+import * as actionTypes from "./actionTypes";
 
 export default (state, action) => {
 	switch (action.type) {

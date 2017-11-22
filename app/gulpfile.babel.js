@@ -9,43 +9,57 @@ const mocha        = require('gulp-mocha');
 const sass         = require('gulp-sass');
 
 const directories = {
-    src:  {
-        js:  path.resolve(__dirname, 'resources/js',),
-        css: path.resolve(__dirname, 'resources/stylesheets',)
-    },
-    test: {
-        js: path.resolve(__dirname, 'tests',)
-    },
-    dist: {
-        js:  path.resolve(__dirname, '../public/js',),
-        css: path.resolve(__dirname, '../public/css',),
-    }
+	src:  {
+		js:  path.resolve(__dirname, 'resources/js',),
+		css: path.resolve(__dirname, 'resources/stylesheets',)
+	},
+	test: {
+		js: path.resolve(__dirname, 'tests',)
+	},
+	dist: {
+		js:  path.resolve(__dirname, '../public/js',),
+		css: path.resolve(__dirname, '../public/css',),
+	}
 };
 
 ///////////////////////////////////////////
+const swallowError  = function(error) {
+	console.log(error.toString());
+
+	this.emit('end')
+};
+///////////////////////////////////////////
 const mochaTask     = () => gulp.src([directories.test.js + '/index.js'])
                                 .pipe(mocha({
-                                                reporter:  'spec',
-                                                compilers: [
-                                                    'js:babel-core/register',
-                                                ]
-                                            }));
+	                                            reporter:  'spec',
+	                                            compilers: [
+		                                            'js:babel-core/register',
+	                                            ]
+                                            }))
+                                .on('error', swallowError);
 const sassTask      = () => gulp.src(directories.src.css + '/scss/**/*.scss')
                                 .pipe(sourcemaps.init())
                                 .pipe(sass().on('error', sass.logError))
                                 .pipe(sourcemaps.write())
                                 .pipe(autoprefixer({
-                                                       browsers: ['last 2 versions'],
-                                                       cascade:  false
+	                                                   browsers: ['last 2 versions'],
+	                                                   cascade:  false
                                                    }))
-                                .pipe(gulp.dest(directories.dist.css));
+                                .pipe(gulp.dest(directories.dist.css))
+                                .on('error', swallowError);
 const webpackTask   = () => gulp.src(`${directories.src.js}/app/index.js`)
                                 .pipe(webpack(require('./webpack.config.js')))
-                                .on('error', error => console.log(error))
+                                .on('error', swallowError)
                                 .pipe(gulp.dest(directories.dist.js + '/'))
-                                .on('error', error => console.log(error));
-const watchCSS_Task = () => {sassTask();return gulp.watch(directories.src.css + '/scss/**/*.scss', ['sass'])};
-const watchJS_Task  = () => {webpackTask();return gulp.watch(directories.src.js + '/app/**/*.js', ['webpack'])};
+                                .on('error', swallowError);
+const watchCSS_Task = () => {
+	sassTask();
+	return gulp.watch(directories.src.css + '/scss/**/*.scss', ['sass'])
+};
+const watchJS_Task  = () => {
+	webpackTask();
+	return gulp.watch(directories.src.js + '/app/**/*.js', ['webpack'])
+};
 
 gulp.task('webpack', webpackTask);
 gulp.task('sass', sassTask);
@@ -54,6 +68,6 @@ gulp.task('watch:css', watchCSS_Task);
 gulp.task('watch:js', watchJS_Task);
 
 gulp.task('watch', () => [
-    watchCSS_Task(),
-    watchJS_Task()
+	watchCSS_Task(),
+	watchJS_Task()
 ]);

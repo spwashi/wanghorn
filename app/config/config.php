@@ -11,6 +11,7 @@ use Sm\Representation\Module\Twig\TwigViewModule;
 require_once EXAMPLE_APP__CONFIG_PATH . 'autoload/autoload.php';
 const EXAMPLE_APP__URL            = 'http://localhost/wanghorn/';
 const EXAMPLE_APP__URL_PUBLIC     = EXAMPLE_APP__URL . 'public/';
+const EXAMPLE_APP__SRC_PATH       = EXAMPLE_APP__PATH . 'src/';
 const EXAMPLE_APP__PUBLIC_PATH    = EXAMPLE_APP__PATH . '../public/';
 const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__PATH . 'view/twig/';
 
@@ -69,7 +70,7 @@ function _data_layer(Application $app, $config_json): void {
 }
 
 function _representation_layer(Application $app): void {
-    $twig__Loader_Filesystem = new Twig_Loader_Filesystem([ EXAMPLE_APP__VIEW_TWIG_PATH, ]);
+    $twig__Loader_Filesystem = new Twig_Loader_Filesystem([EXAMPLE_APP__VIEW_TWIG_PATH,]);
     $twig__Environment       = new Twig_Environment($twig__Loader_Filesystem);
     
     $twig__Environment->addGlobal('app_path__public', EXAMPLE_APP__URL_PUBLIC);

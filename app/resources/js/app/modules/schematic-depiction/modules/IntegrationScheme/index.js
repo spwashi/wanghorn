@@ -1,3 +1,5 @@
-export * as actions from './actions'
-export * as actionTypes from './actionTypes'
+import * as actions from './actions'
+import * as actionTypes from './actionTypes'
+
 export {default as reducer} from './reducer'
+export {actions, actionTypes}
