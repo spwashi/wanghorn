@@ -1,14 +1,17 @@
-const path       = require('path');
-const HtmlPlugin = require('html-webpack-plugin');
-const URL        = 'https://dev.spwashi.com/';
-const app_name   = "example-app";
+import HtmlPlugin from "html-webpack-plugin";
+import path from "path";
 
-module.exports = {
+const URL        = 'http://localhost/wanghorn/';
+const app_name   = "example-app";
+const outputPath = path.resolve(__dirname, '../public/js');
+
+
+module.exports   = {
     entry:   './resources/js/app',
     output:  {
         filename:   `${app_name}.js`,
         publicPath: `${URL}public/js/`,
-        path:       path.resolve(__dirname, '../public/js')
+        path:       outputPath
     },
     devtool: 'source-map',
     module:  {

@@ -11,7 +11,7 @@ export default class AnchorPlaceholder extends Component {
         }
         
         return (
-            <div className="schema--anchor--ampersand" tabIndex={0}>{anchor}</div>
+            <div className="anchor--ampersand" tabIndex={0}>{anchor}</div>
         );
     }
 }

@@ -1,8 +1,7 @@
 import * as components from './components';
-import reducer from './reducer';
-import * as actions from './actions';
-import constants from './constants';
+import reducer from './reducers';
+import * as constants from './constants';
 
-export default {actions, components, constants, reducer};
+export default {components, constants, reducer};
 
 export {components};

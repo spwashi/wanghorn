@@ -1,0 +1,50 @@
+// standard
+@import "../helper";
+@import "../../colors";
+// helper
+@import "../../components/card/card";
+// anchor components
+@import "colors";
+@import "container";
+@import "label";
+@import "variables";
+
+.anchor {
+  @extend %card--standard;
+  background     : $anchor--background--color;
+  width          : $anchor--width;
+  height         : $anchor--height;
+  text-align     : center;
+  padding        : 20px;
+  display        : flex;
+  flex-direction : column;
+  position       : relative;
+
+  > * {
+    flex-grow : 1;
+  }
+  .anchor--control {
+    position        : absolute;
+    display         : flex;
+    right           : 0;
+    padding         : 10px 20px;
+    top             : 0;
+    height          : $anchor--control--height;
+    justify-content : space-between;
+  }
+  .anchor--ampersand {
+    background-color : $anchor--ampersand--background--color;
+    text-align       : center;
+    height           : $anchor--ampersand--height;
+    font-size        : 75px;
+    display          : inline-block;
+    margin-left      : auto;
+    margin-right     : auto;
+    &::before {
+      content : '&';
+      display : block;
+      width   : 100%;
+      height  : 100%;
+    }
+  }
+}

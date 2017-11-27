@@ -1,10 +1,13 @@
+@import "../colors";
+
 html {
   margin    : 0;
   padding   : 0;
-  font-size : 20px;
+  font-size : 1em;
 }
 
 body {
-  background-color : #f7f7f7;
+  background-color : $body--background--color;
   font-family      : sans-serif;
 }
+

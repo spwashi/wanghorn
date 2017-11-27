@@ -1,0 +1,13 @@
+@import "variables";
+
+.anchor--container {
+  height          : $anchor--container--height;
+  display         : flex;
+  flex-flow       : row;
+  justify-content : flex-start;
+  flex-wrap       : wrap;
+  > * {
+    margin-right   : 10px;
+    margin-bottom  : 10px;
+  }
+}

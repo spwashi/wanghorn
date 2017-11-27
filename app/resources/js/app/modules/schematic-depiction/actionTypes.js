@@ -1,2 +1,2 @@
-export const CREATE_SCHEMA = 'schemas/CREATE_SCHEMA';
-export const CREATE_ANCHOR = 'schemas/CREATE_ANCHOR';
+export const INIT_ANCHOR      = 'schematic-depiction/INIT_ANCHOR';
+export const SET_ANCHOR_LABEL = 'schematic-depiction/SET_ANCHOR_LABEL';

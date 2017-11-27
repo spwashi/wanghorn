@@ -1,0 +1,14 @@
+@import "anchor/anchor";
+
+#schematic-depiction {
+  padding : 20px;
+
+  > .schematic-depiction--control {
+    margin-bottom : 20px;
+    > button {
+      $sd--button--width : $anchor--width;
+      padding : 5px;
+      width   : $sd--button--width;
+    }
+  }
+}

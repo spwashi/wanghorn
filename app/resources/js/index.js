@@ -35,7 +35,7 @@ function configure_entity(getConfig, EntityPrototype) {
     };
     
     function _initializeModels(configuration_object) {
-        console.log(configuration_object);
+        // console.log(configuration_object);
         const allInitializing = Sm._config.initialize(configuration_object, EntityPrototype);
         return Promise.all(allInitializing);
     }
@@ -44,7 +44,7 @@ function configure_entity(getConfig, EntityPrototype) {
 function save_config(name) {
     return function (ar) {
         let [application, initializedModels] = ar;
-        console.log(initializedModels);
+        // console.log(initializedModels);
         application.storeEntityConfig(initializedModels, name);
     }
 }

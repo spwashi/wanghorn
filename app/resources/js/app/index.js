@@ -2,21 +2,19 @@ import React from 'react'
 import {render} from 'react-dom'
 import {createStore,} from "redux";
 import {Provider} from "react-redux";
+import {devToolsEnhancer} from 'redux-devtools-extension';
+import reducer from "./reducers";
+import SchematicDepiction from "./modules/schematic-depiction/modules/SchematicDepiction/index";
 
-import reducer from "./rootReducer";
-import {createSchema} from "./modules/schematic-depiction/actions"
-import {ActiveSchemaContainer} from "./modules/schematic-depiction/components/Schema/components/SchemaContainer";
-
-const app_elem = document.getElementById('app');
-const store    = createStore(reducer);
-const app      =
+const app_elem    = document.getElementById('app');
+const store       = createStore(reducer, devToolsEnhancer());
+const app         =
           <div className="application">
-              <ActiveSchemaContainer onCreateSchemaContainer={createSchema} />
+              <SchematicDepiction />
           </div>;
-
-let appProvider =
-        <Provider store={store}>
-            {app}
-        </Provider>;
+const appProvider =
+          <Provider store={store}>
+              {app}
+          </Provider>;
 
 render(appProvider, app_elem);

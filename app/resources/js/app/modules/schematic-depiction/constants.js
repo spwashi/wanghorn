@@ -1,8 +1,11 @@
-const ANCHOR_ID      = Symbol('anchor-id');
-const NAME           = 'schematic-depiction';
-const KEY_CHAR_CODES = {
-	SPACE_BAR: 32,
-	ENTER:     13
+const NAME       = 'schematic-depiction';
+const CHAR_CODES = {
+    BACKSPACE: 8,
+    TAB:       9,
+    ENTER:     13,
+    ESCAPE:    27,
+    SPACE:     32,
+    DASH:      189
 };
 
-export default {NAME, KEY_CHAR_CODES, ANCHOR_ID}
+export {NAME, CHAR_CODES}
