@@ -1,7 +1,7 @@
 import HtmlPlugin from "html-webpack-plugin";
 import path from "path";
 
-const URL        = 'http://localhost/wanghorn/';
+const URL        = '/wanghorn/';
 const app_name   = "example-app";
 const outputPath = path.resolve(__dirname, '../public/js');
 
