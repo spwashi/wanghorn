@@ -4,28 +4,16 @@ import {CHAR_CODES} from "../../../constants";
 
 class EditAnchorLabel extends Component {
     _handleChange;
+    _handleKeyDown;
     _onBlur;
     _id;
     
     constructor(props) {
         super(props);
-        this._id           = utility.randomString();
-        this._handleChange = props.handleChange || (event => {});
-        this._onBlur       = props.onBlur || (event => {});
-    }
-    
-    handleKeyDown(event) {
-        const charCode = event.keyCode;
-        
-        if (!charCode) return;
-        
-        switch (charCode) {
-            case CHAR_CODES.SPACE:
-                const value = (this.refs.input.value + '-');
-                this.setInputValue(value);
-                event.preventDefault();
-                break;
-        }
+        this._id            = utility.randomString();
+        this._handleChange  = (props.handleChange || (event => {})).bind(this);
+        this._handleKeyDown = (props.handleKeyDown || (event => {})).bind(this);
+        this._onBlur        = (props.onBlur || (event => {})).bind(this);
     }
     
     setInputValue(value) {
@@ -34,15 +22,21 @@ class EditAnchorLabel extends Component {
     
     render() {
         const handleChange = this._handleChange;
-        const label        = this.props.label || '';
+        const labelText    = this.props.labelText || '';
+        const onBlur       = event => {this._onBlur(event.target.value, ...arguments)};
         
-        const onBlur = event => {this._onBlur(event.target.value, ...arguments)};
-        return (<input autoFocus className={"anchor--label"} type="text"
+        const className = this.props.className;
+        
+        return (<input autoFocus
+        
+                       className={className}
+        
+                       type="text"
                        ref="input"
         
-                       defaultValue={label}
+                       defaultValue={labelText}
         
-                       onKeyDown={this.handleKeyDown.bind(this)}
+                       onKeyDown={this._handleKeyDown.bind(this)}
                        onBlur={onBlur}
                        onChange={handleChange} />);
         
@@ -60,10 +54,33 @@ class EditAnchorLabel extends Component {
  * @constructor
  */
 export const AnchorLabel = ({onBlur, handleChange, label, isEdit = false}) => {
-    return !isEdit ? <div className="anchor--label">{label || ' '}</div> : <EditAnchorLabel label={label}
-                                                                                            onBlur={onBlur}
-                                                                                            handleChange={handleChange} />;
+    const className     = "anchor--label";
+    const handleKeyDown = event => {
+        const charCode = event.keyCode;
+        
+        if (!charCode) return;
+        
+        switch (charCode) {
+            case CHAR_CODES.SPACE:
+                const value = (this.refs.input.value + '-');
+                this.setInputValue(value);
+                event.preventDefault();
+                break;
+        }
+    };
     
+    if (!isEdit) {
+        return (
+            <div className={className}>
+                {label || ' '}
+            </div>);
+    }
+    
+    return <EditAnchorLabel className={className}
+                            handleKeyDown={handleKeyDown}
+                            labelText={label}
+                            onBlur={onBlur}
+                            handleChange={handleChange} />;
 };
 
 export default AnchorLabel;

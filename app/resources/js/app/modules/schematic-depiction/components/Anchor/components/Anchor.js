@@ -76,7 +76,7 @@ class Anchor extends Component {
                     <div className="anchor--control--delete">X</div>
                 </div>
                 <div className="anchor--ampersand"></div>
-                <div className="anchor--label--container" tabIndex={0}>
+                <div className="anchor--label--wrapper" tabIndex={0}>
                     <AnchorLabel isEdit={this.state.isEdit} label={this.state.label} onBlur={onBlur} />
                 </div>
             </div>
