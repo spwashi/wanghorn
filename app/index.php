@@ -16,6 +16,9 @@ use Sm\Communication\Routing\Exception\RouteNotFoundException;
 
 require_once 'vendor/autoload.php';
 
+echo 'test';
+
+
 /** @var Application $app */
 $app = Application::init('wanghorn',
                          EXAMPLE_APP__PATH,
