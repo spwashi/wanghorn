@@ -16,7 +16,7 @@ use Sm\Communication\Routing\Exception\RouteNotFoundException;
 
 require_once 'vendor/autoload.php';
 
-echo 'test!!??!!!';
+echo 'wow';
 
 
 /** @var Application $app */
