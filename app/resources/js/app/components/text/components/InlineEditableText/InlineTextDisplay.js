@@ -9,5 +9,10 @@ const InlineTextDisplay = ({text, className}) => {
     
 };
 
+InlineTextDisplay.propTypes = {
+    text:      PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    className: PropTypes.string
+};
+
 export {InlineTextDisplay};
 export default InlineTextDisplay;

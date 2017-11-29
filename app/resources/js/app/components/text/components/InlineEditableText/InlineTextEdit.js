@@ -1,7 +1,6 @@
+import PropTypes from "prop-types";
 import React, {Component} from "react";
 import * as utility from '../../../../utility'
-import {CHAR_CODES} from "constants";
-
 
 export default class InlineTextEdit extends Component {
     _handleChange;
@@ -23,7 +22,7 @@ export default class InlineTextEdit extends Component {
     
     render() {
         const handleChange = this._handleChange;
-        const labelText    = this.props.labelText || '';
+        const text         = this.props.text || '';
         const onBlur       = event => {this._onBlur(event.target.value, ...arguments)};
         
         const className = this.props.className;
@@ -35,7 +34,7 @@ export default class InlineTextEdit extends Component {
                        type="text"
                        ref="input"
         
-                       defaultValue={labelText}
+                       defaultValue={text}
         
                        onKeyDown={this._handleKeyDown.bind(this)}
                        onBlur={onBlur}
@@ -43,4 +42,15 @@ export default class InlineTextEdit extends Component {
         
     }
 }
+
+InlineTextEdit.propTypes = {
+    
+    onBlur:        PropTypes.func,
+    handleChange:  PropTypes.func,
+    handleKeyDown: PropTypes.func,
+    text:          PropTypes.string,
+    
+    className: PropTypes.string
+};
+
 export {InlineTextEdit};

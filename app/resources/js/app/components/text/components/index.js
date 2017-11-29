@@ -1,1 +1,3 @@
-export {InlineTextEdit} from './inline/InlineTextEdit';
+import {InlineEditableText} from "./InlineEditableText";
+
+export {InlineEditableText};
