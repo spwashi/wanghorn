@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types"
 import {Anchor} from "../index";
 
+
 export default class AnchorPlaceholder extends Component {
     render() {
         let anchor = null;

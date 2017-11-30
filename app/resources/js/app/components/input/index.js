@@ -56,7 +56,7 @@ export default class Input extends Component {
         //This is ugly...
         
         const onFocus = this.onInputFocus.bind(this);
-        const onBlur  = (this._handlers.onBlur || (() => {})).bind(this, this.state.value);
+        const onBlur  = (this._handlers.setText || (() => {})).bind(this, this.state.value);
         
         const input_props = {
             ...this._inputProperties,

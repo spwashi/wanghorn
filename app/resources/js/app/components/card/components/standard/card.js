@@ -1,35 +1,31 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import * as utility from "../../../../utility";
+import {InlineEditableText} from "../../../text";
 
-const StandardCardLabelText = ({isEdit, label, onComplete}) => {
-    return <div>HELLO FRIEND</div>
-};
-
-const StandardCard = ({labelImage, labelText, controllers}) => {
-    const controllerMap = utility.objectToMap();
-    
-    const onClick   = () => {};
-    const onKeyDown = () => {};
-    
-    return (
-        <div className="card-standard" onKeyDown={onKeyDown} onClick={onClick}>
-            <div className="anchor--control">
-                <div className="anchor--control--delete">X</div>
-                {
-                    controllerMap.entries()
-                                 .map((k, v) => {
-                                     return <div>{k} {v}</div>
-                                 })
-                }
+class StandardCard extends Component {
+    render() {
+        
+        // props
+        let labelImage = this.props.labelImage;
+        let className  = (this.props.className || '') + ' card card-standard';
+        let labelText  = this.props.labelText;
+        
+        let isEdit = false;
+        
+        //events
+        const onClickCard = () => {};
+        const onKeyDown   = () => {};
+        const onBlur      = () => {};
+        
+        return (
+            <div className={className} onClick={onClickCard}>
+                {this.props.children}
             </div>
-            <div className="anchor--ampersand"></div>
-            <div className="anchor--label--wrapper" tabIndex={0}>
-                <AnchorLabelText isEdit={this.state.isEdit} label={this.state.label} onBlur={onBlur} />
-            </div>
-        </div>
-    )
-};
+        )
+        
+    }
+}
 
 StandardCard.propTypes = {
     labelImage: PropTypes.element,
@@ -42,3 +38,6 @@ StandardCard.propTypes = {
                                      deleteCardItem: PropTypes.func,
                                  })
 };
+
+export default StandardCard;
+export {StandardCard};

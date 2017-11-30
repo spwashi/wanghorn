@@ -8,29 +8,29 @@ const InlineEditableText = ({
                                 text,
                                 isEdit = false,
     
-                                handleKeyDown,
-                                handleChange,
-    
-                                onBlur
+                                setEditState,
+                                setText,
                             }) => {
-    return !isEdit ? <InlineTextDisplay className={className} text={text} /> : <InlineTextEdit className={className} text={text}
-    
-                                                                                               handleKeyDown={handleKeyDown}
-                                                                                               handleChange={handleChange}
-    
-                                                                                               onBlur={onBlur} />;
+    if (!isEdit) {
+        return <InlineTextDisplay className={className}
+                                  text={text}
+                                  setEditState={setEditState} setText={setText} />;
+    } else {
+        return <InlineTextEdit className={className}
+                               text={text}
+                               setEditState={setEditState} setText={setText} />;
+    }
     
 };
 
 InlineEditableText.propTypes = {
-    isEdit: PropTypes.bool,
+    className: PropTypes.string,
+    text:      PropTypes.string,
+    isEdit:    PropTypes.bool,
     
-    onBlur:        PropTypes.func,
-    handleChange:  PropTypes.func,
-    handleKeyDown: PropTypes.func,
-    text:          PropTypes.string,
+    handleChange: PropTypes.func,
+    setEditState: PropTypes.func
     
-    className: PropTypes.string
 };
 
 export {InlineEditableText}
