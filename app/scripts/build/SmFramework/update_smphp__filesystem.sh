@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 local_smphp_root="/var/www/SmPHP"
 vendor_spwashi_path="vendor/spwashi"
