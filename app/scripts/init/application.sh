@@ -21,7 +21,7 @@ fi
 
 if [[ -z APPLICATION_PATH ]];then
     echo "NO APPLICATION PATH SPECIFIED - either pipe in the application path as the first line or pass it in as the first argument."
-    exit 1
+    return 1
 fi
 
 
@@ -34,6 +34,7 @@ fi
 function initSmJS {
     if [[ -z $1 ]];then
         echo "NO APPLICATION PATH SPECIFIED - either pipe in the application path as the first line or pass it in as the first argument."
+        return 1
     fi
 
 
@@ -41,7 +42,7 @@ function initSmJS {
 
     local app_path=$1
     local scripts_path="${app_path}/scripts"
-    local smJS_path="${scripts_path}/config/lib/SmJS"
+    local smJS_path="${scripts_path}/config/application/lib/SmJS"
 
 
     local SM_JS_URL="https://github.com/spwashi/SmJS.git"
@@ -57,6 +58,12 @@ function initSmJS {
     printf "CLONING: \t${SM_JS_URL} \n"
 
     git clone ${SM_JS_URL} ${smJS_path}
+
+    cd ../../
+    printf "ACTING IN: \t$(pwd) \n"
+
+    node --require babel-register index.js ${app_path}
+
 
 }
 
