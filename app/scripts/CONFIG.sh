@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-function init_path  {
+function get_appPath__std  {
     # set variables
     local SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
     local APPLICATION_PATH="${SCRIPTS_DIR}/../"
@@ -9,13 +9,10 @@ function init_path  {
     echo "$(readlink -f "${APPLICATION_PATH}")"
 }
 
-function echoReadableInformation {
-    printf "For the application loaded at:\n"
-    printf "\t \"${APPLICATION_PATH}\" \n"
-}
 
-
-APPLICATION_PATH="$(init_path)"
+APPLICATION_PATH="$(get_appPath__std)"
+CONFIG_PATH="${APPLICATION_PATH}/config"
 
 
 echo "${APPLICATION_PATH}"
+echo "${CONFIG_PATH}"

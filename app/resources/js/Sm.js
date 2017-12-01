@@ -1,1 +1,0 @@
-export {default as Sm} from "./lib/SmJS/src"

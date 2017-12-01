@@ -3,9 +3,11 @@ import Sm from "./lib/SmJS/src"
 import {initializeOfType, PHP_Application} from "./lib/SmJS/src/_config";
 import ConfiguredEntity from "./lib/SmJS/src/entities/ConfiguredEntity";
 
+// APP CONFIGURATION
 import * as config from "./config";
-import {app_loader} from './load'
 
+////////////////////////////////////////////////////////////////
+console.log(''.repeat(25));
 ////////////////////////////////////////////////////////////////
 
 //
@@ -13,29 +15,35 @@ import {app_loader} from './load'
 //
 const app = new PHP_Application;
 
+// SET THE APPLICATION CONFIGURATION VARIABLES
+const appPath                        = process.argv[2];
+const getConfigPath                  = () => {
+    const configPath__ARG   = process.argv[3];
+    const assumedConfigPath = `${appPath}/config`;
+    
+    if (!configPath__ARG) console.log(`NOTE:\t ASSUMING CONFIG PATH TO BE ${assumedConfigPath}`);
+    
+    return configPath__ARG || assumedConfigPath;
+};
+const configPath                     = getConfigPath();
+const baseJsonConfigFilePath         = `${configPath}/base.json`;
+const applicationEntityConfiguration = config;
+
 //
-const appPath         = process.argv[2];
-const configPath      = appPath + '/config';
-const baseJSON_config = configPath + '/base.json';
-
-const appIsAllConfigured = Promise.all([
-                                           app.configure({appPath, configPath}),
-                                           app.configure(baseJSON_config),
-                                           app.configure(config),
-                                       ]);
-const initApplication    = app_loader.setBase(setup, Sm);
-
-initApplication.then((application: PHP_Application) => {
-                   const models  = config.models;
-                   const sources = config.sources;
-    
-                   const configuredModels     = configureEntityType(models, Sm.entities.Model);
-                   const configuredDataSource = configureEntityType(sources, Sm.entities.DataSource);
-    
-                   return Promise.all([configuredDataSource, configuredModels])
-               })
-               .catch(i => console.error(i))
-               .then(r => console.log(r));
+//      CONFIGURE THE APPLICATION
+//
+app.configure({appPath, configPath})
+   .then(app => {
+       return Promise.all([
+                              // APPLICATION SETTINGS
+                              app.configure(baseJsonConfigFilePath),
+        
+                              // APPLICATION ENTITY CONFIGURATION (models, routes, etc)
+                              app.configure(applicationEntityConfiguration),
+                          ])
+   })
+   .catch(i => console.error(i))
+   .then(r => console.log(' -- '));
 
 function configureEntityType(getConfig, EntityPrototype) {
     return application => {
