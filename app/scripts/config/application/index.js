@@ -43,23 +43,5 @@ app.configure({appPath, configPath})
                           ])
    })
    .catch(i => console.error(i))
+   .then(r => console.log(JSON.stringify(r)))
    .then(r => console.log(' -- '));
-
-function configureEntityType(getConfig, EntityPrototype) {
-    return application => {
-        let initializedModels = null;
-        
-        if (getConfig) {
-            initializedModels = getConfig(Sm).then(initEntityType);
-        }
-        
-        return Promise.resolve(initializedModels)
-                      .catch(error => console.log(error))
-                      .then(completedModelPromises => [application, completedModelPromises]);
-    };
-    
-    function initEntityType(configuration_object): Promise<Array<ConfiguredEntity>> {
-        // console.log(configuration_object);
-        return initializeOfType(configuration_object, EntityPrototype);
-    }
-}
