@@ -1,0 +1,3 @@
+[submodule "app/scripts/config/lib/SmJS"]
+	path = app/scripts/config/lib/SmJS
+	url = https://github.com/spwashi/SmJS
