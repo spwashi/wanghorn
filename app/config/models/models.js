@@ -1,28 +1,26 @@
 export default Sm => {
-    const dataPromises = [
-        Sm.entities.Datatype.init('string'),
-        Sm.entities.Datatype.init('null'),
-        Sm.entities.Datatype.init('int'),
-        Sm.entities.Datatype.init('datetime'),
-        Sm.entities.Datatype.init('bool'),
-    ];
-    const models       = {
+    const DATETIME_ = 'datetime';
+    const STRING_   = 'string';
+    const INTEGER_  = 'int';
+    const NULL_     = 'null';
+    
+    const models = {
         _:            {
             properties: {
                 id:             {
                     primary:   !0,
-                    datatypes: 'int',
+                    datatypes: INTEGER_,
                     length:    11,
                 },
                 delete_dt:      {
-                    datatypes: 'datetime',
+                    datatypes: DATETIME_,
                 },
                 creation_dt:    {
-                    datatypes: 'datetime',
+                    datatypes: DATETIME_,
                     _default:  'now'
                 },
                 last_update_dt: {
-                    datatypes: 'datetime'
+                    datatypes: DATETIME_
                 },
             }
         },
@@ -36,13 +34,13 @@ export default Sm => {
             properties: {
                 department:    {},
                 title:         {
-                    datatypes: 'string',
+                    datatypes: STRING_,
                     length:    25,
                     unique:    true
                 },
                 course_number: {
                     unique:    true,
-                    datatypes: ['int', 'null'],
+                    datatypes: [INTEGER_, NULL_],
                     length:    11
                 }
             }

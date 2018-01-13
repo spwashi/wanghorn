@@ -1,13 +1,10 @@
 // SM
-import Sm from "./lib/SmJS/src"
-import {initializeOfType, PHP_Application} from "./lib/SmJS/src/_config";
-import ConfiguredEntity from "./lib/SmJS/src/entities/ConfiguredEntity";
-
+import {PHP_Application} from "./lib/SmJS/src/_config";
 // APP CONFIGURATION
 import * as config from "./config";
 
 ////////////////////////////////////////////////////////////////
-console.log(''.repeat(25));
+console.log('-'.repeat(25));
 ////////////////////////////////////////////////////////////////
 
 //
