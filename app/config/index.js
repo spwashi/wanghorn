@@ -1,1 +1,3 @@
-export {default as models} from './models/models';
+import models from "./models/models";
+
+export {models};

@@ -1,52 +1,49 @@
-export default Sm => {
-    const DATETIME_ = 'datetime';
-    const STRING_   = 'string';
-    const INTEGER_  = 'int';
-    const NULL_     = 'null';
-    
-    const models = {
-        _:            {
-            properties: {
-                id:             {
-                    primary:   !0,
-                    datatypes: INTEGER_,
-                    length:    11,
-                },
-                delete_dt:      {
-                    datatypes: DATETIME_,
-                },
-                creation_dt:    {
-                    datatypes: DATETIME_,
-                    _default:  'now'
-                },
-                last_update_dt: {
-                    datatypes: DATETIME_
-                },
-            }
-        },
-        universities: {
-            inherits: '_',
-            
-            properties: {}
-        },
-        courses:      {
-            inherits:   '_',
-            properties: {
-                department:    {},
-                title:         {
-                    datatypes: STRING_,
-                    length:    25,
-                    unique:    true
-                },
-                course_number: {
-                    unique:    true,
-                    datatypes: [INTEGER_, NULL_],
-                    length:    11
-                }
+const DATETIME_ = 'datetime';
+const STRING_   = 'string';
+const INTEGER_  = 'int';
+const NULL_     = 'null';
+
+export const models = {
+    _:            {
+        properties: {
+            id:             {
+                primary:   !0,
+                datatypes: INTEGER_,
+                length:    11,
+            },
+            creation_dt:    {
+                datatypes: DATETIME_,
+                _default:  'now'
+            },
+            delete_dt:      {
+                datatypes: [DATETIME_, NULL_],
+            },
+            last_update_dt: {
+                datatypes: [DATETIME_, NULL_]
+            },
+        }
+    },
+    universities: {
+        inherits: '_',
+        
+        properties: {}
+    },
+    courses:      {
+        inherits:   '_',
+        properties: {
+            department:    {},
+            title:         {
+                datatypes: STRING_,
+                unique:    true,
+                length:    25
+            },
+            course_number: {
+                datatypes: [INTEGER_, NULL_],
+                unique:    true,
+                length:    11
             }
         }
-    };
-    
-    return Promise.all(dataPromises)
-                  .then(result => models);
+    }
 };
+
+export default models;

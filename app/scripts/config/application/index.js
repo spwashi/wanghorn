@@ -1,16 +1,17 @@
-// SM
-import {PHP_Application} from "./lib/SmJS/src/_config";
 // APP CONFIGURATION
-import * as config from "./config";
-
+import config from "./config";
+import {Application, ApplicationConfiguration} from "./lib/SmJS/src/components/sm/application/application";
 ////////////////////////////////////////////////////////////////
+import fs from "fs";
+
+import stripJsonComments from "strip-json-comments";
+
 console.log('-'.repeat(25));
 ////////////////////////////////////////////////////////////////
 
 //
 //      INITIALIZE THE APPLICATION
 //
-const app = new PHP_Application;
 
 // SET THE APPLICATION CONFIGURATION VARIABLES
 const appPath                        = process.argv[2];
@@ -26,19 +27,45 @@ const configPath                     = getConfigPath();
 const baseJsonConfigFilePath         = `${configPath}/base.json`;
 const applicationEntityConfiguration = config;
 
-//
-//      CONFIGURE THE APPLICATION
-//
-app.configure({appPath, configPath})
-   .then(app => {
-       return Promise.all([
-                              // APPLICATION SETTINGS
-                              app.configure(baseJsonConfigFilePath),
+const readConfiguration = (configFilePath): Promise<{}> => {
+    const configFileIsJSON = filepath => filepath.split('.').reverse().shift() === 'json';
+    
+    if (configFileIsJSON(configFilePath)) {
+        let readConfigFile = resolve => {
+            return fs.readFile(configFilePath, 'utf8', onReadFile);
+            
+            function onReadFile(err, text) {
+                let getConfigObjFromString = str => JSON.parse(stripJsonComments(str));
+                let configObj              = getConfigObjFromString(text);
+                resolve(configObj);
+            }
+        };
         
-                              // APPLICATION ENTITY CONFIGURATION (models, routes, etc)
-                              app.configure(applicationEntityConfiguration),
-                          ])
-   })
-   .catch(i => console.error(i))
-   .then(r => console.log(JSON.stringify(r)))
-   .then(r => console.log(' -- '));
+        return new Promise(readConfigFile);
+    }
+};
+readConfiguration(baseJsonConfigFilePath)
+    .then(configObj => {
+        
+        const applicationConfiguration = new ApplicationConfiguration({
+                                                                          ...configObj,
+                                                                          // APPLICATION ENTITY CONFIGURATION (models, routes, etc)
+                                                                          ...applicationEntityConfiguration
+                                                                      });
+        return applicationConfiguration.configure(new Application)
+    })
+    .catch(i => console.error(i))
+    .then((r: Application) => {
+        const jsonModels = JSON.stringify(r.models, ' ', 3);
+        console.log(jsonModels);
+        const entitiesPath = configPath + '/_generated/_entities.json';
+        console.log(entitiesPath);
+        fs.writeFile(entitiesPath,
+                     jsonModels,
+                     err => {
+                         if (err) return console.log(err);
+            
+                         console.log("The file was saved!");
+                     });
+    })
+    .then(r => console.log(' -- '));

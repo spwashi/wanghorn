@@ -8,14 +8,14 @@ use Sm\Core\Exception\Exception;
 use Sm\Core\Exception\UnimplementedError;
 use Sm\Data\Model\Model;
 use Sm\Data\Property\PropertySchematic;
-use Sm\Query\Modules\Sql\Constraints\PrimaryKeyConstraintSchema;
-use Sm\Query\Modules\Sql\Constraints\UniqueKeyConstraintSchema;
-use Sm\Query\Modules\Sql\Data\Column\ColumnSchema;
-use Sm\Query\Modules\Sql\Data\Column\DateTimeColumnSchema;
-use Sm\Query\Modules\Sql\Data\Column\IntegerColumnSchema;
-use Sm\Query\Modules\Sql\Data\Column\VarcharColumnSchema;
-use Sm\Query\Modules\Sql\MySql\Module\MySqlQueryModule;
-use Sm\Query\Modules\Sql\Statements\CreateTableStatement;
+use Sm\Modules\Sql\Constraints\PrimaryKeyConstraintSchema;
+use Sm\Modules\Sql\Constraints\UniqueKeyConstraintSchema;
+use Sm\Modules\Sql\Data\Column\ColumnSchema;
+use Sm\Modules\Sql\Data\Column\DateTimeColumnSchema;
+use Sm\Modules\Sql\Data\Column\IntegerColumnSchema;
+use Sm\Modules\Sql\Data\Column\VarcharColumnSchema;
+use Sm\Modules\Sql\MySql\Module\MySqlQueryModule;
+use Sm\Modules\Sql\Statements\CreateTableStatement;
 
 /**
  * Class Home
@@ -28,10 +28,6 @@ class Dev extends BaseApplicationController {
         
         
         $first_datatype = $datatypes[0] ?? null;
-        
-        if (strpos($first_datatype, '[Datatype]') !== false) {
-            $first_datatype = substr($first_datatype, strlen('[Datatype]'));
-        }
         
         
         switch ($first_datatype) {
@@ -50,7 +46,7 @@ class Dev extends BaseApplicationController {
         }
         
         if (isset($column)) {
-            $is_null = in_array('[Datatype]null', $datatypes);
+            $is_null = in_array('null', $datatypes);
 //            var_dump($column);
             $column->setNullability($is_null);
         }
@@ -65,7 +61,8 @@ class Dev extends BaseApplicationController {
         return $column;
     }
     protected function _initDatetimeColumn(PropertySchematic $propertySchema): ColumnSchema {
-        $column = DateTimeColumnSchema::init()->setName($propertySchema->getName());
+        $column = DateTimeColumnSchema::init()
+                                      ->setName($propertySchema->getName());
         return $column;
     }
     protected function _initStringColumn(PropertySchematic $propertySchema): ColumnSchema {
@@ -89,7 +86,7 @@ class Dev extends BaseApplicationController {
                 echo MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($query);
                 echo "</pre><br>";
                 
-                $this->app->query->interpret($query);
+                # $this->app->query->interpret($query);
             }
         }
         

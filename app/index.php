@@ -16,9 +16,6 @@ use Sm\Communication\Routing\Exception\RouteNotFoundException;
 
 require_once 'vendor/autoload.php';
 
-echo 'WOW';
-
-
 /** @var Application $app */
 $app = Application::init('wanghorn',
                          EXAMPLE_APP__PATH,
@@ -45,7 +42,7 @@ try {
         ###- Create and dispatch the error response -###
         $request     = NamedRequest::init('rt_404')
                                    ->setParentRequest($originalRequest);
-        $args        = ['path' => $originalRequest->getUrlPath()];
+        $args        = [ 'path' => $originalRequest->getUrlPath() ];
         $error_route = $app->communication->getRoute($request)
                                           ->prime(null, $args);
         $result      = $app->communication->dispatch(Http::REDIRECT,

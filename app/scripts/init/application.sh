@@ -99,6 +99,6 @@ function initApplication {
 
 
 
-printf " --- \n\n"
+printf " --initApplication------------------------------------------- \n\n"
 initApplication
-printf " --- \n\n"
+printf " --initApplication-end--------------------------------------- \n\n"
