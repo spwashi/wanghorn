@@ -13,8 +13,9 @@ use Sm\Representation\Module\Twig\TwigViewModule;
 #####              APPLICATION CONSTANTS                                     #######
 ####################################################################################
 require_once EXAMPLE_APP__CONFIG_PATH . 'autoload/autoload.php';
+
 #++sm++ boilerplate
-const EXAMPLE_APP__URL            = 'http://localhost/wanghorn/';
+const EXAMPLE_APP__URL            = 'http://localhost/' . EXAMPLE_APP__NAME;
 const EXAMPLE_APP__URL_PUBLIC     = EXAMPLE_APP__URL . 'public/';
 const EXAMPLE_APP__SRC_PATH       = EXAMPLE_APP__PATH . 'src/';
 const EXAMPLE_APP__PUBLIC_PATH    = EXAMPLE_APP__PATH . '../public/';
