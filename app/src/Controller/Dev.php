@@ -90,7 +90,7 @@ class Dev extends BaseApplicationController {
                 echo MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($query);
                 echo "</pre><br>----------------------------------------------------";
                 
-                $results = $this->app->query->interpret($query);
+                 $results = $this->app->query->interpret($query);
                 echo "<pre>";
                 echo json_encode($results, JSON_PRETTY_PRINT);
                 echo "</pre><br>";

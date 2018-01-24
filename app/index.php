@@ -3,10 +3,12 @@
 define('SM_IS_CLI', php_sapi_name() === 'cli');
 error_reporting(E_ALL);
 
+#++sm++ boilerplate
 const EXAMPLE_APP__NAME        = 'wanghorn';
 const EXAMPLE_APP__PATH        = __DIR__ . '/';
+const EXAMPLE_APP__PUBLIC_PATH = __DIR__ . '/../public/';
 const EXAMPLE_APP__CONFIG_PATH = __DIR__ . '/config/';
-
+#--sm-- boilerplate
 
 use Sm\Application\Application;
 use Sm\Communication\Network\Http\Http;
@@ -17,7 +19,7 @@ use Sm\Communication\Routing\Exception\RouteNotFoundException;
 require_once 'vendor/autoload.php';
 
 /** @var Application $app */
-$app = Application::init('wanghorn',
+$app = Application::init(EXAMPLE_APP__NAME,
                          EXAMPLE_APP__PATH,
                          EXAMPLE_APP__CONFIG_PATH);
 

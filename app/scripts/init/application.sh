@@ -3,20 +3,17 @@
 
 APPLICATION_PATH=''
 APPLICATION_CONFIG_PATH=''
+SM_SITE_ROOT=''
 
-##
-###
-####     MAKE SURE APP PATH IS SET
-###
-##
 if [ -p /dev/stdin ]; then
         read APPLICATION_PATH
         read APPLICATION_CONFIG_PATH
+        read SM_SITE_ROOT
 else
-        # Checking to ensure a filename was specified and that it exists
         if [ -f "$1" ]; then
             APPLICATION_PATH=$1
-            APPLICATION_PATH=$2
+            APPLICATION_CONFIG_PATH=$2
+            SM_SITE_ROOT=$3
         fi
 fi
 
@@ -41,7 +38,7 @@ function initSmJS {
     fi
 
     local FUNCTION_DESCRIPTION="Initialize the SmJS Framework and configure the application."
-    printf "'''\n${FUNCTION_DESCRIPTION}\n'''\n\t IN: \t$(pwd) \n"
+    printf "'''\n${FUNCTION_DESCRIPTION}\n'''\n\tIN: \t$(pwd) \n"
 
     local app_path=$1
     local config_path=$2
@@ -50,6 +47,10 @@ function initSmJS {
     local SM_JS_URL="https://github.com/spwashi/SmJS.git"
 
     ## Create the folder
+
+    printf "\tDELETING ${smJS_path} \n\n"
+    rm -rf "${smJS_path}"
+
     printf "\tCREATING FOLDER: \t${smJS_path} \n"
 
     mkdir -p ${smJS_path}
@@ -67,11 +68,9 @@ function initSmJS {
     ## Configure the application
     FUNCTION_DESCRIPTION="2) Configure the application"
     printf "\t'''\n${FUNCTION_DESCRIPTION}\n'''\n\t IN: \t$(pwd) \n"
-    printf "ACTING IN: \t$(pwd) \n"
+    printf "\tACTING IN: \t$(pwd) \n"
 
     node --require babel-register index.js ${app_path} ${config_path}
-
-
 }
 
 

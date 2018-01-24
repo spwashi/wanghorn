@@ -8,6 +8,8 @@ use Sm\Application\Controller\BaseApplicationController;
 
 class Temp extends BaseApplicationController {
     public function react_1() {
-        return file_get_contents(EXAMPLE_APP__PATH . '../public/js/index.html');
+        $public_html_dir = EXAMPLE_APP__PUBLIC_PATH . '/html/';
+        $html_filename   = EXAMPLE_APP__NAME . '.html';
+        return file_get_contents($public_html_dir . $html_filename);
     }
 }
