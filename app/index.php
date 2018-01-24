@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 #++sm++ boilerplate
 const EXAMPLE_APP__NAME        = 'wanghorn';
 const EXAMPLE_APP__PATH        = __DIR__ . '/';
-const EXAMPLE_APP__PUBLIC_PATH = __DIR__ . '/../public/';
 const EXAMPLE_APP__CONFIG_PATH = __DIR__ . '/config/';
 #--sm-- boilerplate
 
