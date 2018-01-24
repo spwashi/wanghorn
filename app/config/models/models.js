@@ -4,44 +4,42 @@ const INTEGER_  = 'int';
 const NULL_     = 'null';
 
 export const models = {
-    _:            {
+    _:       {
         properties: {
             id:             {
-                primary:   !0,
-                datatypes: INTEGER_,
-                length:    11,
-            },
-            creation_dt:    {
-                datatypes: DATETIME_,
-                _default:  'now'
+                primary:     !0,
+                isGenerated: true,
+                datatypes:   INTEGER_,
+                length:      11,
             },
             delete_dt:      {
                 datatypes: [DATETIME_, NULL_],
             },
+            creation_dt:    {
+                datatypes:    [DATETIME_],
+                defaultValue: 'now'
+            },
             last_update_dt: {
-                datatypes: [DATETIME_, NULL_]
+                datatypes:   [DATETIME_, NULL_],
+                updateValue: 'now'
             },
         }
     },
-    universities: {
+    users:   {
         inherits: '_',
         
-        properties: {}
+        properties: {
+            email:      {length: 255, datatypes: [STRING_], unique: true},
+            first_name: {length: 50, datatypes: [STRING_, NULL_]},
+            last_name:  {length: 50, datatypes: [STRING_, NULL_]}
+        }
     },
-    courses:      {
+    clients: {
         inherits:   '_',
         properties: {
-            department:    {},
-            title:         {
-                datatypes: STRING_,
-                unique:    true,
-                length:    25
-            },
-            course_number: {
-                datatypes: [INTEGER_, NULL_],
-                unique:    true,
-                length:    11
-            }
+            note:       {datatypes: [STRING_, NULL_], length: 3000,},
+            user_id:    {datatypes: INTEGER_, length: 11,},
+            clients_id: {datatypes: INTEGER_, length: 11,},
         }
     }
 };

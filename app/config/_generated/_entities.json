@@ -1,0 +1,178 @@
+{
+   "_": {
+      "smID": "[Model]_",
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]_} id"
+         ],
+         "unique": {}
+      },
+      "properties": {
+         "id": {
+            "datatypes": [
+               "int"
+            ],
+            "smID": "[Property]{[Model]_} id",
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "smID": "[Property]{[Model]_} delete_dt"
+         },
+         "creation_dt": {
+            "datatypes": [
+               "datetime"
+            ],
+            "smID": "[Property]{[Model]_} creation_dt",
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "smID": "[Property]{[Model]_} last_update_dt",
+            "updateValue": "now"
+         }
+      }
+   },
+   "users": {
+      "smID": "[Model]users",
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]users} id"
+         ],
+         "unique": {
+            "unique_key": [
+               "[Property]{[Model]users} email"
+            ]
+         }
+      },
+      "properties": {
+         "id": {
+            "datatypes": [
+               "int"
+            ],
+            "smID": "[Property]{[Model]users} id",
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "smID": "[Property]{[Model]users} delete_dt"
+         },
+         "creation_dt": {
+            "datatypes": [
+               "datetime"
+            ],
+            "smID": "[Property]{[Model]users} creation_dt",
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "smID": "[Property]{[Model]users} last_update_dt",
+            "updateValue": "now"
+         },
+         "email": {
+            "datatypes": [
+               "string"
+            ],
+            "smID": "[Property]{[Model]users} email",
+            "length": 255,
+            "unique": true
+         },
+         "first_name": {
+            "datatypes": [
+               "string",
+               "null"
+            ],
+            "smID": "[Property]{[Model]users} first_name",
+            "length": 50
+         },
+         "last_name": {
+            "datatypes": [
+               "string",
+               "null"
+            ],
+            "smID": "[Property]{[Model]users} last_name",
+            "length": 50
+         }
+      }
+   },
+   "clients": {
+      "smID": "[Model]clients",
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]clients} id"
+         ],
+         "unique": {}
+      },
+      "properties": {
+         "id": {
+            "datatypes": [
+               "int"
+            ],
+            "smID": "[Property]{[Model]clients} id",
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "smID": "[Property]{[Model]clients} delete_dt"
+         },
+         "creation_dt": {
+            "datatypes": [
+               "datetime"
+            ],
+            "smID": "[Property]{[Model]clients} creation_dt",
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "smID": "[Property]{[Model]clients} last_update_dt",
+            "updateValue": "now"
+         },
+         "note": {
+            "datatypes": [
+               "string",
+               "null"
+            ],
+            "smID": "[Property]{[Model]clients} note",
+            "length": 3000
+         },
+         "user_id": {
+            "datatypes": [
+               "int"
+            ],
+            "smID": "[Property]{[Model]clients} user_id",
+            "length": 11
+         },
+         "clients_id": {
+            "datatypes": [
+               "int"
+            ],
+            "smID": "[Property]{[Model]clients} clients_id",
+            "length": 11
+         }
+      }
+   }
+}

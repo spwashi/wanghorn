@@ -1,5 +1,5 @@
 {
-    "pattern_prefix": "",
+    "pattern_prefix": "wanghorn/",
 
     "routes":         [
         {
@@ -21,6 +21,10 @@
         {
             "pattern":    "one",
             "resolution": "#Temp::react_1"
+        },
+        {
+            "pattern":    "eg",
+            "resolution": "#Dev::eg"
         },
         {
             "pattern":    "dev/models",

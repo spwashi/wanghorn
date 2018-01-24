@@ -24,9 +24,7 @@ use Sm\Modules\Sql\Statements\CreateTableStatement;
  */
 class Dev extends BaseApplicationController {
     protected function propertyToColumn(PropertySchematic $propertySchema) {
-        $datatypes = $propertySchema->getRawDataTypes();
-        
-        
+        $datatypes      = $propertySchema->getRawDataTypes();
         $first_datatype = $datatypes[0] ?? null;
         
         
@@ -45,24 +43,30 @@ class Dev extends BaseApplicationController {
                 throw new UnimplementedError("Cannot create property for {$first_datatype} yet (for {$propertySchema_json})");
         }
         
-        if (isset($column)) {
-            $is_null = in_array('null', $datatypes);
-//            var_dump($column);
-            $column->setNullability($is_null);
+        $column->setDefault($propertySchema->getDefaultValue());
+        
+        if (!isset($column)) {
+            throw new Exception("Could not create Column");
         }
+        
+        $is_null = in_array('null', $datatypes);
+        $column->setNullability($is_null);
         
         
         return $column;
     }
     protected function _initIntColumn(PropertySchematic $propertySchema): ColumnSchema {
-        $column = IntegerColumnSchema::init()
-                                     ->setName($propertySchema->getName())
-                                     ->setLength($propertySchema->getLength());
+        $column = IntegerColumnSchema::init();
+        $column
+            ->setAutoIncrement($propertySchema->isGenerated())
+            ->setName($propertySchema->getName())
+            ->setLength($propertySchema->getLength());
         return $column;
     }
     protected function _initDatetimeColumn(PropertySchematic $propertySchema): ColumnSchema {
-        $column = DateTimeColumnSchema::init()
-                                      ->setName($propertySchema->getName());
+        $column = DateTimeColumnSchema::init();
+        $column->setName($propertySchema->getName());
+        $column->setOnUpdate($propertySchema->getOnModelUpdateValue());
         return $column;
     }
     protected function _initStringColumn(PropertySchematic $propertySchema): ColumnSchema {
@@ -77,16 +81,19 @@ class Dev extends BaseApplicationController {
         
         list($all, $queries) = $this->formatModels($models);
         
-        $do_interpret = 0;
+        $do_interpret = 1;
         
         if ($do_interpret == true) {
             foreach ($queries as $query) {
                 
                 echo "<pre>";
                 echo MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($query);
-                echo "</pre><br>";
+                echo "</pre><br>----------------------------------------------------";
                 
-                # $this->app->query->interpret($query);
+                $results = $this->app->query->interpret($query);
+                echo "<pre>";
+                echo json_encode($results, JSON_PRETTY_PRINT);
+                echo "</pre><br>";
             }
         }
         
@@ -95,16 +102,35 @@ class Dev extends BaseApplicationController {
         echo "<pre>{$joined}</pre>";
     }
     public function eg() {
-        $application         = $this->app;
-        $representationLayer = $application->representation;
-        $dataLayer           = $application->data;
+        $application = $this->app;
+        $dataLayer   = $application->data;
         
-        $model_manager = $dataLayer->getDataManager(Model::class);
+        
+        # Instantiate a Model that we'll use to find a matching object (or throw an error if it doesn't exist)
+        $_sam_model                 = $dataLayer->models->instantiate('users');
+        $_sam_model->properties->id = 1;
+        
+        # The Model PersistenceManager is an object that gives us access to standard ORM methods
+        ##  find, save, create, mark_delete (haven't implemented DELETE statements yet)
+        $modelPersistenceManager = $dataLayer->models->persistenceManager;
+        
+        
+        /** @var Model $sam */
+        # This would throw an error if the Model could not be found
+        $sam = $modelPersistenceManager->find($_sam_model);
+        
+        if ($sam->properties->first_name->value !== 'Samuel') {
+            $modelPersistenceManager->mark_delete($sam);
+        } else {
+            $sam->properties->first_name = 'Mr. Samuel';
+            $modelPersistenceManager->save($sam);
+        }
+        
         
         # -- rendering
         
         $vars     = [ 'path_to_site' => $this->app->path, ];
-        $rendered = $representationLayer->render('hello.twig', $vars);
+        $rendered = $application->representation->render('hello.twig', $vars);
         
         #
         

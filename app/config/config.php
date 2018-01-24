@@ -2,6 +2,10 @@
 
 use Sm\Application\Application;
 use Sm\Core\Event\GenericEvent;
+use Sm\Data\Model\Model;
+use Sm\Data\Model\StdModelPersistenceManager;
+use Sm\Modules\Sql\MySql\Authentication\MySqlAuthentication;
+use Sm\Modules\Sql\MySql\Module\MySqlQueryModule;
 use Sm\Representation\Module\Twig\TwigViewModule;
 
 
@@ -22,17 +26,30 @@ const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__PATH . 'view/twig/';
 /** @var \Sm\Application\Application $app */
 if (!isset($app)) die("Cannot configure without an app");
 
-$config_json = EXAMPLE_APP__CONFIG_PATH . '_generated/_config.json';
-
+# $config_json = EXAMPLE_APP__CONFIG_PATH . '_generated/_config.json';
+_query_layer($app);
 _controller_layer($app);
 _communication_layer($app);
-_data_layer($app, $config_json);
+_data_layer($app);
 _representation_layer($app);
 
 ####################################################################################
 #####              helper functions                                          #######
 ####################################################################################
 
+
+function _getAuth() {
+    return MySqlAuthentication::init()
+                              ->setCredentials("codozsqq",
+                                               "^bzXfxDc!Dl6",
+                                               "localhost",
+                                               'sm_test');
+}
+
+
+function _query_layer(Application $app): void {
+    $app->registerDefaultQueryModule((new MySqlQueryModule)->registerAuthentication(_getAuth()));
+}
 
 function _controller_layer(Application $app): void {
     $app->controller->addControllerNamespace('\\EXAMPLE_APP_NAMESPACE\\Controller\\');
@@ -59,18 +76,21 @@ function _communication_layer(Application $app): void {
     $app->getMonitor('info')->append(...$app_events);
 }
 
-function _data_layer(Application $app, $config_json): void {
+function _data_layer(Application $app): void {
     $data_json_path = EXAMPLE_APP__CONFIG_PATH . '_generated/_entities.json';
     
-    if (file_exists($config_json)) {
+    if (file_exists($data_json_path)) {
         $dataJson    = file_get_contents($data_json_path);
         $data_config = json_decode($dataJson, 1);
         $app->data->configure($data_config);
     }
+    /** @var \Sm\Data\Model\ModelDataManager $modelDataManager */
+    $modelDataManager = $app->data->getDataManager(Model::class);
+    $modelDataManager->setPersistenceManager((new StdModelPersistenceManager)->setQueryInterpreter($app->query->getQueryModule(null)));
 }
 
 function _representation_layer(Application $app): void {
-    $twig__Loader_Filesystem = new Twig_Loader_Filesystem([EXAMPLE_APP__VIEW_TWIG_PATH,]);
+    $twig__Loader_Filesystem = new Twig_Loader_Filesystem([ EXAMPLE_APP__VIEW_TWIG_PATH, ]);
     $twig__Environment       = new Twig_Environment($twig__Loader_Filesystem);
     
     $twig__Environment->addGlobal('app_path__public', EXAMPLE_APP__URL_PUBLIC);
