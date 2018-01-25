@@ -10,5 +10,5 @@ npm install
 
 cd scripts
 
-
+./build/SmFramework/update_smphp__github.sh
 ./initApplication.sh
