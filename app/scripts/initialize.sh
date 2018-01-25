@@ -10,4 +10,5 @@ npm install
 
 cd scripts
 
+
 ./initApplication.sh
