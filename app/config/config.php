@@ -6,6 +6,7 @@ use Sm\Data\Model\Model;
 use Sm\Data\Model\StdModelPersistenceManager;
 use Sm\Modules\Sql\MySql\Authentication\MySqlAuthentication;
 use Sm\Modules\Sql\MySql\Module\MySqlQueryModule;
+use Sm\Representation\Module\PlainFile\PlainFileViewModule;
 use Sm\Representation\Module\Twig\TwigViewModule;
 
 
@@ -49,7 +50,6 @@ function _getAuth() {
                                                "localhost",
                                                'sm_test');
 }
-
 
 function _query_layer(Application $app): void {
     $app->registerDefaultQueryModule((new MySqlQueryModule)->registerAuthentication(_getAuth()));
@@ -97,8 +97,11 @@ function _representation_layer(Application $app): void {
     $twig__Loader_Filesystem = new Twig_Loader_Filesystem([ EXAMPLE_APP__VIEW_TWIG_PATH, ]);
     $twig__Environment       = new Twig_Environment($twig__Loader_Filesystem);
     
-    $twig__Environment->addGlobal('app_path__public', EXAMPLE_APP__URL_PUBLIC);
+    # Assume that HTML files are typically going to be stored in the public directory
+    $plainFileModule = new PlainFileViewModule;
+    $app->representation->registerModule($plainFileModule->registerSearchDirectories([ EXAMPLE_APP__PUBLIC_PATH . '/html/' ]));
     
+    $twig__Environment->addGlobal('app_path__public', EXAMPLE_APP__URL_PUBLIC);
     $twigViewModule = new TwigViewModule($twig__Environment);
     $app->representation->registerModule($twigViewModule);
 }

@@ -1,16 +1,10 @@
 // APP CONFIGURATION
-import {default as applicationEntityConfiguration} from "./config";
-import {Application, ApplicationConfiguration} from "./lib/SmJS/src/components/sm/application/application";
-////////////////////////////////////////////////////////////////
 import fs from "fs";
-
-console.log('-'.repeat(25));
-////////////////////////////////////////////////////////////////
+import * as applicationEntityConfiguration from '../../../config'
+import {Application, ApplicationConfiguration} from "./lib/SmJS/src/components/sm/application/application";
 
 //
-//      INITIALIZE THE APPLICATION
 //
-
 // SET THE APPLICATION CONFIGURATION VARIABLES
 const [appPath, configPath__ARG] = [process.argv[2], process.argv[3]];
 const getConfigPath              = passedInArg => {
@@ -27,16 +21,12 @@ const applicationConfiguration   = new ApplicationConfiguration({
 applicationConfiguration.configure(new Application)
                         .catch(i => console.error(i))
                         .then((r: Application) => {
-                            const jsonModels = JSON.stringify(r.models, ' ', 3);
-                            console.log(jsonModels);
+                            const jsonModels   = JSON.stringify(r.models, ' ', 3);
                             const entitiesPath = configPath + '/_generated/_entities.json';
-                            console.log(entitiesPath);
                             fs.writeFile(entitiesPath,
                                          jsonModels,
                                          err => {
                                              if (err) return console.log(err);
-        
-                                             console.log("The file was saved!");
+                                             console.log("The file was saved to " + entitiesPath);
                                          });
-                        })
-                        .then(r => console.log(' -- '));
+                        });

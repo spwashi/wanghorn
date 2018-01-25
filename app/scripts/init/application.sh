@@ -44,6 +44,7 @@ function initSmJS {
     local config_path=$2
     local scripts_path="${app_path}/scripts"
     local smJS_path="${scripts_path}/config/application/lib/SmJS"
+    local appConfigJS_path="${scripts_path}/config/application"
     local SM_JS_URL="https://github.com/spwashi/SmJS.git"
 
     ## Create the folder
@@ -63,7 +64,7 @@ function initSmJS {
     printf "\t\tCLONING: \t${SM_JS_URL} \n"
 
     git clone ${SM_JS_URL} ${smJS_path}
-    cd ../../
+    cd ${appConfigJS_path}
 
     ## Configure the application
     FUNCTION_DESCRIPTION="2) Configure the application"
