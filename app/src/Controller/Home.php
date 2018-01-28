@@ -11,7 +11,7 @@ use Sm\Data\Model\Model;
  * The controller that contains the core of the application logic.
  */
 class Home extends BaseApplicationController {
-    public function item() {
+    public function index() {
         return 'hello';
     }
     public function test() {

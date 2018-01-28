@@ -1,6 +1,6 @@
 <?php
 
-namespace EXAMPLE_APP_NAMESPACE\Controller;
+namespace EXAMPLE_APP_NAMESPACE\Controller\Dev;
 
 use Error;
 use Sm\Application\Controller\BaseApplicationController;
@@ -17,11 +17,6 @@ use Sm\Modules\Sql\Data\Column\VarcharColumnSchema;
 use Sm\Modules\Sql\MySql\Module\MySqlQueryModule;
 use Sm\Modules\Sql\Statements\CreateTableStatement;
 
-/**
- * Class Home
- *
- * The controller that contains the core of the application logic.
- */
 class Dev extends BaseApplicationController {
     protected function propertyToColumn(PropertySchematic $propertySchema) {
         $datatypes      = $propertySchema->getRawDataTypes();
@@ -90,7 +85,7 @@ class Dev extends BaseApplicationController {
                 echo MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($query);
                 echo "</pre><br>----------------------------------------------------";
                 
-                 $results = $this->app->query->interpret($query);
+                $results = $this->app->query->interpret($query);
                 echo "<pre>";
                 echo json_encode($results, JSON_PRETTY_PRINT);
                 echo "</pre><br>";

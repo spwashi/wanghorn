@@ -3,32 +3,36 @@
 
     "routes":         [
         {
-            "name":       "rt_404",
+            "name":       "404",
 
             "pattern":    "404/{path}",
-            "resolution": "#ErrorController::rt_404"
+            "resolution": "Error@rt_404"
         },
+
         {
             "name":       "home",
 
             "pattern":    "$",
-            "resolution": "#Home::item"
+            "resolution": "#Home::index"
         },
+
         {
             "pattern":    "test",
             "resolution": "#Home::item"
         },
+
         {
             "pattern":    "one",
             "resolution": "#Temp::react_1"
         },
+
         {
-            "pattern":    "eg",
-            "resolution": "#Dev::eg"
+            "pattern":    "example",
+            "resolution": "#Dev\\Dev::eg"
         },
         {
             "pattern":    "dev/models",
-            "resolution": "#Dev::modelsToTables"
+            "resolution": "#Dev\\Dev::modelsToTables"
         }
     ]
 }
