@@ -3,18 +3,16 @@ import {render} from 'react-dom'
 import {createStore,} from "redux";
 import {Provider} from "react-redux";
 import {devToolsEnhancer} from 'redux-devtools-extension';
+import {
+    BrowserRouter as Router,
+    Route,
+    Link
+} from 'react-router-dom'
+import application from './modules/application'
 import reducer from "./reducers";
-import SchematicDepiction from "./modules/schematic-depiction/modules/SchematicDepiction/index";
 
-const app_elem    = document.getElementById('app');
-const store       = createStore(reducer, devToolsEnhancer());
-const app         =
-          <div className="application">
-              <SchematicDepiction />
-          </div>;
-const appProvider =
-          <Provider store={store}>
-              {app}
-          </Provider>;
+const store              = createStore(reducer, devToolsEnhancer());
+const appProvider        = <Provider store={store}>{application}</Provider>;
+const appBinding_Element = document.getElementById('app');
 
-render(appProvider, app_elem);
+render(appProvider, appBinding_Element);

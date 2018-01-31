@@ -1,7 +1,7 @@
 <?php
 
 
-namespace EXAMPLE_APP_NAMESPACE\Controller;
+namespace WANGHORN\Controller;
 
 
 use Sm\Application\Controller\BaseApplicationController;

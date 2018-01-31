@@ -1,6 +1,6 @@
 <?php
 
-namespace EXAMPLE_APP_NAMESPACE\Controller\Dev;
+namespace WANGHORN\Controller\Dev;
 
 use Error;
 use Sm\Application\Controller\BaseApplicationController;
@@ -16,6 +16,7 @@ use Sm\Modules\Sql\Data\Column\IntegerColumnSchema;
 use Sm\Modules\Sql\Data\Column\VarcharColumnSchema;
 use Sm\Modules\Sql\MySql\Module\MySqlQueryModule;
 use Sm\Modules\Sql\Statements\CreateTableStatement;
+use WANGHORN\Model\User\User;
 
 class Dev extends BaseApplicationController {
     protected function propertyToColumn(PropertySchematic $propertySchema) {
@@ -98,36 +99,31 @@ class Dev extends BaseApplicationController {
     }
     public function eg() {
         $application = $this->app;
-        $dataLayer   = $application->data;
-        
-        
-        # Instantiate a Model that we'll use to find a matching object (or throw an error if it doesn't exist)
-        $_sam_model                 = $dataLayer->models->instantiate('users');
-        $_sam_model->properties->id = 1;
-        
-        # The Model PersistenceManager is an object that gives us access to standard ORM methods
-        ##  find, save, create, mark_delete (haven't implemented DELETE statements yet)
-        $modelPersistenceManager = $dataLayer->models->persistenceManager;
         
         
         /** @var Model $sam */
         # This would throw an error if the Model could not be found
-        $sam = $modelPersistenceManager->find($_sam_model);
+        $Sam = User::init($this->app->data->models)
+                   ->find([
+                              'user_id'    => 1,
+                              'first_name' => 'HOTBOI SAM',
+                          ]);
         
-        if ($sam->properties->first_name->value !== 'Samuel') {
-            $modelPersistenceManager->mark_delete($sam);
-        } else {
-            $sam->properties->first_name = 'Mr. Samuel';
-            $modelPersistenceManager->save($sam);
-        }
+//        +\Kint::dump($this->app->data->models->persistenceManager);
+        
+        echo "<pre>";
+        echo json_encode($Sam, JSON_PRETTY_PRINT);
+        echo "</pre>";
         
         
         # -- rendering
         
-        $vars     = [ 'path_to_site' => $this->app->path, ];
+        $vars     = [
+            'path_to_site' => $this->app->path,
+        ];
         $rendered = $application->representation->render('hello.twig', $vars);
         
-        #
+        # -- response
         
         return $rendered;
     }

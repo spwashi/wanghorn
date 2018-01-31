@@ -14,12 +14,16 @@ export default class Button extends React.Component {
     render() {
         return (
             <button
+                className={this.props.className}
+                type={this.props.type ? this.props.type : 'button'}
                 onClick={this.handleClick.bind(this)}>{this.props.label}</button>
         );
     }
 }
 
 Button.propTypes = {
+    className:   PropTypes.string,
     handleClick: PropTypes.func,
+    type:        PropTypes.string,
     label:       PropTypes.string.isRequired
 };

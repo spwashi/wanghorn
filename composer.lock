@@ -4,8 +4,66 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c51f8629dfbff798cbd4a1a5b34c6822",
+    "content-hash": "7fcaa79ef3ce53ce9a5a97c5aade3df6",
     "packages": [
+        {
+            "name": "kint-php/kint",
+            "version": "2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kint-php/kint.git",
+                "reference": "1a1104729f10277b06d7db742d3c98d1881d4d7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kint-php/kint/zipball/1a1104729f10277b06d7db742d3c98d1881d4d7e",
+                "reference": "1a1104729f10277b06d7db742d3c98d1881d4d7e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.1.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "phpunit/phpunit": "^4.0",
+                "symfony/finder": "^2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "init.php"
+                ],
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rokas Šleinius",
+                    "homepage": "https://github.com/raveren"
+                },
+                {
+                    "name": "Jonathan Vollebregt",
+                    "homepage": "https://github.com/jnvsor"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/kint-php/kint/graphs/contributors"
+                }
+            ],
+            "description": "Kint - debugging tool for PHP developers",
+            "homepage": "https://kint-php.github.io/kint/",
+            "keywords": [
+                "debug",
+                "kint",
+                "php"
+            ],
+            "time": "2017-07-03T20:08:05+00:00"
+        },
         {
             "name": "monolog/monolog",
             "version": "1.9.1",
@@ -123,16 +181,16 @@
         },
         {
             "name": "spwashi/smphp",
-            "version": "v0.8.3-beta",
+            "version": "v0.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spwashi/SmPHP.git",
-                "reference": "e46bf2a3825c6e417a4fc852005f0a1bc91c0b6d"
+                "reference": "2af6333a38108fb111813c41b402b39ab1e0f238"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spwashi/SmPHP/zipball/e46bf2a3825c6e417a4fc852005f0a1bc91c0b6d",
-                "reference": "e46bf2a3825c6e417a4fc852005f0a1bc91c0b6d",
+                "url": "https://api.github.com/repos/spwashi/SmPHP/zipball/2af6333a38108fb111813c41b402b39ab1e0f238",
+                "reference": "2af6333a38108fb111813c41b402b39ab1e0f238",
                 "shasum": ""
             },
             "require": {
@@ -160,7 +218,7 @@
                 }
             ],
             "description": "PHP Framework for when you (I) have a fear of commitment",
-            "time": "2017-09-24T00:49:35+00:00"
+            "time": "2018-01-25T01:05:20+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",

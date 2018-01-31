@@ -17,7 +17,7 @@ require_once EXAMPLE_APP__CONFIG_PATH . 'autoload/autoload.php';
 
 #++sm++ boilerplate
 const EXAMPLE_APP__URL            = 'http://localhost/' . EXAMPLE_APP__NAME;
-const EXAMPLE_APP__URL_PUBLIC     = EXAMPLE_APP__URL . 'public/';
+const EXAMPLE_APP__URL_PUBLIC     = EXAMPLE_APP__URL . '/public/';
 const EXAMPLE_APP__SRC_PATH       = EXAMPLE_APP__PATH . 'src/';
 const EXAMPLE_APP__PUBLIC_PATH    = EXAMPLE_APP__PATH . '../public/';
 const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__PATH . 'view/twig/';
@@ -56,7 +56,7 @@ function _query_layer(Application $app): void {
 }
 
 function _controller_layer(Application $app): void {
-    $app->controller->addControllerNamespace('\\EXAMPLE_APP_NAMESPACE\\Controller\\');
+    $app->controller->addControllerNamespace('\\WANGHORN\\Controller\\');
 }
 
 function _communication_layer(Application $app): void {

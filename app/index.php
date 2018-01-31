@@ -55,7 +55,7 @@ try {
     
 } catch (\Sm\Core\Exception\Exception $exception) {
     
-    var_dump($exception);
+    \Kint::dump($exception);
 
 } catch (\Exception $exception) {
     echo '<pre>';
