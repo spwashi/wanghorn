@@ -8,7 +8,7 @@ export const APP_PATH   = 'wanghorn/';
 
 //
 
-export const APP_URL = `${APP_DOMAIN}/${APP_NAME}/`;
+export const APP_URL = `${APP_DOMAIN}/${APP_PATH}/`;
 
 //
 
