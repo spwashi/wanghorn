@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 import Button from "../../../../components/button/index";
 import {USER_LOGIN_PATH} from "../../../paths";
+import "whatwg-fetch";
 
 class UserMenu extends Component {
     constructor() {

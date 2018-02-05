@@ -1,5 +1,5 @@
 /node_modules/
-/app/resources/js/lib/SmJS/
+/app/view/js/lib/SmJS/
 /vendor/
 /composer.lock
 /.idea/

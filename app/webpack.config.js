@@ -3,21 +3,21 @@ import HtmlPlugin from "html-webpack-plugin";
 import path from "path";
 
 //++sm++ boilerplate
-const APP_NAME           = "wanghorn";
-const APP_URL            = `http://localhost/${APP_NAME}/`;
-const APP_PATH           = path.resolve(__dirname);
-const APP_PUBLIC_PATH    = path.resolve(APP_PATH, '..', 'public');
-const APP_RESOURCES_PATH = path.resolve(APP_PATH, 'resources');
+const APP_NAME        = "wanghorn";
+const APP_URL         = `http://localhost/${APP_NAME}/`;
+const APP_PATH        = path.resolve(__dirname);
+const APP_PUBLIC_PATH = path.resolve(APP_PATH, '..', 'public');
+const APP_VIEW_PATH   = path.resolve(APP_PATH, 'view');
 //
-const outputPath         = `${APP_PUBLIC_PATH}`;
-const outputPath__JS     = path.resolve(outputPath, 'js');
-const inputPath__CSS     = path.resolve(APP_RESOURCES_PATH, 'stylesheets', 'scss');
+const outputPath      = `${APP_PUBLIC_PATH}`;
+const outputPath__JS  = path.resolve(outputPath, 'js');
+const inputPath__CSS  = path.resolve(APP_VIEW_PATH, 'stylesheets', 'scss');
 //--sm-- boilerplate
 
 module.exports = {
     entry:   [
         'style.scss',
-        './resources/js/app'
+        './view/js/app'
     ],
     output:  {
         filename:   `${APP_NAME}.js`,

@@ -10,8 +10,8 @@ const sass         = require('gulp-sass');
 
 const directories = {
     src:  {
-        js:  path.resolve(__dirname, 'resources/js',),
-        css: path.resolve(__dirname, 'resources/stylesheets',)
+        js:  path.resolve(__dirname, 'view/js',),
+        css: path.resolve(__dirname, 'view/stylesheets',)
     },
     test: {
         js: path.resolve(__dirname, 'tests',)
