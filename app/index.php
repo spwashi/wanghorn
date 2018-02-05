@@ -25,6 +25,7 @@ $app = Application::init(EXAMPLE_APP__NAME,
 try {
     
     #   - Create & Boot the application
+    
     $app                = $app->boot();
     $communicationLayer = $app->communication;
     
@@ -34,12 +35,11 @@ try {
     try {
         
         ###- Create and dispatch the response -###
+        
         $request        = $originalRequest;
         $route          = $communicationLayer->getRoute($request);
         $response       = $route->resolve();
         $dispatchResult = $communicationLayer->dispatch(Http::class, $response);
-        
-        die;
         
     } catch (RouteNotFoundException $exception) {
         
@@ -49,16 +49,21 @@ try {
         $primedErrorRoute = $error_route->prime(Request::init()->setParentRequest($originalRequest),
                                                 [ 'path' => $originalRequest->getUrlPath() ]);
         $communicationLayer->dispatch(Http::REDIRECT, $primedErrorRoute, false);
-        die;
+        
     }
     
+    #
     
 } catch (\Sm\Core\Exception\Exception $exception) {
-    
     \Kint::dump($exception);
-
 } catch (\Exception $exception) {
     echo '<pre>';
     print_r($exception);
     echo '</pre>';
+} finally {
+    
+    #-- terminate the script
+    
+    die;
 }
+

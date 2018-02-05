@@ -6,7 +6,7 @@ use Error;
 use Sm\Application\Controller\BaseApplicationController;
 use Sm\Core\Exception\Exception;
 use Sm\Core\Exception\UnimplementedError;
-use Sm\Data\Model\Model;
+use Sm\Data\Entity\EntityModelNotFoundException;
 use Sm\Data\Property\PropertySchematic;
 use Sm\Modules\Sql\Constraints\PrimaryKeyConstraintSchema;
 use Sm\Modules\Sql\Constraints\UniqueKeyConstraintSchema;
@@ -97,23 +97,24 @@ class Dev extends BaseApplicationController {
         $joined = join('<br>', $all);
         echo "<pre>{$joined}</pre>";
     }
+    public function monitors() {
+        return json_decode(json_encode($this->app->getMonitors()), 1);
+    }
     public function eg() {
-        $application = $this->app;
         
-        
-        /** @var Model $sam */
-        # This would throw an error if the Model could not be found
-        $Sam = User::init($this->app->data->models)
-                   ->find([
-                              'user_id'    => 1,
-                              'first_name' => 'HOTBOI SAM',
-                          ]);
-        
-//        +\Kint::dump($this->app->data->models->persistenceManager);
-        
-        echo "<pre>";
-        echo json_encode($Sam, JSON_PRETTY_PRINT);
-        echo "</pre>";
+        try {
+            $Sam = User::init($this->app->data->models)
+                       ->find([
+                                  'user_id' => 1,
+                              ]);
+            
+            echo "<pre>";
+            echo json_encode($Sam, JSON_PRETTY_PRINT);
+            echo "</pre>";
+        } catch (EntityModelNotFoundException $e) {
+            $previous = $e->getPrevious();
+            var_dump($previous);
+        }
         
         
         # -- rendering
@@ -121,7 +122,7 @@ class Dev extends BaseApplicationController {
         $vars     = [
             'path_to_site' => $this->app->path,
         ];
-        $rendered = $application->representation->render('hello.twig', $vars);
+        $rendered = $this->app->representation->render('hello.twig', $vars);
         
         # -- response
         

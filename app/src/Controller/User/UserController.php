@@ -6,8 +6,16 @@ namespace WANGHORN\Controller\User;
 
 use Sm\Application\Controller\BaseApplicationController;
 use Sm\Data\Model\ModelNotFoundException;
+use WANGHORN\Model\User\User;
 
 class UserController extends BaseApplicationController {
+    public function userByID($id) {
+        $Sam = User::init($this->app->data->models)
+                   ->find([
+                              'user_id' => $id,
+                          ]);
+        return $Sam;
+    }
     public function login() {
         $email_address = $_POST['username'] ?? null;
         $password      = $_POST['password'] ?? null;
