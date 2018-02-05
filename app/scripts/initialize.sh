@@ -2,6 +2,8 @@
 
 source ./CONFIG.sh
 
+set -e
+
 cd ${SM_SITE_ROOT}
 composer install
 mkdir -p public/html

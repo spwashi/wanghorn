@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e
 
 APPLICATION_PATH=''
 APPLICATION_CONFIG_PATH=''
