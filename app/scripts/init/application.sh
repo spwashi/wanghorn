@@ -72,6 +72,13 @@ function initSmJS {
     printf "\tACTING IN: \t$(pwd) \n"
 
     node --require babel-register index.js ${app_path} ${config_path}
+
+    cd ${app_path}
+    FUNCTION_DESCRIPTION="3) Create the app's views"
+    printf "\t'''\n${FUNCTION_DESCRIPTION}\n'''\n\t IN: \t$(pwd) \n"
+    printf "\tACTING IN: \t$(pwd) \n"
+
+    npm run build
 }
 
 

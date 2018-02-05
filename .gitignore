@@ -6,3 +6,4 @@
 app/node_modules/
 Would skip repository app/resources/js/lib/SmJS
 public/
+/app/config/_generated/

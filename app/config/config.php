@@ -96,15 +96,21 @@ function _data_layer(Application $app): void {
 }
 
 function _representation_layer(Application $app): void {
+    
+    # This is a module that will allow us to reference files we want to represent as Views as they literally exist.
+    #   We'd ideally use this for returning pre-generated HTML or static JSON
+    $plainFileModule = new PlainFileViewModule;
+    
+    # Assume that we are going to use HTML files and they are typically going to be stored in the public directory
+    $plainFileModule->registerSearchDirectories([ EXAMPLE_APP__PUBLIC_PATH . '/html/' ]);
+    $app->representation->registerModule($plainFileModule);
+    
+    
+    # Register the Twig representation
     $twig__Loader_Filesystem = new Twig_Loader_Filesystem([ EXAMPLE_APP__VIEW_TWIG_PATH, ]);
     $twig__Environment       = new Twig_Environment($twig__Loader_Filesystem);
-    
-    # Assume that HTML files are typically going to be stored in the public directory
-    $plainFileModule = new PlainFileViewModule;
-    $app->representation->registerModule($plainFileModule->registerSearchDirectories([ EXAMPLE_APP__PUBLIC_PATH . '/html/' ]));
     
     $twig__Environment->addGlobal('app_path__public', EXAMPLE_APP__URL_PUBLIC);
     $twigViewModule = new TwigViewModule($twig__Environment);
     $app->representation->registerModule($twigViewModule);
 }
-

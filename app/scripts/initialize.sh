@@ -4,6 +4,7 @@ source ./CONFIG.sh
 
 cd ${SM_SITE_ROOT}
 composer install
+mkdir -p public/html
 
 cd ${APPLICATION_PATH}
 npm install
