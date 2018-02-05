@@ -23,6 +23,12 @@ if [[ -z APPLICATION_PATH ]];then
     echo "NO APPLICATION PATH SPECIFIED - either pipe in the application path as the first line or pass it in as the first argument."
     return 1
 fi
+if [[ -z SM_SITE_ROOT ]];then
+    echo "NO SITE_ROOT PATH SPECIFIED - either pipe in the application path as the first line or pass it in as the first argument."
+    return 1
+fi
+
+
 
 vendor_spwashi_path="${SM_SITE_ROOT}/vendor/spwashi"
 
