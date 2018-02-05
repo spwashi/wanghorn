@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import Button from "../../../../../components/button/index";
+import Button from "../../../../components/button/index";
 import {USER_LOGIN_PATH} from "../../../paths";
 
 class UserMenu extends Component {
@@ -10,6 +10,16 @@ class UserMenu extends Component {
         }
     }
     
+    handleSubmit(event) {
+        event.preventDefault();
+        const data = new FormData(event.target);
+        
+        fetch(USER_LOGIN_PATH, {
+            method: 'POST',
+            body:   data,
+        });
+    }
+    
     render() {
         const activateLogin   = () => this.setState({isLoginActive: true});
         const deactivateLogin = () => this.setState({isLoginActive: false});
@@ -17,7 +27,7 @@ class UserMenu extends Component {
         const LoginInput = ({isLoginActive}) => {
             const loginForm   =
                       <div id="user_menu--login">
-                          <form action={USER_LOGIN_PATH} method="POST">
+                          <form action={USER_LOGIN_PATH} method="POST" onSubmit={this.handleSubmit}>
                               <input type="text"
                                      name='username'
                                      id="user_menu--login--username"

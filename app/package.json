@@ -60,14 +60,14 @@
         "webpack-stream": "^4.0.0"
     },
     "dependencies": {
-        "prop-types": "^15.6.0",
-        "react": "latest",
-        "react-dom": "^16.0.0",
-        "react-redux": "^5.0.6",
-        "react-router-dom": "^4.2.2",
-        "react-tag-input": "^4.7.2",
-        "redux": "latest",
+        "prop-types":               "^15.6.0",
+        "react":                    "latest",
+        "react-dom":                "^16.0.0",
+        "react-redux":              "^5.0.6",
+        "react-router-dom":         "^4.2.2",
+        "react-tag-input":          "^4.7.2",
+        "redux":                    "latest",
         "redux-devtools-extension": "^2.13.2",
-        "spwashi-sm": "^0.0.1-b"
+        "spwashi-sm":               "^0.0.1-b", "node-fetch": "latest"
     }
 }

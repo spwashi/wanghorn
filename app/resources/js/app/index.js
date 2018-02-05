@@ -3,12 +3,8 @@ import {render} from 'react-dom'
 import {createStore,} from "redux";
 import {Provider} from "react-redux";
 import {devToolsEnhancer} from 'redux-devtools-extension';
-import {
-    BrowserRouter as Router,
-    Route,
-    Link
-} from 'react-router-dom'
-import application from './modules/application'
+import {Link, Route} from 'react-router-dom'
+import application from './app'
 import reducer from "./reducers";
 
 const store              = createStore(reducer, devToolsEnhancer());

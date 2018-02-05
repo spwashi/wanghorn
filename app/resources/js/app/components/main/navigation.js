@@ -1,6 +1,6 @@
 import React from "react"
 import {Link} from "react-router-dom"
-import {LinkContainer, LinkItem} from "../../../../components/navigation/index";
+import {LinkContainer, LinkItem} from "../../../components/navigation/index";
 import {ABOUT_PATH, APP_HOME, TOPICS_PATH} from "../../paths";
 
 const Navigation =

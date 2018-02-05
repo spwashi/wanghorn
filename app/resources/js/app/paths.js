@@ -1,4 +1,4 @@
-const APP_PATH           = '/wanghorn';
+const APP_PATH           = 'http://localhost/wanghorn';
 export const APP_HOME    = `${APP_PATH}/one`;
 export const ABOUT_PATH  = `${APP_HOME}/about`;
 export const TOPICS_PATH = `${APP_HOME}/topics`;
