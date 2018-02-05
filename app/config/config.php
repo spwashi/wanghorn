@@ -16,11 +16,13 @@ use Sm\Representation\Module\Twig\TwigViewModule;
 require_once EXAMPLE_APP__CONFIG_PATH . 'autoload/autoload.php';
 
 #++sm++ boilerplate
+const EXAMPLE_APP__NAME           = 'wanghorn';
 const EXAMPLE_APP__URL            = 'http://localhost/' . EXAMPLE_APP__NAME;
 const EXAMPLE_APP__URL_PUBLIC     = EXAMPLE_APP__URL . '/public/';
-const EXAMPLE_APP__SRC_PATH       = EXAMPLE_APP__PATH . 'src/';
-const EXAMPLE_APP__PUBLIC_PATH    = EXAMPLE_APP__PATH . '../public/';
-const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__PATH . 'view/twig/';
+const EXAMPLE_APP__SRC_PATH       = EXAMPLE_APP__APP_PATH . 'src/';
+const EXAMPLE_APP__PUBLIC_PATH    = EXAMPLE_APP__APP_PATH . '../public/';
+const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__APP_PATH . 'view/twig/';
+const EXAMPLE_APP__NAMESPACE      = '\\WANGHORN';
 #--sm-- boilerplate
 
 
@@ -31,7 +33,7 @@ const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__PATH . 'view/twig/';
 /** @var \Sm\Application\Application $app */
 if (!isset($app)) die("Cannot configure without an app");
 
-# $config_json = EXAMPLE_APP__CONFIG_PATH . '_generated/_config.json';
+# $config_json = EXAMPLE_APP__CONFIG_PATH . '_generated/config.json';
 _query_layer($app);
 _controller_layer($app);
 _communication_layer($app);
@@ -56,13 +58,13 @@ function _query_layer(Application $app): void {
 }
 
 function _controller_layer(Application $app): void {
-    $app->controller->addControllerNamespace('\\WANGHORN\\Controller\\');
+    $app->controller->addControllerNamespace(EXAMPLE_APP__NAMESPACE . '\\Controller\\');
 }
 
 function _communication_layer(Application $app): void {
     $app_events = [];
     
-    $json_path = EXAMPLE_APP__CONFIG_PATH . 'routes/routes.json';
+    $json_path = EXAMPLE_APP__CONFIG_PATH . '_generated/routes.json';
     $php_path  = EXAMPLE_APP__CONFIG_PATH . 'routes/routes.php';
     if (file_exists($json_path)) {
         $json_routes = file_get_contents($json_path);
@@ -81,7 +83,7 @@ function _communication_layer(Application $app): void {
 }
 
 function _data_layer(Application $app): void {
-    $data_json_path = EXAMPLE_APP__CONFIG_PATH . '_generated/_entities.json';
+    $data_json_path = EXAMPLE_APP__CONFIG_PATH . '_generated/entities.json';
     
     if (file_exists($data_json_path)) {
         $dataJson    = file_get_contents($data_json_path);

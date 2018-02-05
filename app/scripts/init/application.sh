@@ -49,8 +49,8 @@ function initSmJS {
 
     ## Create the folder
 
-    printf "\tDELETING ${smJS_path} \n\n"
-    rm -rf "${smJS_path}"
+    #printf "\tDELETING ${smJS_path} \n\n"
+    #rm -rf "${smJS_path}"
 
     printf "\tCREATING FOLDER: \t${smJS_path} \n"
 

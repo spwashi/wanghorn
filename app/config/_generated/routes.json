@@ -1,0 +1,50 @@
+{
+   "pattern_prefix": "wanghorn/",
+   "routes": [
+      {
+         "resolution": "Error@rt_404",
+         "pattern": "404/{path}",
+         "name": "name"
+      },
+      {
+         "resolution": "#Home::index",
+         "pattern": "$",
+         "name": "home"
+      },
+      {
+         "resolution": "#Home::item",
+         "pattern": null,
+         "name": "test"
+      },
+      {
+         "resolution": "#Dev\\Dev::monitors",
+         "pattern": "dev/monitors",
+         "name": "monitors"
+      },
+      {
+         "resolution": "#Dev\\Dev::modelsToTables",
+         "pattern": "dev/models"
+      },
+      {
+         "resolution": "#Dev\\Dev::eg",
+         "pattern": "dev/example",
+         "name": "example"
+      },
+      {
+         "resolution": "User\\User@login",
+         "pattern": "user/login$"
+      },
+      {
+         "resolution": "User\\User@userByID",
+         "pattern": "user/{id}:\\d+"
+      },
+      {
+         "resolution": "#Temp::react_1",
+         "pattern": "one"
+      },
+      {
+         "resolution": "#Temp::react_1",
+         "pattern": "one/{id}:[a-zA-Z]*"
+      }
+   ]
+}

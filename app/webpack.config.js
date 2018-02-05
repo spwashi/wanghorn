@@ -1,17 +1,12 @@
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HtmlPlugin from "html-webpack-plugin";
 import path from "path";
+import {APP_NAME, APP_PUBLIC_DIR, APP_URL, APP_VIEW_DIR} from "./config/config";
 
 //++sm++ boilerplate
-const APP_NAME        = "wanghorn";
-const APP_URL         = `http://localhost/${APP_NAME}/`;
-const APP_PATH        = path.resolve(__dirname);
-const APP_PUBLIC_PATH = path.resolve(APP_PATH, '..', 'public');
-const APP_VIEW_PATH   = path.resolve(APP_PATH, 'view');
-//
-const outputPath      = `${APP_PUBLIC_PATH}`;
+const outputPath      = `${APP_PUBLIC_DIR}`;
 const outputPath__JS  = path.resolve(outputPath, 'js');
-const inputPath__CSS  = path.resolve(APP_VIEW_PATH, 'stylesheets', 'scss');
+const inputPath__CSS  = path.resolve(APP_VIEW_DIR, 'stylesheets', 'scss');
 //--sm-- boilerplate
 
 module.exports = {

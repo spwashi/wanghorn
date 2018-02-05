@@ -13,20 +13,21 @@ const getConfigPath              = passedInArg => {
     return passedInArg || assumedConfigPath;
 };
 const configPath                 = getConfigPath(configPath__ARG);
-const applicationConfiguration   = new ApplicationConfiguration({
-                                                                    // APPLICATION ENTITY CONFIGURATION (models, routes, etc)
-                                                                    ...applicationEntityConfiguration
-                                                                });
+const applicationConfiguration   = new ApplicationConfiguration(applicationEntityConfiguration);
 
+let saveApplicationIndex = function (item, filename) {
+    const jsonModels   = JSON.stringify(item, ' ', 3);
+    const entitiesPath = `${configPath}/_generated/${filename}.json`;
+    fs.writeFile(entitiesPath,
+                 jsonModels,
+                 err => {
+                     if (err) return console.log(err);
+                     console.log("The file was saved to " + entitiesPath);
+                 });
+};
 applicationConfiguration.configure(new Application)
                         .catch(i => console.error(i))
-                        .then((r: Application) => {
-                            const jsonModels   = JSON.stringify(r.models, ' ', 3);
-                            const entitiesPath = configPath + '/_generated/_entities.json';
-                            fs.writeFile(entitiesPath,
-                                         jsonModels,
-                                         err => {
-                                             if (err) return console.log(err);
-                                             console.log("The file was saved to " + entitiesPath);
-                                         });
+                        .then((app: Application) => {
+                            saveApplicationIndex(app.models, 'entities');
+                            saveApplicationIndex(app.routes, 'routes');
                         });

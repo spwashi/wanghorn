@@ -1,4 +1,5 @@
-const APP_PATH           = 'http://localhost/wanghorn';
+import {APP_PATH} from "../../../config";
+
 export const APP_HOME    = `${APP_PATH}/one`;
 export const ABOUT_PATH  = `${APP_HOME}/about`;
 export const TOPICS_PATH = `${APP_HOME}/topics`;
