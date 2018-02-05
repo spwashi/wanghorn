@@ -24,11 +24,10 @@ export const routes = {
     pattern_prefix: APP_PATH,
     
     routes: [
-        new Route("Error@rt_404", "404/{path}",
-                  "name"),
-        new Route("#Home::index", "$",
-                  "home"),
-        new Route("#Home::item", null, 'test'),
+        new Route("[Error]@rt_404", "404/{path}", "404"),
+        
+        new Route("#[Home]::index", "$", "home"),
+        new Route("#[Home]::test", null, 'test'),
         
         new Route("#[Dev]::monitors", "dev/monitors", "monitors"),
         new Route("#[Dev]::modelsToTables", "dev/models"),
@@ -36,8 +35,6 @@ export const routes = {
         
         new Route("[User]@login", "user/login$"),
         new Route("[User]@userByID", "user/{id}:\\d+"),
-        
-        new Route("#Temp::react_1", "one"),
-        new Route("#Temp::react_1", "one/{id}:[a-zA-Z]*"),
+    
     ]
 };

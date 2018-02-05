@@ -38,12 +38,16 @@ try {
         
     } catch (RouteNotFoundException $exception) {
         
-        ###- Create and dispatch the error response -###
-        
-        $error_route      = $communicationLayer->getRoute('404');
-        $primedErrorRoute = $error_route->prime(Request::init()->setParentRequest($originalRequest),
-                                                [ 'path' => $originalRequest->getUrlPath() ]);
-        $communicationLayer->dispatch(Http::REDIRECT, $primedErrorRoute, false);
+        try {###- Create and dispatch the error response -###
+            
+            $error_route      = $communicationLayer->getRoute('404');
+            $primedErrorRoute = $error_route->prime(Request::init()->setParentRequest($originalRequest),
+                                                    [ 'path' => $originalRequest->getUrlPath() ]);
+            $communicationLayer->dispatch(Http::REDIRECT, $primedErrorRoute, false);
+        } catch (\Sm\Core\Exception\Exception $exception) {
+            \Kint::dump($exception);
+            \Kint::dump($app->getMonitors());
+        }
         
     }
     
@@ -51,6 +55,7 @@ try {
     
 } catch (\Sm\Core\Exception\Exception $exception) {
     \Kint::dump($exception);
+    \Kint::dump($app->getMonitors());
 } catch (\Exception $exception) {
     echo '<pre>';
     print_r($exception);

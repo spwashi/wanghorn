@@ -1,7 +1,7 @@
 <?php
 
 
-namespace WANGHORN\Controller;
+namespace WANGHORN\Controller\Error;
 
 
 use Sm\Application\Controller\BaseApplicationController;

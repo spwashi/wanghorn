@@ -2,17 +2,17 @@
    "pattern_prefix": "wanghorn/",
    "routes": [
       {
-         "resolution": "Error@rt_404",
+         "resolution": "Error\\Error@rt_404",
          "pattern": "404/{path}",
-         "name": "name"
+         "name": "404"
       },
       {
-         "resolution": "#Home::index",
+         "resolution": "#Home\\Home::index",
          "pattern": "$",
          "name": "home"
       },
       {
-         "resolution": "#Home::item",
+         "resolution": "#Home\\Home::test",
          "pattern": null,
          "name": "test"
       },
@@ -37,14 +37,6 @@
       {
          "resolution": "User\\User@userByID",
          "pattern": "user/{id}:\\d+"
-      },
-      {
-         "resolution": "#Temp::react_1",
-         "pattern": "one"
-      },
-      {
-         "resolution": "#Temp::react_1",
-         "pattern": "one/{id}:[a-zA-Z]*"
       }
    ]
 }

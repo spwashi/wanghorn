@@ -39,7 +39,6 @@ _controller_layer($app);
 _communication_layer($app);
 _data_layer($app);
 _representation_layer($app);
-
 ####################################################################################
 #####              helper functions                                          #######
 ####################################################################################
@@ -58,7 +57,8 @@ function _query_layer(Application $app): void {
 }
 
 function _controller_layer(Application $app): void {
-    $app->controller->addControllerNamespace(EXAMPLE_APP__NAMESPACE . '\\Controller\\');
+    $controllerNamespace = EXAMPLE_APP__NAMESPACE . '\\Controller\\';
+    $app->controller->addControllerNamespace($controllerNamespace);
 }
 
 function _communication_layer(Application $app): void {
