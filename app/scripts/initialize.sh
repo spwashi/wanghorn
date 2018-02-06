@@ -6,8 +6,10 @@ cd ${SM_SITE_ROOT}
 composer install
 mkdir -p public/html
 
-cd ${APPLICATION_PATH}
+cd ${CONFIG_PATH}
 mkdir -p _generated
+
+cd ${APPLICATION_PATH}
 npm install
 
 cd scripts
