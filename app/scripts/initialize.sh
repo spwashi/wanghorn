@@ -3,6 +3,11 @@
 source ./CONFIG.sh
 
 cd ${SM_SITE_ROOT}
+
+git remote remove origin
+git remote add wanghorn https://github.com/spwashi/wanghorn.git
+git remote set-url --push wanghorn no-pushing
+
 composer install
 mkdir -p public/html
 
@@ -10,6 +15,7 @@ cd ${CONFIG_PATH}
 mkdir -p _generated
 
 cd ${APPLICATION_PATH}
+
 npm install
 
 cd scripts
