@@ -14,6 +14,5 @@ cd scripts
 ./CONFIG.sh | ./build/SmFramework/update_smphp__github.sh
 
 
-
-
-./initApplication.sh
+./CONFIG.sh | ./init/application.sh
+./CONFIG.sh | ./init/renameWanghorn.sh

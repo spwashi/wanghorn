@@ -1,5 +1,8 @@
 #!/bin/bash
 
+APP_NAME="wanghorn"
+APP_NAMESPACE="WANGHORN"
+
 
 function get_appPath__std  {
     # set variables
@@ -14,8 +17,7 @@ APPLICATION_PATH="$(get_appPath__std)"
 CONFIG_PATH="${APPLICATION_PATH}/config"
 SM_SITE_ROOT="$(dirname "${APPLICATION_PATH}")"
 
-APP_NAME="wanghorn2"
-APP_NAMESPACE="WANGHORN2"
+
 
 echo "${APPLICATION_PATH}"
 echo "${CONFIG_PATH}"

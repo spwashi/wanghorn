@@ -30,7 +30,6 @@ if [[ -z APPLICATION_PATH ]];then
     return 1
 fi
 
-
-
-find "${APPLICATION_PATH}/config" -type f -name "*config.js" -type f -name "*config.php" -print0
-
+find "${APPLICATION_CONFIG_PATH}" -type f -name "*config.js" -print0 -o -type f -name "*config.php" -print0 | xargs -0 sed -i "s/wanghorn/${APP_NAME}/g"
+find "${APPLICATION_CONFIG_PATH}" "${APPLICATION_PATH}/src" -type f -name "*.php" -print0 -o -type f -name "*config.php" -print0 | xargs -0 \
+    sed -i "s/WANGHORN/${APP_NAMESPACE}/g"
