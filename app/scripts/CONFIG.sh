@@ -14,8 +14,11 @@ APPLICATION_PATH="$(get_appPath__std)"
 CONFIG_PATH="${APPLICATION_PATH}/config"
 SM_SITE_ROOT="$(dirname "${APPLICATION_PATH}")"
 
+APP_NAME="wanghorn2"
+APP_NAMESPACE="WANGHORN2"
+
 echo "${APPLICATION_PATH}"
 echo "${CONFIG_PATH}"
 echo "${SM_SITE_ROOT}"
-
-read -p "Press enter to continue"
+echo "${APP_NAME}"
+echo "${APP_NAMESPACE}"
