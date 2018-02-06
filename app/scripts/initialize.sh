@@ -7,6 +7,7 @@ composer install
 mkdir -p public/html
 
 cd ${APPLICATION_PATH}
+mkdir -p _generated
 npm install
 
 cd scripts
