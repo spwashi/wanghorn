@@ -1,4 +1,4 @@
-import {APP_PATH} from "../config";
+import {APP_PATH} from "../index";
 
 class Route {
     constructor(resolution: string, pattern: string, route_name: string) {

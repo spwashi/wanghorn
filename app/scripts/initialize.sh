@@ -4,9 +4,9 @@ source ./CONFIG.sh
 
 cd ${SM_SITE_ROOT}
 
-git remote remove origin
-git remote add wanghorn https://github.com/spwashi/wanghorn.git
-git remote set-url --push wanghorn no-pushing
+# git remote remove origin
+# git remote add wanghorn https://github.com/spwashi/wanghorn.git
+# git remote set-url --push wanghorn no-pushing
 
 composer install
 mkdir -p public/html
@@ -21,5 +21,4 @@ npm install
 cd scripts
 
 ./CONFIG.sh | ./build/SmFramework/update_smphp__github.sh
-./CONFIG.sh | ./init/renameWanghorn.sh
 ./CONFIG.sh | ./init/application.sh

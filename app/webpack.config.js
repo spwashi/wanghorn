@@ -1,7 +1,7 @@
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HtmlPlugin from "html-webpack-plugin";
 import path from "path";
-import {APP_NAME, APP_PUBLIC_DIR, APP_URL, APP_VIEW_DIR} from "./config/config";
+import {APP_NAME, APP_PUBLIC_DIR, APP_URL, APP_VIEW_DIR} from "./config";
 
 //++sm++ boilerplate
 const outputPath      = `${APP_PUBLIC_DIR}`;

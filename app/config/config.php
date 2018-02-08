@@ -15,15 +15,33 @@ use WANGHORN\Model\User;
 #####              APPLICATION CONSTANTS                                     #######
 ####################################################################################
 require_once EXAMPLE_APP__CONFIG_PATH . 'autoload/autoload.php';
+const CONFIG_FILE = __DIR__ . '/_generated/config.json';
+
+
+if (file_exists(CONFIG_FILE)) {
+    $json_string        = file_get_contents(CONFIG_FILE);
+    $decoded_json_array = json_decode($json_string, true);
+    $config             = $decoded_json_array;
+} else {
+    $config = [
+        'name'      => null,
+        'url'       => null,
+        'namespace' => '\\WANGHORN',
+    ];
+}
+
+if (!isset($config['name'])) die('No App Name Set');
+if (!isset($config['url'])) die('No App URL Set');
+if (!isset($config['namespace'])) die('No App namespace Set');
 
 #++sm++ boilerplate
-const EXAMPLE_APP__NAME           = 'wanghorn';
-const EXAMPLE_APP__URL            = 'http://localhost/' . EXAMPLE_APP__NAME;
+define('EXAMPLE_APP__NAME', $config['name']);
+define('EXAMPLE_APP__URL', $config['url']);
+define('EXAMPLE_APP__NAMESPACE', $config['namespace']);
 const EXAMPLE_APP__URL_PUBLIC     = EXAMPLE_APP__URL . '/public/';
 const EXAMPLE_APP__SRC_PATH       = EXAMPLE_APP__APP_PATH . 'src/';
 const EXAMPLE_APP__PUBLIC_PATH    = EXAMPLE_APP__APP_PATH . '../public/';
 const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__APP_PATH . 'view/twig/';
-const EXAMPLE_APP__NAMESPACE      = '\\WANGHORN';
 #--sm-- boilerplate
 
 

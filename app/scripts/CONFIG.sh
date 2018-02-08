@@ -1,9 +1,5 @@
 #!/bin/bash
 
-APP_NAME="wanghorn"
-APP_NAMESPACE="WANGHORN"
-
-
 function get_appPath__std  {
     # set variables
     local SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -12,15 +8,10 @@ function get_appPath__std  {
     echo "$(readlink -f "${APPLICATION_PATH}")"
 }
 
-
 APPLICATION_PATH="$(get_appPath__std)"
 CONFIG_PATH="${APPLICATION_PATH}/config"
 SM_SITE_ROOT="$(dirname "${APPLICATION_PATH}")"
 
-
-
 echo "${APPLICATION_PATH}"
 echo "${CONFIG_PATH}"
 echo "${SM_SITE_ROOT}"
-echo "${APP_NAME}"
-echo "${APP_NAMESPACE}"

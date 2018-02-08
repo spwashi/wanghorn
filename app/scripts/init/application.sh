@@ -44,7 +44,7 @@ function initSmJS {
     local config_path=$2
     local scripts_path="${app_path}/scripts"
     local smJS_path="${scripts_path}/config/application/lib/SmJS"
-    local appConfigJS_path="${scripts_path}/config/application"
+    local appConfigJS_path="${app_path}/"
     local SM_JS_URL="https://github.com/spwashi/SmJS.git"
 
     ## Create the folder
@@ -71,7 +71,7 @@ function initSmJS {
     printf "\t'''\n${FUNCTION_DESCRIPTION}\n'''\n\t IN: \t$(pwd) \n"
     printf "\tACTING IN: \t$(pwd) \n"
 
-    node --require babel-register index.js ${app_path} ${config_path}
+    node --require babel-register initialize.js ${app_path} ${config_path}
 
     cd ${app_path}
     FUNCTION_DESCRIPTION="3) Create the app's views"
