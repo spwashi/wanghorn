@@ -21,7 +21,7 @@ class Route {
 }
 
 export const routes = {
-    pattern_prefix: APP_PATH,
+    pattern_prefix: APP_PATH + '/',
     
     routes: [
         new Route("[Error]@rt_404", "404/{path}", "404"),
