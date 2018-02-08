@@ -6,7 +6,7 @@ namespace WANGHORN\Controller\User;
 
 use Sm\Application\Controller\BaseApplicationController;
 use Sm\Data\Model\ModelNotFoundException;
-use WANGHORN\Model\User\User;
+use WANGHORN\Entity\User\User;
 
 class UserController extends BaseApplicationController {
     public function userByID($id) {
@@ -25,7 +25,7 @@ class UserController extends BaseApplicationController {
         
         
         # Instantiate a Model that we'll use to find a matching object (or throw an error if it doesn't exist)
-        /** @var \WANGHORN\Model\User\User $user_model */
+        /** @var \WANGHORN\Entity\User\User $user_model */
         $user_model                    = $dataLayer->models->instantiate('users');
         $user_model->properties->email = $email_address;
         

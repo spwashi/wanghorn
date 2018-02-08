@@ -1,7 +1,7 @@
 <?php
 
 
-namespace WANGHORN\Model\User;
+namespace WANGHORN\Entity\User;
 
 
 use Sm\Data\Property\PropertyContainer;

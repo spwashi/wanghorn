@@ -8,6 +8,7 @@ use Sm\Modules\Sql\MySql\Authentication\MySqlAuthentication;
 use Sm\Modules\Sql\MySql\Module\MySqlQueryModule;
 use Sm\Representation\Module\PlainFile\PlainFileViewModule;
 use Sm\Representation\Module\Twig\TwigViewModule;
+use WANGHORN\Model\User;
 
 
 ####################################################################################
@@ -93,6 +94,16 @@ function _data_layer(Application $app): void {
     /** @var \Sm\Data\Model\ModelDataManager $modelDataManager */
     $modelDataManager = $app->data->getDataManager(Model::class);
     $modelDataManager->setPersistenceManager((new StdModelPersistenceManager)->setQueryInterpreter($app->query->getQueryModule(null)));
+    
+    $app->data->models->registerResolver(function (string $smID) {
+        switch ($smID) {
+            case '[Model]users':
+                return new User;
+            default:
+                return new \WANGHORN\Model\Model;
+        }
+        return null;
+    });
 }
 
 function _representation_layer(Application $app): void {

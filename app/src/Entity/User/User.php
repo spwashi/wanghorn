@@ -1,7 +1,7 @@
 <?php
 
 
-namespace WANGHORN\Model\User;
+namespace WANGHORN\Entity\User;
 
 
 use Sm\Core\Exception\UnimplementedError;

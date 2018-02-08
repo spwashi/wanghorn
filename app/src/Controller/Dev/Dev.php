@@ -16,7 +16,7 @@ use Sm\Modules\Sql\Data\Column\IntegerColumnSchema;
 use Sm\Modules\Sql\Data\Column\VarcharColumnSchema;
 use Sm\Modules\Sql\MySql\Module\MySqlQueryModule;
 use Sm\Modules\Sql\Statements\CreateTableStatement;
-use WANGHORN\Model\User\User;
+use WANGHORN\Entity\User\User;
 
 class Dev extends BaseApplicationController {
     protected function propertyToColumn(PropertySchematic $propertySchema) {
