@@ -63,11 +63,18 @@ const webpackTask      = () => {
 const watchCSS_Task    = () => {
     sassTask();
     // console.log(require('./webpack.config.js'));
-    return gulp.watch(directories.src.css + '/scss/**/*.scss', ['sass'])
+    return gulp.watch([
+                          directories.src.css + '/scss/**/*.scss',
+                          directories.src.css + '/scss/**/**/*.scss',
+                          directories.src.css + '/scss/**/**/**/*.scss',
+                      ], ['sass'])
 };
 const watchJS_Task     = () => {
     webpackTask();
-    return gulp.watch(directories.src.js + '/app/**/*.js', ['webpack'])
+    return gulp.watch([
+                          directories.src.js + '/**/*.js',
+                          directories.src.js + '/**/**/*.js',
+                      ], ['webpack'])
 };
 
 gulp.task('webpack', webpackTask);

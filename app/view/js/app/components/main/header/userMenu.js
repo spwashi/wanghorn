@@ -15,10 +15,11 @@ class UserMenu extends Component {
         event.preventDefault();
         const data = new FormData(event.target);
         
-        fetch(USER_LOGIN_PATH, {
-            method: 'POST',
-            body:   data,
-        });
+        fetch(USER_LOGIN_PATH,
+              {
+                  method: 'POST',
+                  body:   data,
+              });
     }
     
     render() {
@@ -27,21 +28,21 @@ class UserMenu extends Component {
         
         const LoginInput = ({isLoginActive}) => {
             const loginForm   =
-                      <div id="user_menu--login">
+                      <div id="user-menu--login">
                           <form action={USER_LOGIN_PATH} method="POST" onSubmit={this.handleSubmit}>
                               <input type="text"
                                      name='username'
-                                     id="user_menu--login--username"
+                                     id="user-menu--login--username"
                                      className="username" />
                               <input type="password"
                                      name='password'
-                                     id="user_menu--login--password"
+                                     id="user-menu--login--password"
                                      className="password" />
-                              <div className="user_menu--action_button--container action_button--container button--container">
-                                  <Button className="user_menu--action_button login-button"
+                              <div className="user-menu--action_button--container action_button--container button--container">
+                                  <Button className="user-menu--action_button login-button"
                                           label="Login"
                                           type="submit" />
-                                  <Button className="user_menu--action_button cancel-button"
+                                  <Button className="user-menu--action_button cancel-button"
                                           label="Cancel"
                                           handleClick={deactivateLogin} />
                               </div>
@@ -53,7 +54,7 @@ class UserMenu extends Component {
         };
         
         return (
-            <div className="user_menu">
+            <div className="user-menu">
                 <LoginInput isLoginActive={this.state.isLoginActive} />
             </div>
         );

@@ -1,0 +1,30 @@
+@import "logo";
+@import "nav/nav";
+@import "variables";
+@import "colors";
+
+.header-standard {
+	margin-bottom    : 10px;
+	display          : flex;
+	align-items      : flex-start;
+	justify-content  : flex-start;
+	border-bottom    : thin solid #ccc;
+	background-color : $header__backgroundColor;
+
+
+	> * {
+		display     : flex;
+		align-items : center;
+		height      : $logo-item__header-std__height;
+	}
+	> nav {
+		justify-content : flex-start;
+		width           : $header-nav__header-std__width;
+	}
+	.logo--container {
+		width : $logo-item__header-std__width;
+	}
+	> .user-menu {
+		width : $user-menu__header-std__width;
+	}
+}

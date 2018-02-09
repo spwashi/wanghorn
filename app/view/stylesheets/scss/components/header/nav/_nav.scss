@@ -1,0 +1,37 @@
+@import "../variables";
+@import "colors";
+
+.header-standard {
+	> nav {
+		justify-content : flex-start;
+		width           : $header-nav__header-std__width;
+
+		.navigation--link_container {
+			margin          : 0;
+			padding         : 0;
+			height          : 100%;
+			display         : flex;
+			align-items     : center;
+			justify-content : flex-start;
+		}
+
+		.navigation--link_item {
+			margin  : 0;
+			height  : 100%;
+			display : inline-block;
+
+			a {
+				padding          : 0 10px;
+				height           : 100%;
+				display          : block;
+				color            : $navLink__color;
+				background-color : $navLink__backgroundColor;
+				line-height      : $logo-item__header-std__height;
+
+				&:hover {
+					background-color : $navLink__backgroundColor--hover;
+				}
+			}
+		}
+	}
+}

@@ -16,7 +16,7 @@ module.exports = {
     ],
     output:  {
         filename:   `${APP_NAME}.js`,
-        publicPath: `${APP_URL}public/js/`,
+        publicPath: `${APP_URL}/public/js/`,
         path:       outputPath__JS
     },
     devtool: 'source-map',

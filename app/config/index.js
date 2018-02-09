@@ -6,7 +6,7 @@ export const APP_DOMAIN    = 'http://localhost';
 export const APP_PATH      = `wanghorn`;
 export const APP_NAME      = `wanghorn`;
 export const APP_NAMESPACE = APP_NAME.toUpperCase();
-export const APP_URL       = `${APP_DOMAIN}/${APP_PATH}/`;
+export const APP_URL       = `${APP_DOMAIN}/${APP_PATH}`;
 
 // standard
 
