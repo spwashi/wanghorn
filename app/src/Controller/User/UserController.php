@@ -12,7 +12,7 @@ class UserController extends BaseApplicationController {
     public function userByID($id) {
         $Sam = User::init($this->app->data->models)
                    ->find([
-                              'user_id' => $id,
+                              'email' => $id,
                           ]);
         return $Sam;
     }
@@ -20,24 +20,14 @@ class UserController extends BaseApplicationController {
         $email_address = $_POST['username'] ?? null;
         $password      = $_POST['password'] ?? null;
         
-        $application = $this->app;
-        $dataLayer   = $application->data;
-        
-        
         # Instantiate a Model that we'll use to find a matching object (or throw an error if it doesn't exist)
-        /** @var \WANGHORN\Entity\User\User $user_model */
-        $user_model                    = $dataLayer->models->instantiate('users');
-        $user_model->properties->email = $email_address;
-        
         try {
-            $dataLayer->models->persistenceManager->find($user_model);
+            $user = User::init($this->app->data->models)
+                        ->find([ 'email' => $email_address ]);
         } catch (ModelNotFoundException $exception) {
             return 'Could not find Model';
         }
         
-        echo '<pre>' . json_encode($user_model, JSON_PRETTY_PRINT) . '</pre>';
-        
-        $html_filename = EXAMPLE_APP__NAME . '.html';
-        return $this->app->representation->render($html_filename);
+        return $user;
     }
 }

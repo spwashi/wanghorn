@@ -74,6 +74,7 @@ const watchJS_Task     = () => {
     return gulp.watch([
                           directories.src.js + '/**/*.js',
                           directories.src.js + '/**/**/*.js',
+                          directories.src.js + '/**/**/**/*.js',
                       ], ['webpack'])
 };
 

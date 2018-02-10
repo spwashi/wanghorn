@@ -6,13 +6,12 @@ import "whatwg-fetch";
 class UserMenu extends Component {
     constructor() {
         super();
-        this.state = {
-            isLoginActive: false
-        }
+        this.state = {isLoginActive: false}
     }
     
     handleSubmit(event) {
         event.preventDefault();
+        
         const data = new FormData(event.target);
         
         fetch(USER_LOGIN_PATH,
@@ -30,14 +29,17 @@ class UserMenu extends Component {
             const loginForm   =
                       <div id="user-menu--login">
                           <form action={USER_LOGIN_PATH} method="POST" onSubmit={this.handleSubmit}>
-                              <input type="text"
-                                     name='username'
-                                     id="user-menu--login--username"
-                                     className="username" />
-                              <input type="password"
-                                     name='password'
-                                     id="user-menu--login--password"
-                                     className="password" />
+                              <div className="user-menu--input--container input button--container">
+                                  <input type="text"
+                                         name='username'
+                                         id="user-menu--login--username"
+                                         className="username" />
+                                  <input type="password"
+                                         name='password'
+                                         id="user-menu--login--password"
+                                         className="password" />
+                              </div>
+                        
                               <div className="user-menu--action_button--container action_button--container button--container">
                                   <Button className="user-menu--action_button login-button"
                                           label="Login"

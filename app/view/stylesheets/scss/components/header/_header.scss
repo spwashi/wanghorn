@@ -3,6 +3,19 @@
 @import "variables";
 @import "colors";
 
+@mixin centeredTwin($width: 45%) {
+	$action-button__width : $width;
+	$action-button__sidePadding : 100% -(2*$action-button__width);
+	width : $action-button__width;
+
+	&:last-child {
+		margin : 2% 0 2% ($action-button__sidePadding/2);
+	}
+	&:first-child {
+		margin : 2% ($action-button__sidePadding/2) 2% 0;
+	}
+}
+
 .header-standard {
 	margin-bottom    : 10px;
 	display          : flex;
@@ -10,7 +23,6 @@
 	justify-content  : flex-start;
 	border-bottom    : thin solid #ccc;
 	background-color : $header__backgroundColor;
-
 
 	> * {
 		display     : flex;
@@ -24,7 +36,20 @@
 	.logo--container {
 		width : $logo-item__header-std__width;
 	}
+	input {
+		@include centeredTwin(47%);
+	}
 	> .user-menu {
-		width : $user-menu__header-std__width;
+		justify-content : flex-end;
+		margin-right    : 20px;
+		padding-top     : 10px;
+		padding-bottom  : 10px;
+		width           : $user-menu__header-std__width;
+
+		.user-menu--action_button--container {
+			.user-menu--action_button {
+				@include centeredTwin();
+			}
+		}
 	}
 }
