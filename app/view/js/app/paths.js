@@ -1,9 +1,6 @@
-import {APP_PATH} from "../../../config";
+import * as config from "../../../config/out/public.json";
 
-export const APP_HOME = `/${APP_PATH}`;
-
-export const ABOUT_PATH  = `${APP_HOME}/about`;
-export const TOPICS_PATH = `${APP_HOME}/topics`;
-
+export const APP_HOME        = `/${config.appPath}`;
+export const ABOUT_PATH      = `${APP_HOME}/about`;
+export const TOPICS_PATH     = `${APP_HOME}/topics`;
 export const USER_LOGIN_PATH = `${APP_HOME}/user/login`;
-

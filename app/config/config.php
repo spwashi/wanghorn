@@ -14,8 +14,8 @@ use WANGHORN\Model\User;
 ####################################################################################
 #####              APPLICATION CONSTANTS                                     #######
 ####################################################################################
-require_once EXAMPLE_APP__CONFIG_PATH . 'autoload/autoload.php';
-const CONFIG_FILE = __DIR__ . '/_generated/config.json';
+require_once EXAMPLE_APP__CONFIG_PATH . 'autoload.php';
+const CONFIG_FILE = __DIR__ . '/out/config.json';
 
 
 if (file_exists(CONFIG_FILE)) {
@@ -52,7 +52,7 @@ const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__APP_PATH . 'view/twig/';
 /** @var \Sm\Application\Application $app */
 if (!isset($app)) die("Cannot configure without an app");
 
-# $config_json = EXAMPLE_APP__CONFIG_PATH . '_generated/config.json';
+# $config_json = EXAMPLE_APP__CONFIG_PATH . 'out/config.json';
 _query_layer($app);
 _controller_layer($app);
 _communication_layer($app);
@@ -83,7 +83,7 @@ function _controller_layer(Application $app): void {
 function _communication_layer(Application $app): void {
     $app_events = [];
     
-    $json_path = EXAMPLE_APP__CONFIG_PATH . '_generated/routes.json';
+    $json_path = EXAMPLE_APP__CONFIG_PATH . 'out/routes.json';
     $php_path  = EXAMPLE_APP__CONFIG_PATH . 'routes/routes.php';
     if (file_exists($json_path)) {
         $json_routes = file_get_contents($json_path);
@@ -102,7 +102,7 @@ function _communication_layer(Application $app): void {
 }
 
 function _data_layer(Application $app): void {
-    $data_json_path = EXAMPLE_APP__CONFIG_PATH . '_generated/entities.json';
+    $data_json_path = EXAMPLE_APP__CONFIG_PATH . 'out/entities.json';
     
     if (file_exists($data_json_path)) {
         $dataJson    = file_get_contents($data_json_path);

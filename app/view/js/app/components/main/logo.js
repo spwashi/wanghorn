@@ -1,6 +1,9 @@
 import React from "react"
-import {LogoContainer as HeaderLogoContainer} from "../../../components/header/index"
+import {LogoContainer} from "../../../components/header/index"
 
-export default <HeaderLogoContainer>
-    <div className="logo--item"></div>
-</HeaderLogoContainer>;
+const HeaderLogoContainer = () =>
+    <LogoContainer>
+        <div className="logo--item"></div>
+    </LogoContainer>;
+
+export default HeaderLogoContainer;

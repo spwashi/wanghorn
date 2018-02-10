@@ -7,14 +7,3 @@ export const randomString = (strlen = 5) => {
     
     return text;
 };
-
-export const objectToMap = (obj): Map => {
-    let map = new Map;
-    
-    Object.keys(obj)
-          .forEach(key => {
-              map.set(key, obj[key]);
-          });
-    
-    return map;
-};

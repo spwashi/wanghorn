@@ -12,7 +12,7 @@ composer install
 mkdir -p public/html
 
 cd ${CONFIG_PATH}
-mkdir -p _generated
+mkdir -p out
 
 cd ${APPLICATION_PATH}
 

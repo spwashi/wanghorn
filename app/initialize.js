@@ -1,6 +1,6 @@
-import {models} from "./config/models/models";
-import {routes} from "./config/routes/routes"
-import {APP_DOMAIN, APP_NAME, APP_NAMESPACE, APP_PATH} from "./config";
+import {models} from "./config/pre/models/models";
+import {routes} from "./config/pre/routes/routes"
+import {APP_DOMAIN, APP_NAME, APP_NAMESPACE, APP_PATH, APP_URL} from "./config";
 import fs from "fs";
 import replace from "replace-in-file";
 import {Sm} from "spwashi-sm"
@@ -20,13 +20,22 @@ const config = {
 let applicationConfigured = configureApplication(config);
 
 applicationConfigured.then((app: Application) => {
-                         let appConfig = {
+                         let appConfig          = {
                              name:      app.name,
                              namespace: app.namespace,
                              url:       app.url
                          };
+                         const jsFrontendConfig = {
+                             name: app.name,
+        
+                             appDomain: APP_DOMAIN,
+                             appUrl:    APP_URL,
+                             appPath:   APP_PATH
+        
+                         };
     
                          saveConfig(appConfig, 'config');
+                         saveConfig(jsFrontendConfig, 'public');
                          saveConfig(app.models, 'entities');
                          saveConfig(app.routes, 'routes');
     
@@ -67,7 +76,7 @@ const srcPath    = srcPath__ARG || `${appPath}/src`;
  */
 function saveConfig(configuredItem, filename) {
     const jsonModels   = JSON.stringify(configuredItem, ' ', 3);
-    const entitiesPath = `${configPath}/_generated/${filename}.json`;
+    const entitiesPath = `${configPath}/out/${filename}.json`;
     fs.writeFile(entitiesPath,
                  jsonModels,
                  err => {

@@ -4,11 +4,13 @@
 namespace WANGHORN\Entity\User;
 
 
+use Sm\Core\Event\GenericEvent;
 use Sm\Core\Exception\UnimplementedError;
-use Sm\Data\Entity\Entity;
+use Sm\Core\Internal\Monitor\Monitor;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
 use Sm\Data\Property\Property;
 use Sm\Data\Property\PropertyContainer;
+use WANGHORN\Entity\Entity;
 
 /**
  * Class User
@@ -53,6 +55,13 @@ class User extends Entity {
         $this->registerPropertyValues($attributes);
         
         $primaryModel = $this->findPrimaryModel($this->modelDataManager);
+        
+        $this->getMonitor(Monitor::INFO)
+             ->append(GenericEvent::init('FOUND PRIMARY MODEL -- ',
+                                         [
+                                             $primaryModel,
+                                             $primaryModel->jsonSerialize(),
+                                         ]));
         
         $this->registerPropertyValues([
                                           'user_id'    => $primaryModel->properties->id,

@@ -1,4 +1,4 @@
-import {APP_PATH} from "../index";
+import {APP_PATH} from "../../index";
 
 class Route {
     constructor(resolution: string, pattern: string, route_name: string) {
@@ -22,8 +22,7 @@ class Route {
 
 export const routes = {
     pattern_prefix: APP_PATH + '/',
-    
-    routes: [
+    routes:         [
         new Route("[Error]@rt_404", "404/{path}", "404"),
         
         new Route("#[Home]::index", "$", "home"),
@@ -34,7 +33,6 @@ export const routes = {
         new Route("#[Dev]::eg", "dev/example", "example"),
         
         new Route("[User]@login", "user/login$"),
-        new Route("[User]@userByID", "user/{id}:[a-zA-Z@]+"),
-    
+        new Route("[User]@userByID", "user/{id}:[a-zA-Z@]+")
     ]
 };

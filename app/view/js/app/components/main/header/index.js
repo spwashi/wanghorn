@@ -1,12 +1,17 @@
 import React from "react";
 
 import {StdHeader} from "../../../../components/header/index";
-import mainLogo from '../logo'
-import mainNavigation from '../navigation'
-import UserMenu from "./userMenu";
+import MainLogo from '../logo'
+import MainNavigation from '../navigation'
+import MainUserMenu from "./userMenu";
 
-export const mainHeader =
-                 <StdHeader
-                     logo={mainLogo}
-                     navigation={mainNavigation}
-                     userMenu={<UserMenu />} />;
+export const MainHeader =
+                 ({links}) => {
+                     const Navigation = () => <MainNavigation links={links} />;
+                     return (
+                         <StdHeader
+                             Logo={MainLogo}
+                             Navigation={Navigation}
+                             UserMenu={MainUserMenu}
+                         />);
+                 };
