@@ -7,47 +7,60 @@ The application is configured using a small JS library I wrote called SmJS. This
 
 # System requirements
 Wanghorn has only been tested on 
-* Ubuntu 16.04 
+* Ubuntu 17.04 and CentOS 7
 * Node 7.10
-* PHP 7.1
+* PHP 7.1/7.2
 * Apache 2.4.25
 
 
 # Installation
 
-1. Clone the project into its desired site root
-2. Configure the CONFIG.sh, config.js, and config.php files to set the variables your app needs.
+1. Clone the project into a folder named SITE_ROOT
+2. Configure the SITE_ROOT/app/config/index.js file
 
-   For more flexible configuration, feek free to tweak the ```app/index.php``` file.
-3. run the ```initialize``` script to get the default application structure complete. 
-I've typically installed this on my personal computer at ```/var/www/SITE_ROOT_FOLDER_NAME```.
+   ```JavaScript
+   // The domain name of the site we are configuring
+   export const APP_DOMAIN    = 'http://localhost';
+   // The URL Path (sans leading or trailing slash) at which the main site can be found relative to the domain
+   export const APP_PATH      = `wanghorn`;
+   // The name of the application without spaces. Case sensitive, I recommend lowercase-with-dashes or camelCased
+   export const APP_NAME      = `wanghorn`;
+   // The namespace used in PHP to prefix app-specific files
+   export const APP_NAMESPACE = APP_NAME.toUpperCase();
+   // The URL including the Path that we will use to access our files
+   export const APP_URL       = `${APP_DOMAIN}/${APP_PATH}`;
+   ```
+   
+   To change more of the defaults, you might want to edit more of the ```SITE_ROOT/app/config/index.js```, ```SITE_ROOT/app/config/config.php```, or ```SITE_ROOT/app/index.php``` files. 
+4. run the ```initialize``` script to get the default application structure complete. 
 
-```shell
-git clone https://github.com/spwashi/wanghorn SITE_ROOT_FOLDER_NAME
+   I've typically installed this on my personal computer at ```/var/www/SITE_ROOT_FOLDER_NAME```.
 
-# ( 
-#     Here is where you'd configure the following:
-#
-#     SITE_ROOT_FOLDER_NAME/app/scripts/CONFIG.sh
-#        At the top of the file, 
-#           APP_NAME  whatever your app should be named (no spaces) (used as output filename for webpack)
-#           APP_NAMESPACE  whatever PHP's namespace for your application should be (autoloads to the src/ directory)
-#
-#     SITE_ROOT_FOLDER_NAME/app/config/config.js
-#        CONFIG.sh will take care of replacing "wanghorn" here,
-#           but you might want to configure the application URL to be something different.
-#
-#     SITE_ROOT_FOLDER_NAME/app/config/config.php
-#        CONFIG.sh will take care of replacing "wanghorn" here,
-#           but you might want to configure the application URL to be something different.
-# )
+   ```shell
+   cd SITE_ROOT_FOLDER_NAME/app/scripts
+   ./initialize.sh
+   ```
+4. If you want to tweak the app/config/index.js file more later (or if you modify a file in app/config/pre/ ), you can run the app/initialize.js file to save the configuration to app/config/out/
 
+3. Create the output config files and rename placeholder variables
+   
+   ```shell
+   
+   # If you can use a bash terminal, there is a script that can be run with no arguments
+   
+   cd SITE_ROOT/app/scripts
+   ./initApplication.sh
+   
+   # If you don't have access to a bash terminal, you can just run the initialize.js script 
+   #   Only the first argument to the initialize.js script is required (the path to the app/ folder (or whatever it's called)
+   #   The other two arguments are assumed to be standard (unchanged from the default wanghorn app) and are the
+   #     config path (./app/config) and the location containing the site index file/public dir (./)
+   
+   node --require babel-register initialize.js SITE_ROOT/app SITE_ROOT/app/config SITE_ROOT
+   
+   ```   
 
-cd SITE_ROOT_FOLDER_NAME/app/scripts
-./initialize.sh
-```
-
-At this point, if you've installed this as a folder under your localhost, you might be able to access it by following [http://localhost/SITE_ROOT_FOLDER_NAME](http://localhost/SITE_ROOT_FOLDER_NAME).
+At this point, if you've installed this as a folder under your localhost, you should be able to access it by following [http://APP_DOMAIN/APP_PATH](http://APP_DOMAIN/APP_PATH).
 
 # Configuration
 
@@ -56,7 +69,7 @@ There are a few main places we might go to configure this application. Most are 
 1. app/config/config.php
 
    Registers the various modules/settings each Layer of the application needs to properly run
-2. app/config/config.js
+2. app/config/index.js
    
    Establishes the URLs, names, and path settings that webpack and React will use for their settings
 
@@ -65,12 +78,17 @@ There are a few main places we might go to configure this application. Most are 
    We assume that the directory in which the application source will reside is in the app/ directory located in the same directory as this file. As of right now, those are the only configurable aspects of this file (beyond modifying the code further for more specific needs)
    
    
-4. app/config/routes/routes.js
+4. app/config/pre/routes/routes.js
 
    This is where routes are set (to later be serialized to JSON)
-5. app/config/models/models.js
+5. app/config/pre/models/models.js
    
-   This is where Models are configured (to be serialized to JSON using ```app/scripts/initApplication.sh``` and read by ```app/config/config.php``` to configure the applications Data Layer)
+   This is where Models are configured (to be serialized to JSON using ```app/scripts/initApplication.sh``` and read by ```app/config/config.php``` to configure the applications Data Layer).
+   
+   Models are meant to represent what might be one record in a database. The concept will hopefully expand beyond its current implementation as representing a row in a MySQL DB table.
+6. app/config/pre/entities/entities.js
+   
+   Entities are objects that represent the ideological combination of Models that come together under a consistent identity. An example of an Entity might be a ```Person``` entity, which would act as an object merging the various identities a person might have on the site, such as their identity as a member of a group or their identity as a user of the site. The idea behind this concept is that each entity would understand how its identities exist in the contexts IT exists in, with the goal of creating a configurable method for initializing the properties/actions available to that entity in those contexts (and nothing more than what we'd need)
 5. app/webpack.config.js
 
    Configures the webpack workflow
