@@ -36,7 +36,7 @@
       },
       {
          "resolution": "User\\User@userByID",
-         "pattern": "user/{id}:[a-zA-Z@]+"
+         "pattern": "user/{id}:[a-zA-Z@.]+"
       }
    ]
 }

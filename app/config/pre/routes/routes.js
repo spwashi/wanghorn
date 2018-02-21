@@ -33,6 +33,6 @@ export const routes = {
         new Route("#[Dev]::eg", "dev/example", "example"),
         
         new Route("[User]@login", "user/login$"),
-        new Route("[User]@userByID", "user/{id}:[a-zA-Z@]+")
+        new Route("[User]@userByID", "user/{id}:[a-zA-Z@\.]+")
     ]
 };

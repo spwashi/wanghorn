@@ -1,10 +1,12 @@
+import * as user from './user';
+
 const DATETIME_ = 'datetime';
 const STRING_   = 'string';
 const INTEGER_  = 'int';
 const NULL_     = 'null';
 
 export const models = {
-    _:       {
+    _: {
         properties: {
             id:             {
                 primary:     !0,
@@ -25,15 +27,25 @@ export const models = {
             },
         }
     },
-    users:   {
-        inherits: '_',
-        
+    
+    emails: {
+        inherits:   '_',
         properties: {
-            email:      {length: 255, datatypes: [STRING_], unique: true},
-            first_name: {length: 50, datatypes: [STRING_, NULL_]},
-            last_name:  {length: 50, datatypes: [STRING_, NULL_]}
-        }
+            email_address: {length: 255, datatypes: [STRING_]},
+        },
+        cast:       [
+            {
+                given:       ['{[Model]users}email'],
+                isRedundant: false,
+                produce:     {
+                    email_address: '{[Model]users}email'
+                }
+            }
+        ]
+        
     },
+    
+    users:   user,
     clients: {
         inherits:   '_',
         properties: {

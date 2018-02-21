@@ -1,4 +1,4 @@
-import {models} from "./config/pre/models/models";
+import models from "./config/pre/models";
 import {routes} from "./config/pre/routes/routes"
 import {APP_DOMAIN, APP_NAME, APP_NAMESPACE, APP_PATH, APP_URL} from "./config";
 import fs from "fs";

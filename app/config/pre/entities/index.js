@@ -1,3 +1,3 @@
 import person from "./person";
 
-export {person}
+export default {person}

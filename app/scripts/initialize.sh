@@ -20,4 +20,4 @@ npm install
 
 cd scripts
 
-./CONFIG.sh | ./build/SmFramework/update_smphp__github.sh
+./CONFIG.sh | ./build/sm/update_smphp__github.sh
