@@ -1,3 +1,10 @@
+import {Sm} from 'spwashi-sm'
+
+const Model    = Sm.Model;
+const STRING_  = 'string';
+const INTEGER_ = 'int';
+const NULL_    = 'null';
+
 export const inherits                 = '_';
 export const properties               = {
     email:      {length: 255, datatypes: [STRING_], unique: true},
@@ -63,7 +70,7 @@ relatedTo[Model.identify('accounts')] = {
             name:     '[Model]user_account_map',
             
             map: {
-                account_id: '{accofunt}id',
+                account_id: '{account}id',
                 owner_id:   '{owner}id'
             },
             
