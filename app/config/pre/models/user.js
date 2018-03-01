@@ -1,6 +1,7 @@
 import {Sm} from 'spwashi-sm'
 
-const Model    = Sm.Model;
+const Model = Sm.Model;
+
 const STRING_  = 'string';
 const INTEGER_ = 'int';
 const NULL_    = 'null';

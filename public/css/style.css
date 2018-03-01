@@ -452,6 +452,8 @@ input.card--label {
     margin: 0;
     height: 100%;
     display: inline-block; }
+    .header-standard > nav .navigation--link_item.link_item--active {
+      border-bottom: thick solid #fff; }
     .header-standard > nav .navigation--link_item a {
       padding: 0 10px;
       height: 100%;

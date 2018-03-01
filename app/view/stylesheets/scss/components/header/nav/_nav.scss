@@ -19,6 +19,9 @@
 			margin  : 0;
 			height  : 100%;
 			display : inline-block;
+            &.link_item--active {
+                border-bottom : thick solid #fff;
+            }
 
 			a {
 				padding          : 0 10px;

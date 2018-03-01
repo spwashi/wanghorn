@@ -1,10 +1,10 @@
 import React from 'react'
-import {Link} from "react-router-dom"
+import {NavLink} from "react-router-dom"
 
 export const Item      = ({children, to, as}) =>
     <li className="navigation--link_item link_item">
-        <Link to={to}>
+        <NavLink to={to} exact activeClassName="active link_item--active">
             {as}
-        </Link>
+        </NavLink>
     </li>;
 export const Container = ({children}) => <ul className="navigation--link_container link_container">{children}</ul>;
