@@ -19,18 +19,19 @@
 			margin  : 0;
 			height  : 100%;
 			display : inline-block;
-            &.link_item--active {
-                border-bottom : thick solid #fff;
-            }
 
 			a {
 				padding          : 0 10px;
 				height           : 100%;
 				display          : block;
 				color            : $navLink__color;
+				text-decoration  : none;
+				text-transform   : uppercase;
 				background-color : $navLink__backgroundColor;
 				line-height      : $logo-item__header-std__height;
-
+				&.link_item--active {
+					border-bottom : thick solid #fff;
+				}
 				&:hover {
 					background-color : $navLink__backgroundColor--hover;
 				}

@@ -1,8 +1,8 @@
 import React from "react";
 import {BrowserRouter as Router} from 'react-router-dom'
 
-import {MainHeader} from "../../../components/main/header/index";
-import {MainContent} from "../../../components/main/content/index";
+import {MainHeader} from "./main/header";
+import {MainContent} from "./main/content";
 
 const SimpleApp = ({links, routes}) => {
     return (
