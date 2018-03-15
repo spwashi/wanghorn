@@ -8,9 +8,9 @@ export const Link      = ({to, children, exact, activeClassName, className}) =>
              activeClassName={"active link_item--active " + (activeClassName || '')}>
         {children}
     </NavLink>;
-export const Item      = ({activeClassName, to, as, className}) =>
+export const Item      = ({exact, activeClassName, to, as, className}) =>
     <li className={"link_item navigation--link_item " + (className || '')}>
-        <Link to={to} activeClassName={activeClassName}>
+        <Link exact={exact} to={to} activeClassName={activeClassName}>
             {as}
         </Link>
     </li>;
