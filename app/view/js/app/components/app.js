@@ -4,7 +4,7 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import {MainHeader} from "./main/header";
 import {MainContent} from "./main/content";
 
-const SimpleApp = ({links, routes}) => {
+const SimpleApp = ({links, routes}) =>  {
     return (
         <Router>
             <div className="app">
