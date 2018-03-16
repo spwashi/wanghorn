@@ -41,6 +41,55 @@
          }
       }
    },
+   "emails": {
+      "smID": "[Model]emails",
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]emails}id"
+         ],
+         "unique": {}
+      },
+      "properties": {
+         "id": {
+            "datatypes": [
+               "int"
+            ],
+            "smID": "[Property]{[Model]emails}id",
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "smID": "[Property]{[Model]emails}delete_dt"
+         },
+         "creation_dt": {
+            "datatypes": [
+               "datetime"
+            ],
+            "smID": "[Property]{[Model]emails}creation_dt",
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "smID": "[Property]{[Model]emails}last_update_dt",
+            "updateValue": "now"
+         },
+         "email_address": {
+            "datatypes": [
+               "string"
+            ],
+            "smID": "[Property]{[Model]emails}email_address",
+            "length": 255
+         }
+      }
+   },
    "users": {
       "smID": "[Model]users",
       "propertyMeta": {
