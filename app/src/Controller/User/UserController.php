@@ -5,7 +5,7 @@ namespace WANGHORN\Controller\User;
 
 
 use Sm\Application\Controller\BaseApplicationController;
-use Sm\Data\Model\ModelNotFoundException;
+use Sm\Data\Model\Exception\ModelNotFoundException;
 use WANGHORN\Entity\User\User;
 
 class UserController extends BaseApplicationController {
