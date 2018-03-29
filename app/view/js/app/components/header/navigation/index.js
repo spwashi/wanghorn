@@ -1,7 +1,6 @@
 import React from "react"
 import {Link} from "react-router-dom"
-import {LinkContainer, LinkItem} from "../../../components/navigation/index";
-import {ABOUT, HOME, TOPICS} from "../../paths";
+import {LinkContainer} from "../../../../components";
 
 const Navigation = ({links}) =>
     <nav className="main main--navigation navigation">

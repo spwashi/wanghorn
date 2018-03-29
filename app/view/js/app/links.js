@@ -1,5 +1,5 @@
 import React from "react";
-import {LinkItem} from "../../components/navigation/index";
+import {LinkItem} from "../components";
 import {HOME, LINK_ONE, LINK_TWO} from "./paths";
 
 export const links = [

@@ -5,6 +5,7 @@
 /.idea/
 app/node_modules/
 Would skip repository app/resources/js/lib/SmJS
-public/
-!public/img/
+public/css/
+public/html/
+public/js/
 /app/package-lock.json

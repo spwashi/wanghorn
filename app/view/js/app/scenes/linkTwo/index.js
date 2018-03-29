@@ -1,6 +1,6 @@
 import React from "react";
-import {PageContent} from "../components/page/content";
-import {PUBLIC__IMAGES} from "../application/paths";
+import {PageContent} from "../../components/page";
+import {PUBLIC__IMAGES} from "../../paths";
 
 export const LinkTwo = () => {
     return (

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, {Component} from 'react';
 
-export class PageContent extends Component {
+export class Content extends Component {
     componentDidMount() {
         document.title = this.props.pageTitle;
     }
@@ -17,8 +17,7 @@ export class PageContent extends Component {
     }
 }
 
-PageContent.propTypes = {
+Content.propTypes = {
     pageClass: PropTypes.string,
     pageTitle: PropTypes.string.isRequired
-}
-;
+};

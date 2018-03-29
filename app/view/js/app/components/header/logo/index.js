@@ -1,5 +1,5 @@
 import React from "react"
-import {LogoContainer} from "../../../components/header/index"
+import {LogoContainer} from "../../../../components"
 
 const HeaderLogoContainer = () =>
     <LogoContainer>
