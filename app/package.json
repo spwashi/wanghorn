@@ -68,7 +68,7 @@
     "redux": "latest",
     "redux-devtools-extension": "^2.13.2",
     "replace-in-file": "^3.1.1",
-    "spwashi-sm": "^0.0.34-b",
+    "spwashi-sm": "^0.0.351-b",
     "whatwg-fetch": "^2.0.3"
   }
 }

@@ -50,7 +50,12 @@ applicationConfigured.then((app: Application) => {
  */
 function configureApplication(appConfig: { models: {}, routes: {}, name: string, namespace: string, domain: string, urlPath: string }): Application {
     let applicationConfiguration = new ApplicationConfiguration(appConfig);
-    return applicationConfiguration.configure(new Application);
+    return Promise.race([
+                            new Promise((resolve, reject) => {
+                                setTimeout(() => reject("Could not configure Application"), 1000)
+                            }),
+                            applicationConfiguration.configure(new Application)
+                        ]);
     
 }
 

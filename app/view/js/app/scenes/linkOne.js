@@ -1,5 +1,5 @@
 import React from "react";
-import {PageContent} from "../components/content/page";
+import {PageContent} from "../components/page/content";
 import {PUBLIC__IMAGES} from "../application/paths";
 
 export const LinkOne = () => {

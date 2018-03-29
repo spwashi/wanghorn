@@ -6,7 +6,7 @@ use Error;
 use Sm\Application\Controller\BaseApplicationController;
 use Sm\Core\Exception\Exception;
 use Sm\Core\Exception\UnimplementedError;
-use Sm\Data\Entity\EntityModelNotFoundException;
+use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Property\PropertySchematic;
 use Sm\Modules\Sql\Constraints\PrimaryKeyConstraintSchema;
 use Sm\Modules\Sql\Constraints\UniqueKeyConstraintSchema;
@@ -23,7 +23,6 @@ class Dev extends BaseApplicationController {
         $datatypes      = $propertySchema->getRawDataTypes();
         $first_datatype = $datatypes[0] ?? null;
         
-        
         switch ($first_datatype) {
             case 'int':
                 $column = $this->_initIntColumn($propertySchema);
@@ -39,15 +38,9 @@ class Dev extends BaseApplicationController {
                 throw new UnimplementedError("Cannot create property for {$first_datatype} yet (for {$propertySchema_json})");
         }
         
-        $column->setDefault($propertySchema->getDefaultValue());
-        
-        if (!isset($column)) {
-            throw new Exception("Could not create Column");
-        }
-        
         $is_null = in_array('null', $datatypes);
+        $column->setDefault($propertySchema->getDefaultValue());
         $column->setNullability($is_null);
-        
         
         return $column;
     }
@@ -104,14 +97,12 @@ class Dev extends BaseApplicationController {
         
         try {
             $Sam = User::init($this->app->data->models)
-                       ->find([
-                                  'user_id' => 1,
-                              ]);
+                       ->find([ 'user_id' => 1 ]);
             
             echo "<pre>";
             echo json_encode($Sam, JSON_PRETTY_PRINT);
             echo "</pre>";
-        } catch (EntityModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             $previous = $e->getPrevious();
             var_dump($previous);
         }
