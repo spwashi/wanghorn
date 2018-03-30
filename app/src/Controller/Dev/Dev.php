@@ -66,29 +66,15 @@ class Dev extends BaseApplicationController {
     }
     
     public function modelsToTables() {
-        $models = $this->app->data->models->getConfiguredModels();
+        #   $this->app->query->interpret($query);
+        $models = $this->app->data->models->getRegisteredSchematics();
         
-        list($all, $queries) = $this->formatModels($models);
+        list($formattedQueries, $queries) = $this->formatModels($models);
         
-        $do_interpret = 1;
-        
-        if ($do_interpret == true) {
-            foreach ($queries as $query) {
-                
-                echo "<pre>";
-                echo MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($query);
-                echo "</pre><br>----------------------------------------------------";
-                
-                $results = $this->app->query->interpret($query);
-                echo "<pre>";
-                echo json_encode($results, JSON_PRETTY_PRINT);
-                echo "</pre><br>";
-            }
-        }
-        
-        
-        $joined = join('<br>', $all);
-        echo "<pre>{$joined}</pre>";
+        return [
+            'models'           => $models,
+            'formattedQueries' => $formattedQueries,
+        ];
     }
     public function monitors() {
         return json_decode(json_encode($this->app->getMonitors()), 1);
@@ -127,7 +113,7 @@ class Dev extends BaseApplicationController {
      * @throws \Error
      */
     protected function formatModels($models): array {
-        $all                       = [];
+        $formattedQueries          = [];
         $queries                   = [];
         $_allColumns__propertySmID = [];
         $uniqueKeyConstraints      = [];
@@ -179,9 +165,9 @@ class Dev extends BaseApplicationController {
                 $createTable->withConstraints($constraint);
             }
             
-            $queries[] = $createTable;
-            $all[]     = MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($createTable);
+            $queries[]          = $createTable;
+            $formattedQueries[] = MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($createTable);
         }
-        return [ $all, $queries ];
+        return [ $formattedQueries, $queries ];
     }
 }

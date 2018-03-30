@@ -4,9 +4,9 @@ class Route {
     constructor(resolution: string, pattern: string, route_name: string) {
         this.route_name = route_name;
         this.resolution = resolution
-            ? resolution.replace(/\[([a-zA-Z]+)]/,
-                                 (match, className) => `${className}\\${className}`)
-            : null;
+                          ? resolution.replace(/\[([a-zA-Z]+)]/,
+                                               (match, className) => `${className}\\${className}`)
+                          : null;
         this.pattern    = pattern;
     }
     
@@ -27,12 +27,14 @@ export const routes = {
         
         new Route("#[Home]::index", "$", "home"),
         new Route("#[Home]::test", null, 'test'),
-        
         new Route("#[Dev]::monitors", "dev/monitors", "monitors"),
+        
         new Route("#[Dev]::modelsToTables", "dev/models"),
         new Route("#[Dev]::eg", "dev/example", "example"),
-        
         new Route("[User]@login", "user/login$"),
-        new Route("[User]@userByID", "user/{id}:[a-zA-Z@\.]+")
+        
+        new Route("[User]@userByID", "user/{id}:[a-zA-Z@\.]+"),
+        
+        new Route("#[Home]::index", "*", "home")
     ]
 };

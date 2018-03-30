@@ -1,9 +1,9 @@
 import React from "react";
 
-import Logo from './logo';
-import UserMenu from "./userMenu";
-import Navigation from './navigation';
-import {StdHeader} from "../../../components";
+import Logo from './logo/index';
+import UserMenu from "./userMenu/index";
+import Navigation from './navigation/index';
+import {StdHeader} from "../../../../components/index";
 
 export const Header =
                  ({links}) => {

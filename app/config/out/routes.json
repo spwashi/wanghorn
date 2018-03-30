@@ -37,6 +37,11 @@
       {
          "resolution": "User\\User@userByID",
          "pattern": "user/{id}:[a-zA-Z@.]+"
+      },
+      {
+         "resolution": "#Home\\Home::index",
+         "pattern": "*",
+         "name": "home"
       }
    ]
 }

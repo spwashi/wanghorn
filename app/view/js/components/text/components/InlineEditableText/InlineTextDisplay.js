@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 import React, {Component} from "react";
-import {CHAR_CODES} from "../../../../modules/schematic-depiction/constants";
+
+const CHAR_CODES = {
+    BACKSPACE: '',
+    SPACE:     '',
+    TAB:       ''
+};
 
 const InlineTextDisplay = ({text, className, setEditState = () => {}, setText}) => {
     

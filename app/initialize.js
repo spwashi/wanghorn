@@ -34,10 +34,10 @@ applicationConfigured.then((app: Application) => {
         
                          };
     
-                         saveConfig(appConfig, 'config');
-                         saveConfig(jsFrontendConfig, 'public');
-                         saveConfig(app.models, 'entities');
-                         saveConfig(app.routes, 'routes');
+                         saveJSON(appConfig, 'config');
+                         saveJSON(jsFrontendConfig, 'public');
+                         saveJSON(app.models, 'entities');
+                         saveJSON(app.routes, 'routes');
     
                          return app;
                      })
@@ -50,11 +50,19 @@ applicationConfigured.then((app: Application) => {
  */
 function configureApplication(appConfig: { models: {}, routes: {}, name: string, namespace: string, domain: string, urlPath: string }): Application {
     let applicationConfiguration = new ApplicationConfiguration(appConfig);
+    let saveAppConfigEvents      = function () {
+        saveJSON(applicationConfiguration.eventManager.emittedEventNames,
+                 'emitted');
+    };
     return Promise.race([
                             new Promise((resolve, reject) => {
-                                setTimeout(() => reject("Could not configure Application"), 1000)
+                                setTimeout(() => {
+                                    saveAppConfigEvents();
+                                    return reject("Could not configure Application");
+                                }, 1000)
                             }),
                             applicationConfiguration.configure(new Application)
+                                                    .then(saveAppConfigEvents)
                         ]);
     
 }
@@ -79,7 +87,7 @@ const srcPath    = srcPath__ARG || `${appPath}/src`;
  * @param configuredItem
  * @param filename
  */
-function saveConfig(configuredItem, filename) {
+function saveJSON(configuredItem, filename) {
     const jsonModels   = JSON.stringify(configuredItem, ' ', 3);
     const entitiesPath = `${configPath}/out/${filename}.json`;
     fs.writeFile(entitiesPath,

@@ -4,7 +4,7 @@ import * as _ from "../_/index";
 
 const Model = Sm.Model;
 
-export const name           = 'users';
+export const name           = 'user';
 export const user__identity = Model.identify(name);
 export const inherits       = _.name;
 export const properties     = {

@@ -4,7 +4,7 @@ import {createStore,} from "redux";
 import {Provider} from "react-redux";
 import {Link, Route} from 'react-router-dom'
 import reducer from "./reducers";
-import {Application} from "./application";
+import {Application} from "./components/application/index";
 
 const store              = createStore(reducer);
 const appProvider        =
