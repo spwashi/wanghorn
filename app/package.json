@@ -60,13 +60,14 @@
         "webpack-stream": "^4.0.0"
     },
     "dependencies": {
+        "axios": "latest",
         "react": "latest",
         "react-dom": "^16.2.0",
         "react-redux": "^5.0.6",
         "react-router-dom": "^4.2.2",
+        "react-syntax-highlighter": "^7.0.2",
         "react-tag-input": "^4.7.3",
         "redux": "latest",
-        "axios": "latest",
         "redux-devtools-extension": "^2.13.2",
         "replace-in-file": "^3.1.1",
         "spwashi-sm": "^0.0.352-b",

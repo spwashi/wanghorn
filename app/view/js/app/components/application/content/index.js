@@ -6,5 +6,5 @@ export const Content =
                      return <div className="main main--content">{routes}</div>;
                  };
 Content.propTypes    = {
-    routes: PropTypes.object
+    routes: PropTypes.array
 };

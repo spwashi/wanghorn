@@ -1,6 +1,6 @@
 import {Sm} from 'spwashi-sm'
 import {NULL_, STRING_} from "../datatypes";
-import * as _ from "../_/index";
+import * as _ from "../_";
 
 const Model = Sm.Model;
 

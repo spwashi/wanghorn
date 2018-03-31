@@ -1,0 +1,24 @@
+@import "header";
+
+.dev--model {
+	background-color : darken($body--backgroundColor, 4%);
+	padding          : 10px;
+	@include clearfix;
+	> .model--smID {
+		width   : 100%;
+		display : block;
+	}
+	> .wrapper {
+		font-size : .7em;
+		width     : 49%;
+		&.__json--wrapper {
+			margin-right : 2%;
+		}
+	}
+	> * {
+		float            : right;
+		padding          : 10px;
+		border-radius    : 3px;
+		background-color : lighten($body--backgroundColor, 3%);
+	}
+}

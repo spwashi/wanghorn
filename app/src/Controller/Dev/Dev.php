@@ -165,8 +165,8 @@ class Dev extends BaseApplicationController {
                 $createTable->withConstraints($constraint);
             }
             
-            $queries[]          = $createTable;
-            $formattedQueries[] = MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($createTable);
+            $queries[ $modelSmID ]          = $createTable;
+            $formattedQueries[ $modelSmID ] = MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($createTable);
         }
         return [ $formattedQueries, $queries ];
     }

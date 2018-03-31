@@ -27,14 +27,15 @@ export const routes = {
         
         new Route("#[Home]::index", "$", "home"),
         new Route("#[Home]::test", null, 'test'),
+
         new Route("#[Dev]::monitors", "dev/monitors", "monitors"),
-        
         new Route("#[Dev]::modelsToTables", "dev/models"),
+
         new Route("#[Dev]::eg", "dev/example", "example"),
         new Route("[User]@login", "user/login$"),
-        
         new Route("[User]@userByID", "user/{id}:[a-zA-Z@\.]+"),
-        
-        new Route("#[Home]::index", "*", "home")
+
+        new Route("#[Home]::index", ".*"),
+    
     ]
 };

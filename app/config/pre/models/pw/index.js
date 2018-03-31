@@ -5,15 +5,15 @@ import {user__identity} from "../user";
 
 const Model = Sm.Model;
 
-export const name               = 'password';
+export const name               = 'pw';
 export const password__identity = Model.identify(name);
 export const inherits           = _.name;
 export const properties         = {
-    password: {
+    pw:      {
         length:    255,
         datatypes: [STRING_],
     },
-    user_id:  {
+    user_id: {
         length:    11,
         datatypes: [INTEGER_],
         reference: {

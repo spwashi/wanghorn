@@ -40,8 +40,7 @@
       },
       {
          "resolution": "#Home\\Home::index",
-         "pattern": "*",
-         "name": "home"
+         "pattern": ".*"
       }
    ]
 }

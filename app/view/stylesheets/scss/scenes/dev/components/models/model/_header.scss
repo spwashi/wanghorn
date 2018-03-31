@@ -1,0 +1,10 @@
+.model--smID {
+	@at-root {
+		h3#{&} {
+			background-color : $body--backgroundColor;
+			display          : block;
+			margin           : 0;
+			padding          : 10px;
+		}
+	}
+}

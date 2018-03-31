@@ -41,7 +41,8 @@ applicationConfigured.then((app: Application) => {
     
                          return app;
                      })
-                     .then((app: Application) => replaceAppBoilerplateConstants(app));
+                     .then((app: Application) => replaceAppBoilerplateConstants(app))
+                     .catch(e => console.log(e));
 
 /**
  * Configure the Application using an object containing the config
@@ -50,9 +51,10 @@ applicationConfigured.then((app: Application) => {
  */
 function configureApplication(appConfig: { models: {}, routes: {}, name: string, namespace: string, domain: string, urlPath: string }): Application {
     let applicationConfiguration = new ApplicationConfiguration(appConfig);
-    let saveAppConfigEvents      = function () {
+    let saveAppConfigEvents      = function (app: Application) {
         saveJSON(applicationConfiguration.eventManager.emittedEventNames,
                  'emitted');
+        return app;
     };
     return Promise.race([
                             new Promise((resolve, reject) => {

@@ -504,4 +504,31 @@ input.card--label {
 .main--content {
   padding: 10px; }
 
+h3.model--smID {
+  background-color: #e7e7e7;
+  display: block;
+  margin: 0;
+  padding: 10px; }
+
+.dev--model {
+  background-color: #dddddd;
+  padding: 10px; }
+  .dev--model:after {
+    content: "";
+    display: table;
+    clear: both; }
+  .dev--model > .model--smID {
+    width: 100%;
+    display: block; }
+  .dev--model > .wrapper {
+    font-size: .7em;
+    width: 49%; }
+    .dev--model > .wrapper.__json--wrapper {
+      margin-right: 2%; }
+  .dev--model > * {
+    float: right;
+    padding: 10px;
+    border-radius: 3px;
+    background-color: #efefef; }
+
 /*# sourceMappingURL=style.css.map*/
