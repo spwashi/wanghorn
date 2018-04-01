@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import axios from "axios"
 //
 import {MODELS} from "../../paths";
-import {CreateTableStatement} from "./createTableStatement";
-import {SelectivelyActiveComponent} from "./selectivelyActive";
+import {Query} from "./query";
+import {SelectivelyActive} from "../../components";
 import {ModelAsJSON} from "./modelAsJSON";
 
 class ModelScene extends Component {
@@ -17,50 +17,63 @@ class ModelScene extends Component {
     componentDidMount() {
         axios.get(MODELS)
              .then(response => {
-                 let data: { formattedQueries: [], models: {} } = response.data;
-                 let formattedQueries                           =
-                         Object.entries(data && data.formattedQueries || [])
+                 let data: {
+                     createTableStatements: [],
+                     alterTableStatements: [],
+                     models: {},
+                     modelConfig: {},
+                 }                         = response.data;
+                 let createTableStatements =
+                         Object.entries(data && data.createTableStatements || [])
                                .map(queryEntry => {
-                                   const [key, query] = queryEntry;
-                                   let model          = data.models && data.models[key];
-                                   let modelConfig    = data.modelConfig && data.modelConfig[key];
+                                   const [key, createTableStatement] = queryEntry;
+                                   let model                         = data.models && data.models[key];
+                                   let modelConfig                   = data.modelConfig && data.modelConfig[key];
+                                   let alterTableStatements          = (data.alterTableStatements && data.alterTableStatements[key]) || [];
                                    return (
                                        <div key={key} className={"dev--model"}>
                                            <h3 className={"title model--smID"}>{key}</h3>
                             
                                            <ModelAsJSON type="config" model={modelConfig} />
                                            <ModelAsJSON model={model} />
-                                           <CreateTableStatement query={query} />
+                                           <Query query={createTableStatement} />
+                            
+                                           {alterTableStatements.map((statement, key) => <Query key={key} type="AlterTable" query={statement} />)}
                         
                                        </div>
                                    );
                                });
             
-                 this.setState({models: (formattedQueries)})
+                 this.setState({models: (createTableStatements)})
              });
     }
     
     render() {
-        let Active                = () => <div className={"model--container"}>{this.state.models}</div>;
+        let Active                = () =>
+            <div className={"model--container"}>
+                <h3 className={"model--container--title"}>Models</h3>
+                
+                {this.state.models}
+            </div>;
         let Inactive              = () => <div className={"model--container collapsed"}>Models</div>;
         let matchActivationTarget = target => {
-            console.log(target);
             return (
                 target.classList.contains("dev--models") ||
                 target.classList.contains("dev--model") ||
+                target.classList.contains("model--container--title") ||
                 target.classList.contains("model--container"))
         };
-        return <SelectivelyActiveComponent trigger={"click"}
+        return <SelectivelyActive trigger={"click"}
         
-                                           matchTarget={matchActivationTarget}
+                                  matchTarget={matchActivationTarget}
         
-                                           className={"dev--models"}
+                                  className={"dev--models"}
         
         
-                                           inactiveComponent={Inactive}
-                                           activeComponent={Active}
+                                  inactiveComponent={Inactive}
+                                  activeComponent={Active}
         
-                                           isActive={true} />;
+                                  isActive={true} />;
     }
 }
 

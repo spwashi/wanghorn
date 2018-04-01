@@ -36,7 +36,7 @@ applicationConfigured.then((app: Application) => {
     
                          saveJSON(appConfig, 'config');
                          saveJSON(jsFrontendConfig, 'public');
-                         saveJSON(app.models, 'entities');
+                         saveJSON(app.models, 'models');
                          saveJSON(app.routes, 'routes');
     
                          return app;

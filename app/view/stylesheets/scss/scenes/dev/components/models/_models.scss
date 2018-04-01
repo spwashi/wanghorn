@@ -1,6 +1,18 @@
 @import "model/model";
 
 .model--container {
+	cursor           : pointer;
+	background-color : darken($body--backgroundColor, 20%);
+	padding          : 5px 10px 10px;
+	.model--container--title {
+		color            : #fff;
+		cursor        : pointer;
+		padding       : 0 0 10px 0;
+		border-bottom : thin solid white;
+	}
+	> * {
+		cursor : auto;
+	}
 	&.collapsed {
 		width            : 100%;
 		background-color : #fff;

@@ -6,26 +6,35 @@ $model--bg : darken($body--backgroundColor, 15%);
 	padding          : 10px;
 	display          : flex;
 	flex-wrap        : wrap;
+	align-items      : flex-start;
 	justify-content  : space-between;
 	> .model--smID {
 		width   : 100%;
 		display : block;
 	}
-	> .wrapper {
-		&.selectively-active {
-			cursor : pointer;
-		}
 
-		&.active {
-			font-size : .9em;
-		}
-		&.inactive {
-			font-style : italic;
-		}
-		flex             : 1 0 48%;
+	> .wrapper {
+		flex             : 1 0 30%;
 		padding          : 10px;
 		margin           : 1%;
 		border-radius    : 5px;
 		background-color : lighten($model--bg, 7%);
+
+		&.query--wrapper {
+			border           : thin solid #555;
+			background-color : lighten($model--bg, 10%);
+			.__json {
+				font-size : .9em;
+			}
+		}
+		&.selectively-active {
+			cursor : pointer;
+			&.active {
+				font-size : .9em;
+			}
+			&.inactive {
+				font-style : italic;
+			}
+		}
 	}
 }

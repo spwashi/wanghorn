@@ -102,7 +102,7 @@ function _communication_layer(Application $app): void {
 }
 
 function _data_layer(Application $app): void {
-    $data_json_path = EXAMPLE_APP__CONFIG_PATH . 'out/entities.json';
+    $data_json_path = EXAMPLE_APP__CONFIG_PATH . 'out/models.json';
     
     if (file_exists($data_json_path)) {
         $dataJson    = file_get_contents($data_json_path);
