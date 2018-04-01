@@ -22,7 +22,7 @@
          "name": "monitors"
       },
       {
-         "resolution": "#Dev\\Dev::modelsToTables",
+         "resolution": "#Dev\\Dev::models",
          "pattern": "dev/models"
       },
       {

@@ -65,14 +65,26 @@ class Dev extends BaseApplicationController {
         return $column;
     }
     
-    public function modelsToTables() {
+    public function modelConfig() {
+        $html_filename = EXAMPLE_APP__CONFIG_PATH . 'out/entities.json';
+        $json          = file_get_contents($html_filename);
+        $config        = json_decode($json, 1);
+        $config_arr    = [];
+        foreach ($config as $id => $item) {
+            $config_arr[ $item['smID'] ?? $id ] = $item;
+        }
+        return $config_arr;
+    }
+    public function models() {
         #   $this->app->query->interpret($query);
         $models = $this->app->data->models->getRegisteredSchematics();
         
-        list($formattedQueries, $queries) = $this->formatModels($models);
+        list($formattedQueries, $queries) = $this->modelsToQueries($models);
         
+        $model_config = $this->modelConfig();
         return [
             'models'           => $models,
+            'modelConfig'      => $model_config,
             'formattedQueries' => $formattedQueries,
         ];
     }
@@ -112,7 +124,7 @@ class Dev extends BaseApplicationController {
      * @return array
      * @throws \Error
      */
-    protected function formatModels($models): array {
+    protected function modelsToQueries($models): array {
         $formattedQueries          = [];
         $queries                   = [];
         $_allColumns__propertySmID = [];

@@ -19,7 +19,8 @@
          },
          "delete_dt": {
             "datatypes": [
-               "datetime"
+               "datetime",
+               "null"
             ],
             "smID": "[Property]{[Model]_} delete_dt"
          },
@@ -35,6 +36,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]_} last_update_dt",
+            "defaultValue": "now",
             "updateValue": "now"
          }
       }
@@ -63,7 +65,8 @@
          },
          "delete_dt": {
             "datatypes": [
-               "datetime"
+               "datetime",
+               "null"
             ],
             "smID": "[Property]{[Model]user} delete_dt"
          },
@@ -79,6 +82,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]user} last_update_dt",
+            "defaultValue": "now",
             "updateValue": "now"
          },
          "email": {
@@ -131,7 +135,8 @@
          },
          "delete_dt": {
             "datatypes": [
-               "datetime"
+               "datetime",
+               "null"
             ],
             "smID": "[Property]{[Model]email} delete_dt"
          },
@@ -147,6 +152,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]email} last_update_dt",
+            "defaultValue": "now",
             "updateValue": "now"
          },
          "email": {
@@ -179,7 +185,8 @@
          },
          "delete_dt": {
             "datatypes": [
-               "datetime"
+               "datetime",
+               "null"
             ],
             "smID": "[Property]{[Model]file} delete_dt"
          },
@@ -195,6 +202,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]file} last_update_dt",
+            "defaultValue": "now",
             "updateValue": "now"
          },
          "user_id": {
@@ -230,7 +238,8 @@
          },
          "delete_dt": {
             "datatypes": [
-               "datetime"
+               "datetime",
+               "null"
             ],
             "smID": "[Property]{[Model]password} delete_dt"
          },
@@ -246,6 +255,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]password} last_update_dt",
+            "defaultValue": "now",
             "updateValue": "now"
          },
          "pw": {

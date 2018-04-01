@@ -23,6 +23,5 @@ export const properties  = {
         datatypes:    DATETIME_,
         updateValue:  'now',
         defaultValue: 'now'
-        
-    },
+    }
 };

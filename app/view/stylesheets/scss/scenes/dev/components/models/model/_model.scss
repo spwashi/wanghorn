@@ -1,24 +1,31 @@
 @import "header";
 
+$model--bg : darken($body--backgroundColor, 15%);
 .dev--model {
-	background-color : darken($body--backgroundColor, 4%);
+	background-color : $model--bg;
 	padding          : 10px;
-	@include clearfix;
+	display          : flex;
+	flex-wrap        : wrap;
+	justify-content  : space-between;
 	> .model--smID {
 		width   : 100%;
 		display : block;
 	}
 	> .wrapper {
-		font-size : .7em;
-		width     : 49%;
-		&.__json--wrapper {
-			margin-right : 2%;
+		&.selectively-active {
+			cursor : pointer;
 		}
-	}
-	> * {
-		float            : right;
+
+		&.active {
+			font-size : .9em;
+		}
+		&.inactive {
+			font-style : italic;
+		}
+		flex             : 1 0 48%;
 		padding          : 10px;
-		border-radius    : 3px;
-		background-color : lighten($body--backgroundColor, 3%);
+		margin           : 1%;
+		border-radius    : 5px;
+		background-color : lighten($model--bg, 7%);
 	}
 }
