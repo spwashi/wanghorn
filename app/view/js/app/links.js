@@ -2,6 +2,7 @@ import React from "react";
 import {LinkItem} from "../components";
 import {DEV, HOME, LINK_ONE, LINK_TWO} from "../paths";
 
+// remember to add the appropriate route in ./routes
 export const links = [
     <LinkItem key='Home' exact to={HOME.length ? HOME : '/'} as="Home" />,
     <LinkItem key='LinkOne' to={LINK_ONE} as="Link One" />,

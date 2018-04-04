@@ -1,5 +1,5 @@
 import React from 'react'
-import {render} from 'react-dom'
+import {render,} from 'react-dom'
 import {applyMiddleware, compose, createStore} from "redux";
 import promise from "redux-promise-middleware";
 import thunk from 'redux-thunk';
