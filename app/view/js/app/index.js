@@ -1,16 +1,17 @@
-import React from 'react'
-import {render} from 'react-dom'
-import {createStore,} from "redux";
-import {Provider} from "react-redux";
-import {Link, Route} from 'react-router-dom'
-import reducer from "./reducers";
-import {Application} from "./components/application/index";
+import React from "react";
+import {BrowserRouter as Router} from 'react-router-dom';
+import links from "./links";
+import routes from "./routes";
+import {Header} from "./components/header";
+import Content from "./components/content";
 
-const store              = createStore(reducer);
-const appProvider        =
-          <Provider store={store}>
-              <Application />
-          </Provider>;
-const appBinding_Element = document.getElementById('app');
-//
-render(appProvider, appBinding_Element);
+const Application = () => {
+    let inner =
+            <div className="app">
+                <Header links={links} />
+                <Content>{routes}</Content>
+            </div>;
+    return <Router>{inner}</Router>;
+};
+
+export default Application;

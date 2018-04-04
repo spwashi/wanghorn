@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import * as PropTypes from "prop-types";
 
 class SelectivelyActive extends Component {
     _activeComponent;
@@ -77,3 +78,12 @@ class SelectivelyActive extends Component {
 }
 
 export default SelectivelyActive;
+
+SelectivelyActive.propTypes = {
+    trigger:           PropTypes.oneOf(["click"]),
+    className:         PropTypes.string,
+    isActive:          PropTypes.bool,
+    activeComponent:   PropTypes.func,
+    inactiveComponent: PropTypes.func,
+    
+};

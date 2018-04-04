@@ -1,5 +1,5 @@
 import {Sm} from 'spwashi-sm'
-import {user__identity} from "../user/index";
+import {user__identity} from "../user";
 import {INTEGER_} from "../datatypes";
 import * as _ from "../_";
 

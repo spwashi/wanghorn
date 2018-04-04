@@ -93,14 +93,22 @@ class Dev extends BaseApplicationController {
             ) = $this->modelsToQueries($models);
         
         $model_config = $this->modelConfig();
-        return [
-            'models'                => $models,
-            'modelConfig'           => $model_config,
-            'createTableStatements' => $createTableStatement_strings,
-            'alterTableStatements'  => $alterTableStatement_strings,
-        
-        
+        $indices      = [
+            'model'                => $models,
+            'config'               => $model_config,
+            'createTableStatement' => $createTableStatement_strings,
+            'alterTableStatements' => $alterTableStatement_strings,
         ];
+        
+        $all = [];
+        foreach ($indices as $config_index => $model_arr) {
+            foreach ($model_arr as $smID => $config) {
+                $all[ $smID ]                  = $all[ $smID ] ?? [];
+                $all[ $smID ][ $config_index ] = $config;
+            }
+        }
+        
+        return $all;
     }
     public function monitors() {
         return json_decode(json_encode($this->app->getMonitors()), 1);
