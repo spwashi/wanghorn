@@ -12,7 +12,7 @@ use Sm\Communication\Network\Http\Request\HttpRequestFromEnvironment;
 use Sm\Communication\Request\Request;
 use Sm\Communication\Routing\Exception\RouteNotFoundException;
 
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 /** @var Application $app */
 $app = Application::init(EXAMPLE_APP__APP_PATH, EXAMPLE_APP__CONFIG_PATH);
