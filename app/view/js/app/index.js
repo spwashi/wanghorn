@@ -7,7 +7,7 @@ import Content from "./components/content";
 
 const Application = () => {
     let inner =
-            <div className="app">
+            <div className="application--content--wrapper">
                 <Header links={links} />
                 <Content>{routes}</Content>
             </div>;

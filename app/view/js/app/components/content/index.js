@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 
 const Content =
           ({children}) => {
-              return <div className="main main--content">{children}</div>;
+              return <main className="main main--content">{children}</main>;
           };
 
 export default Content
