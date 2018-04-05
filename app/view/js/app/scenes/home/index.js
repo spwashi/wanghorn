@@ -13,8 +13,9 @@ export const Home = () => {
                          alt="Hey there!" />
                 </ProfileImageContainer>
                 <section className="about--me">
+                    <div className="greeting">Hello!!!</div>
                     <p>
-                        Hello! My name is William Wanghorn, and I'm a dummy site built by Sam Washington.
+                        My name is William Wanghorn, and I'm a dummy site built by Sam Washington.
                         My main goal is to make it easy for Sam to quickly build and deploy web sites and applications!
                     </p>
                 </section>

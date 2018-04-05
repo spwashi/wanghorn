@@ -5,7 +5,8 @@
     "main": "gulpfile.babel.js",
     "scripts": {
         "test": "gulp mocha",
-        "build": "gulp webpack"
+        "build": "gulp webpack",
+        "dev": "webpack-dev-server --hot --config tasks/webpack.config.babel.js --open"
     },
     "author": "",
     "license": "ISC",
@@ -48,6 +49,8 @@
         "prop-types": "latest",
         "react-dnd": "^2.5.4",
         "react-dnd-html5-backend": "^2.5.4",
+        "react-hot-loader": "^4.0.1",
+        "redux-devtools-extension": "^2.13.2",
         "sass-loader": "^6.0.6",
         "strip-json-comments": "^2.0.1",
         "style-loader": "^0.19.1",
@@ -58,6 +61,8 @@
         "watchify": "^3.10.0",
         "webpack": "^3.10.0",
         "webpack-css-loaders": "^1.0.0",
+        "webpack-dev-server": "^2.11.2",
+        "webpack-hot-middleware": "^2.21.2",
         "webpack-stream": "^4.0.0"
     },
     "dependencies": {
@@ -66,19 +71,19 @@
         "deep-sort-object": "^1.0.2",
         "gsap": "^1.20.4",
         "react": "latest",
-        "react-dom":                "^16.2.0",
-        "react-lorem-component":    "^0.13.0",
-        "react-redux":              "^5.0.6",
-        "react-router-dom":         "^4.2.2",
-        "react-sticky":             "^6.0.2",
+        "react-dom": "^16.2.0",
+        "react-lorem-component": "^0.13.0",
+        "react-redux": "^5.0.6",
+        "react-router": "latest",
+        "react-router-dom": "^4.2.2",
+        "react-sticky": "^6.0.2",
         "react-syntax-highlighter": "^7.0.2",
-        "react-tag-input":          "^4.9.1",
-        "redux":                    "latest",
-        "redux-devtools-extension": "^2.13.2",
+        "react-tag-input": "^4.9.1",
+        "redux": "latest",
         "redux-promise-middleware": "^5.0.0",
-        "redux-thunk":              "^2.2.0",
-        "replace-in-file":          "^3.1.1",
-        "spwashi-sm":               "^0.0.352-b",
-        "whatwg-fetch":             "^2.0.3", "react-router": "latest"
+        "redux-thunk": "^2.2.0",
+        "replace-in-file": "^3.1.1",
+        "spwashi-sm": "^0.0.352-b",
+        "whatwg-fetch": "^2.0.3"
     }
 }

@@ -1,7 +1,5 @@
 import React from "react";
 import * as PropTypes from "prop-types";
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import {docco} from 'react-syntax-highlighter/styles/hljs';
 import {SelectivelyActive} from "../../../../components";
 
 export let Query = ({query, type = 'CreateTable'}) => {
@@ -12,7 +10,7 @@ export let Query = ({query, type = 'CreateTable'}) => {
         </div>;
     let ActiveQueryStatement   = () =>
         <pre className={className}>
-           <SyntaxHighlighter language='MySQL' style={docco}>{query}</SyntaxHighlighter>
+           {query}
         </pre>;
     return (
         <SelectivelyActive trigger={"click"}
