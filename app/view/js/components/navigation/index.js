@@ -1,6 +1,7 @@
-import {Container, Item} from "./components/link";
+import {LinkContainer} from "./components/linkContainer";
+import {LinkItem} from "./components/linkItem";
 
 export {
-    Container as LinkContainer,
-    Item as LinkItem
+    LinkContainer,
+    LinkItem
 }

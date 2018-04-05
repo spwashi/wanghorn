@@ -16,25 +16,36 @@
 		}
 
 		.navigation--link_item {
-			margin  : 0;
-			height  : 100%;
-			display : inline-block;
-
+			margin           : 0;
+			height           : 100%;
+			display          : inline-block;
+			background-color : $navLink__backgroundColor;
+			&:hover {
+				background-color : $navLink__backgroundColor--hover;
+			}
+			&.active--link {
+				font-weight   : bold;
+				border-bottom : 6px solid #fff;
+				a {
+					padding-top : 3px;
+				}
+			}
 			a {
-				padding          : 0 10px;
-				height           : 100%;
-				display          : block;
-				color            : $navLink__color;
-				text-decoration  : none;
-				text-transform   : uppercase;
-				background-color : $navLink__backgroundColor;
-				line-height      : $logo-item__header-std__height;
-				&.link_item--active {
-					border-bottom : thick solid #fff;
+				padding         : 0 10px;
+				height          : 100%;
+				display         : block;
+				color           : $navLink__color;
+				text-decoration : none;
+				text-transform  : uppercase;
+				line-height     : 200%;
+				box-sizing      : content-box;
+				&:before {
+					content        : '';
+					display        : inline-block;
+					height         : 100%;
+					vertical-align : middle;
 				}
-				&:hover {
-					background-color : $navLink__backgroundColor--hover;
-				}
+
 			}
 		}
 	}
