@@ -12,7 +12,8 @@ export const outputPath__HTML = path.resolve(outputPath, 'html');
 export const inputPath__CSS   = path.resolve(APP_VIEW_DIR, 'stylesheets', 'scss');
 //--sm-- boilerplate
 
-const IS_PROD               = true;
+console.log(process.env.NODE_ENV);
+const IS_PROD               = process.env.NODE_ENV === 'production';
 const htmlTemplatePath      = path.resolve(__dirname, '../view/html/react.html');
 const relativeCSS_output    = "../css/style.css";
 export const indexHTML_name = `${APP_NAME}.html`;
