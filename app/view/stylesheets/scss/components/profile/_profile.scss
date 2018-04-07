@@ -7,12 +7,15 @@
 	border-radius : 500px;
 	position      : relative;
 	left          : 20%;
-	img {
-		background-color : #000;
-	}
+
 	> * {
 		position : relative;
-		width    : 120%;
-		right    : 20%;
+		width    : 100%;
+		height   : 100%;
+
+		&.image.henry {
+			display    : block;
+			background : url("#{$site_public_url_or_path}/img/sprites.png") 166px -260px, grey;
+		}
 	}
 }

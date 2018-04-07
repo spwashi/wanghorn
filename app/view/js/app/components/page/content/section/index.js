@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types"
 
 const ContentSection = ({name, children}) => {
     return (
-        <section id={name}>
+        <section className={'content--section'} id={name}>
             <a name={name} />
             {children}
         </section>

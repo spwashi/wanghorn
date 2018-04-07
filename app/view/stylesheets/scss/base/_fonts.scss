@@ -1,0 +1,9 @@
+@import "../variables";
+
+$spwashi2-font-filename : 'Spwashi2-Regular.ttf';
+@font-face {
+	font-family  : 'Spwashi2';
+	font-style   : normal;
+	font-weight  : normal;
+	src          : local('Spwashi2'), url("#{$site_public_url_or_path}/fonts/#{$spwashi2-font-filename}") format('truetype');
+}

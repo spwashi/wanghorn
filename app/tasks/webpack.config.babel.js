@@ -12,7 +12,6 @@ export const outputPath__HTML = path.resolve(outputPath, 'html');
 export const inputPath__CSS   = path.resolve(APP_VIEW_DIR, 'stylesheets', 'scss');
 //--sm-- boilerplate
 
-console.log(process.env.NODE_ENV);
 const IS_PROD               = process.env.NODE_ENV === 'production';
 const htmlTemplatePath      = path.resolve(__dirname, '../view/html/react.html');
 const relativeCSS_output    = "../css/style.css";
@@ -22,7 +21,7 @@ const publicPath__JS        = `${APP_URL}/public/js/`;
 const outputFileName        = `${APP_NAME}.js`;
 
 const plugins = [
-    new ExtractTextPlugin({filename: relativeCSS_output, disable: !IS_PROD}),
+    new ExtractTextPlugin({filename: relativeCSS_output}),
     new HtmlPlugin({
                        title:    APP_NAME,
                        template: htmlTemplatePath,

@@ -1,5 +1,6 @@
 import gulp from "gulp";
 import path from "path";
+import autoprefixer from "gulp-autoprefixer"
 import sourcemaps from "gulp-sourcemaps";
 import webpackStream from "webpack-stream";
 import webpack from "webpack";

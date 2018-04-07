@@ -5,5 +5,11 @@
 	margin-right   : auto;
 	margin-left    : auto;
 	.display--item {
+		.display--item--title {
+			font-weight : bold;
+		}
+		figcaption {
+			font-style : italic;
+		}
 	}
 }
