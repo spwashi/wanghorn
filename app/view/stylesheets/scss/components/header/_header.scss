@@ -34,19 +34,51 @@
 	.logo--container {
 		width : $logo-item__header-std__width;
 	}
-	input {
-		@include centeredTwin(47%);
-	}
+
 	> .user-menu {
 		justify-content : flex-end;
 		margin-right    : 20px;
-		padding-top     : 10px;
-		padding-bottom  : 10px;
 		width           : $user-menu__header-std__width;
-
-		.user-menu--action_button--container {
-			.user-menu--action_button {
-				@include centeredTwin();
+		height          : 100%;
+		position        : relative;
+		padding         : 10px;
+		> * {
+			display : block;
+			height  : 100%;
+		}
+		form {
+			display : block;
+		}
+		input {
+			display : inline-block;
+		}
+		input, .action_button {
+			margin-right : 2%;
+			width        : 48%;
+			height       : 100%;
+		}
+		.input--container {
+			display : inline-block;
+		}
+		.text_input--container {
+			width        : 72%;
+			margin-right : 3%;
+		}
+		.action_button--container {
+			width        : 25%;
+			float  : right;
+			height : 100%;
+			@include clearfix();
+			> * {
+				padding   : 0;
+				clear     : both;
+				display   : block;
+				height    : 50%;
+				float     : left;
+				font-size : .5em;
+				&:first-child {
+					margin-bottom : 4px;
+				}
 			}
 		}
 	}

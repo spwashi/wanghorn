@@ -5,7 +5,8 @@ namespace WANGHORN\Controller\User;
 
 
 use Sm\Application\Controller\BaseApplicationController;
-use Sm\Data\Model\ModelNotFoundException;
+use Sm\Data\Entity\Exception\EntityModelNotFoundException;
+use Sm\Data\Model\Exception\ModelNotFoundException;
 use WANGHORN\Entity\User\User;
 
 class UserController extends BaseApplicationController {
@@ -24,7 +25,7 @@ class UserController extends BaseApplicationController {
         try {
             $user = User::init($this->app->data->models)
                         ->find([ 'email' => $email_address ]);
-        } catch (ModelNotFoundException $exception) {
+        } catch (ModelNotFoundException|EntityModelNotFoundException $exception) {
             return 'Could not find Model';
         }
         

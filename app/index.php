@@ -54,17 +54,25 @@ try {
     #
     
 } catch (\Sm\Core\Exception\Exception $exception) {
-    header('Content-Type: application/json');
-    echo json_encode([
-                         $exception->getMessage(),
-                         $exception->getPrevious(),
-                         $exception->getMonitorContainer(),
-                         $exception,
-                     ]);
+    
+    if ($app->environmentIs(Application::ENV_DEV)) {
+        header('Content-Type: application/json');
+        echo json_encode([
+                             $exception->getMessage(),
+                             $exception->getPrevious(),
+                             $exception->getMonitorContainer(),
+                             $exception,
+                         ]);
+    }
 } catch (\Exception $exception) {
-    echo '<pre>';
-    print_r($exception);
-    echo '</pre>';
+    if ($app->environmentIs(Application::ENV_DEV)) {
+        header('Content-Type: application/json');
+        echo json_encode([
+                             $exception->getMessage(),
+                             $exception->getPrevious(),
+                             $exception,
+                         ]);
+    }
 } finally {
     
     #-- terminate the script

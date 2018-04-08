@@ -8,14 +8,13 @@ export const APP_DOMAIN    = 'http://localhost';
 export const APP_PATH      = `wanghorn`;
 // The name of the application without spaces. Case sensitive, I recommend lowercase-with-dashes or camelCased
 export const APP_NAME      = `wanghorn`;
+export const ENVIRONMENT   = process.env.NODE_ENV || 'production';
 // The namespace used in PHP to prefix app-specific files
 export const APP_NAMESPACE = APP_NAME.toUpperCase();
 // The URL including the Path that we will use to access our files
 export const APP_URL       = `${APP_DOMAIN}/${APP_PATH}`;
 
-
 // STANDARDS
-
 
 // Path to the app dir
 export const APP_APPLICATION_DIR = path.resolve(__dirname, '..');

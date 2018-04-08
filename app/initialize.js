@@ -1,6 +1,6 @@
 import models from "./config/pre/models";
 import {routes} from "./config/pre/routes/routes"
-import {APP_DOMAIN, APP_NAME, APP_NAMESPACE, APP_PATH, APP_URL} from "./config";
+import {APP_DOMAIN, APP_NAME, APP_NAMESPACE, APP_PATH, APP_URL, ENVIRONMENT} from "./config";
 import fs from "fs";
 import replace from "replace-in-file";
 import {Sm} from "spwashi-sm"
@@ -23,7 +23,8 @@ applicationConfigured.then((app: Application) => {
                          let appConfig          = {
                              name:      app.name,
                              namespace: app.namespace,
-                             url:       app.url
+                             url:       app.url,
+                             env:       ENVIRONMENT || 'ss'
                          };
                          const jsFrontendConfig = {
                              name: app.name,

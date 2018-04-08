@@ -24,12 +24,13 @@ if (file_exists(CONFIG_FILE)) {
     $config             = $decoded_json_array;
 } else {
     $config = [
+        'env'       => Application::ENV_PROD,
         'name'      => null,
         'url'       => null,
         'namespace' => '\\WANGHORN',
     ];
 }
-
+$app->setEnvironment($config['env'] ?? Application::ENV_PROD);
 if (!isset($config['name'])) die('No App Name Set');
 if (!isset($config['url'])) die('No App URL Set');
 if (!isset($config['namespace'])) die('No App namespace Set');
@@ -38,10 +39,10 @@ if (!isset($config['namespace'])) die('No App namespace Set');
 define('EXAMPLE_APP__NAME', $config['name']);
 define('EXAMPLE_APP__URL', $config['url']);
 define('EXAMPLE_APP__NAMESPACE', $config['namespace']);
-const EXAMPLE_APP__URL_PUBLIC     = EXAMPLE_APP__URL . '/public/';
-const EXAMPLE_APP__SRC_PATH       = EXAMPLE_APP__APP_PATH . 'src/';
-const EXAMPLE_APP__PUBLIC_PATH    = EXAMPLE_APP__APP_PATH . '../public/';
-const EXAMPLE_APP__VIEW_TWIG_PATH = EXAMPLE_APP__APP_PATH . 'view/twig/';
+const APP__PUBLIC_URL         = EXAMPLE_APP__URL . '/public/';
+const APP__SRC_PATH           = EXAMPLE_APP__APP_PATH . 'src/';
+const APP__PUBLIC_PATH__LOCAL = EXAMPLE_APP__APP_PATH . '../public/';
+const APP__VIEW_TWIG_PATH     = EXAMPLE_APP__APP_PATH . 'view/twig/';
 #--sm-- boilerplate
 
 
@@ -131,15 +132,15 @@ function _representation_layer(Application $app): void {
     $plainFileModule = new PlainFileViewModule;
     
     # Assume that we are going to use HTML files and they are typically going to be stored in the public directory
-    $plainFileModule->registerSearchDirectories([ EXAMPLE_APP__PUBLIC_PATH . '/html/' ]);
+    $plainFileModule->registerSearchDirectories([ APP__PUBLIC_PATH__LOCAL . '/html/' ]);
     $app->representation->registerModule($plainFileModule);
     
     
     # Register the Twig representation
-    $twig__Loader_Filesystem = new Twig_Loader_Filesystem([ EXAMPLE_APP__VIEW_TWIG_PATH, ]);
+    $twig__Loader_Filesystem = new Twig_Loader_Filesystem([ APP__VIEW_TWIG_PATH, ]);
     $twig__Environment       = new Twig_Environment($twig__Loader_Filesystem);
     
-    $twig__Environment->addGlobal('app_path__public', EXAMPLE_APP__URL_PUBLIC);
+    $twig__Environment->addGlobal('app_path__public', APP__PUBLIC_URL);
     $twigViewModule = new TwigViewModule($twig__Environment);
     $app->representation->registerModule($twigViewModule);
 }

@@ -29,7 +29,7 @@ class UserMenu extends Component {
             const loginForm   =
                       <div id="user-menu--login">
                           <form action={USER_LOGIN_PATH} method="POST" onSubmit={this.handleSubmit}>
-                              <div className="user-menu--input--container input button--container">
+                              <div className="user-menu--input--container input--container text_input--container">
                                   <input type="text"
                                          name='username'
                                          id="user-menu--login--username"
@@ -40,11 +40,11 @@ class UserMenu extends Component {
                                          className="password" />
                               </div>
                         
-                              <div className="user-menu--action_button--container action_button--container button--container">
-                                  <Button className="user-menu--action_button login-button"
+                              <div className="action_button--container user-menu--action_button--container input--container button--container">
+                                  <Button className="action_button user-menu--action_button login-button"
                                           label="Login"
                                           type="submit" />
-                                  <Button className="user-menu--action_button cancel-button"
+                                  <Button className="action_button user-menu--action_button cancel-button"
                                           label="Cancel"
                                           handleClick={deactivateLogin} />
                               </div>

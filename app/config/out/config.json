@@ -1,5 +1,6 @@
 {
    "name": "wanghorn",
    "namespace": "WANGHORN",
-   "url": "http://localhost/wanghorn/"
+   "url": "http://localhost/wanghorn/",
+   "env": "development"
 }
