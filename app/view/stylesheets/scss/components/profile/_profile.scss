@@ -19,12 +19,12 @@
 
 .image.henry {
 	display          : block;
-	filter           : invert(75%);
 	position         : relative;
 	background-color : invert(white, 45%);
 	&::before {
+		filter          : invert(100%);
 		position        : absolute;
-		background      : url("#{$site_public_url_or_path}/img/sprites.png") 99% -53%;
+		background      : url("#{$site_public_url_or_path}/img/sprites.png") -4% 101%;
 		background-size : 367%;
 		content         : '';
 		z-index         : 3;

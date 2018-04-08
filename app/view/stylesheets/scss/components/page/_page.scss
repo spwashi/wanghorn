@@ -5,7 +5,7 @@ $page--nav--shadow-_-color : darken($body--backgroundColor, 20%);
 
 .page {
 	a {
-		border-bottom : thin dotted $hyperlink-_-bottom-border-color;
+		border-bottom : thin solid $hyperlink-_-bottom-border-color;
 	}
 	nav {
 		padding    : 0 10px 10px 0;

@@ -21,7 +21,7 @@ const Dev = ({models}) => {
                     <li>and the <a href="https://github.com/spwashi/wanghorn">PHP 7.1 application </a>
                         that drives data storage and mutation
                         <sub>
-                            (written using a <a href="https://github.com/spwashi/SmPHP"> PHP 7.1 framework </a>.
+                            (written using a <a href="https://github.com/spwashi/SmPHP"> PHP 7.1 framework</a>).
                         </sub>
                     </li>
                 </ol>
