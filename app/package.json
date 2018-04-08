@@ -4,8 +4,9 @@
     "description":     "",
     "main":            "gulpfile.babel.js",
     "scripts":         {
-        "build":    "export NODE_ENV=development && cd scripts && ./initApplication.sh",
-        "init-app": "cd tasks && gulp webpack"
+        "init":    "export NODE_ENV=development && cd scripts && ./initialize.sh",
+        "build":   "export NODE_ENV=development && cd scripts && ./initApplication.sh",
+        "webpack": "cd tasks && gulp webpack"
     },
     "author":          "",
     "license":         "ISC",

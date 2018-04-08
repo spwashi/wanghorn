@@ -70,7 +70,7 @@ function initSmJS {
     printf "\t'''\n${FUNCTION_DESCRIPTION}\n'''\n\t IN: \t$(pwd) \n"
     printf "\tACTING IN: \t$(pwd) \n"
 
-    npm run init-app
+    npm run webpack
 }
 
 

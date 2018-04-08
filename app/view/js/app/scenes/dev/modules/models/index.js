@@ -53,7 +53,7 @@ export default class ModelScene extends Component {
             
             return (
                 <div className={"model--container"}>
-                    <h3 className={"model--container--title"}>Models</h3>
+                    <h2 className={"model--container--title"}>Models</h2>
                     <ul className={"model--container--link--container"}>
                         {
                             Object.values(Models)

@@ -1,5 +1,6 @@
 @import "../variables";
 @import "colors";
+
 .header-standard {
 	> nav {
 		justify-content : flex-start;
@@ -23,10 +24,34 @@
 				background-color : $navLink__backgroundColor--hover;
 			}
 			&.active--link {
-				font-weight   : bold;
-				border-bottom : 6px solid $active-link-_-border-bottom-color;
+				background-color : $navLink__backgroundColor--hover;
+				font-weight      : bold;
+				//border-bottom : 6px solid $active-link-_-border-bottom-color;
 				a {
-					padding-top : 3px;
+					position : relative;
+					@keyframes modifyLine {
+						from {
+							background-color : transparent;
+							transform        : translate(-50%, 0) scale(0, 1);
+						}
+						to {
+							background-color : $active-link-_-border-bottom-color;
+							transform        : translate(00%, 0) scale(1, 1);
+						}
+					}
+					&::before {
+						left             : 0;
+						content          : '';
+						height           : 3px;
+						margin-right     : auto;
+						margin-left      : auto;
+						display          : block;
+						background-color : $active-link-_-border-bottom-color;
+						animation        : modifyLine .25s;
+						position         : absolute;
+						width            : 100%;
+						bottom           : 0%;
+					}
 				}
 			}
 			a {

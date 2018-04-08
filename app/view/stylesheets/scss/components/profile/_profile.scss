@@ -1,13 +1,14 @@
 @import "colors";
+
 .profile--image--wrapper {
 	top           : 20%;
-	height        : 200px;
-	width         : 200px;
+	height        : 20vw;
+	width         : 20vw;
 	overflow      : hidden;
 	border        : 10px solid $profile--image-_-color;
 	border-radius : 500px;
 	position      : relative;
-	left          : 20%;
+	left          : 50%;
 
 	> * {
 		position : relative;
@@ -17,6 +18,19 @@
 }
 
 .image.henry {
-	display         : block;
-	background      : url("#{$site_public_url_or_path}/img/sprites.png") (166px) (-260px), grey;
+	display          : block;
+	filter           : invert(75%);
+	position         : relative;
+	background-color : invert(white, 45%);
+	&::before {
+		position        : absolute;
+		background      : url("#{$site_public_url_or_path}/img/sprites.png") 99% -53%;
+		background-size : 367%;
+		content         : '';
+		z-index         : 3;
+		display         : block;
+		width           : 65%;
+		left            : 17.5%;
+		height          : 100%;
+	}
 }
