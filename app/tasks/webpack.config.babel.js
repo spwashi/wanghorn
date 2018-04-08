@@ -61,15 +61,23 @@ export default {
             {
                 test:    /\.scss$/,
                 include: [inputPath__CSS],
-                use:     ExtractTextPlugin.extract({
-                                                       fallback: "style-loader",
-                                                       use:      ["css-loader", {
-                                                           loader:  "sass-loader",
-                                                           options: {
-                                                               sourceMap: !IS_PROD
-                                                           }
-                                                       }]
-                                                   }),
+                use:     ExtractTextPlugin.extract(
+                    {
+                        fallback: "style-loader",
+                        use:      [
+                            "css-loader",
+                            {
+                                loader:  "postcss-loader",
+                                options: {
+                                    sourceMap: !IS_PROD, path: './postcss.config.js',
+                                    autoprefixer:              {
+                                        // add: IS_PROD
+                                    }
+                                }
+                            },
+                            {loader: "sass-loader", options: {sourceMap: !IS_PROD}}
+                        ]
+                    }),
             },
             {
                 test:    /\.js$/,

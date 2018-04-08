@@ -16,7 +16,7 @@
 	position : relative;
 	&::before {
 		filter     : invert(100%);
-		background : url("#{$site_public_url_or_path}/img/sprites.png") 70% 96%/367%;
+		background : url("#{$site_public_url_or_path}/img/sprites.png") 70% 96.5%/367%;
 		content    : '';
 		z-index    : 3;
 		display    : block;

@@ -4,6 +4,7 @@ import bind from "bind-decorator";
 import {TweenLite} from "gsap";
 // animation imports
 import "gsap/ScrollToPlugin";
+import {LinkItem} from "../../../../../components/navigation";
 
 export class ContentSectionLink extends React.Component {
     _anchor;
@@ -14,8 +15,7 @@ export class ContentSectionLink extends React.Component {
     }
     
     @bind
-    handleClick(event) {
-        event.preventDefault();
+    onTrigger(event) {
         TweenLite.to(window, .5,
                      {
                          scrollTo:   this._anchor,
@@ -25,10 +25,13 @@ export class ContentSectionLink extends React.Component {
     
     render() {
         let {anchor, children, ...attrs} = this.props;
-        return <a onClick={this.handleClick} href={`#${anchor}`} {...attrs}>{children}</a>
+        return <LinkItem onKeyDown={event => event.stopPropagation()}
+                         onTrigger={this.onTrigger}
+                         to={`#${anchor}`} {...attrs}>{children}</LinkItem>
     };
 }
 
 ContentSectionLink.propTypes = {
+    ...LinkItem.propTypes,
     anchor: PropTypes.string
 };

@@ -1,11 +1,12 @@
 import gulp from "gulp";
 import path from "path";
-import autoprefixer from "gulp-autoprefixer"
 import sourcemaps from "gulp-sourcemaps";
 import webpackStream from "webpack-stream";
 import webpack from "webpack";
 import mocha from "gulp-mocha";
 import sass from "gulp-sass";
+import postcss from "gulp-postcss";
+import autoprefixer from "autoprefixer";
 
 const _app_path_  = path.resolve(__dirname, '..');
 const _root_path_ = path.resolve(_app_path_, '..');
@@ -46,11 +47,8 @@ const mochaTask        = () => gulp.src([directories.test.js + '/index.js'])
 const sassTask         = () => gulp.src(directories.src.css + '/scss/**/*.scss')
                                    .pipe(sourcemaps.init())
                                    .pipe(sass().on('error', sass.logError))
+                                   .pipe(postcss([autoprefixer({add: process.env.NODE_ENV === 'production'})]))
                                    .pipe(sourcemaps.write())
-                                   .pipe(autoprefixer({
-                                                          browsers: ['last 2 versions'],
-                                                          cascade:  false
-                                                      }))
                                    .pipe(gulp.dest(directories.dist.css))
                                    .on('error', swallowError);
 const webpackTask      = () => {

@@ -4,7 +4,7 @@ import {ABOUT_ME, DEV, HOME} from "../paths";
 
 // remember to add the appropriate route in ./routes
 export const links = [
-    <LinkItem key='Home' exact to={HOME.length ? HOME : '/'} as="Home" />,
-    <LinkItem key='aboutMe' to={ABOUT_ME} as="About Me" />,
-    <LinkItem key='Dev' to={DEV} as="Dev" />,
+    <LinkItem wrapper={p => <li{...p} />} key='Home' exact to={HOME.length ? HOME : '/'}>Home</LinkItem>,
+    <LinkItem wrapper={p => <li{...p} />} key='aboutMe' to={ABOUT_ME}>About Me</LinkItem>,
+    <LinkItem wrapper={p => <li{...p} />} key='Dev' to={DEV}>Dev</LinkItem>,
 ];

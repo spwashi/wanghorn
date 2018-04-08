@@ -22,6 +22,7 @@
 	justify-content  : flex-start;
 	background-color : $header__backgroundColor;
 	height           : $logo-item__header-std__height;
+	box-shadow       : inset 0px -2px 9px 1px darken($header__backgroundColor, 20%);
 	> * {
 		height      : 100%;
 		display     : flex;

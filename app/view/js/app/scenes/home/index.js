@@ -2,6 +2,8 @@ import React from "react"
 import {PageContent} from "../../components/page";
 import {ProfileImageContainer} from "./profile/image/container";
 import ContentSection from "../../components/page/content/section";
+import {LinkItem} from "../../../components/navigation";
+import {ABOUT_ME} from "../../../paths";
 
 const spwashi_site = "https://spwashi.com";
 
@@ -10,7 +12,7 @@ export const Home = () => {
         "My name is William!",
         <div>I'm a dummy site that <a href={spwashi_site}>Sam Washington</a> uses to quickly deploy web sites and applications.</div>,
         '',
-        "I might not look like much now, but "
+        <LinkItem to={`${ABOUT_ME}#to-do`}>I'm a work in progress!</LinkItem>
     ];
     return (
         <PageContent pageTitle="Home" pageClass=".page--__--home">
@@ -21,7 +23,10 @@ export const Home = () => {
                 <section className="about--me">
                     <div className="greeting">Hello!!!</div>
                     {
-                        intros.map(intro => <p>{intro}</p>)
+                        intros.map((intro, i) => typeof intro === 'string' ?
+                                                 <p key={i}>{intro}</p> :
+                                                 <div key={i}>{intro}</div>
+                        )
                     }
                 </section>
             </ContentSection>
