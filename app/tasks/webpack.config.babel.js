@@ -17,7 +17,10 @@ const htmlTemplatePath      = path.resolve(__dirname, '../view/html/react.html')
 const relativeCSS_output    = "../css/style.css";
 export const indexHTML_name = `${APP_NAME}.html`;
 const relativeHTML_output   = `../html/${indexHTML_name}`;
-const publicPath__JS        = `${APP_URL}/public/js/`;
+const publicPath__JS        = `${APP_URL}/public/js`;
+const publicPath__HTML      = `${APP_URL}/public/html`;
+const publicPath__IMG       = `${APP_URL}/public/img`;
+const publicPath__CSS       = `${APP_URL}/public/css`;
 const outputFileName        = `${APP_NAME}.js`;
 
 const plugins = [
@@ -25,7 +28,11 @@ const plugins = [
     new HtmlPlugin({
                        title:    APP_NAME,
                        template: htmlTemplatePath,
-                       filename: relativeHTML_output
+                       filename: relativeHTML_output,
+                       public:   {
+                           img: publicPath__IMG,
+                           js:  publicPath__JS,
+                       }
                    }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
