@@ -2,11 +2,10 @@
 @import "base/base";
 // Components
 @import "components/main";
+@import "components/page/page";
 @import "components/card/card";
 @import "components/header/header";
 @import "components/display/display";
 @import "components/profile/profile";
 // Scenes
-@import "scenes/dev/dev";
-@import "scenes/home/home";
-@import "scenes/linkOne/linkOne";
+@import "scenes/scenes";

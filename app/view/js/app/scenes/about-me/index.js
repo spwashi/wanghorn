@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types"
 import Lorem from "react-lorem-component";
 import {ContentSection, ContentSectionLink, PageContent} from "../../components/page";
 
-const pageClassName = 'linkOne';
+const pageClassName = 'about-me';
 
 const InlineDisplayContainer = ({children}) => {
     return (
@@ -34,25 +34,21 @@ export default class extends React.Component {
             <PageContent pageTitle="Link One" pageClass={`.page--__--${pageClassName}`}>
                 <nav>
                     <ul>
-                        <li><ContentSectionLink anchor="content-1">Content 1</ContentSectionLink></li>
-                        <li><ContentSectionLink anchor="content-2">Content 2</ContentSectionLink></li>
-                        <li><ContentSectionLink anchor="content-3">Content 3</ContentSectionLink></li>
-                        <li><ContentSectionLink anchor="content-4">Content 4</ContentSectionLink></li>
+                        <li><ContentSectionLink anchor="what-I-do">What I Do </ContentSectionLink></li>
+                        <li><ContentSectionLink anchor="how-I-work">How I Work</ContentSectionLink></li>
                     </ul>
                 </nav>
-                <ContentSection name={'content-1'}>
+                <ContentSection name={'what-I-do'}>
                     <InlineDisplayContainer>
-                        <DisplayItem title={'Content-1--thing'}
+                        <DisplayItem title={'what-I-do--thing'}
                                      caption={'Puts the stuff where you need it'}><Lorem count={1} /></DisplayItem>
-                        <DisplayItem title={'Content-1--thing'}
+                        <DisplayItem title={'what-I-do--thing'}
                                      caption={'Puts the stuff where you need it'}><Lorem count={1} /></DisplayItem>
-                        <DisplayItem title={'Content-1--thing'}
+                        <DisplayItem title={'what-I-do--thing'}
                                      caption={'Puts the stuff where you need it'}><Lorem count={1} /></DisplayItem>
                     </InlineDisplayContainer>
                 </ContentSection>
-                <ContentSection name={'content-2'}><Lorem /></ContentSection>
-                <ContentSection name={'content-3'}><Lorem /></ContentSection>
-                <ContentSection name={'content-4'}><Lorem /></ContentSection>
+                <ContentSection name={'how-I-work'}><Lorem /></ContentSection>
             </PageContent>
         );
     }

@@ -16,7 +16,11 @@ export class ContentSectionLink extends React.Component {
     @bind
     handleClick(event) {
         event.preventDefault();
-        TweenLite.to(window, .5, {scrollTo: this._anchor})
+        TweenLite.to(window, .5,
+                     {
+                         scrollTo:   this._anchor,
+                         onComplete: () => window.location.hash = this._anchor.replace('#', '')
+                     })
     }
     
     render() {

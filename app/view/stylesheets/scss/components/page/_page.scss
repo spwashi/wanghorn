@@ -1,0 +1,21 @@
+@import "colors";
+.page {
+	margin-top : 10px;
+	a {
+		border-bottom : thin dotted $hyperlink-_-bottom-border-color;
+	}
+	nav {
+		ul, ol {
+			margin  : 0;
+			padding : 0;
+		}
+		li {
+			border-top-left-radius  : 10px;
+			border-top-right-radius : 10px;
+			margin-right            : 10px;
+			padding                 : 3px;
+			background-color        : $page-link-_-bg-color;
+			display                 : inline-block;
+		}
+	}
+}

@@ -1,5 +1,5 @@
 @import "fonts";
-@import "../colors";
+@import "colors";
 @import "normalize";
 
 html {
@@ -18,9 +18,8 @@ html {
 
 a {
 	font-style      : italic;
-	color           : #555;
+	color           : $hyperlink-_-color;
 	text-decoration : none;
-	border-bottom   : thin dotted #999;
 }
 
 body {

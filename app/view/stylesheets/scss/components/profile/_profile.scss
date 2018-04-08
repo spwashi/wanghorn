@@ -1,9 +1,10 @@
+@import "colors";
 .profile--image--wrapper {
 	top           : 20%;
 	height        : 200px;
 	width         : 200px;
 	overflow      : hidden;
-	border        : 10px solid white;
+	border        : 10px solid $profile--image-_-color;
 	border-radius : 500px;
 	position      : relative;
 	left          : 20%;
@@ -12,10 +13,10 @@
 		position : relative;
 		width    : 100%;
 		height   : 100%;
-
-		&.image.henry {
-			display    : block;
-			background : url("#{$site_public_url_or_path}/img/sprites.png") 166px -260px, grey;
-		}
 	}
+}
+
+.image.henry {
+	display         : block;
+	background      : url("#{$site_public_url_or_path}/img/sprites.png") (166px) (-260px), grey;
 }

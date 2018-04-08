@@ -1,6 +1,6 @@
 @import "header";
+@import "colors";
 
-$model--bg : darken($body--backgroundColor, 15%);
 .dev--model--wrapper {
 	background-color : $model--bg;
 	padding          : 10px;
@@ -9,16 +9,16 @@ $model--bg : darken($body--backgroundColor, 15%);
 	}
 	a {
 		text-decoration : none;
-		border-bottom   : thin solid #555;
+		border-bottom   : thin solid $dev--model-_-text-color;
 		font-weight     : bold;
 		padding         : 5px;
-		color           : #555;
+		color           : $dev--model-_-text-color;
 	}
 
 }
 
 .configuration--attribute {
-	border-bottom : thin solid black;
+	border-bottom : thin solid $dev--configuration--attribute-_-border-color;
 
 	.attribute--title {
 		text-transform : capitalize;
@@ -26,7 +26,7 @@ $model--bg : darken($body--backgroundColor, 15%);
 		width          : 25%;
 	}
 	.attribute--value {
-		border-left : thin solid #555;
+		border-left : thin solid $dev--model-_-text-color;
 		display     : inline-block;
 		padding     : 10px;
 		margin      : 0 0 0 2%;
@@ -41,7 +41,7 @@ $model--bg : darken($body--backgroundColor, 15%);
 	}
 	.property--configuration--title {
 		padding       : 0 10px 7px;
-		border-bottom : thin solid #333;
+		border-bottom : thin solid $property--configuration--title-_-color;
 		font-weight   : bold;
 	}
 	.property--configuration--attribute {
@@ -60,7 +60,7 @@ $model--bg : darken($body--backgroundColor, 15%);
 .model--configuration {
 	.model--configuration--title {
 		padding-bottom : 10px;
-		border-bottom  : thin solid #000;
+		border-bottom  : thin solid $model--configuration--title-_-border-bottom-color;
 		margin-bottom  : 10px;
 		font-weight    : bold;
 		display        : block;
@@ -87,9 +87,9 @@ $model--bg : darken($body--backgroundColor, 15%);
 		display       : flex;
 		padding       : 0 0 10px 0;
 		margin-top    : 0;
-		border-bottom : thin solid #555;
+		border-bottom : thin solid $dev--model-_-text-color;
 		.attribute__properties--link {
-			background-color : lighten($body--backgroundColor, 5%);
+			background-color : $model--configuration--attribute__properties--link-_-background;
 			text-decoration  : none;
 			margin-bottom    : 5px;
 			border-radius    : 3px;
@@ -98,8 +98,8 @@ $model--bg : darken($body--backgroundColor, 15%);
 			margin-top       : 5px;
 			font-size        : .7em;
 			padding          : 10px;
-			border           : thin solid darken($body--backgroundColor, 15%);
-			color            : #000;
+			border           : thin solid $model--configuration--attribute__properties--link-_-border-color;
+			color            : $model--configuration--attribute__properties--link-_-txt-color;
 		}
 	}
 }
@@ -117,7 +117,7 @@ $model--bg : darken($body--backgroundColor, 15%);
 		flex             : 1 0;
 
 		&.query--wrapper {
-			border           : thin solid #555;
+			border           : thin solid $dev--model-_-text-color;
 			background-color : lighten($model--bg, 10%);
 			.__json {
 				font-size : .9em;
