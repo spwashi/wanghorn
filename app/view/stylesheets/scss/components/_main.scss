@@ -13,5 +13,10 @@
 	height : calc(100% - #{$content-top-margin});
 	.content--section {
 		background-color : #fff;
+		box-shadow       : 3px 3px 10px darken($body--backgroundColor, 10%);
+		.content--section {
+			box-shadow : none;
+		}
 	}
+
 }

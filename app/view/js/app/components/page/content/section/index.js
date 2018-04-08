@@ -3,8 +3,8 @@ import * as PropTypes from "prop-types"
 
 const ContentSection = ({name, children}) => {
     return (
-        <section className={'content--section'} id={name}>
-            <a name={name} />
+        <section className={'content--section'} id={name ? name : null}>
+            {name ? <a name={name} /> : ''}
             {children}
         </section>
     )
@@ -12,5 +12,5 @@ const ContentSection = ({name, children}) => {
 
 export default ContentSection;
 ContentSection.propTypes = {
-    name: PropTypes.string.isRequired
+    name: PropTypes.string
 };

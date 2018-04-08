@@ -28,6 +28,16 @@ DisplayItem.propTypes        = {
     title:    PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
     caption:  PropTypes.oneOfType([PropTypes.element, PropTypes.string])
 };
+const InlineDisplayDummy     = () =>
+    <InlineDisplayContainer>
+        <DisplayItem title={'Thing1'}
+                     caption={'Puts the stuff where you need it'}>Text-1</DisplayItem>
+        <DisplayItem title={'Thing2'}
+                     caption={'Puts the stuff where you need it'}>Text-2</DisplayItem>
+        <DisplayItem title={'Thing3'}
+                     caption={'Puts the stuff where you need it'}>Text-3</DisplayItem>
+    </InlineDisplayContainer>;
+
 export default class extends React.Component {
     render() {
         return (
@@ -39,16 +49,38 @@ export default class extends React.Component {
                     </ul>
                 </nav>
                 <ContentSection name={'what-I-do'}>
-                    <InlineDisplayContainer>
-                        <DisplayItem title={'what-I-do--thing'}
-                                     caption={'Puts the stuff where you need it'}><Lorem count={1} /></DisplayItem>
-                        <DisplayItem title={'what-I-do--thing'}
-                                     caption={'Puts the stuff where you need it'}><Lorem count={1} /></DisplayItem>
-                        <DisplayItem title={'what-I-do--thing'}
-                                     caption={'Puts the stuff where you need it'}><Lorem count={1} /></DisplayItem>
-                    </InlineDisplayContainer>
+                    <h2>What I Do</h2>
+                    <ContentSection>
+                        <h3>I'm a code library!</h3>
+                        <p>
+                            I stub out some common structures and features of web applications to help Sam
+                            rapidly prototype and develop websites.
+                            <ul>
+                                <li>
+                                    Frontend
+                                    <ul>
+                                        <li>ECMAScript 2015+ with Babel</li>
+                                        <li>React/Redux</li>
+                                        <li>Git workflow</li>
+                                        <li>Gulp/Webpack</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Backend
+                                    <ul>
+                                        <li>PHP 7.1</li>
+                                        <li>Git workflow</li>
+                                        <li>Gulp/Webpack</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </p>
+                    </ContentSection>
                 </ContentSection>
-                <ContentSection name={'how-I-work'}><Lorem /></ContentSection>
+                <ContentSection name={'how-I-work'}>
+                    <h2>How I work</h2>
+                    <Lorem />
+                </ContentSection>
             </PageContent>
         );
     }
