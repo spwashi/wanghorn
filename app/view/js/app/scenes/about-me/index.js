@@ -98,14 +98,14 @@ export default class extends React.Component {
                     <p>Here's the basic process:</p>
                     <div className="goal--wrapper">
                         <h4 className="label goal--label">Our goal</h4>
-                        <div className="item goal">We want quickly and easily create a new PHP 7.1 Application with a React/Redux frontend</div>
+                        <div className="item goal">We want to quickly and easily create a new PHP 7.1 Application with a React/Redux frontend</div>
                     </div>
                     <div className="goal-completion--process--wrapper">
                         <h4 className="label goal-completion--process--label">How we reach it</h4>
                         <ol className="item goal-completion--process">
                             <li>
                                 Sam <a href="https://git-scm.com/docs/git-clone">clones</a> <a href={'https://github.com/spwashi/wanghorn'}>my source code</a> into his project's directory,
-                                for example <pre><code className={'bash'}>/var/www/new-site</code></pre>
+                                <pre><code className={'bash'}>git clone https://github.com/spwashi/wanghorn /var/www/new-site</code></pre>
                             </li>
                             <li>
                                 He configures the application using ECMAScript to establish the URLs, routes, and models used by whichever site or application I help build.

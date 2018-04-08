@@ -6,5 +6,5 @@ import {ABOUT_ME, DEV, HOME} from "../paths";
 export const links = [
     <LinkItem wrapper={p => <li{...p} />} key='Home' exact to={HOME.length ? HOME : '/'}>Home</LinkItem>,
     <LinkItem wrapper={p => <li{...p} />} key='aboutMe' to={ABOUT_ME}>About Me</LinkItem>,
-    <LinkItem wrapper={p => <li{...p} />} key='Dev' to={DEV}>Dev</LinkItem>,
+    <LinkItem wrapper={p => <li{...p} />} key='Dev' to={DEV}>Dev Interface</LinkItem>,
 ];

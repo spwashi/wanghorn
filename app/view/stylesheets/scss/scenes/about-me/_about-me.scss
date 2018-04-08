@@ -7,8 +7,13 @@
 		border-bottom : thin solid #555;
 	}
 	.content--section {
-		padding       : 10px;
-		margin-bottom : 15px;
+		padding          : 10px;
+		margin-bottom    : 15px;
+		background-color : #fff;
+		box-shadow       : 3px 3px 10px darken($body--backgroundColor, 10%);
+		.content--section {
+			box-shadow : none;
+		}
 		h1 {
 		}
 		h1, h2, h3 {
@@ -22,9 +27,11 @@
 		}
 	}
 }
+
 .goal--wrapper {
 	align-items : center;
 }
+
 .goal--wrapper, .goal-completion--process--wrapper {
 	display          : flex;
 	flex-direction   : row;

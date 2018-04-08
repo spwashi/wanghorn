@@ -1,11 +1,11 @@
 @import "colors";
 
 .profile--image--wrapper {
-	top           : 20%;
+	top           : 10vh;
 	height        : 20vw;
 	width         : 20vw;
 	overflow      : hidden;
-	border        : 10px solid $profile--image-_-color;
+	border        : .5vw solid $profile--image-_-color;
 	border-radius : 500px;
 	position      : relative;
 	left          : 50%;
@@ -18,9 +18,17 @@
 }
 
 .image.henry {
-	display          : block;
-	position         : relative;
-	background-color : invert(white, 45%);
+	display  : block;
+	position : relative;
+	&::after {
+		content    : "";
+		position   : absolute;
+		top        : 0;
+		left       : 0;
+		width      : 100%;
+		height     : 100%;
+		background : rgba(#aaa, 1);
+	}
 	&::before {
 		filter          : invert(100%);
 		position        : absolute;
@@ -33,4 +41,7 @@
 		left            : 17.5%;
 		height          : 100%;
 	}
+}
+
+@media screen and(max-width : 650px) {
 }
