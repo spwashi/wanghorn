@@ -29,7 +29,10 @@ const plugins = [
                    }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({
+                                 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+                             }),
 ];
 if (IS_PROD) {
     plugins.push(new webpack.optimize.UglifyJsPlugin({compress: {warnings: false}}))
@@ -37,23 +40,23 @@ if (IS_PROD) {
 
 export default {
     entry:
-               {
-                   'app': [
-                       'style.scss',
-                       '../view/js'
-                   ]
-               },
-    output:    {
+             {
+                 'app': [
+                     'style.scss',
+                     '../view/js'
+                 ]
+             },
+    output:  {
         filename:   outputFileName,
         publicPath: publicPath__JS,
         path:       outputPath__JS
     },
-    devtool:   !IS_PROD ? 'source-map' : false,
-    resolve:   {
+    devtool: !IS_PROD ? 'source-map' : false,
+    resolve: {
         modules:    [inputPath__CSS, 'node_modules'],
         extensions: [".js", ".json", ".scss", ".css"],
     },
-    module:    {
+    module:  {
         rules: [
             {
                 test:    /\.scss$/,
