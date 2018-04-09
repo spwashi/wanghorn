@@ -53,7 +53,7 @@ export default class extends React.Component {
     
     render() {
         return (
-            <PageContent pageTitle="Link One" pageClass={`.page--__--${pageClassName}`}>
+            <PageContent pageTitle="About Me" pageClass={`.page--__--${pageClassName}`}>
                 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" />
                 <nav>
                     <ul>

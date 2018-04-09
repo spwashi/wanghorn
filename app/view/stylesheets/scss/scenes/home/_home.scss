@@ -34,7 +34,7 @@
 				height     : 100%;
 				opacity    : .3;
 				z-index    : -1;
-				background : mix(lighten($header__backgroundColor, 25%), #4b8b8b);
+				background : mix(lighten($header__backgroundColor, 25%), $accent_color_1);
 			}
 		}
 		section {

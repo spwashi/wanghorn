@@ -32,3 +32,36 @@ $page--nav--shadow-_-color : darken($body--backgroundColor, 20%);
 		}
 	}
 }
+
+#back-to-top {
+	content          : '^';
+	display          : block;
+	position         : fixed;
+	border-radius    : 50%;
+	bottom           : 25px;
+	right            : 3%;
+	height           : 50px;
+	width            : 50px;
+	box-shadow       : 4px 4px 8px 0px darken($body--backgroundColor, 25%);
+	background-color : darken(mix($body--backgroundColor, $accent_color_1), 10%);
+	&.inactive {
+		display : none;
+	}
+	&:hover {
+		cursor           : pointer;
+		background-color : saturate(mix($body--backgroundColor, $accent_color_1), 10%);
+	}
+	&::before {
+		font-size   : .8em;
+		color       : #fff;
+		font-weight : lighter;
+		position    : relative;
+		top         : 25%;
+		left        : 25%;
+		height      : 33%;
+		width       : 33%;
+		text-align  : center;
+		content     : 'top';
+		display     : block;
+	}
+}
