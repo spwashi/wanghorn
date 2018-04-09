@@ -46,3 +46,9 @@ input, button {
 button {
 	border-radius : 2px;
 }
+
+@media screen and (max-device-width : 400px) {
+	main {
+		font-size : 37px;
+	}
+}

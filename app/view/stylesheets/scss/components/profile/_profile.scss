@@ -1,22 +1,5 @@
 @import "colors";
 
-.profile--image--wrapper {
-	top           : 10vh;
-	height        : 20vw;
-	width         : 20vw;
-	overflow      : hidden;
-	border        : .5vw solid $profile--image-_-color;
-	border-radius : 500px;
-	position      : relative;
-	left          : 50%;
-
-	> * {
-		position : relative;
-		width    : 100%;
-		height   : 100%;
-	}
-}
-
 .image.henry {
 	display  : block;
 	position : relative;
