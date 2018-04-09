@@ -1,5 +1,6 @@
 @import "logo";
 @import "nav/nav";
+@import "user-menu/user-menu";
 @import "variables";
 @import "colors";
 
@@ -36,52 +37,13 @@
 		width : $logo-item__header-std__width;
 	}
 
-	> .user-menu {
-		justify-content : flex-end;
-		margin-right    : 20px;
-		width           : $user-menu__header-std__width;
-		height          : 100%;
-		position        : relative;
-		padding         : 10px;
-		> * {
-			display : block;
-			height  : 100%;
-		}
-		form {
-			display : block;
-		}
-		input {
-			display : inline-block;
-		}
-		input, .action_button {
-			font-size    : .7em;
-			margin-right : 2%;
-			width        : 48%;
-			height       : 100%;
-		}
-		.input--container {
-			display : inline-block;
-		}
-		.text_input--container {
-			width        : 72%;
-			margin-right : 3%;
-		}
-		.action_button--container {
-			width  : 25%;
-			float  : right;
-			height : 100%;
-			@include clearfix();
-			> * {
-				padding   : 0;
-				clear     : both;
-				display   : block;
-				height    : 50%;
-				float     : left;
-				font-size : .5em;
-				&:first-child {
-					margin-bottom : 4px;
-				}
-			}
+}
+
+@media screen and (max-device-width : 400px) {
+	.header-standard {
+		height : 2*$logo-item__header-std__height;
+		> nav {
+			font-size : 20px;
 		}
 	}
 }

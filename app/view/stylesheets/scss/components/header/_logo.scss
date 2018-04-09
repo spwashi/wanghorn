@@ -26,3 +26,11 @@
 		height     : 100%;
 	}
 }
+
+@media screen and (max-device-width : 400px) {
+	.logo--item {
+		&::before {
+			background : url("#{$site_public_url_or_path}/img/sprites.png") 67.5% 100%/400%, #555;
+		}
+	}
+}

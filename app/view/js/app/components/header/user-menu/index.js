@@ -68,7 +68,7 @@ class UserMenu extends Component {
         };
         
         return (
-            <div className="user-menu">
+            <div className={"user-menu " + (this.state.isLoginActive ? 'active' : '')}>
                 <LoginInput isLoginActive={this.state.isLoginActive} />
             </div>
         );
