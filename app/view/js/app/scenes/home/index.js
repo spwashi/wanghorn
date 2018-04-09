@@ -18,7 +18,7 @@ export const Home = () => {
         <PageContent pageTitle="Home" pageClass=".page--__--home">
             <ContentSection name={'profile'}>
                 <ProfileImageContainer>
-                    <div className="image henry"></div>
+                    <div className="image william"></div>
                 </ProfileImageContainer>
                 <section className="about--me">
                     <div className="greeting">Hello!!!</div>
