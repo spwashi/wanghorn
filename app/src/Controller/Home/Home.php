@@ -12,7 +12,7 @@ use Sm\Data\Model\Model;
  */
 class Home extends BaseApplicationController {
     public function index() {
-        $html_filename = EXAMPLE_APP__NAME . '.html';
+        $html_filename = APP__NAME . '.html';
         return $this->app->representation->render($html_filename);
     }
     public function test() {

@@ -72,7 +72,7 @@ class Dev extends BaseApplicationController {
     }
     
     public function modelConfig() {
-        $html_filename = EXAMPLE_APP__CONFIG_PATH . 'out/models.json';
+        $html_filename = APP__CONFIG_PATH . 'out/models.json';
         $json          = file_get_contents($html_filename);
         $config        = json_decode($json, 1);
         $config_arr    = [];

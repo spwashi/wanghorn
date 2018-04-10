@@ -3,13 +3,13 @@ import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HtmlPlugin from "html-webpack-plugin";
 import path from "path";
 
-import {APP_NAME, APP_PUBLIC_DIR, APP_URL, APP_VIEW_DIR, ENVIRONMENT} from "../config";
+import {APP_NAME, APP_PATH__PUBLIC_DIR, APP_URL, APP_PATH__VIEW_DIR, ENVIRONMENT} from "../config";
 
 //++sm++ boilerplate
-export const outputPath       = `${APP_PUBLIC_DIR}`;
+export const outputPath       = `${APP_PATH__PUBLIC_DIR}`;
 export const outputPath__JS   = path.resolve(outputPath, 'js');
 export const outputPath__HTML = path.resolve(outputPath, 'html');
-export const inputPath__CSS   = path.resolve(APP_VIEW_DIR, 'stylesheets', 'scss');
+export const inputPath__CSS   = path.resolve(APP_PATH__VIEW_DIR, 'stylesheets', 'scss');
 //--sm-- boilerplate
 
 const IS_PROD               = ENVIRONMENT === 'production';
@@ -30,8 +30,9 @@ const plugins = [
                        template: htmlTemplatePath,
                        filename: relativeHTML_output,
                        public:   {
-                           img: publicPath__IMG,
-                           js:  publicPath__JS,
+                           publicPath__IMG,
+                           publicPath__HTML,
+                           publicPath__JS,
                        }
                    }),
     new webpack.NamedModulesPlugin(),

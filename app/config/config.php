@@ -2,6 +2,7 @@
 
 use Sm\Application\Application;
 use Sm\Core\Event\GenericEvent;
+use Sm\Core\Util;
 use Sm\Data\Model\Model;
 use Sm\Data\Model\StdModelPersistenceManager;
 use Sm\Modules\Sql\MySql\Authentication\MySqlAuthentication;
@@ -14,35 +15,42 @@ use WANGHORN\Model\User;
 ####################################################################################
 #####              APPLICATION CONSTANTS                                     #######
 ####################################################################################
-require_once EXAMPLE_APP__CONFIG_PATH . 'autoload.php';
+require_once APP__CONFIG_PATH . 'autoload.php';
 const CONFIG_FILE = __DIR__ . '/out/config.json';
-
+$_required_ci_app = [];
 
 if (file_exists(CONFIG_FILE)) {
     $json_string        = file_get_contents(CONFIG_FILE);
     $decoded_json_array = json_decode($json_string, true);
     $config             = $decoded_json_array;
-} else {
-    $config = [
-        'env'       => Application::ENV_PROD,
-        'name'      => null,
-        'url'       => null,
-        'namespace' => '\\WANGHORN',
-    ];
 }
-$app->setEnvironment($config['env'] ?? Application::ENV_PROD);
-if (!isset($config['name'])) die('No App Name Set');
-if (!isset($config['url'])) die('No App URL Set');
-if (!isset($config['namespace'])) die('No App namespace Set');
+
+$default = [
+    'env'       => Application::ENV_PROD,
+    'name'      => 'Wanghorn',
+    'namespace' => '\\WANGHORN',
+    'urls'      => [
+        'base'   => null,
+        'public' => '/public/',
+    ],
+    'paths'     => [
+        'public' => APP__APP_PATH . '../public/',
+    ],
+];
+$config  = $config ?? [];
+
+$config  = Util::arrayMergeRecursive($default, $config);
+
+$app->setEnvironment($config['env']);
 
 #++sm++ boilerplate
-define('EXAMPLE_APP__NAME', $config['name']);
-define('EXAMPLE_APP__URL', $config['url']);
-define('EXAMPLE_APP__NAMESPACE', $config['namespace']);
-const APP__PUBLIC_URL         = EXAMPLE_APP__URL . '/public/';
-const APP__SRC_PATH           = EXAMPLE_APP__APP_PATH . 'src/';
-const APP__PUBLIC_PATH__LOCAL = EXAMPLE_APP__APP_PATH . '../public/';
-const APP__VIEW_TWIG_PATH     = EXAMPLE_APP__APP_PATH . 'view/twig/';
+define('APP__NAME', $config['name']);
+define('APP__NAMESPACE', $config['namespace']);
+define('APP__URL', $config['urls']['base'] ?? 'http://localhost');
+define('APP__PUBLIC_URL', $config['urls']['public'] ?? (APP__URL . '/public'));
+define('APP__PUBLIC_PATH__LOCAL', $config['paths']['public'] ?? (APP__APP_PATH . '../public/'));
+const APP__VIEW_TWIG_PATH = APP__APP_PATH . 'view/twig/';
+const APP__SRC_PATH       = APP__APP_PATH . 'src/';
 #--sm-- boilerplate
 
 
@@ -77,15 +85,15 @@ function _query_layer(Application $app): void {
 }
 
 function _controller_layer(Application $app): void {
-    $controllerNamespace = EXAMPLE_APP__NAMESPACE . '\\Controller\\';
+    $controllerNamespace = APP__NAMESPACE . '\\Controller\\';
     $app->controller->addControllerNamespace($controllerNamespace);
 }
 
 function _communication_layer(Application $app): void {
     $app_events = [];
     
-    $json_path = EXAMPLE_APP__CONFIG_PATH . 'out/routes.json';
-    $php_path  = EXAMPLE_APP__CONFIG_PATH . 'routes/routes.php';
+    $json_path = APP__CONFIG_PATH . 'out/routes.json';
+    $php_path  = APP__CONFIG_PATH . 'routes/routes.php';
     if (file_exists($json_path)) {
         $json_routes = file_get_contents($json_path);
         $app->communication->registerRoutes($json_routes);
@@ -103,7 +111,7 @@ function _communication_layer(Application $app): void {
 }
 
 function _data_layer(Application $app): void {
-    $data_json_path = EXAMPLE_APP__CONFIG_PATH . 'out/models.json';
+    $data_json_path = APP__CONFIG_PATH . 'out/models.json';
     
     if (file_exists($data_json_path)) {
         $dataJson    = file_get_contents($data_json_path);

@@ -3,23 +3,22 @@ import path from "path";
 // ASSUMED TO CHANGE
 
 // The domain name of the site we are configuring
-export const APP_DOMAIN    = 'http://localhost';
+export const APP_ROOT_URL      = 'http://localhost';
 // The URL Path (sans leading or trailing slash) at which the main site can be found relative to the domain
-export const APP_PATH      = `wanghorn`;
+export const APP_BASE_URL_PATH = `wanghorn`;
 // The name of the application without spaces. Case sensitive, I recommend lowercase-with-dashes or camelCased
-export const APP_NAME      = `wanghorn`;
-export const ENVIRONMENT   = process.env.NODE_ENV || 'production';
+export const APP_NAME          = `wanghorn`;
 // The namespace used in PHP to prefix app-specific files
-export const APP_NAMESPACE = APP_NAME.toUpperCase();
+export const APP_NAMESPACE     = APP_NAME.toUpperCase();
 // The URL including the Path that we will use to access our files
-export const APP_URL       = `${APP_DOMAIN}/${APP_PATH}`;
-
-// STANDARDS
+export const APP_URL           = `${APP_ROOT_URL}/${APP_BASE_URL_PATH}`;
+export const ENVIRONMENT       = process.env.NODE_ENV || 'production';
 
 // Path to the app dir
-export const APP_APPLICATION_DIR = path.resolve(__dirname, '..');
+export const APP_PATH__APP_DIR    = path.resolve(__dirname, '..');
 // Path to the public/ dir (where our generated HTML, CSS, and JS will go in their respective folders)
-export const APP_PUBLIC_DIR      = path.resolve(APP_APPLICATION_DIR, '..', 'public');
+export const APP_PATH__CONFIG_DIR = path.resolve(APP_PATH__APP_DIR, 'config');
+export const APP_PATH__PUBLIC_DIR = path.resolve(APP_PATH__APP_DIR, '..', 'public');
 // Path the the app/view/ dir (where we have our templates)
-export const APP_VIEW_DIR        = path.resolve(APP_APPLICATION_DIR, 'view');
+export const APP_PATH__VIEW_DIR   = path.resolve(APP_PATH__APP_DIR, 'view');
 

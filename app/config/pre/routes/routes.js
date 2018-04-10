@@ -1,4 +1,4 @@
-import {APP_PATH} from "../..";
+import {APP_BASE_URL_PATH} from "../..";
 
 class Route {
     constructor(resolution: string, pattern: string, route_name: string) {
@@ -21,7 +21,7 @@ class Route {
 }
 
 export const routes = {
-    pattern_prefix: APP_PATH + '/',
+    pattern_prefix: APP_BASE_URL_PATH + '/',
     routes:         [
         new Route("[Error]@rt_404", "404/{path}", "404"),
         
