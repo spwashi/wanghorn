@@ -1,4 +1,5 @@
 import path from "path";
+import {PUBLIC} from "../view/js/paths";
 
 // ASSUMED TO CHANGE
 
@@ -12,6 +13,7 @@ export const APP_NAME          = `wanghorn`;
 export const APP_NAMESPACE     = APP_NAME.toUpperCase();
 // The URL including the Path that we will use to access our files
 export const APP_URL           = `${APP_ROOT_URL}/${APP_BASE_URL_PATH}`;
+export const APP_URL__PUBLIC   = `${APP_ROOT_URL}/public`;
 export const ENVIRONMENT       = process.env.NODE_ENV || 'production';
 
 // Path to the app dir

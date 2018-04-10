@@ -1,6 +1,6 @@
 import models from "./config/pre/models";
 import {routes} from "./config/pre/routes/routes"
-import {APP_BASE_URL_PATH, APP_NAME, APP_NAMESPACE, APP_PATH__APP_DIR, APP_PATH__CONFIG_DIR, APP_PATH__PUBLIC_DIR, APP_ROOT_URL, ENVIRONMENT} from "./config";
+import {APP_BASE_URL_PATH, APP_NAME, APP_NAMESPACE, APP_PATH__APP_DIR, APP_PATH__CONFIG_DIR, APP_PATH__PUBLIC_DIR, APP_ROOT_URL, APP_URL__PUBLIC, ENVIRONMENT} from "./config";
 import fs from "fs";
 import replace from "replace-in-file";
 import {Sm} from "spwashi-sm"
@@ -23,8 +23,10 @@ const appConfigured = configureApplication({
     
                                                rootUrl:     APP_ROOT_URL,
                                                baseUrlPath: APP_BASE_URL_PATH,
-    
-                                               paths: {
+                                               urls:        {
+                                                   public: APP_URL__PUBLIC
+                                               },
+                                               paths:       {
                                                    app:    APP_PATH__APP_DIR,
                                                    public: APP_PATH__PUBLIC_DIR,
                                                    config: APP_PATH__CONFIG_DIR,
