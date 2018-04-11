@@ -1,10 +1,20 @@
 import React from 'react'
-import {Link} from "react-router-dom"
+import {NavLink} from "react-router-dom"
 
-export const Item      = ({children, to, as}) =>
-    <li className="navigation--link_item link_item">
-        <Link to={to}>
+export const Link      = ({to, children, exact, activeClassName, className}) =>
+    <NavLink to={to}
+             exact={!!exact}
+             className={className || ''}
+             activeClassName={"active link_item--active " + (activeClassName || '')}>
+        {children}
+    </NavLink>;
+export const Item      = ({exact, activeClassName, to, as, className}) =>
+    <li className={"link_item navigation--link_item " + (className || '')}>
+        <Link exact={exact} to={to} activeClassName={activeClassName}>
             {as}
         </Link>
     </li>;
-export const Container = ({children}) => <ul className="navigation--link_container link_container">{children}</ul>;
+export const Container = ({children}) =>
+    <ul className="link_container navigation--link_container">
+        {children}
+    </ul>;

@@ -1,0 +1,9 @@
+.inline-display--container {
+	display        : flex;
+	flex-direction : row;
+	width          : 80%;
+	margin-right   : auto;
+	margin-left    : auto;
+	.display--item {
+	}
+}

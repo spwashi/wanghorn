@@ -1,4 +1,4 @@
-import {models} from "./config/pre/models/models";
+import models from "./config/pre/models";
 import {routes} from "./config/pre/routes/routes"
 import {APP_DOMAIN, APP_NAME, APP_NAMESPACE, APP_PATH, APP_URL} from "./config";
 import fs from "fs";
@@ -34,14 +34,15 @@ applicationConfigured.then((app: Application) => {
         
                          };
     
-                         saveConfig(appConfig, 'config');
-                         saveConfig(jsFrontendConfig, 'public');
-                         saveConfig(app.models, 'entities');
-                         saveConfig(app.routes, 'routes');
+                         saveJSON(appConfig, 'config');
+                         saveJSON(jsFrontendConfig, 'public');
+                         saveJSON(app.models, 'models');
+                         saveJSON(app.routes, 'routes');
     
                          return app;
                      })
-                     .then((app: Application) => replaceAppBoilerplateConstants(app));
+                     .then((app: Application) => replaceAppBoilerplateConstants(app))
+                     .catch(e => console.log(e));
 
 /**
  * Configure the Application using an object containing the config
@@ -50,7 +51,21 @@ applicationConfigured.then((app: Application) => {
  */
 function configureApplication(appConfig: { models: {}, routes: {}, name: string, namespace: string, domain: string, urlPath: string }): Application {
     let applicationConfiguration = new ApplicationConfiguration(appConfig);
-    return applicationConfiguration.configure(new Application);
+    let saveAppConfigEvents      = function (app: Application) {
+        saveJSON(applicationConfiguration.eventManager.emittedEventNames,
+                 'emitted');
+        return app;
+    };
+    return Promise.race([
+                            new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                    saveAppConfigEvents();
+                                    return reject("Could not configure Application");
+                                }, 1000)
+                            }),
+                            applicationConfiguration.configure(new Application)
+                                                    .then(saveAppConfigEvents)
+                        ]);
     
 }
 
@@ -74,7 +89,7 @@ const srcPath    = srcPath__ARG || `${appPath}/src`;
  * @param configuredItem
  * @param filename
  */
-function saveConfig(configuredItem, filename) {
+function saveJSON(configuredItem, filename) {
     const jsonModels   = JSON.stringify(configuredItem, ' ', 3);
     const entitiesPath = `${configPath}/out/${filename}.json`;
     fs.writeFile(entitiesPath,

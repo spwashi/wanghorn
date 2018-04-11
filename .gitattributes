@@ -1,0 +1,3 @@
+app/config/index.js merge=ours
+app/config/out/ merge=ours
+app/view/stylesheets/scss/_variables.scss merge=ours

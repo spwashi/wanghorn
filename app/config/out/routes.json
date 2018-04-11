@@ -22,7 +22,7 @@
          "name": "monitors"
       },
       {
-         "resolution": "#Dev\\Dev::modelsToTables",
+         "resolution": "#Dev\\Dev::models",
          "pattern": "dev/models"
       },
       {
@@ -36,7 +36,11 @@
       },
       {
          "resolution": "User\\User@userByID",
-         "pattern": "user/{id}:[a-zA-Z@]+"
+         "pattern": "user/{id}:[a-zA-Z@.]+"
+      },
+      {
+         "resolution": "#Home\\Home::index",
+         "pattern": ".*"
       }
    ]
 }

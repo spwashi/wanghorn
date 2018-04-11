@@ -1,47 +1,15 @@
-const DATETIME_ = 'datetime';
-const STRING_   = 'string';
-const INTEGER_  = 'int';
-const NULL_     = 'null';
+import * as _ from './_';
+import * as user from './user';
+import * as file from './file';
+import * as pw from './pw';
+import * as email from './email';
 
 export const models = {
-    _:       {
-        properties: {
-            id:             {
-                primary:     !0,
-                isGenerated: true,
-                datatypes:   INTEGER_,
-                length:      11,
-            },
-            delete_dt:      {
-                datatypes: [DATETIME_, NULL_],
-            },
-            creation_dt:    {
-                datatypes:    [DATETIME_],
-                defaultValue: 'now'
-            },
-            last_update_dt: {
-                datatypes:   [DATETIME_, NULL_],
-                updateValue: 'now'
-            },
-        }
-    },
-    users:   {
-        inherits: '_',
-        
-        properties: {
-            email:      {length: 255, datatypes: [STRING_], unique: true},
-            first_name: {length: 50, datatypes: [STRING_, NULL_]},
-            last_name:  {length: 50, datatypes: [STRING_, NULL_]}
-        }
-    },
-    clients: {
-        inherits:   '_',
-        properties: {
-            note:       {datatypes: [STRING_, NULL_], length: 3000,},
-            user_id:    {datatypes: INTEGER_, length: 11,},
-            clients_id: {datatypes: INTEGER_, length: 11,},
-        }
-    }
+    _,
+    file,
+    password: pw,
+    user,
+    email,
 };
 
 export default models;

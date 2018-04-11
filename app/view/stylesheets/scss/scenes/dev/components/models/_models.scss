@@ -1,0 +1,35 @@
+@import "model/model";
+
+.model--container {
+	cursor           : pointer;
+	background-color : darken($body--backgroundColor, 20%);
+	padding          : 5px 10px 10px;
+	.model--container--link--container {
+		list-style     : none;
+		margin         : 0 0 10px 0;
+		padding        : 10px 0;
+		display        : flex;
+		flex-direction : row;
+		a {
+			padding          : 10px;
+			margin-right     : 10px;
+			background-color : darken($body--backgroundColor, 3%);
+			color            : #555;
+			font-weight      : bold;
+		}
+	}
+	.model--container--title {
+		color         : #fff;
+		cursor        : pointer;
+		padding       : 0 0 10px 0;
+		border-bottom : thin solid white;
+	}
+	> * {
+		cursor : auto;
+	}
+	&.collapsed {
+		width            : 100%;
+		background-color : #fff;
+		padding          : 10px;
+	}
+}

@@ -1,14 +1,17 @@
-import React from 'react'
-import {render} from 'react-dom'
-import {createStore,} from "redux";
-import {Provider} from "react-redux";
-import {devToolsEnhancer} from 'redux-devtools-extension';
-import {Link, Route} from 'react-router-dom'
-import reducer from "./reducers";
-import {MainApplication} from "./scenes/app";
+import React from "react";
+import {BrowserRouter as Router} from 'react-router-dom';
+import {links} from "./links";
+import {routes} from "./routes";
+import {Header} from "./components/header";
+import Content from "./components/content";
 
-const store              = createStore(reducer, devToolsEnhancer());
-const appProvider        = <Provider store={store}><MainApplication /></Provider>;
-const appBinding_Element = document.getElementById('app');
+const Application = () => {
+    let inner =
+            <div className="application--content--wrapper">
+                <Header links={links} />
+                <Content>{routes}</Content>
+            </div>;
+    return <Router>{inner}</Router>;
+};
 
-render(appProvider, appBinding_Element);
+export default Application;

@@ -12,7 +12,7 @@ const inputPath__CSS  = path.resolve(APP_VIEW_DIR, 'stylesheets', 'scss');
 module.exports = {
     entry:   [
         'style.scss',
-        './view/js/app'
+        './view/js'
     ],
     output:  {
         filename:   `${APP_NAME}.js`,

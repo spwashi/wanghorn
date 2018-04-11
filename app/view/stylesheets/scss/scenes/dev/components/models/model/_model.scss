@@ -1,0 +1,136 @@
+@import "header";
+
+$model--bg : darken($body--backgroundColor, 15%);
+.dev--model--wrapper {
+	background-color : $model--bg;
+	padding          : 10px;
+	pre {
+		padding : 0;
+	}
+	a {
+		text-decoration : none;
+		border-bottom   : thin solid #555;
+		font-weight     : bold;
+		padding         : 5px;
+		color           : #555;
+	}
+
+}
+
+.configuration--attribute {
+	border-bottom : thin solid black;
+
+	.attribute--title {
+		text-transform : capitalize;
+		display        : inline-block;
+		width          : 25%;
+	}
+	.attribute--value {
+		border-left : thin solid #555;
+		display     : inline-block;
+		padding     : 10px;
+		margin      : 0 0 0 2%;
+		width       : 73%;
+	}
+}
+
+.property--configuration {
+	margin-bottom : 20px;
+	&.inactive {
+		font-style : italic;
+	}
+	.property--configuration--title {
+		padding       : 0 10px 7px;
+		border-bottom : thin solid #333;
+		font-weight   : bold;
+	}
+	.property--configuration--attribute {
+		> * { margin : 0; }
+		.attribute--title {
+			font-weight : normal;
+			padding     : 10px;
+		}
+		.attribute--value {
+			padding   : 1em 10px;
+			font-size : .9em;
+		}
+	}
+}
+
+.model--configuration {
+	.model--configuration--title {
+		padding-bottom : 10px;
+		border-bottom  : thin solid #000;
+		margin-bottom  : 10px;
+		font-weight    : bold;
+		display        : block;
+		width          : 100%;
+	}
+	.model--smID {
+		display : block;
+		width   : 100%;
+	}
+	.model--configuration--attribute {
+		align-items : flex-start;
+		display     : flex;
+		&.properties {
+			> .attribute--value {
+				padding : 0;
+			}
+		}
+		> .attribute--title {
+			padding : 10px;
+		}
+	}
+	.attribute__properties--link--container {
+		flex-wrap     : wrap;
+		display       : flex;
+		padding       : 0 0 10px 0;
+		margin-top    : 0;
+		border-bottom : thin solid #555;
+		.attribute__properties--link {
+			background-color : lighten($body--backgroundColor, 5%);
+			text-decoration  : none;
+			margin-bottom    : 5px;
+			border-radius    : 3px;
+			margin-right     : 5px;
+			font-weight      : bold;
+			margin-top       : 5px;
+			font-size        : .7em;
+			padding          : 10px;
+			border           : thin solid darken($body--backgroundColor, 15%);
+			color            : #000;
+		}
+	}
+}
+
+.model--component--wrapper {
+	justify-content : space-between;
+	align-items     : flex-start;
+	flex-wrap       : wrap;
+	display         : flex;
+	> .wrapper {
+		background-color : lighten($model--bg, 7%);
+		border-radius    : 5px;
+		padding          : 10px;
+		margin           : 1%;
+		flex             : 1 0;
+
+		&.query--wrapper {
+			border           : thin solid #555;
+			background-color : lighten($model--bg, 10%);
+			.__json {
+				font-size : .9em;
+			}
+		}
+		&.selectively-active {
+			cursor : pointer;
+			&.active {
+				font-size : .9em;
+			}
+			&.inactive {
+				font-style : italic;
+			}
+		}
+	}
+}

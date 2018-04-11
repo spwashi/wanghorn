@@ -54,8 +54,13 @@ try {
     #
     
 } catch (\Sm\Core\Exception\Exception $exception) {
-    \Kint::dump($exception);
-    \Kint::dump($app->getMonitors());
+    header('Content-Type: application/json');
+    echo json_encode([
+                         $exception->getMessage(),
+                         $exception->getPrevious(),
+                         $exception->getMonitorContainer(),
+                         $exception,
+                     ]);
 } catch (\Exception $exception) {
     echo '<pre>';
     print_r($exception);

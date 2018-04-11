@@ -6,23 +6,27 @@ use Error;
 use Sm\Application\Controller\BaseApplicationController;
 use Sm\Core\Exception\Exception;
 use Sm\Core\Exception\UnimplementedError;
-use Sm\Data\Entity\EntityModelNotFoundException;
+use Sm\Data\Model\Exception\ModelNotFoundException;
+use Sm\Data\Model\ModelSchematic;
 use Sm\Data\Property\PropertySchematic;
+use Sm\Data\Source\Database\Table\TableSourceSchematic;
+use Sm\Modules\Sql\Constraints\ForeignKeyConstraintSchema;
 use Sm\Modules\Sql\Constraints\PrimaryKeyConstraintSchema;
 use Sm\Modules\Sql\Constraints\UniqueKeyConstraintSchema;
 use Sm\Modules\Sql\Data\Column\ColumnSchema;
 use Sm\Modules\Sql\Data\Column\DateTimeColumnSchema;
 use Sm\Modules\Sql\Data\Column\IntegerColumnSchema;
 use Sm\Modules\Sql\Data\Column\VarcharColumnSchema;
+use Sm\Modules\Sql\Formatting\SqlQueryFormatterManager;
 use Sm\Modules\Sql\MySql\Module\MySqlQueryModule;
+use Sm\Modules\Sql\Statements\AlterTableStatement;
 use Sm\Modules\Sql\Statements\CreateTableStatement;
 use WANGHORN\Entity\User\User;
 
 class Dev extends BaseApplicationController {
-    protected function propertyToColumn(PropertySchematic $propertySchema) {
+    protected function propertyToColumn(PropertySchematic $propertySchema, TableSourceSchematic $tableSourceSchematic) {
         $datatypes      = $propertySchema->getRawDataTypes();
         $first_datatype = $datatypes[0] ?? null;
-        
         
         switch ($first_datatype) {
             case 'int':
@@ -39,15 +43,10 @@ class Dev extends BaseApplicationController {
                 throw new UnimplementedError("Cannot create property for {$first_datatype} yet (for {$propertySchema_json})");
         }
         
-        $column->setDefault($propertySchema->getDefaultValue());
-        
-        if (!isset($column)) {
-            throw new Exception("Could not create Column");
-        }
-        
         $is_null = in_array('null', $datatypes);
+        $column->setTableSchema($tableSourceSchematic);
+        $column->setDefault($propertySchema->getDefaultValue());
         $column->setNullability($is_null);
-        
         
         return $column;
     }
@@ -72,30 +71,44 @@ class Dev extends BaseApplicationController {
         return $column;
     }
     
-    public function modelsToTables() {
-        $models = $this->app->data->models->getConfiguredModels();
+    public function modelConfig() {
+        $html_filename = EXAMPLE_APP__CONFIG_PATH . 'out/models.json';
+        $json          = file_get_contents($html_filename);
+        $config        = json_decode($json, 1);
+        $config_arr    = [];
+        foreach ($config as $id => $item) {
+            $config_arr[ $item['smID'] ?? $id ] = $item;
+        }
+        return $config_arr;
+    }
+    public function models() {
+        #   $this->app->query->interpret($query);
+        $models = $this->app->data->models->getRegisteredSchematics();
         
-        list($all, $queries) = $this->formatModels($models);
+        list(
+            $createTableStatement_strings,
+            $createTableStatement,
+            $alterTableStatement_strings,
+            $alterTableStatement
+            ) = $this->modelsToQueries($models);
         
-        $do_interpret = 1;
+        $model_config = $this->modelConfig();
+        $indices      = [
+            'model'                => $models,
+            'config'               => $model_config,
+            'createTableStatement' => $createTableStatement_strings,
+            'alterTableStatements' => $alterTableStatement_strings,
+        ];
         
-        if ($do_interpret == true) {
-            foreach ($queries as $query) {
-                
-                echo "<pre>";
-                echo MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($query);
-                echo "</pre><br>----------------------------------------------------";
-                
-                $results = $this->app->query->interpret($query);
-                echo "<pre>";
-                echo json_encode($results, JSON_PRETTY_PRINT);
-                echo "</pre><br>";
+        $all = [];
+        foreach ($indices as $config_index => $model_arr) {
+            foreach ($model_arr as $smID => $config) {
+                $all[ $smID ]                  = $all[ $smID ] ?? [];
+                $all[ $smID ][ $config_index ] = $config;
             }
         }
         
-        
-        $joined = join('<br>', $all);
-        echo "<pre>{$joined}</pre>";
+        return $all;
     }
     public function monitors() {
         return json_decode(json_encode($this->app->getMonitors()), 1);
@@ -103,15 +116,12 @@ class Dev extends BaseApplicationController {
     public function eg() {
         
         try {
-            $Sam = User::init($this->app->data->models)
-                       ->find([
-                                  'user_id' => 1,
-                              ]);
+            $Sam = User::init($this->app->data->models)->find([ 'user_id' => 1 ]);
             
             echo "<pre>";
             echo json_encode($Sam, JSON_PRETTY_PRINT);
             echo "</pre>";
-        } catch (EntityModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             $previous = $e->getPrevious();
             var_dump($previous);
         }
@@ -134,63 +144,183 @@ class Dev extends BaseApplicationController {
      *
      * @return array
      * @throws \Error
+     * @throws \Sm\Core\Exception\Exception
      */
-    protected function formatModels($models): array {
-        $all                       = [];
-        $queries                   = [];
-        $_allColumns__propertySmID = [];
-        $uniqueKeyConstraints      = [];
+    protected function modelsToQueries($models): array {
+        $createTableStatement_string_arr = [];
+        $all_columns                     = [];
+        $createTableStatement_arr        = [];
+        $tableReferenceArr__array        = [];
+        $queryFormatter                  = MySqlQueryModule::init()->initialize()->getQueryFormatter();
+        
         foreach ($models as $modelSmID => $model) {
-            $properties = $model->getProperties();
-            $meta       = $model->getPropertyMeta();
-            $columns    = [];
-            $primaries  = [];
-            /**
-             * @var                                     $propertySmID
-             * @var \Sm\Data\Property\PropertySchematic $property
-             */
-            foreach ($properties as $propertySmID => $property) {
-                try {
-                    $column = $this->propertyToColumn($property);
-                    if (!$column) continue;
-                } catch (Exception $exception) {
-                    continue;
+            $this->convertPropertiesToColumns($model,
+                                              $all_columns,
+                                              $tableReferenceArr__array,
+                                              $meta,
+                                              $columns,
+                                              $primaries);
+            $createTableStatement                          = $this->createCreateTableStatement($model, $columns, $primaries, $meta, $all_columns);
+            $createTableStatement_arr[ $modelSmID ]        = $createTableStatement;
+            $createTableStatement_string_arr[ $modelSmID ] = $queryFormatter->format($createTableStatement);
+        }
+        list($alterTableStatement_string_arr, $alterTableStatement_arr) = $this->createAlterTableStatements($tableReferenceArr__array,
+                                                                                                            $all_columns,
+                                                                                                            $queryFormatter);
+        return [
+            $createTableStatement_string_arr,
+            $createTableStatement_arr,
+            $alterTableStatement_string_arr,
+            $alterTableStatement_arr,
+        ];
+    }
+    /**
+     * @param array                                               $tableReference_arr__array
+     * @param ColumnSchema[]                                      $all_columns
+     * @param \Sm\Modules\Sql\Formatting\SqlQueryFormatterManager $queryFormatter
+     *
+     * @return array
+     * @throws \Sm\Core\Exception\Exception
+     */
+    protected function createAlterTableStatements(array $tableReference_arr__array,
+                                                  array $all_columns,
+                                                  SqlQueryFormatterManager $queryFormatter) {
+        
+        $alterTableStatement_arr        = [];
+        $alterTableStatement_string_arr = [];
+        foreach ($tableReference_arr__array as $tableName => $_arr_arr) {
+            foreach ($_arr_arr as $_arr) {
+                /** @var ColumnSchema $_column */
+                /** @var ColumnSchema $_referenced_column */
+                /** @var ModelSchematic $_modelSchematic */
+                $_column                 = $_arr['column'];
+                $_modelSchematic         = $_arr['modelSchematic'];
+                $_referenced_column_smID = $_arr['referenced_column_smID'];
+                $_referenced_column      = $all_columns[ $_referenced_column_smID ] ?? null;
+                if (!isset($_referenced_column)) {
+                    throw new Exception("Cannot reference " . $_referenced_column_smID);
                 }
                 
-                if ($meta->isPrimary($property)) {
-                    $primaries[] = $column;
-                }
-                $columns[]                                         = $column;
-                $_allColumns__propertySmID[ $property->getSmID() ] = $column;
+                $constraint_name     = $tableName . '__' . ($_column->getName() ?: '') . '__' . ($_referenced_column->getName() ?: '');
+                $alterTableStatement = AlterTableStatement::init($tableName)
+                                                          ->withConstraints(ForeignKeyConstraintSchema::init()
+                                                                                                      ->setConstraintName($constraint_name)
+                                                                                                      ->addColumn($_column)
+                                                                                                      ->addRefeferencedColumns($_referenced_column));
+                
+                $smID = $_modelSchematic->getSmID();
+                
+                $alterTableStatement_arr[ $smID ]          = $alterTableStatement_arr[ $smID ] ?? [];
+                $alterTableStatement_string_arr[ $smID ]   = $alterTableStatement_string_arr[ $smID ] ?? [];
+                $alterTableStatement_arr[ $smID ][]        = $alterTableStatement;
+                $alterTableStatement_string_arr[ $smID ][] = $queryFormatter->format($alterTableStatement);
             }
-            
-            /** @var CreateTableStatement $createTable */
-            $createTable = CreateTableStatement::init($model->getName())
-                                               ->withColumns(...$columns);
-            
-            if (count($primaries)) {
-                $createTable->withConstraints(PrimaryKeyConstraintSchema::init()
-                                                                        ->addColumn(...$primaries));
-            }
-            
-            # figure out unique keys
-            $_unique_keys = $meta->getUniqueKeyGroup();
-            if (!empty($_unique_keys)) {
-                $constraint = UniqueKeyConstraintSchema::init();
-                foreach ($_unique_keys as $_uniquePropertySmID) {
-                    $column = $_allColumns__propertySmID[ $_uniquePropertySmID ] ?? null;
-                    
-                    if (!isset($column)) {
-                        throw new Error("Could not find column {$_uniquePropertySmID}");
-                    }
-                    $constraint->addColumn($column);
-                }
-                $createTable->withConstraints($constraint);
-            }
-            
-            $queries[] = $createTable;
-            $all[]     = MySqlQueryModule::init()->initialize()->getQueryFormatter()->format($createTable);
         }
-        return [ $all, $queries ];
+        
+        return [
+            $alterTableStatement_string_arr,
+            $alterTableStatement_arr,
+        ];
+    }
+    /**
+     * @param $modelSchematic
+     * @param $all_columns
+     * @param $tableReferenceArr__array
+     * @param $meta
+     * @param $columns
+     * @param $primaries
+     *
+     */
+    protected function convertPropertiesToColumns(ModelSchematic $modelSchematic,
+                                                  &$all_columns,
+                                                  &$tableReferenceArr__array,
+                                                  &$meta,
+                                                  &$columns,
+                                                  &$primaries): void {
+        $properties = $modelSchematic->getProperties();
+        $meta       = $modelSchematic->getPropertyMeta();
+        $columns    = [];
+        $primaries  = [];
+        /**
+         * @var                                     $property_name
+         * @var \Sm\Data\Property\PropertySchematic $property
+         */
+        $modelName   = $modelSchematic->getName();
+        $tableSchema = TableSourceSchematic::init()->setName($modelName);
+        foreach ($properties as $property_name => $property) {
+            try {
+                $column                              = $this->propertyToColumn($property, $tableSchema);
+                $all_columns[ $property->getSmID() ] = $column;
+                if (!$column) continue;
+            } catch (Exception $exception) {
+                continue;
+            }
+            
+            if ($meta->isPrimary($property)) {
+                $primaries[] = $column;
+            }
+            $columns[]                    = $column;
+            $referenceDescriptorSchematic = $property->getReferenceDescriptor();
+            if ($referenceDescriptorSchematic) {
+                $tableReferenceArr__array[ $modelName ]   = $tableReferenceArr__array[ $modelName ] ?? [];
+                $tableReferenceArr__array[ $modelName ][] = [
+                    'column'                 => $column,
+                    'modelSchematic'         => $modelSchematic,
+                    'referenced_column_smID' => $referenceDescriptorSchematic->getHydrationMethod(),
+                ];
+            }
+        }
+    }
+    /**
+     * @param $_unique_keys
+     * @param $all_columns
+     * @param $createTable
+     */
+    protected function addUniqueKeyConstraint(array $_unique_keys,
+                                              array $all_columns,
+                                              CreateTableStatement $createTable): void {
+        $constraint = UniqueKeyConstraintSchema::init();
+        foreach ($_unique_keys as $_uniquePropertySmID) {
+            
+            $column = $all_columns[ $_uniquePropertySmID ] ?? null;
+            
+            if (!isset($column)) {
+                throw new Error("Could not find column {$_uniquePropertySmID}");
+            }
+            $constraint->addColumn($column);
+        }
+        $createTable->withConstraints($constraint);
+    }
+    /**
+     * @param $model
+     * @param $columns
+     * @param $primaries
+     * @param $meta
+     * @param $all_columns
+     *
+     * @return CreateTableStatement
+     */
+    protected function createCreateTableStatement(ModelSchematic $model,
+                                                  $columns,
+                                                  $primaries,
+                                                  $meta,
+                                                  $all_columns): CreateTableStatement {
+        /** @var CreateTableStatement $createTable */
+        $createTable = CreateTableStatement::init($model->getName())
+                                           ->withColumns(...$columns);
+        
+        if (count($primaries)) {
+            $createTable->withConstraints(PrimaryKeyConstraintSchema::init()
+                                                                    ->addColumn(...$primaries));
+        }
+        
+        # figure out unique keys
+        /** @var  \Sm\Data\Model\ModelPropertyMetaSchematic $meta */
+        $_unique_keys = $meta->getUniqueKeyGroup();
+        
+        if (!empty($_unique_keys)) {
+            $this->addUniqueKeyConstraint($_unique_keys, $all_columns, $createTable);
+        }
+        return $createTable;
     }
 }

@@ -1,10 +1,9 @@
-/node_modules/
-/app/view/js/lib/SmJS/
+node_modules/
 /vendor/
 /composer.lock
 /.idea/
-app/node_modules/
-Would skip repository app/resources/js/lib/SmJS
-public/
-/app/config/out/
-/app/package-lock.json
+public/css/
+public/html/
+public/js/
+app/package-lock.json
+app/config/out/emitted.json

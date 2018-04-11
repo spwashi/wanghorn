@@ -4,6 +4,8 @@
         "transform-object-rest-spread",
         "transform-regenerator",
         "transform-class-properties",
+        "transform-decorators-legacy",
+
         [
             "babel-plugin-transform-builtin-extend",
             {

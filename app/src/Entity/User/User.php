@@ -112,6 +112,7 @@ class User extends Entity {
      */
     protected function registerPropertyValues($attributes): void {
         $properties = [];
+        
         foreach ($attributes as $index => $value) {
             $originalProperty        = $this->getProperties()->$index ?? Property::init();
             $originalProperty->value = $value;
