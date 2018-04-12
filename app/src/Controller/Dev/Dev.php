@@ -10,17 +10,17 @@ use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Model\ModelSchematic;
 use Sm\Data\Property\PropertySchematic;
 use Sm\Data\Source\Database\Table\TableSourceSchematic;
-use Sm\Modules\Sql\Constraints\ForeignKeyConstraintSchema;
-use Sm\Modules\Sql\Constraints\PrimaryKeyConstraintSchema;
-use Sm\Modules\Sql\Constraints\UniqueKeyConstraintSchema;
-use Sm\Modules\Sql\Data\Column\ColumnSchema;
-use Sm\Modules\Sql\Data\Column\DateTimeColumnSchema;
-use Sm\Modules\Sql\Data\Column\IntegerColumnSchema;
-use Sm\Modules\Sql\Data\Column\VarcharColumnSchema;
-use Sm\Modules\Sql\Formatting\SqlQueryFormatterManager;
-use Sm\Modules\Sql\MySql\Module\MySqlQueryModule;
-use Sm\Modules\Sql\Statements\AlterTableStatement;
-use Sm\Modules\Sql\Statements\CreateTableStatement;
+use Sm\Modules\Query\Sql\Constraints\ForeignKeyConstraintSchema;
+use Sm\Modules\Query\Sql\Constraints\PrimaryKeyConstraintSchema;
+use Sm\Modules\Query\Sql\Constraints\UniqueKeyConstraintSchema;
+use Sm\Modules\Query\Sql\Data\Column\ColumnSchema;
+use Sm\Modules\Query\Sql\Data\Column\DateTimeColumnSchema;
+use Sm\Modules\Query\Sql\Data\Column\IntegerColumnSchema;
+use Sm\Modules\Query\Sql\Data\Column\VarcharColumnSchema;
+use Sm\Modules\Query\Sql\Formatting\SqlQueryFormatterManager;
+use Sm\Modules\Query\MySql\MySqlQueryModule;
+use Sm\Modules\Query\Sql\Statements\AlterTableStatement;
+use Sm\Modules\Query\Sql\Statements\CreateTableStatement;
 use WANGHORN\Entity\User\User;
 
 class Dev extends BaseApplicationController {
@@ -177,7 +177,7 @@ class Dev extends BaseApplicationController {
     /**
      * @param array                                               $tableReference_arr__array
      * @param ColumnSchema[]                                      $all_columns
-     * @param \Sm\Modules\Sql\Formatting\SqlQueryFormatterManager $queryFormatter
+     * @param \Sm\Modules\Query\Sql\Formatting\SqlQueryFormatterManager $queryFormatter
      *
      * @return array
      * @throws \Sm\Core\Exception\Exception
