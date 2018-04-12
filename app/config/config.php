@@ -4,10 +4,10 @@ use Sm\Application\Application;
 use Sm\Core\Event\GenericEvent;
 use Sm\Data\Model\Model;
 use Sm\Data\Model\StdModelPersistenceManager;
-use Sm\Modules\Sql\MySql\Authentication\MySqlAuthentication;
-use Sm\Modules\Sql\MySql\Module\MySqlQueryModule;
-use Sm\Representation\Module\PlainFile\PlainFileViewModule;
-use Sm\Representation\Module\Twig\TwigViewModule;
+use Sm\Modules\Query\MySql\Authentication\MySqlAuthentication;
+use Sm\Modules\Query\MySql\MySqlQueryModule;
+use Sm\Modules\View\PlainFile\PlainFileViewModule;
+use Sm\Modules\View\Twig\TwigViewModule;
 use WANGHORN\Model\User;
 
 

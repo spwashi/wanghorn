@@ -7,10 +7,10 @@ const EXAMPLE_APP__APP_PATH    = __DIR__ . '/';
 const EXAMPLE_APP__CONFIG_PATH = __DIR__ . '/config/';
 
 use Sm\Application\Application;
-use Sm\Communication\Network\Http\Http;
-use Sm\Communication\Network\Http\Request\HttpRequestFromEnvironment;
 use Sm\Communication\Request\Request;
 use Sm\Communication\Routing\Exception\RouteNotFoundException;
+use Sm\Modules\Network\Http\Http;
+use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 
 require_once 'vendor/autoload.php';
 
