@@ -1,0 +1,60 @@
+$gallery_item--shadowColor : darken($body--backgroundColor, 10%);
+$gallery_item--backgroundColor : #fafafa;
+
+.gallery_item {
+	width            : 30%;
+	padding          : 1%;
+	height           : 200px;
+	box-shadow       : 3px 3px 3px $gallery_item--shadowColor;
+	background-color : $gallery_item--backgroundColor;
+	margin-bottom    : 15px;
+
+	.price, .name {
+		display : inline-block;
+	}
+	.name {float : left;}
+	.price {float : right;}
+}
+
+.gallery_item--image--wrapper {
+	width    : 100%;
+	padding  : 0;
+	> * {
+		display    : block;
+		min-width  : 100%;
+		min-height : 150px;
+	}
+	height   : 150px;
+	overflow : hidden;
+}
+
+.gallery_item--image--wrapper {
+	.jessica::before {
+		background-size     : 370%;
+		background-position : -37% 62%;
+		width               : 37%;
+		height              : 41%;
+		left                : 27.5%;
+		top                 : 35%;
+	}
+	.philip::before {
+		background-size : 348%;
+		width           : 41%;
+		left            : 27.5%;
+	}
+	.william::before {
+		background-size : 325%;
+		width           : 40%;
+		left            : 30%;
+	}
+}
+
+.gallery_item--container {
+	// temp
+	width           : 100%;
+	padding         : 1%;
+	//
+	display         : flex;
+	justify-content : space-evenly;
+	flex-flow       : wrap row;
+}

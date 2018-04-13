@@ -1,0 +1,78 @@
+@import "item";
+@import "filter/filter";
+@import "colors";
+
+$gallery_item--borderColor : lighten(#555, 70%);
+
+.page--__--gallery {
+	* {
+		font-family : monospace;
+		font-weight : normal;
+		font-size   : .9em;
+	}
+	height : 100%;
+	width  : 100%;
+	.gallery_item {
+		box-shadow : 3px 3px 3px darken($body--backgroundColor, 5%);
+		&, .gallery_item--image--wrapper {
+			border : thin solid darken($body--backgroundColor, 6%);
+		}
+
+		&:hover {
+			&, .gallery_item--image--wrapper {
+				border : thin solid darken($gallery_item--borderColor, 70%);
+			}
+		}
+	}
+	.gallery_item--container {
+		width : 80%;
+		right : 0;
+	}
+	.gallery_item--container, .gallery_item--control {
+		float : left;
+	}
+	.gallery_item--control {
+		width   : 20%;
+		padding : 17px 10px 10px;
+		h3 {
+			margin         : 0 0 5px;
+			border-bottom  : thin solid #ccc;
+			padding-bottom : 5px;
+		}
+	}
+	&::before {
+		content         : '';
+		display         : block;
+		width           : 100%;
+		height          : 100%;
+		background      : $gallery--profile-_-background-_-prop;
+		background-size : cover;
+		opacity         : .5;
+		filter          : blur(2px);
+		z-index         : -1;
+		position        : absolute;
+	}
+	&::after {
+		display          : block;
+		width            : 100%;
+		height           : 100%;
+		position         : fixed;
+		top              : 0;
+		background-color : lighten($body--backgroundColor, 10%);
+		opacity          : .5;
+		content          : '';
+		z-index          : -1;
+	}
+}
+
+@media screen and (max-width : 800px) {
+	.page--__--gallery {
+		.gallery_item--container {
+			width : 100%;
+		}
+	}
+	.gallery_item {
+		width         : 48%;
+		margin-bottom : 15px;
+	}
+}

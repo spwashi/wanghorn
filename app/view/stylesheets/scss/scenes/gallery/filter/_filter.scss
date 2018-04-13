@@ -1,0 +1,50 @@
+.filter__select-multiple {
+	padding : 10px;
+	margin  : 0;
+	li {
+		list-style : none;
+	}
+	.filter-category--wrapper {
+		label {
+			margin : 5px 0;
+			cursor      : pointer;
+			display     : flex;
+			flex-flow   : row nowrap;
+			align-items : baseline;
+			[type=checkbox] {
+				&:hover::before {
+					border : #69c4c4;
+				}
+			}
+		}
+	}
+	[type=checkbox] {
+		margin-right : 10px;
+		position     : relative;
+		&:checked::after {
+			display     : block;
+			position    : absolute;
+			height      : 50%;
+			top         : 35%;
+			left        : 4%;
+			padding     : 2px;
+			font-family : sans-serif;
+			font-weight : lighter;
+			text-align  : center;
+			content     : 'x';
+			line-height : 0;
+			font-size   : 1.2em;
+			color       : #aaa;
+		}
+
+		&::before {
+			box-sizing       : border-box;
+			display          : block;
+			width            : 110%;
+			height           : 110%;
+			background-color : #fff;
+			border           : thin solid #ccc;
+			content          : '';
+		}
+	}
+}

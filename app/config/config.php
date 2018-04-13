@@ -39,7 +39,7 @@ $default = [
 ];
 $config  = $config ?? [];
 
-$config  = Util::arrayMergeRecursive($default, $config);
+$config = Util::arrayMergeRecursive($default, $config);
 
 $app->setEnvironment($config['env']);
 
@@ -81,7 +81,8 @@ function _getAuth() {
 }
 
 function _query_layer(Application $app): void {
-    $app->registerDefaultQueryModule((new MySqlQueryModule)->registerAuthentication(_getAuth()));
+    $queryModule = (new MySqlQueryModule)->registerAuthentication(_getAuth());
+    $app->registerDefaultQueryModule($queryModule);
 }
 
 function _controller_layer(Application $app): void {

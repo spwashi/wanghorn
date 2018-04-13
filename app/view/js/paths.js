@@ -4,7 +4,8 @@ export const INDEX          = `${config.appPath ? '/' + config.appPath : ''}`;
 export const ABSOLUTE_INDEX = `${config.appUrl}`;
 export const HOME           = INDEX;
 
-export const DEV = `${INDEX}/dev`;
+export const DEV  = `${INDEX}/dev`;
+export const GALLERY = `${INDEX}/gallery`;
 
 export const PUBLIC          = `${ABSOLUTE_INDEX}/public`;
 export const PUBLIC__IMAGES  = `${PUBLIC}/img`;
