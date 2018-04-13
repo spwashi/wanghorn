@@ -65,8 +65,11 @@ $gallery_item--borderColor : lighten(#555, 70%);
 	}
 }
 
-@media screen and (max-width : 800px) {
+@media screen and (max-width : 800px), screen and (max-device-width : 400px) {
 	.page--__--gallery {
+		.gallery_item--control {
+			width : 100%;
+		}
 		.gallery_item--container {
 			width : 100%;
 		}

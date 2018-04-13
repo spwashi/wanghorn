@@ -42,7 +42,8 @@
 
 @media screen and (max-device-width : 400px) {
 	.header-standard {
-		height : 2*$logo-item__header-std__height;
+		height      : 2*$logo-item__header-std__height;
+		line-height : 1em;
 		> nav {
 			font-size : 20px;
 		}

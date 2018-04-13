@@ -29,18 +29,13 @@ $gallery_item--backgroundColor : #fafafa;
 }
 
 .gallery_item--image--wrapper {
-	.jessica::before {
-		background-size     : 370%;
-		background-position : -37% 62%;
-		width               : 37%;
-		height              : 41%;
-		left                : 27.5%;
-		top                 : 35%;
+	.jessica {
+		background-size       : cover;
+		background-position-y : bottom ;
 	}
-	.philip::before {
-		background-size : 348%;
-		width           : 41%;
-		left            : 27.5%;
+	.philip {
+		background-size       : cover;
+		background-position-y : -85px;
 	}
 	.william::before {
 		background-size : 325%;

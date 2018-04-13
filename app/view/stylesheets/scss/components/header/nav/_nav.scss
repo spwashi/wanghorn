@@ -78,14 +78,16 @@
 	.header-standard {
 		> nav {
 			.navigation--link_item {
+				padding-top : 0%;
 				&.active--link {
-					padding-top : 15%;
+					padding-top : 10%;
 				}
 
 				a {
 					text-wrap   : none;
 					word-break  : keep-all;
-					line-height : 0;
+					line-height : 1em;
+					display : inline-block;
 				}
 			}
 		}

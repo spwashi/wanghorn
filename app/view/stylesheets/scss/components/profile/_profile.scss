@@ -33,28 +33,12 @@
 	}
 }
 
-.image.jessica {
-	@extend %character;
-	&::before {
-		background-position : -40% 62%;
-		background-size     : 350%;
-		width               : 62%;
-		height              : 65%;
-		top                 : 20%;
-		left                : 17.5%;
-	}
+.image.philip {
+ 	background : url("#{$site_public_url_or_path}/img/PHILIP_JESSICA.jpg");
 }
 
-.image.philip {
-	@extend %character;
-	&::before {
-		background-position : -40% 54%;
-		background-size     : 350%;
-		width               : 62%;
-		height              : 65%;
-		top                 : 20%;
-		left                : 17.5%;
-	}
+.image.jessica {
+	background : url("#{$site_public_url_or_path}/img/PHILIP_JESSICA.jpg");
 }
 
 @media screen and(max-width : 650px) {
