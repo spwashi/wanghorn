@@ -6,7 +6,9 @@ export default class GalleryItem extends React.Component {
     @bind
     handleClick() {
         if (this.props.externalLink) {
-            window.location = this.props.externalLink;
+            const link = this.props.externalLink;
+            const win  = window.open(link, '_blank');
+            win.focus();
         }
     }
     

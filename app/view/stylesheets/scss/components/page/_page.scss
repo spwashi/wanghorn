@@ -4,27 +4,37 @@ $page--nav-_-color : black;
 $page--nav--shadow-_-color : darken($body--backgroundColor, 20%);
 
 .page {
+	width        : 80%;
+	margin-left  : auto;
+	margin-right : auto;
+
 	a {
 		border-bottom : thin solid $hyperlink-_-bottom-border-color;
 	}
 	nav {
 		padding    : 0 10px 10px 0;
+		box-sizing : padding-box;
 		a {
 			border-bottom : none;
 			color         : $page--nav-_-color;
 		}
 		ul, ol {
+			display : flex;
 			margin  : 0;
 			padding : 0;
 		}
-		box-sizing : padding-box;
 		li {
+			list-style       : none;
 			margin-right     : 10px;
-			padding          : 5px 10px;
 			background-color : $page-link-_-bg-color;
-			display          : inline-block;
 			border           : thin solid $page-link-_-bg-color;
 			box-shadow       : 1px 1px 8px $page--nav--shadow-_-color;
+			a {
+				display : block;
+				width   : 100%;
+				height  : 100%;
+				padding : 5px 10px;
+			}
 			&:hover {
 				box-shadow    : 1px 1px 8px darken($page--nav--shadow-_-color, 10%);
 				border-bottom : thin solid $page--nav--shadow-_-color;
@@ -63,5 +73,13 @@ $page--nav--shadow-_-color : darken($body--backgroundColor, 20%);
 		text-align  : center;
 		content     : 'top';
 		display     : block;
+	}
+}
+
+@media screen and (max-width : 800px), screen and (max-device-width : 400px) {
+	.page {
+		width : 90%;
+		nav {
+		}
 	}
 }

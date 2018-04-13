@@ -1,6 +1,7 @@
 @import "colors";
 
 .page--__--home {
+	margin : 0;
 	height : 100%;
 	#profile {
 		height         : 100%;
@@ -47,7 +48,6 @@
 			background : mix(lighten($header__backgroundColor, 25%), $accent_color_1);
 		}
 	}
-
 	.profile--image--wrapper {
 		top           : 10vh;
 		height        : 20vw;
