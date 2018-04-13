@@ -1,13 +1,17 @@
 # wanghorn
 
 
-Wanghorn is a personal playground project meant to help develop my skills as an architect and provide me with intimate knowledge of an extensible system I could use to experiment with other technologies. The Backend is written in a PHP framework I built called SmPHP.
+Wanghorn is a personal dummy application that I started to learn more about software architecture (and software interoperability),
+and it also serves as a bit of a code library to make it easier for me to implement consistently recurring web design features.
 
-The application is configured using a small JS library I wrote called SmJS. This allows us to flexibly configure Models, Entities, and their Properties, saving the output as JSON which is loaded by PHP into memory. Caching is not yet implemented but is planned for future versions.
+The application is configured using a small JS library I wrote called SmJS. This allows us to flexibly configure Models, Entities, and their Properties, saving the output as JSON which is loaded by PHP into memory.
+The backend is based on a framework I built and named SmPHP.
+
+Caching is not yet implemented but is planned for future versions.
 
 # System requirements
 Wanghorn has only been tested on 
-* Ubuntu 17.04 and CentOS 7
+* Ubuntu 17.10 and CentOS 7
 * Node 7.10
 * PHP 7.1/7.2
 * Apache 2.4.25
@@ -31,36 +35,19 @@ Wanghorn has only been tested on
    export const APP_URL       = `${APP_DOMAIN}/${APP_PATH}`;
    ```
    
-   To change more of the defaults, you might want to edit more of the ```SITE_ROOT/app/config/index.js```, ```SITE_ROOT/app/config/config.php```, or ```SITE_ROOT/app/index.php``` files. 
-4. run the ```initialize``` script to get the default application structure complete. 
+   To change more of the defaults, you might want to edit more of the ```app/config/index.js```, ```app/config/config.php```, or ```app/index.php``` files if you'd like a more custom solution (files listed in ascending order according to the need for customizability).
+4. Run the ```init``` script to interpret the configuration JS files and save them in a location that can be read by the backend (PHP) or frontend.
 
    I've typically installed this on my personal computer at ```/var/www/SITE_ROOT_FOLDER_NAME```.
 
    ```shell
-   cd SITE_ROOT_FOLDER_NAME/app/scripts
-   ./initialize.sh
+   cd SITE_ROOT_FOLDER_NAME/app
+   npm run init
    ```
-4. If you want to tweak the app/config/index.js file more later (or if you modify a file in app/config/pre/ ), you can run the app/initialize.js file to save the configuration to app/config/out/
-
-3. Create the output config files and rename placeholder variables
-   
-   ```shell
-   
-   # If you can use a bash terminal, there is a script that can be run with no arguments
-   
-   cd SITE_ROOT/app/scripts
-   ./initApplication.sh
-   
-   # If you don't have access to a bash terminal, you can just run the initialize.js script 
-   #   Only the first argument to the initialize.js script is required (the path to the app/ folder (or whatever it's called)
-   #   The other two arguments are assumed to be standard (unchanged from the default wanghorn app) and are the
-   #     config path (./app/config) and the location containing the site index file/public dir (./)
-   
-   node --require babel-register initialize.js SITE_ROOT/app SITE_ROOT/app/config SITE_ROOT
-   
-   ```   
-
-At this point, if you've installed this as a folder under your localhost, you should be able to access it by following [http://APP_DOMAIN/APP_PATH](http://APP_DOMAIN/APP_PATH).
+    * If you want to tweak the app/config/index.js file more later (or if you modify a file in app/config/pre/ ), you can run the same command which will update the configuration files located in ```app/config/out/```
+    * This will create a public.json file at ```app/config/out/public.json``` which consists of the configuration that should be available to both the frontend and backend.
+        * Right now there is not yet an implemented procedure for customizing the attributes of this JSON file.
+    * At this point, if you've installed this at an accessible location (can read the index.php located at site root), you should be able to access it by following [http://APP_URL](http://APP_URL).
 
 # Configuration
 

@@ -3,7 +3,7 @@ import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HtmlPlugin from "html-webpack-plugin";
 import path from "path";
 
-import {APP_NAME, APP_PATH__PUBLIC_DIR, APP_URL, APP_PATH__VIEW_DIR, ENVIRONMENT} from "../config";
+import {APP_NAME, APP_PATH__PUBLIC_DIR, APP_URL, APP_PATH__VIEW_DIR, ENVIRONMENT} from "../config/config";
 
 //++sm++ boilerplate
 export const outputPath       = `${APP_PATH__PUBLIC_DIR}`;

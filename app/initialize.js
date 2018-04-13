@@ -1,6 +1,6 @@
 import models from "./config/pre/models";
 import {routes} from "./config/pre/routes/routes"
-import {APP_BASE_URL_PATH, APP_NAME, APP_NAMESPACE, APP_PATH__APP_DIR, APP_PATH__CONFIG_DIR, APP_PATH__PUBLIC_DIR, APP_ROOT_URL, APP_URL__PUBLIC, ENVIRONMENT} from "./config";
+import {APP_BASE_URL_PATH, APP_NAME, APP_NAMESPACE, APP_PATH__APP_DIR, APP_PATH__CONFIG_DIR, APP_PATH__PUBLIC_DIR, APP_ROOT_URL, APP_URL__PUBLIC, ENVIRONMENT} from "./config/config";
 import fs from "fs";
 import replace from "replace-in-file";
 import {Sm} from "spwashi-sm"
