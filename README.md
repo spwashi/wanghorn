@@ -23,19 +23,23 @@ Wanghorn has only been tested on
 2. Configure the SITE_ROOT/app/config/index.js file
 
    ```JavaScript
-   // The domain name of the site we are configuring
-   export const APP_DOMAIN    = 'http://localhost';
-   // The URL Path (sans leading or trailing slash) at which the main site can be found relative to the domain
-   export const APP_PATH      = `wanghorn`;
-   // The name of the application without spaces. Case sensitive, I recommend lowercase-with-dashes or camelCased
-   export const APP_NAME      = `wanghorn`;
-   // The namespace used in PHP to prefix app-specific files
-   export const APP_NAMESPACE = APP_NAME.toUpperCase();
-   // The URL including the Path that we will use to access our files
-   export const APP_URL       = `${APP_DOMAIN}/${APP_PATH}`;
+    // The domain name of the site we are configuring
+    export const APP_ROOT_URL      = 'http://localhost';
+    // The URL Path (sans leading or trailing slash) at which the main site can be found relative to the domain
+    export const APP_BASE_URL_PATH = `wanghorn`;
+    // The name of the application without spaces. Case sensitive, I recommend lowercase-with-dashes or camelCased
+    export const APP_NAME          = `wanghorn`;
+    // The namespace used in PHP to prefix app-specific files
+    export const APP_NAMESPACE     = APP_NAME.toUpperCase();
+    // The URL including the Path that we will use to access our files
+    export const APP_URL           = `${APP_ROOT_URL}/${APP_BASE_URL_PATH}`;
+    // URL for the public files (where we access the files output by webpack)
+    export const APP_URL__PUBLIC   = `${APP_ROOT_URL}/public`;
+    // The environment in which we are operating -- defaults to production for the sake of probable intention
+    export const ENVIRONMENT       = process.env.NODE_ENV || 'production';
    ```
    
-   To change more of the defaults, you might want to edit more of the ```app/config/index.js```, ```app/config/config.php```, or ```app/index.php``` files if you'd like a more custom solution (files listed in ascending order according to the need for customizability).
+   To change more of the defaults, you might want to edit more of the ```app/config/config.js```, ```app/config/config.php```, or ```app/index.php``` files if you'd like a more custom solution (files listed in ascending order according to the need for customizability).
 4. Run the ```init``` script to interpret the configuration JS files and save them in a location that can be read by the backend (PHP) or frontend.
 
    I've typically installed this on my personal computer at ```/var/www/SITE_ROOT_FOLDER_NAME```.
@@ -44,7 +48,7 @@ Wanghorn has only been tested on
    cd SITE_ROOT_FOLDER_NAME/app
    npm run init
    ```
-    * If you want to tweak the app/config/index.js file more later (or if you modify a file in app/config/pre/ ), you can run the same command which will update the configuration files located in ```app/config/out/```
+    * If you want to tweak the app/config/config.js file more later (or if you modify a file in app/config/pre/ ), you can run the same command which will update the configuration files located in ```app/config/out/```
     * This will create a public.json file at ```app/config/out/public.json``` which consists of the configuration that should be available to both the frontend and backend.
         * Right now there is not yet an implemented procedure for customizing the attributes of this JSON file.
     * At this point, if you've installed this at an accessible location (can read the index.php located at site root), you should be able to access it by following [http://APP_URL](http://APP_URL).
