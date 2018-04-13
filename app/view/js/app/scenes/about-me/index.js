@@ -44,10 +44,14 @@ export default class extends React.Component {
         const aScript = document.createElement('script');
         aScript.type  = 'text/javascript';
         aScript.src   = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js";
-        
         document.head.appendChild(aScript);
         aScript.onload = function () {
-            hljs.initHighlightingOnLoad();
+            const all = document.querySelectorAll("pre code");
+            console.log(all);
+            all.forEach(function (block, i) {
+                console.log(i);
+                hljs.highlightBlock(block);
+            });
         };
     }
     

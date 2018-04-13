@@ -33,7 +33,6 @@ const BackToTop = class extends React.Component {
     
     render() {
         const classname = this.state.active ? 'active' : 'inactive';
-        console.log(classname);
         return <div id="back-to-top" className={classname} tabIndex={0} onClick={this.toTop}></div>;
     }
 };
