@@ -1,5 +1,4 @@
 import path from "path";
-import {PUBLIC} from "../view/js/paths";
 
 // ASSUMED TO CHANGE
 
