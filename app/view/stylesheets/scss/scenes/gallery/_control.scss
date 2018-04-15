@@ -1,0 +1,16 @@
+$gallery_item--tag--colors_list : #4b8b8b #aea728 #747a61;
+$tag--color : lighten(#747a61, 25%);
+@for $i from 1 through length($gallery_item--tag--colors_list) {
+	$c : nth($gallery_item--tag--colors_list, $i);
+	.gallery_item--tag__-#{$i} {
+		background : $c;
+	}
+}
+
+.gallery_item--tag {
+	background    : $tag--color;
+	border        : thin solid darken(#747a61, 10%);
+	border-radius : 5px;
+	padding       : 3px;
+	font-size     : .75em;
+}

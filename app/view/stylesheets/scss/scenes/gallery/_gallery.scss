@@ -1,14 +1,17 @@
 @import "item";
 @import "filter/filter";
 @import "colors";
+@import "control";
 
 $gallery_item--borderColor : lighten(#555, 70%);
 
 .page--__--gallery {
-	* {
-		font-family : monospace;
-		font-weight : normal;
-		font-size   : .9em;
+	.gallery_item--control, .gallery_item {
+		&, & > * {
+			font-family : monospace;
+			font-weight : normal;
+			font-size   : .9em;
+		}
 	}
 	height : 100%;
 	width  : 100%;

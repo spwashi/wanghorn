@@ -4,13 +4,25 @@ $gallery_item--backgroundColor : #fafafa;
 .gallery_item {
 	width            : 30%;
 	padding          : 1%;
-	height           : 200px;
+	height           : 225px;
 	box-shadow       : 3px 3px 3px $gallery_item--shadowColor;
 	background-color : $gallery_item--backgroundColor;
 	margin-bottom    : 15px;
 
 	.price, .name {
 		display : inline-block;
+	}
+	.tag--container {
+		clear      : both;
+		width      : 100%;
+		padding-top : 10px;
+		@include clearfix();
+		* {
+			float : right;
+		}
+		.tag {
+			margin-left : 4px;
+		}
 	}
 	.name {float : left;}
 	.price {float : right;}
@@ -31,7 +43,7 @@ $gallery_item--backgroundColor : #fafafa;
 .gallery_item--image--wrapper {
 	.jessica {
 		background-size       : cover;
-		background-position-y : bottom ;
+		background-position-y : bottom;
 	}
 	.philip {
 		background-size       : cover;

@@ -13,7 +13,7 @@ export default class SelectMultipleFilter extends React.Component {
                         return (
                             <li key={cat} className="filter-category--wrapper">
                                 <label>
-                                    <input type="checkbox" name={`${cat_identifier}`} />
+                                    <input onChange={event=>alert("will implement soon!")} type="checkbox" name={`${cat_identifier}`} />
                                     <div className="category--name">{cat}</div>
                                 </label>
                             </li>
