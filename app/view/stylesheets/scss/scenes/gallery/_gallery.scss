@@ -7,9 +7,12 @@ $gallery_item--borderColor : lighten(#555, 70%);
 
 .page--__--gallery {
 	.gallery_item--control, .gallery_item {
+		* {
+			font-weight : normal;
+			font-family : inherit;
+		}
 		&, & > * {
 			font-family : monospace;
-			font-weight : normal;
 			font-size   : .9em;
 		}
 	}
@@ -20,7 +23,6 @@ $gallery_item--borderColor : lighten(#555, 70%);
 		&, .gallery_item--image--wrapper {
 			border : thin solid darken($body--backgroundColor, 6%);
 		}
-
 		&:hover {
 			&, .gallery_item--image--wrapper {
 				border : thin solid darken($gallery_item--borderColor, 70%);

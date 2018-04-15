@@ -45,7 +45,6 @@ export default class GalleryItem extends React.Component {
             
             return Object.entries(tags)
                          .map(([index, tags]) => {
-                             console.log(index, tags);
                              if (!Array.isArray(tags)) tags = [tags];
                              return tags.map(tag =>
                                                  <Tag key={index + '-_-' + tag} className={`gallery_item--tag tag-_-${index} gallery_item--tag__${tag}`}>
@@ -55,11 +54,11 @@ export default class GalleryItem extends React.Component {
         };
         
         return (
-            <div className={"gallery_item " + (externalLink ? 'clickable ' : '')} onClick={this.handleClick}>
-                <div className="gallery_item--image--wrapper image--wrapper">{children}</div>
-                <div className="gallery_item--status status">{status}</div>
+            <div className={"gallery_item "}>
+                <div onClick={this.handleClick} className={"gallery_item--image--wrapper image--wrapper " + (externalLink ? 'clickable ' : '')}>{children}</div>
                 <div className="gallery_item--name name">{name}</div>
                 <div className="gallery_item--price price">${formatted_price.replace('.00', '')}</div>
+                <div className="gallery_item--status status">{status}</div>
                 <div className="gallery_item--tag--container tag--container">
                     {<Tags tags={tags} />}
                 </div>
@@ -69,8 +68,8 @@ export default class GalleryItem extends React.Component {
 }
 
 GalleryItem.propTypes = {
-    children: PropTypes.element,
-    name:     PropTypes.string,
+    children: PropTypes.element.isRequired,
+    name:     PropTypes.string.isRequired,
     status:   PropTypes.string,
     price:    PropTypes.number,
     tags:     PropTypes.oneOfType([
