@@ -9,6 +9,9 @@ const spwashi_site = "https://spwashi.com";
 
 export const Home = () => {
     const intros = [
+        <small style={{fontSize: .5 + 'em'}}> [ If you'd like to see an updated version of this site relative to what might be in your cache, please hard refresh (Cmd+Shift+R or Ctrl+Shift+R ). I'll update the whole "caching" thing when I get home!] </small>,
+        '',
+        '',
         "My name is William!",
         <div>I'm a dummy site that <a href={spwashi_site}>Sam Washington</a> uses to quickly deploy web sites and applications.</div>,
         '',
