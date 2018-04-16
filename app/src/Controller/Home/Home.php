@@ -32,4 +32,9 @@ class Home extends BaseApplicationController {
         
         return $rendered;
     }
+    public function gallery() {
+        $file_get_contents = file_get_contents(__DIR__ . '/projects.json');
+        $json_decode       = json_decode($file_get_contents, 1);
+        return $json_decode;
+    }
 }

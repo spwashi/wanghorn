@@ -1,16 +1,19 @@
 {
-    "env":       "production",
-    "name":      "wanghorn",
-    "namespace": "WANGHORN",
-    "paths":     {
-        "src":    null,
-        "config": "/var/www/wanghorn/app/config",
-        "public": "/var/www/wanghorn/public",
-        "app":    "/var/www/wanghorn/app"
-    },
-    "urlPath":   "wanghorn",
-    "urls":      {
-        "root": "http://localhost",
-        "base": "http://localhost/wanghorn"
-    }
+   "env": "development",
+   "name": "wanghorn",
+   "namespace": "WANGHORN",
+   "paths": {
+      "src": null,
+      "config": "/var/www/wanghorn/app/config",
+      "public": "/var/www/wanghorn/public",
+      "app": "/var/www/wanghorn/app"
+   },
+   "urlPath": "wanghorn",
+   "urls": {
+      "src": null,
+      "config": null,
+      "public": "http://localhost/public",
+      "root": "http://localhost",
+      "base": "http://localhost/wanghorn"
+   }
 }

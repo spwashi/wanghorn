@@ -12,18 +12,12 @@ html {
 
 *, button, input {
 	font-weight  : bold;
-	word-spacing : 0px;
+	word-spacing : 0;
 	line-height  : 1.2em;
 	font-family  : 'Spwashi2', sans-serif;
-	h1 {
-		font-size : 1.5em;
-	}
-	h2 {
-		font-size : 1.3em;
-	}
-	h3 {
-		font-size : .9em;
-	}
+	h1 {font-size : 1.5em;}
+	h2 {font-size : 1.3em;}
+	h3 {font-size : 1.1em;}
 
 }
 

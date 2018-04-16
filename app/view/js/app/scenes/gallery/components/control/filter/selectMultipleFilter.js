@@ -6,14 +6,16 @@ export default class SelectMultipleFilter extends React.Component {
         const {categories} = this.props;
         
         return (
-            <ul className="filter__select-multiple">
+            <ul className="filter--manager filter--manager__select-multiple">
                 {
-                    categories.map(cat => {
-                        const cat_identifier = `category--${cat.toLowerCase()}`;
+                    categories.map(cats => {
+                        const {text, name}   = cats;
+                        const cat            = text;
+                        const cat_identifier = `category--${name}`;
                         return (
-                            <li key={cat} className="filter-category--wrapper">
+                            <li key={cat || name} className="filter_category--wrapper">
                                 <label>
-                                    <input onChange={event=>alert("will implement soon!")} type="checkbox" name={`${cat_identifier}`} />
+                                    <input onChange={event => alert("Will implement soon!")} type="checkbox" name={`${cat_identifier}`} />
                                     <div className="category--name">{cat}</div>
                                 </label>
                             </li>
@@ -26,5 +28,8 @@ export default class SelectMultipleFilter extends React.Component {
 }
 
 SelectMultipleFilter.propTypes = {
-    categories: PropTypes.arrayOf(PropTypes.string)
+    categories: PropTypes.arrayOf(PropTypes.shape({
+                                                      text: PropTypes.string,
+                                                      name: PropTypes.string
+                                                  }))
 };

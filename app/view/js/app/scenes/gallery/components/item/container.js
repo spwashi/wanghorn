@@ -11,7 +11,7 @@ export default class GalleryItemContainer extends React.Component {
             </section>
         )
     }
-}
+};
 GalleryItemContainer.propTypes = {
     children: PropTypes.arrayOf(PropTypes.element)
 };

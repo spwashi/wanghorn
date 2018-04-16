@@ -26,6 +26,10 @@
          "pattern": "dev/models"
       },
       {
+         "resolution": "#Home\\Home::gallery",
+         "pattern": "gallery/items.json"
+      },
+      {
          "resolution": "#Dev\\Dev::eg",
          "pattern": "dev/example",
          "name": "example"

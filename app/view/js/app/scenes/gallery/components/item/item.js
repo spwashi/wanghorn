@@ -1,24 +1,9 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
+import Tag from "./tag";
 
-class Tag extends React.Component {
-    render() {
-        const {className, children} = this.props;
-        return (
-            <div className={"tag " + className}>
-                {children}
-            </div>
-        )
-    }
-}
-
-Tag.propTypes = {
-    className: PropTypes.string,
-    children:  PropTypes.string
-};
-
-export default class GalleryItem extends React.Component {
+export default class Item extends React.Component {
     @bind
     handleClick() {
         if (this.props.externalLink) {
@@ -29,10 +14,10 @@ export default class GalleryItem extends React.Component {
     }
     
     render() {
-        let {children, name, price, status, externalLink, tags} = this.props;
-        const formatted_price                                   = price.toFixed(2)
-                                                                       .replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-        tags                                                    = tags || [];
+        let {img: children, name, price, status, externalLink, tags} = this.props;
+        const formatted_price                                        = price.toFixed(2)
+                                                                            .replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        tags                                                         = tags || [];
         
         const Tags = ({tags}) => {
             if (Array.isArray(tags)) {
@@ -46,10 +31,14 @@ export default class GalleryItem extends React.Component {
             return Object.entries(tags)
                          .map(([index, tags]) => {
                              if (!Array.isArray(tags)) tags = [tags];
-                             return tags.map(tag =>
-                                                 <Tag key={index + '-_-' + tag} className={`gallery_item--tag tag-_-${index} gallery_item--tag__${tag}`}>
-                                                     {tag}
-                                                 </Tag>)
+                             return tags.map(tag => {
+                                 const {text, name} = tag;
+                                 return (
+                                     <Tag key={`${index}-_-${name}`} className={`gallery_item--tag tag-_-${index} gallery_item--tag__${name}`}>
+                                         {text}
+                                     </Tag>
+                                 );
+                             });
                          })
         };
         
@@ -67,15 +56,19 @@ export default class GalleryItem extends React.Component {
     }
 }
 
-GalleryItem.propTypes = {
-    children: PropTypes.element.isRequired,
-    name:     PropTypes.string.isRequired,
-    status:   PropTypes.string,
-    price:    PropTypes.number,
-    tags:     PropTypes.oneOfType([
-                                      PropTypes.arrayOf(PropTypes.string),
-                                      PropTypes.object
-                                  ]),
+Item.propTypes = {
+    img:    PropTypes.element.isRequired,
+    name:   PropTypes.string.isRequired,
+    status: PropTypes.string,
+    price:  PropTypes.number,
+    tags:   PropTypes.oneOfType([
+                                    PropTypes.arrayOf(
+                                        PropTypes.oneOfType(
+                                            [PropTypes.string, PropTypes.object]
+                                        )
+                                    ),
+                                    PropTypes.object
+                                ]),
     
     externalLink: PropTypes.string
 };

@@ -17,7 +17,7 @@ $tag--color : lighten(#747a61, 35%);
 	user-select   : none;
 	&:hover {
 		font-weight     : normal;
-		border          : 1px lighten($tag--color, 10%);
+		border          : 1px solid lighten($tag--color, 10%);
 		text-decoration : underline;
 	}
 }

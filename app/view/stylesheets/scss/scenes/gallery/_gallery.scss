@@ -21,7 +21,7 @@ $gallery_item--borderColor : lighten(#555, 70%);
 	.gallery_item {
 		box-shadow : 3px 3px 3px darken($body--backgroundColor, 5%);
 		&, .gallery_item--image--wrapper {
-			border : thin solid darken($body--backgroundColor, 6%);
+			border : thin solid darken($body--backgroundColor, 40%);
 		}
 		&:hover {
 			&, .gallery_item--image--wrapper {
