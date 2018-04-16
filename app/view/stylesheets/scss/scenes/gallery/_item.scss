@@ -59,6 +59,7 @@ $gallery_item--backgroundColor : #fafafa;
 		transition          : background-color 3s;
 		animation           : hover--gallery_item--out 5s;
 		animation-direction : reverse;
+		content             : '';
 	}
 	&:hover {
 		&::before {

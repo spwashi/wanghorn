@@ -3,7 +3,7 @@ import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HtmlPlugin from "html-webpack-plugin";
 import path from "path";
 
-import {APP_NAME, APP_PATH__PUBLIC_DIR, APP_URL, APP_PATH__VIEW_DIR, ENVIRONMENT} from "../config/config";
+import {APP_NAME, APP_PATH__PUBLIC_DIR, APP_PATH__VIEW_DIR, APP_URL, ENVIRONMENT} from "../config/config";
 
 //++sm++ boilerplate
 export const outputPath       = `${APP_PATH__PUBLIC_DIR}`;
@@ -12,23 +12,23 @@ export const outputPath__HTML = path.resolve(outputPath, 'html');
 export const inputPath__CSS   = path.resolve(APP_PATH__VIEW_DIR, 'stylesheets', 'scss');
 //--sm-- boilerplate
 
-const IS_PROD               = ENVIRONMENT === 'production';
-const htmlTemplatePath      = path.resolve(__dirname, '../view/html/react.html');
-const relativeCSS_output    = "../css/style.css";
-export const indexHTML_name = `${APP_NAME}.html`;
-const relativeHTML_output   = `../html/${indexHTML_name}`;
-const publicPath__JS        = `${APP_URL}/public/js`;
-const publicPath__HTML      = `${APP_URL}/public/html`;
-const publicPath__IMG       = `${APP_URL}/public/img`;
-const publicPath__CSS       = `${APP_URL}/public/css`;
-const outputFileName        = `${APP_NAME}.js`;
+const IS_PROD                      = ENVIRONMENT === 'production';
+const htmlTemplatePath             = path.resolve(__dirname, '../view/html/react.html');
+const relativeCSS_output           = "../css/style.css";
+export const indexHTML_name        = `${APP_NAME}.html`;
+const relativeHTML_output_filename = `../html/${indexHTML_name}`;
+const publicPath__JS               = `${APP_URL}/public/js`;
+const publicPath__HTML             = `${APP_URL}/public/html`;
+const publicPath__IMG              = `${APP_URL}/public/img`;
+const publicPath__CSS              = `${APP_URL}/public/css`;
+const outputFileName               = `${APP_NAME}-[hash:6].js`;
 
 const plugins = [
     new ExtractTextPlugin({filename: relativeCSS_output}),
     new HtmlPlugin({
                        title:    APP_NAME,
                        template: htmlTemplatePath,
-                       filename: relativeHTML_output,
+                       filename: relativeHTML_output_filename,
                        public:   {
                            publicPath__IMG,
                            publicPath__HTML,
@@ -36,8 +36,6 @@ const plugins = [
                        }
                    }),
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
                                  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
                              }),
