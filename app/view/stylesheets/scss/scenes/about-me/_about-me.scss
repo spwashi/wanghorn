@@ -1,3 +1,4 @@
+
 .page--__--about-me {
 	margin-top : 10px;
 	pre {
@@ -10,8 +11,8 @@
 	.content--section {
 		padding          : 10px;
 		margin-bottom    : 15px;
-		background-color : #fff;
-		box-shadow       : 3px 3px 10px darken($body--backgroundColor, 10%);
+		background-color : $pageContent--color;
+		box-shadow       : 3px 3px 10px darken(desaturate($body--backgroundColor, 100%), 20%);
 		.content--section {
 			box-shadow : none;
 		}
@@ -37,7 +38,7 @@
 	display          : flex;
 	flex-direction   : row;
 	padding          : 10px 0;
-	background-color : $body--backgroundColor;
+	background-color : darken($pageContent--color, 10%);
 	border-bottom    : thin solid darken($body--backgroundColor, 20%);
 	.label {
 		border-bottom : none;

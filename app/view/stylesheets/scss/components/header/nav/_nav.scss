@@ -13,6 +13,23 @@
 	height           : 100%;
 	display          : inline-block;
 	background-color : $navLink__backgroundColor;
+	a {
+		padding         : 0 10px;
+		height          : 100%;
+		display         : block;
+		font-style      : normal;
+		color           : $navLink__color;
+		text-decoration : none;
+		text-transform  : uppercase;
+		line-height     : 200%;
+		box-sizing      : content-box;
+		&:before {
+			content        : '';
+			display        : inline-block;
+			height         : 100%;
+			vertical-align : middle;
+		}
+	}
 	&:hover {
 		background-color : $navLink__backgroundColor--hover;
 	}
@@ -47,22 +64,6 @@
 			}
 		}
 	}
-	a {
-		padding         : 0 10px;
-		height          : 100%;
-		display         : block;
-		color           : $navLink__color;
-		text-decoration : none;
-		text-transform  : uppercase;
-		line-height     : 200%;
-		box-sizing      : content-box;
-		&:before {
-			content        : '';
-			display        : inline-block;
-			height         : 100%;
-			vertical-align : middle;
-		}
-	}
 }
 
 .header-standard > nav .navigation--link_container {
@@ -87,7 +88,7 @@
 					text-wrap   : none;
 					word-break  : keep-all;
 					line-height : 1em;
-					display : inline-block;
+					display     : inline-block;
 				}
 			}
 		}

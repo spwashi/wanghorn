@@ -56,8 +56,8 @@ $gallery_item--backgroundColor : #fafafa;
 	overflow   : hidden;
 	position   : relative;
 	&::before {
-		transition          : background-color 3s;
-		animation           : hover--gallery_item--out 5s;
+		transition          : background-color .3s;
+		animation           : hover--gallery_item--out .35s;
 		animation-direction : reverse;
 		content             : '';
 	}
@@ -69,7 +69,7 @@ $gallery_item--backgroundColor : #fafafa;
 			content          : '';
 			animation        : hover--gallery_item--in .3s;
 			z-index          : 2;
-			background-color : $accent_color_1;
+			background-color : desaturate($palette_color_1, 17%);
 			opacity          : .3;
 			position         : absolute;
 			top              : 0;

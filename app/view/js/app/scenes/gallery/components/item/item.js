@@ -43,8 +43,8 @@ export default class Item extends React.Component {
         };
         
         return (
-            <div className={"gallery_item "}>
-                <div onClick={this.handleClick} className={"gallery_item--image--wrapper image--wrapper " + (externalLink ? 'clickable ' : '')}>{children}</div>
+            <div onClick={this.handleClick} className={"gallery_item "}>
+                <div className={"gallery_item--image--wrapper image--wrapper " + (externalLink ? 'clickable ' : '')}>{children}</div>
                 <div className="gallery_item--name name">{name}</div>
                 <div className="gallery_item--price price">${formatted_price.replace('.00', '')}</div>
                 <div className="gallery_item--status status">{status}</div>

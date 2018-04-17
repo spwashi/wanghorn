@@ -25,7 +25,7 @@ class Gallery extends React.Component {
         const filters = getAvailableFiltersFromGalleryItems(items);
         return (
             <div className="gallery">
-                <aside className="gallery_item--control">
+                <aside className="gallery_item--container--control">
                     <GalleryItemFilterContainer>{filters}</GalleryItemFilterContainer>
                 </aside>
                 <GalleryItemContainer>

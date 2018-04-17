@@ -1,4 +1,4 @@
-@import "../../colors";
+@import "../../colors/colors";
 
-$header__backgroundColor : darken($body--backgroundColor, 45%);
+$header__backgroundColor : $accent_color__1;
 $logo-item__header-std__backgroundColor : #fff;

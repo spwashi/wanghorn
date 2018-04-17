@@ -10,8 +10,7 @@ const spwashi_site = "https://spwashi.com";
 export const Home = () => {
     const intros = [
         "My name is William!",
-        <div>I'm a dummy site that <a href={spwashi_site}>Sam Washington</a> uses to quickly deploy web sites and applications.</div>,
-        '',
+        <div>I'm a dummy site that <a href={spwashi_site}>Sam Washington</a> uses to quickly deploy web sites and apps!</div>,
         <LinkItem to={`${ABOUT_ME}#to-do`}>I'm a work in progress!</LinkItem>
     ];
     return (
@@ -24,8 +23,10 @@ export const Home = () => {
                     <div className="greeting">Hello!!!</div>
                     {
                         intros.map((intro, i) => typeof intro === 'string' ?
-                                                 <p key={i}>{intro}</p> :
-                                                 <div key={i}>{intro}</div>
+                                                 <div key={i}><span className="text">{intro}</span></div> :
+                                                 <div key={i}>
+                                                     <div className="content">{intro}</div>
+                                                 </div>
                         )
                     }
                 </section>

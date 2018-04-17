@@ -1,0 +1,5 @@
+@import "../variables";
+@import "palette";
+
+$body--backgroundColor : $palette_color_5;
+$body--backgroundColor-shadowNear : darken($body--backgroundColor, 50%);

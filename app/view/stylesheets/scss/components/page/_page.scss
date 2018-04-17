@@ -1,4 +1,4 @@
-@import "colors";
+@import "colors/colors";
 
 $page--nav-_-color : black;
 $page--nav--shadow-_-color : darken($body--backgroundColor, 20%);
@@ -12,8 +12,10 @@ $page--nav--shadow-_-color : darken($body--backgroundColor, 20%);
 		border-bottom : thin solid $hyperlink-_-bottom-border-color;
 	}
 	nav {
-		padding    : 0 10px 10px 0;
-		box-sizing : padding-box;
+		padding       : 0 10px 15px 0;
+		box-sizing    : padding-box;
+		border-bottom : 1px solid darken($body--backgroundColor, 20%);
+		margin-bottom : 15px;
 		a {
 			border-bottom : none;
 			color         : $page--nav-_-color;
@@ -53,13 +55,13 @@ $page--nav--shadow-_-color : darken($body--backgroundColor, 20%);
 	height           : 50px;
 	width            : 50px;
 	box-shadow       : 4px 4px 8px 0px darken($body--backgroundColor, 25%);
-	background-color : darken(mix($body--backgroundColor, $accent_color_1), 10%);
+	background-color : darken(mix($body--backgroundColor, $palette_color_1), 10%);
 	&.inactive {
 		display : none;
 	}
 	&:hover {
 		cursor           : pointer;
-		background-color : saturate(mix($body--backgroundColor, $accent_color_1), 10%);
+		background-color : saturate(mix($body--backgroundColor, $palette_color_1), 10%);
 	}
 	&::before {
 		font-size   : .8em;
