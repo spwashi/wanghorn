@@ -10,7 +10,7 @@ html {
 	height    : 100%;
 }
 
-*, button, input {
+* {
 	font-weight  : bold;
 	word-spacing : 0;
 	line-height  : 1.2em;
@@ -18,7 +18,18 @@ html {
 	h1 {font-size : 1.5em;}
 	h2 {font-size : 1.3em;}
 	h3 {font-size : 1.1em;}
+}
 
+button, input {
+	font-family : monospace;
+	font-weight : normal;
+}
+
+button {
+	cursor : pointer;
+	&:hover {
+		font-weight : bold;
+	}
 }
 
 a {

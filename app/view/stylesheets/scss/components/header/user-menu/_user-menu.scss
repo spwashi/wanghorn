@@ -8,6 +8,9 @@ header {
 		height          : 100%;
 		position        : relative;
 		padding         : 10px;
+		button {
+			font-size : .7em;
+		}
 		input {display : inline-block;}
 		input, .action_button {
 			font-size    : .7em;
@@ -27,6 +30,7 @@ header {
 			@include clearfix();
 			> * {
 				padding   : 0;
+				width     : 100%;
 				clear     : both;
 				display   : block;
 				height    : 50%;

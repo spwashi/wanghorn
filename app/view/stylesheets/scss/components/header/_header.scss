@@ -4,19 +4,6 @@
 @import "variables";
 @import "colors";
 
-@mixin centeredTwin($width: 45%) {
-	$action-button__width : $width;
-	$action-button__sidePadding : 100% -(2*$action-button__width);
-	width : $action-button__width;
-
-	&:last-child {
-		margin : 2% 0 2% ($action-button__sidePadding/2);
-	}
-	&:first-child {
-		margin : 2% ($action-button__sidePadding/2) 2% 0;
-	}
-}
-
 .header-standard {
 	display          : flex;
 	align-items      : flex-start;

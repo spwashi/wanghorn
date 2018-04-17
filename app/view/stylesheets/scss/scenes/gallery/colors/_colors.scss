@@ -1,0 +1,9 @@
+@import "../../../variables";
+@import "../../../colors/colors";
+@import "../../../components/page/colors/colors";
+
+$gallery--profile-_-background-_-prop : url("#{$site_public_url_or_path}/img/base-2.png") fixed;
+$gallery_item--shadowColor : darken($body--backgroundColor, 10%);
+$gallery_item--backgroundColor : $pageContent--color;
+$gallery_item--backgroundColor__hover : desaturate(lighten($accent_color__1, 20%), 10%);
+$gallery_item--backgroundColor__hover : rgba($gallery_item--backgroundColor__hover, .5);

@@ -6,10 +6,22 @@ import Tag from "./tag";
 export default class Item extends React.Component {
     @bind
     handleClick() {
+        this.attemptNavigation();
+    }
+    
+    attemptNavigation() {
         if (this.props.externalLink) {
             const link = this.props.externalLink;
             const win  = window.open(link, '_blank');
             win.focus();
+        }
+    }
+    
+    @bind
+    handleKeyDown(event) {
+        if (event.keyCode === 32) {
+            this.attemptNavigation();
+            event.preventDefault();
         }
     }
     
@@ -19,7 +31,7 @@ export default class Item extends React.Component {
                                                                             .replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
         tags                                                         = tags || [];
         
-        const Tags = ({tags}) => {
+        const Tags           = ({tags}) => {
             if (Array.isArray(tags)) {
                 tags = {
                     general: tags
@@ -41,10 +53,10 @@ export default class Item extends React.Component {
                              });
                          })
         };
-        
+        const clickableClass = externalLink ? 'clickable ' : '';
         return (
-            <div onClick={this.handleClick} className={"gallery_item "}>
-                <div className={"gallery_item--image--wrapper image--wrapper " + (externalLink ? 'clickable ' : '')}>{children}</div>
+            <div onClick={this.handleClick} onKeyDown={this.handleKeyDown} tabIndex={0} className={`gallery_item  ${clickableClass}`}>
+                <div className={`gallery_item--image--wrapper image--wrapper`}>{children}</div>
                 <div className="gallery_item--name name">{name}</div>
                 <div className="gallery_item--price price">${formatted_price.replace('.00', '')}</div>
                 <div className="gallery_item--status status">{status}</div>
