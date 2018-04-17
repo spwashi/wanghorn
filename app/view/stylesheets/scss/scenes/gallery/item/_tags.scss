@@ -1,5 +1,5 @@
-$gallery_item--tag--colors_list : #4b8b8b #aea728 #747a61;
-$tag--color : lighten(#747a61, 35%);
+@import "colors";
+
 @for $i from 1 through length($gallery_item--tag--colors_list) {
 	$c : nth($gallery_item--tag--colors_list, $i);
 	.gallery_item--tag__-#{$i} {
@@ -9,15 +9,15 @@ $tag--color : lighten(#747a61, 35%);
 
 .gallery_item--tag {
 	background    : $tag--color;
-	border        : 1px solid darken($tag--color, 25%);
-	color         : darken($tag--color, 45%);
+	border        : 1px solid darken($tag--color, 45%);
+	color         : darken($tag--color, 65%);
 	border-radius : 2px;
 	padding       : 5px;
 	font-size     : .5em;
 	user-select   : none;
-	&:hover {
+	&.clickable:hover {
 		font-weight     : normal;
-		border          : 1px solid lighten($tag--color, 10%);
+		border          : 1px solid lighten($tag--color, 20%);
 		text-decoration : underline;
 	}
 }

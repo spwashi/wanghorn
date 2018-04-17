@@ -47,7 +47,6 @@ export default class extends React.Component {
         document.head.appendChild(aScript);
         aScript.onload = function () {
             const all = document.querySelectorAll("pre code");
-            console.log(all);
             all.forEach(function (block, i) {
                 console.log(i);
                 hljs.highlightBlock(block);

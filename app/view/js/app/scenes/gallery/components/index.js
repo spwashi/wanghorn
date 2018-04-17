@@ -2,31 +2,60 @@ import React from "react"
 import * as PropTypes from "prop-types"
 import Item from "./item/item";
 import {connect} from "react-redux";
-import {selectGallery} from "../selector";
+import {bindActionCreators} from 'redux'
+import {from_gallery_selectAllTags, selectActiveGalleryItems} from "../selector";
 import GalleryItemContainer from "./item/container";
-import SelectMultipleFilter from "./control/filter/selectMultipleFilter";
-import GalleryItemFilterContainer from "./control/filter/filterContainer";
-import {fetchGalleryItems} from "../actions";
-
-const getAvailableFiltersFromGalleryItems =
-          galleryItems => {
-              const galleryItemTagObjects  = galleryItems.map(mapItemToTagObject);
-              const reducedTagsByFilterObj = galleryItemTagObjects.reduce(reduceItemTagObjectIntoAll, {});
-              return Object.entries(reducedTagsByFilterObj).map(mapFilterIndexEntryToFilterWrapper);
-          };
+import {activateTag, deactivateTag, fetchGalleryItems} from "../actions";
+import ControlComponent from "./control/controlComponent";
+import {CONTROL__SELECT_MULTIPLE} from "./control/constants";
+import bind from "bind-decorator";
 
 class Gallery extends React.Component {
     componentDidMount() {
-        this.props.dispatch(fetchGalleryItems());
+        this.props.fetchGalleryItems();
+    }
+    
+    @bind
+    handleControlEvent(filterName, controlType, eventName, ...args) {
+        const tag_prefix = 'tag:';
+        switch (controlType) {
+            case CONTROL__SELECT_MULTIPLE:
+                const [selectItemName] = args;
+                if (filterName.indexOf(tag_prefix) >= 0) {
+                    const tagCategory                  = filterName.substr(tag_prefix.length);
+                    const {activateTag, deactivateTag} = this.props;
+                    const activationFunc               = eventName === 'ACTIVATE' ? activateTag
+                                                                                  : (eventName === 'DEACTIVATE' ? deactivateTag
+                                                                                                                : (function () {console.log(`missing prop -- ${eventName}`);}));
+                    activationFunc.bind(this)({category: tagCategory, tag: selectItemName})
+                }
+                console.log(eventName, filterName, ' -- ', selectItemName);
+        }
+    }
+    
+    getFilters() {
+        const tagEntries = Object.entries(this.props.tags);
+        return tagEntries.map(
+            ([index, items]) => {
+                const name  = 'tag:' + index;
+                const title = index.replace(/[-_]/g, ' ');
+                return <ControlComponent key={name}
+                                         controlType={CONTROL__SELECT_MULTIPLE}
+                                         name={name}
+                                         title={title}
+                                         onControlEvent={this.handleControlEvent}
+                                         items={items} />;
+            });
+        
     }
     
     render() {
         const {items} = this.props;
-        const filters = getAvailableFiltersFromGalleryItems(items);
+        const filters = this.getFilters();
         return (
             <div className="gallery">
-                <aside className="gallery_item--container--control">
-                    <GalleryItemFilterContainer>{filters}</GalleryItemFilterContainer>
+                <aside className="gallery_item--container--control_component--container">
+                    {filters}
                 </aside>
                 <GalleryItemContainer>
                     {items.map((item, key) => <Item key={key} {...item} />)}
@@ -50,42 +79,12 @@ Gallery.propTypes = {
                         })
     )
 };
-export default connect(
-    state => {
-        let {items} = selectGallery(state);
-        return {items};
-    }
-)(Gallery);
 
-// Helper functions
-
-// Gets the "tag" object from an item
-function mapItemToTagObject(item) {
-    const itemTagObject = item.tags;
-    
-    if (!itemTagObject) return;
-    if (Array.isArray(itemTagObject)) return;
-    if (typeof  itemTagObject !== "object") return;
-    return itemTagObject;
-}
-
-// Adds an item's tags into an object containing all tags indexed by category (or some other key)
-function reduceItemTagObjectIntoAll(allTagsByIndex, galleryItemTagObject) {
-    return Object.entries(galleryItemTagObject)
-                 .reduce((all, tagEntry) => {
-                     let [galleryIndex, tags] = tagEntry;
-                     const merged             = [...(all[galleryIndex] || []), ...tags];
-                     all[galleryIndex]        = [...new Set(merged)];
-                     return all;
-                 }, allTagsByIndex);
-}
-
-// Convert an entry from the overall tag object to an object containing a title and select
-function mapFilterIndexEntryToFilterWrapper([index, tags]) {
-    return (
-        <div key={JSON.stringify(tags)}>
-            <h3>{index}</h3>
-            <SelectMultipleFilter categories={tags} />
-        </div>
-    );
-}
+const mapState         = state => {
+    const items = selectActiveGalleryItems(state);
+    const tags  = from_gallery_selectAllTags(state);
+    return {items, tags};
+};
+const mapDispatch      = dispatch => bindActionCreators({activateTag, deactivateTag, fetchGalleryItems}, dispatch);
+const connectOnGallery = connect(mapState, mapDispatch);
+export default connectOnGallery(Gallery);

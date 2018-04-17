@@ -53,6 +53,12 @@ button {
 	border-radius : 2px;
 }
 
+code {
+	&, * {
+		font-family : monospace;
+	}
+}
+
 @media screen and (max-device-width : 400px) {
 	main {
 		font-size : 37px;

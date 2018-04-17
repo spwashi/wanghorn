@@ -12,10 +12,14 @@ export default class SelectMultipleFilter extends React.Component {
                         const {text, name}   = cats;
                         const cat            = text;
                         const cat_identifier = `category--${name}`;
+                        const onChange       = (event: Event) => {
+                            const isActive = event.target.checked;
+                            isActive ? this.props.onActivateItem(name) : this.props.onDeactivateItem(name)
+                        };
                         return (
                             <li key={cat || name} className="filter_category--wrapper">
                                 <label>
-                                    <input onChange={event => alert("Will implement soon!")} type="checkbox" name={`${cat_identifier}`} />
+                                    <input onChange={onChange} type="checkbox" name={`${cat_identifier}`} />
                                     <div className="category--name">{cat}</div>
                                 </label>
                             </li>
@@ -28,8 +32,10 @@ export default class SelectMultipleFilter extends React.Component {
 }
 
 SelectMultipleFilter.propTypes = {
-    categories: PropTypes.arrayOf(PropTypes.shape({
-                                                      text: PropTypes.string,
-                                                      name: PropTypes.string
-                                                  }))
+    categories:       PropTypes.arrayOf(PropTypes.shape({
+                                                        text: PropTypes.string,
+                                                        name: PropTypes.string
+                                                    })),
+    onActivateItem:   PropTypes.func,
+    onDeactivateItem: PropTypes.func
 };

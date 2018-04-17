@@ -1,0 +1,11 @@
+@import "colors";
+
+.control_component {
+	> .title, > .title--wrapper > .title {
+		color          : $control_component--title__fontColor;
+		border-bottom  : thin solid $control_component--title__borderBottomColor;
+		margin-bottom  : 10px;
+		padding-bottom : 10px;
+		text-transform : capitalize;
+	}
+}

@@ -1,26 +1,41 @@
 import React from "react"
 import {combineReducers} from "redux";
-import {FETCH_GALLERY_RECEIVED} from "./actions";
+import {ACTIVATE_TAG, DEACTIVATE_TAG, FETCH_GALLERY_RECEIVED} from "./actions";
 import {completeTag, TAG_TYPE__PROGRAMMING_LANGUAGE} from "./tags";
 
+const correctItem =
+          item => {
+              item = {...item};
+              if (item.asPerson) {
+                  item.img = <div className={"image " + item.asPerson.toLowerCase()}></div>;
+              }
+              if (item.tags.languages) {
+                  item.tags.languages = item.tags.languages.map(config => completeTag(TAG_TYPE__PROGRAMMING_LANGUAGE,
+                                                                                      config));
+              }
+              return item;
+          };
 export default combineReducers({
-                                   items: (state, action) => {
-                                       switch (action.type) {
-                                           case FETCH_GALLERY_RECEIVED:
-                                               const {items} = action;
-                                               items.forEach(item => {
-                                                   if (item.asPerson) {
-                                                       item.img = <div className={"image " + item.asPerson.toLowerCase()}></div>;
-                                                   }
-                                                   if (item.tags.languages) {
-                                                       item.tags.languages = item.tags.languages.map(config => completeTag(TAG_TYPE__PROGRAMMING_LANGUAGE,
-                                                                                                                           config));
-                                                       console.log(item.tags.languages);
-                                                   }
-                                               });
-                                               return items;
-                                           default:
-                                               return [];
+                                   activeTags:
+                                       (tags, {type, tag, category}) => {
+                                           const currentTag = {tag, category};
+                                           switch (type) {
+                                               case DEACTIVATE_TAG:
+                                                   return tags.filter(item => JSON.stringify(item) !== JSON.stringify(currentTag));
+                                               case ACTIVATE_TAG:
+                                                   console.log({type, tag, category});
+                                                   return [...tags, currentTag];
+                                               default:
+                                                   return tags || [];
+                                           }
+                                       },
+                                   items:
+                                       (state, {type, items}) => {
+                                           switch (type) {
+                                               case FETCH_GALLERY_RECEIVED:
+                                                   return items.map(correctItem);
+                                               default:
+                                                   return state || [];
+                                           }
                                        }
-                                   }
                                });

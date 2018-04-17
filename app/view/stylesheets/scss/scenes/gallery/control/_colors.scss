@@ -1,0 +1,4 @@
+@import "../colors/colors";
+
+$control_component--title__fontColor : darken($body--backgroundColor-shadowNear, 20%);
+$control_component--title__borderBottomColor : $body--backgroundColor-shadowNear;

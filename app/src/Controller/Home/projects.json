@@ -1,23 +1,37 @@
 [
     {
-        "name": "Philip!", "asPerson": "Philip", "externalLink": "https://github.com/spwashi/SmPHP", "price": 2015.02, "tags": {
-        "languages": [
-            { "text": "PHP" }
-        ]
-    }
+        "name":         "Philip!",
+        "asPerson":     "Philip",
+        "externalLink": "https://github.com/spwashi/SmPHP",
+        "price":        2015.02,
+        "tags":         {
+            "languages": [
+                { "text": "PHP", "url": "http://www.php.net" }
+            ]
+        }
     },
     {
-        "name": "William", "asPerson": "William", "externalLink": "https://github.com/spwashi/wanghorn", "price": 2017.08, "status": "Active", "tags": {
-        "languages": [
-            { "text": "ECMAScript" }, { "text": "PHP" }
-        ]
-    }
+        "name":         "William",
+        "asPerson":     "William",
+        "externalLink": "https://github.com/spwashi/wanghorn",
+        "price":        2017.08,
+        "status":       "Active",
+        "tags":         {
+            "languages": [
+                { "text": "ECMAScript", "url": "https://en.wikipedia.org/wiki/ECMAScript" },
+                { "text": "PHP" }
+            ]
+        }
     },
     {
-        "name": "Jessica!", "asPerson": "Jessica", "externalLink": "https://github.com/spwashi/SmJS", "price": 2017.1, "tags": {
-        "languages": [
-            { "text": "ECMAScript" }
-        ]
-    }
+        "name":         "Jessica!",
+        "asPerson":     "Jessica",
+        "externalLink": "https://github.com/spwashi/SmJS",
+        "price":        2017.1,
+        "tags":         {
+            "languages": [
+                { "text": "ECMAScript" }
+            ]
+        }
     }
 ]
