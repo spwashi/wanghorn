@@ -7,9 +7,9 @@ const APP__APP_PATH    = __DIR__ . '/';
 const APP__CONFIG_PATH = __DIR__ . '/config/';
 
 use Sm\Application\Application;
-use Sm\Communication\Request\Request;
 use Sm\Communication\Routing\Exception\RouteNotFoundException;
 use Sm\Modules\Network\Http\Http;
+use Sm\Modules\Network\Http\Request\HttpRequest;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -41,9 +41,14 @@ try {
         try {###- Create and dispatch the error response -###
             
             $error_route      = $communicationLayer->getRoute('404');
-            $primedErrorRoute = $error_route->prime(Request::init()->setParentRequest($originalRequest),
-                                                    [ 'path' => $originalRequest->getUrlPath() ]);
-            $communicationLayer->dispatch(Http::REDIRECT, $primedErrorRoute, false);
+            $primedErrorRoute = $error_route->prime(null, [ 'path' => $originalRequest->getUrlPath() ]);
+            $error_url        = $primedErrorRoute->getRequestDescriptor()->asUrlPath([ 'path' => $originalRequest->getUrlPath() ]);
+            $errorRequest     = HttpRequest::init()->setParentRequest($originalRequest)->setUrl($error_url);
+            $primedErrorRoute = $error_route->prime($errorRequest);
+            $res              = $primedErrorRoute->resolve();
+            
+            # Not a redirect
+            $communicationLayer->dispatch(Http::class, $res);
         } catch (\Sm\Core\Exception\Exception $exception) {
             \Kint::dump($exception);
             \Kint::dump($app->getMonitors());

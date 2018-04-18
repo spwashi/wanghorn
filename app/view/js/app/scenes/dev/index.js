@@ -5,6 +5,7 @@ import reducer from "./reducer"
 import {selectDev} from "./selector";
 import {PageContent} from "../../components/page";
 import {HOME} from "../../../paths";
+import {MODELS} from "./paths";
 
 const Dev = ({models}) => {
     return (
@@ -13,7 +14,8 @@ const Dev = ({models}) => {
                 <p>
                     This is a <dt>Developer's interface</dt><sub>(work-in-progress)</sub> for the sites/apps that <a href={HOME} title={'William'}>I</a> help build.
                 </p>
-                <p>Right now, all it does is help Sam check to see if <dt>the data structures that each site/app uses</dt> are
+                
+                <p>Right now, all it does is help Sam check to see if <a href={`${MODELS}?models`}>the data structures in use by each site/app</a> are
                    properly understood by two libraries made by <a href="https://spwashi.com">Sam Washington</a>
                 </p>
                 <ol>

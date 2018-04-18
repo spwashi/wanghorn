@@ -10,6 +10,7 @@ use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Model\ModelSchematic;
 use Sm\Data\Property\PropertySchematic;
 use Sm\Data\Source\Database\Table\TableSourceSchematic;
+use Sm\Modules\Query\MySql\MySqlQueryModule;
 use Sm\Modules\Query\Sql\Constraints\ForeignKeyConstraintSchema;
 use Sm\Modules\Query\Sql\Constraints\PrimaryKeyConstraintSchema;
 use Sm\Modules\Query\Sql\Constraints\UniqueKeyConstraintSchema;
@@ -18,7 +19,6 @@ use Sm\Modules\Query\Sql\Data\Column\DateTimeColumnSchema;
 use Sm\Modules\Query\Sql\Data\Column\IntegerColumnSchema;
 use Sm\Modules\Query\Sql\Data\Column\VarcharColumnSchema;
 use Sm\Modules\Query\Sql\Formatting\SqlQueryFormatterManager;
-use Sm\Modules\Query\MySql\MySqlQueryModule;
 use Sm\Modules\Query\Sql\Statements\AlterTableStatement;
 use Sm\Modules\Query\Sql\Statements\CreateTableStatement;
 use WANGHORN\Entity\User\User;
@@ -82,33 +82,40 @@ class Dev extends BaseApplicationController {
         return $config_arr;
     }
     public function models() {
+        $fetch = $_GET['fetch'] ?? null;
+        
         #   $this->app->query->interpret($query);
-        $models = $this->app->data->models->getRegisteredSchematics();
         
-        list(
-            $createTableStatement_strings,
-            $createTableStatement,
-            $alterTableStatement_strings,
-            $alterTableStatement
-            ) = $this->modelsToQueries($models);
+        $models        = $this->app->data->models->getRegisteredSchematics();
+        $model_configs = $this->modelConfig();
         
-        $model_config = $this->modelConfig();
-        $indices      = [
-            'model'                => $models,
-            'config'               => $model_config,
-            'createTableStatement' => $createTableStatement_strings,
-            'alterTableStatements' => $alterTableStatement_strings,
-        ];
         
-        $all = [];
-        foreach ($indices as $config_index => $model_arr) {
-            foreach ($model_arr as $smID => $config) {
-                $all[ $smID ]                  = $all[ $smID ] ?? [];
-                $all[ $smID ][ $config_index ] = $config;
-            }
+        switch ($fetch) {
+            case 'config':
+                return $model_configs;
+            case 'models':
+            case 'model':
+                return $models;
+            case null:
+                list($createTableStatement_strings, , $alterTableStatement_strings) = $this->modelsToQueries($models);
+                
+                $indices = [
+                    'model'                => $models,
+                    'config'               => $model_configs,
+                    'createTableStatement' => $createTableStatement_strings,
+                    'alterTableStatements' => $alterTableStatement_strings,
+                ];
+                
+                $all = [];
+                foreach ($indices as $config_index => $model_arr) {
+                    foreach ($model_arr as $smID => $config) {
+                        $all[ $smID ]                  = $all[ $smID ] ?? [];
+                        $all[ $smID ][ $config_index ] = $config;
+                    }
+                }
+                
+                return $all;
         }
-        
-        return $all;
     }
     public function monitors() {
         return json_decode(json_encode($this->app->getMonitors()), 1);
@@ -175,8 +182,8 @@ class Dev extends BaseApplicationController {
         ];
     }
     /**
-     * @param array                                               $tableReference_arr__array
-     * @param ColumnSchema[]                                      $all_columns
+     * @param array                                                     $tableReference_arr__array
+     * @param ColumnSchema[]                                            $all_columns
      * @param \Sm\Modules\Query\Sql\Formatting\SqlQueryFormatterManager $queryFormatter
      *
      * @return array

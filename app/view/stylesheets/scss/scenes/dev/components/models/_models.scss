@@ -1,9 +1,11 @@
 @import "model/model";
 
 .model--container {
-	cursor     : pointer;
-	padding    : 5px 10px 10px;
-	font-size : .8em;
+	cursor  : pointer;
+	padding : 5px 10px 10px;
+	a {
+		color : darken($body--backgroundColor, 45%);
+	}
 	h2 {
 		margin : 10px 0 0 0;
 	}
@@ -13,11 +15,15 @@
 		padding        : 10px 0;
 		display        : flex;
 		flex-direction : row;
+		.active {
+			a {
+				background-color : darken($body--backgroundColor, 23%);
+			}
+		}
 		a {
 			padding          : 10px;
 			margin-right     : 10px;
-			background-color : darken($body--backgroundColor, 3%);
-			color            : #555;
+			background-color : darken($body--backgroundColor, 13%);
 			font-weight      : bold;
 		}
 	}

@@ -19,18 +19,16 @@
 
 .configuration--attribute {
 	border-bottom : thin solid $dev--configuration--attribute-_-border-color;
-
+	display       : flex;
+	flex-flow     : row nowrap;
 	.attribute--title {
 		text-transform : capitalize;
-		display        : inline-block;
-		width          : 25%;
+		flex           : 1 1 25%;
 	}
 	.attribute--value {
 		border-left : thin solid $dev--model-_-text-color;
-		display     : inline-block;
 		padding     : 10px;
-		margin      : 0 0 0 2%;
-		width       : 73%;
+		flex        : 1 1 75%;
 	}
 }
 
@@ -40,8 +38,10 @@
 		font-style : italic;
 	}
 	.property--configuration--title {
-		padding       : 0 10px 7px;
+		padding       : 10px 7px;
 		border-bottom : thin solid $property--configuration--title-_-color;
+		background    : $model--configuration--attribute__properties--title-_-background;
+		color         : $model--configuration--attribute__properties--title-_-txt-color;
 		font-weight   : bold;
 	}
 	.property--configuration--attribute {
@@ -49,6 +49,9 @@
 		.attribute--title {
 			font-weight : normal;
 			padding     : 10px;
+			background  : $model--configuration--attribute__properties--title-_-background;
+			color       : $model--configuration--attribute__properties--title-_-txt-color;
+			height      : 100%;
 		}
 		.attribute--value {
 			padding   : 1em 10px;
@@ -79,7 +82,10 @@
 			}
 		}
 		> .attribute--title {
-			padding : 10px;
+			background-color : $model--configuration--attribute__properties--title-_-background;
+			padding          : 10px;
+			width            : 20%;
+			color            : $model--configuration--attribute__properties--title-_-txt-color;
 		}
 	}
 	.attribute__properties--link--container {
@@ -92,7 +98,6 @@
 			background-color : $model--configuration--attribute__properties--link-_-background;
 			text-decoration  : none;
 			margin-bottom    : 5px;
-			border-radius    : 3px;
 			margin-right     : 5px;
 			font-weight      : bold;
 			margin-top       : 5px;
@@ -111,9 +116,8 @@
 	display         : flex;
 	> .wrapper {
 		background-color : lighten($model--bg, 7%);
-		border-radius    : 5px;
 		padding          : 10px;
-		margin           : 1%;
+		margin           : 5px;
 		flex             : 1 0;
 
 		&.query--wrapper {

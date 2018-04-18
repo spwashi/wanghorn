@@ -4,5 +4,7 @@ $dev--configuration--attribute-_-border-color : black;
 $property--configuration--title-_-color : #333;
 $model--configuration--title-_-border-bottom-color : #000;
 $model--configuration--attribute__properties--link-_-background : lighten($body--backgroundColor, 5%);
+$model--configuration--attribute__properties--title-_-background : darken($model--bg, 5%);
+$model--configuration--attribute__properties--title-_-txt-color : #fff;
 $model--configuration--attribute__properties--link-_-txt-color : #000;
 $model--configuration--attribute__properties--link-_-border-color : darken($body--backgroundColor, 15%);

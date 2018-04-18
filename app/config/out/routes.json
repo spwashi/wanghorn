@@ -23,7 +23,7 @@
       },
       {
          "resolution": "#Dev\\Dev::models",
-         "pattern": "dev/models"
+         "pattern": "dev/models.json"
       },
       {
          "resolution": "#Home\\Home::gallery",

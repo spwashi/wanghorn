@@ -29,7 +29,7 @@ export const routes = {
         new Route("#[Home]::test", null, 'test'),
         
         new Route("#[Dev]::monitors", "dev/monitors", "monitors"),
-        new Route("#[Dev]::models", "dev/models"),
+        new Route("#[Dev]::models", "dev/models.json"),
         new Route("#[Home]::gallery", "gallery/items.json"),
         
         new Route("#[Dev]::eg", "dev/example", "example"),
