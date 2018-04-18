@@ -15,6 +15,7 @@
 
     "require":           {
         "spwashi/smphp": "v0.8.4",
-        "kint-php/kint": "2.1.*"
+        "kint-php/kint": "2.1.*",
+        "icanboogie/inflector": "^1.4"
     }
 }

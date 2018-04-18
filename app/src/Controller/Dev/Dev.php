@@ -313,7 +313,8 @@ class Dev extends BaseApplicationController {
                                                   $meta,
                                                   $all_columns): CreateTableStatement {
         /** @var CreateTableStatement $createTable */
-        $createTable = CreateTableStatement::init($model->getName())
+        $tableName   = $model->getName();
+        $createTable = CreateTableStatement::init($tableName)
                                            ->withColumns(...$columns);
         
         if (count($primaries)) {
