@@ -4,7 +4,7 @@ import {ModelConfigurationWrapper} from "./components/config/model";
 
 export default ({
                     smID, config, model,
-                    createTableStatement, alterTableStatement
+                    createTableStatement, alterTableStatements
                 }) => {
     return (
         <div key={smID} className={"dev--model--wrapper"}>
@@ -18,7 +18,7 @@ export default ({
             <div className="wrapper component--wrapper model--component--wrapper">
                 <Query query={createTableStatement} />
                 {
-                    alterTableStatement.map(
+                    (alterTableStatements || []).map(
                         (statement, key) => {
                             return <Query key={key} type="AlterTable" query={statement} />;
                         }

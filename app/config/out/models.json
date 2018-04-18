@@ -41,6 +41,62 @@
          }
       }
    },
+   "project": {
+      "smID": "[Model]project",
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]project} id"
+         ],
+         "unique": {}
+      },
+      "properties": {
+         "id": {
+            "datatypes": [
+               "int"
+            ],
+            "smID": "[Property]{[Model]project} id",
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "smID": "[Property]{[Model]project} delete_dt"
+         },
+         "creation_dt": {
+            "datatypes": [
+               "datetime"
+            ],
+            "smID": "[Property]{[Model]project} creation_dt",
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "datatypes": [
+               "datetime"
+            ],
+            "smID": "[Property]{[Model]project} last_update_dt",
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "name": {
+            "datatypes": [
+               "string"
+            ],
+            "smID": "[Property]{[Model]project} name",
+            "length": 255
+         },
+         "url": {
+            "datatypes": [
+               "string"
+            ],
+            "smID": "[Property]{[Model]project} url",
+            "length": 255
+         }
+      }
+   },
    "user": {
       "smID": "[Model]user",
       "propertyMeta": {
@@ -218,11 +274,11 @@
          }
       }
    },
-   "password": {
-      "smID": "[Model]password",
+   "pw": {
+      "smID": "[Model]pw",
       "propertyMeta": {
          "primary": [
-            "[Property]{[Model]password} id"
+            "[Property]{[Model]pw} id"
          ],
          "unique": {}
       },
@@ -231,7 +287,7 @@
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]password} id",
+            "smID": "[Property]{[Model]pw} id",
             "length": 11,
             "primary": true,
             "isGenerated": true
@@ -241,20 +297,20 @@
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]password} delete_dt"
+            "smID": "[Property]{[Model]pw} delete_dt"
          },
          "creation_dt": {
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]password} creation_dt",
+            "smID": "[Property]{[Model]pw} creation_dt",
             "defaultValue": "now"
          },
          "last_update_dt": {
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]password} last_update_dt",
+            "smID": "[Property]{[Model]pw} last_update_dt",
             "defaultValue": "now",
             "updateValue": "now"
          },
@@ -262,14 +318,14 @@
             "datatypes": [
                "string"
             ],
-            "smID": "[Property]{[Model]password} pw",
+            "smID": "[Property]{[Model]pw} pw",
             "length": 255
          },
          "user_id": {
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]password} user_id",
+            "smID": "[Property]{[Model]pw} user_id",
             "length": 11,
             "reference": {
                "identity": "[Model]user",

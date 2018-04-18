@@ -1,4 +1,1 @@
-export const selectDev =
-                 (state) => {
-                     return state.scenes.dev;
-                 };
+export const selectDev = state => state.scenes.dev;

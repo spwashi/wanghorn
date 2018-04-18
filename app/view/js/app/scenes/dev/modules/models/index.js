@@ -1,24 +1,26 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-//
+import {bindActionCreators} from 'redux'
+import bind from "bind-decorator";
 import {SelectivelyActive} from "../../components";
 import Model from "./model";
-import {fetchModels} from "./actions";
-import {selectDevModels} from "./selector";
+import {activateModel, deactivateModel, fetchModels, toggleModelActivity} from "./actions";
+import {selectActiveDevModels, selectActiveModelSmIDs, selectModelDevInterface} from "./selector";
+import ModelLinkContainer from "./components/nav";
 
-@connect(state => {
-    let modelState   = selectDevModels(state);
-    const models     = modelState.models;
-    const modelSmIDs = modelState.list;
-    return {models, modelSmIDs};
-})
+@connect(mapState, mapDispatch)
 export default class ModelScene extends Component {
     constructor(props) {
         super(props);
     }
     
-    componentDidMount() {
-        this.props.dispatch(fetchModels());
+    componentDidMount() {this.props.fetchModels();}
+    
+    @bind
+    handleModelLinkClick(event) {
+        const smID = event.target.dataset.sm_id;
+        event.preventDefault();
+        this.props.toggleModelActivity({smID});
     }
     
     /**
@@ -29,19 +31,10 @@ export default class ModelScene extends Component {
     static createModels(data) {
         return Object.entries(data)
                      .map(queryEntry => {
-                         const [key, modelData]   = queryEntry;
-                         let alterTableStatement  = modelData.alterTableStatements;
-                         let createTableStatement = modelData.createTableStatement;
-                         let model                = modelData.model;
-                         let modelConfig          = modelData.config;
-                         return <Model key={key}
-                                       smID={key}
-            
-                                       config={modelConfig}
-                                       model={model}
-            
-                                       createTableStatement={createTableStatement}
-                                       alterTableStatement={alterTableStatement || []} />
+                         const [key, modelData]                                            = queryEntry;
+                         const {model, config, alterTableStatements, createTableStatement} = modelData;
+                         const props                                                       = {model, config, alterTableStatements, createTableStatement};
+                         return <Model key={key} smID={key} {...props} />
                      });
     }
     
@@ -49,20 +42,15 @@ export default class ModelScene extends Component {
         let Active                = () => {
             const models = this.props.models;
             if (!models) return 'loading';
-            const Models = ModelScene.createModels(models);
-            
+            const Models           = ModelScene.createModels(models);
+            const activeModelSmIDs = this.props.activeModelSmIDs;
+            const smIDs            = this.props.allModelSmIDs;
             return (
                 <div className={"model--container"}>
                     <h2 className={"model--container--title"}>Models</h2>
-                    <ul className={"model--container--link--container"}>
-                        {
-                            Object.values(Models)
-                                  .map(model => {
-                                      let smID = model.props.smID;
-                                      return <li key={smID} className={"model--container--link model--smID--link"}><a href={`#${smID}`}>{smID}</a></li>
-                                  })
-                        }
-                    </ul>
+                    <ModelLinkContainer onItemClick={this.handleModelLinkClick}
+                                        activeSmIDs={activeModelSmIDs}
+                                        allSmIDs={smIDs} />
                     {Models}
                 </div>
             );
@@ -87,4 +75,15 @@ export default class ModelScene extends Component {
         
                                   isActive={true} />;
     }
+}
+
+function mapState(state) {
+    let modelState         = selectModelDevInterface(state);
+    const models           = selectActiveDevModels(state) || {};
+    const activeModelSmIDs = selectActiveModelSmIDs(state) || [];
+    const allModelSmIDs    = modelState.list || [];
+    return {models, allModelSmIDs, activeModelSmIDs};
+}
+function mapDispatch(dispatch) {
+    return bindActionCreators({toggleModelActivity, activateModel, deactivateModel, fetchModels}, dispatch);
 }

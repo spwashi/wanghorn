@@ -16,7 +16,6 @@ class ModelConfiguration extends React.Component {
         const {smID, name, properties, ...attrs} = config;
         const objectEntryToAttr                  =
                   ([attr, value]) => {
-                      console.log(value);
                       switch (attr) {
                           case 'properties':
                               return <ModelConfigurationPropertiesAttribute key={attr} properties={value} />;
@@ -28,8 +27,7 @@ class ModelConfiguration extends React.Component {
             <div className="model--configuration">
                 <ModelConfigurationTitle>{title}</ModelConfigurationTitle>
                 {Object.entries({smID, name, ...attrs, properties}).map(objectEntryToAttr)}
-            </div
-            >
+            </div>
         );
     }
 }
