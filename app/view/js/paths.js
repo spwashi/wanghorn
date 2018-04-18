@@ -14,5 +14,4 @@ export const PUBLIC__CSS     = `${PUBLIC}/css`;
 export const PUBLIC__JS      = `${PUBLIC}/js`;
 export const USER_LOGIN_PATH = `${HOME}/user/login`;
 
-export const ABOUT_ME = `${HOME}/one`;
-export const LINK_TWO = `${HOME}/two`;
+export const ABOUT_ME = `${HOME}/about_me`;

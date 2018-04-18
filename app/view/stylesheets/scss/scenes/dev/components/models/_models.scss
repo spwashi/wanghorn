@@ -10,11 +10,14 @@
 		margin : 10px 0 0 0;
 	}
 	.model--container--link--container {
-		list-style     : none;
-		margin         : 0 0 10px 0;
-		padding        : 10px 0;
-		display        : flex;
-		flex-direction : row;
+		list-style : none;
+		margin     : 10px 0 10px 0;
+		padding    : 10px 0;
+		display    : flex;
+		flex-flow  : row wrap;
+		li {
+			margin : 1em 0;
+		}
 		.active {
 			a {
 				background-color : darken($body--backgroundColor, 23%);

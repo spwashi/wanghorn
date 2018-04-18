@@ -11,8 +11,7 @@ export const ModelConfigurationTitle =
 
 class ModelConfiguration extends React.Component {
     render() {
-        const config                             = this.props.config;
-        const title                              = this.props.title;
+        const {config, title, description}       = this.props;
         const {smID, name, properties, ...attrs} = config;
         const objectEntryToAttr                  =
                   ([attr, value]) => {
@@ -26,6 +25,9 @@ class ModelConfiguration extends React.Component {
         return (
             <div className="model--configuration">
                 <ModelConfigurationTitle>{title}</ModelConfigurationTitle>
+                <div className="description model--configuration--description">
+                    {description}
+                </div>
                 {Object.entries({smID, name, ...attrs, properties}).map(objectEntryToAttr)}
             </div>
         );
@@ -33,7 +35,8 @@ class ModelConfiguration extends React.Component {
 }
 
 ModelConfiguration.propTypes = {
-    config: PropTypes.object,
-    title:  PropTypes.string
+    config:      PropTypes.object,
+    title:       PropTypes.string,
+    description: PropTypes.oneOf([PropTypes.string, PropTypes.element])
 };
 export default ModelConfiguration;

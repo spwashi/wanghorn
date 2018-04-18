@@ -4,6 +4,9 @@
 	pre {
 		font-size   : .6em;
 		font-weight : normal;
+		.hljs {
+			background-color : $pageContent--color;
+		}
 	}
 	.inline-display--container {
 		border-bottom : thin solid #555;

@@ -75,20 +75,52 @@ export default class extends React.Component {
                         </p>
                         <ul>
                             <li>
-                                Frontend
+                                Front-end
                                 <ul>
-                                    <li>ECMAScript 2015+ with Babel</li>
                                     <li>React/Redux</li>
+                                    <li>
+                                        <a href={"https://github.com/spwashi/wanghorn/blob/local/app/tasks/gulpfile.babel.js"}>Gulp</a> / <a href={"https://github.com/spwashi/wanghorn/blob/local/app/tasks/webpack.config.babel.js"}>Webpack</a>
+                                    </li>
                                     <li>Git workflow</li>
-                                    <li>Gulp/Webpack</li>
                                 </ul>
                             </li>
                             <li>
-                                Backend
+                                Back-end
                                 <ul>
-                                    <li>PHP 7.1</li>
-                                    <li>Git workflow</li>
-                                    <li>Gulp/Webpack</li>
+                                    <li>
+                                        <a href="https://github.com/spwashi/SmPHP">Custom PHP 7.1 Framework</a>
+                                        <ul>
+                                            <li><a href={"https://github.com/spwashi/SmPHP/tree/master/src/Sm/Controller"}>Controller Layer</a></li>
+                                            <li>
+                                                <a href={"https://github.com/spwashi/SmPHP/tree/master/src/Sm/Representation"}>Representation Layer</a>
+                                                <ul>
+                                                    <li><a href={"https://github.com/spwashi/SmPHP/tree/master/src/Modules/View/Twig"}>Twig View Module</a></li>
+                                                    <li><a href={"https://github.com/spwashi/SmPHP/tree/master/src/Modules/View/PlainFile"}>Plain File View Module</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href={"https://github.com/spwashi/SmPHP/tree/master/src/Sm/Query"}>Query Layer</a>
+                                                <ul>
+                                                    <li><a href="https://github.com/spwashi/SmPHP/tree/master/src/Modules/Query/MySql">MySQL Query Module</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href={"https://github.com/spwashi/SmPHP/tree/master/src/Sm/Communication"}>Communication Layer</a>
+                                                <ul>
+                                                    <li><a href={"https://github.com/spwashi/SmPHP/tree/master/src/Sm/Communication/Routing"}>Router</a></li>
+                                                    <li>
+                                                        <a href="https://github.com/spwashi/SmPHP/tree/master/src/Modules/Network/Http">HTTP Module</a>
+                                                        <ul>
+                                                            <li>HTTP Requests</li>
+                                                            <li>HTTP Responses</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="https://github.com/spwashi/SmJS">Configuration Library</a></li>
+                                    <li>Git workflow (local, dev, prod branches)</li>
                                 </ul>
                             </li>
                         </ul>
@@ -111,7 +143,14 @@ export default class extends React.Component {
                                 <pre><code className={'bash'}>git clone https://github.com/spwashi/wanghorn /var/www/new-site</code></pre>
                             </li>
                             <li>
-                                He configures the application using ECMAScript to establish the URLs, routes, and models used by whichever site or application I help build.
+                                He configures the application using a <a href={"https://github.com/spwashi/SmJS"} title={"The library that configures me"}>JavaScript library </a>
+                                to create <a href={"https://github.com/spwashi/wanghorn/tree/local/app/config/out"}>.json files</a> which will be interpreted by <a href={"https://github.com/spwashi/wanghorn"} title={"My back-end code"}>my back-end </a> via
+                                <a href={"https://github.com/spwashi/SmPHP"} title={"The framework of my backend"}>SmPHP.</a>
+                                <ul>
+                                    <li><a href="https://github.com/spwashi/wanghorn/blob/local/app/config/index.js">General Configuration</a></li>
+                                    <li><a href="https://github.com/spwashi/wanghorn/blob/local/app/config/pre/routes/routes.js">Route Configuration</a></li>
+                                    <li><a href="https://github.com/spwashi/wanghorn/blob/local/app/config/pre/models/models.js">Model Configuration</a></li>
+                                </ul>
                             </li>
                             <li>
                                 Sam initializes the application using
@@ -119,6 +158,7 @@ export default class extends React.Component {
                                 Which installs packages from <a href="https://getcomposer.org/">composer</a> and
                                 <a href="https://www.npmjs.com/">NPM</a>, and pulls updated libraries from <a href="https://github.com/spwashi">github</a>
                             </li>
+                            <li>You can access the site <a href={"https://www.cyberciti.biz/faq/howto-find-unix-linux-apache-documentroot/"}>(assuming standard hosting locations)</a></li>
                         </ol>
                     </div>
                 </ContentSection>
@@ -126,13 +166,38 @@ export default class extends React.Component {
                     <h2>To Do:</h2>
                     <ul>
                         <li>
-                            Better Documentation!
+                            Documentation
                             <ul>
-                                <li><Link to={DEV__PATH}>The Developer's Interface</Link></li>
-                                <li><ContentSectionLink anchor="how-I-work">"How I Work" Section</ContentSectionLink></li>
+                                <li>The <Link to={DEV__PATH}>Dev Interface</Link> has no way to describe properties</li>
+                                <li><ContentSectionLink anchor="how-I-work">"How I Work" Section</ContentSectionLink> could be improved.</li>
                             </ul>
                         </li>
-                        <li>Responsiveness/Mobile-friendliness</li>
+                        
+                        <li>
+                            Styling
+                            <ul>
+                                <li>Not too big a fan of the nav links at the top of this page's content. They could be buttons?</li>
+                                <li>There's a formatting error in the Documentation tab of this list!</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Enhancements
+                            <ul>
+                                <li>
+                                    Accessibility
+                                    <ul>
+                                        <li>
+                                            URL Friendliness
+                                            <ul>
+                                                <li>The <Link to={DEV__PATH}>Dev Interface</Link> (update URL for active Models and Properties?)</li>
+                                            </ul>
+                                        </li>
+                                        <li><a href={"https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA"}>ARIA</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    
                     </ul>
                 </ContentSection>
             </PageContent>

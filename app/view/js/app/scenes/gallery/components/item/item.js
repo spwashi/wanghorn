@@ -42,7 +42,7 @@ class TagContainer extends React.Component {
 
 export default class Item extends React.Component {
     @bind
-    handleClick() {
+    handleClick(event) {
         if (event.isPropagationStopped()) return;
         
         this.attemptNavigation() || event.stopPropagation();

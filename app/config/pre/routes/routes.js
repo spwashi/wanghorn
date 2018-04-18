@@ -1,41 +1,29 @@
 import {APP_BASE_URL_PATH} from "../../config";
-
-class Route {
-    constructor(resolution: string, pattern: string, route_name: string) {
-        this.route_name = route_name;
-        this.resolution = resolution
-                          ? resolution.replace(/\[([a-zA-Z]+)]/,
-                                               (match, className) => `${className}\\${className}`)
-                          : null;
-        this.pattern    = pattern;
-    }
-    
-    toJSON() {
-        const obj = {
-            resolution: this.resolution,
-            pattern:    this.pattern,
-        };
-        this.route_name && (obj.name = this.route_name);
-        return obj
-    }
-}
+import {Route} from "./route";
 
 export const routes = {
     pattern_prefix: APP_BASE_URL_PATH + '/',
     routes:         [
+        // Error Handlers
         new Route("[Error]@rt_404", "404/{path}", "404"),
         
+        // Home Routes
         new Route("#[Home]::index", "$", "home"),
         new Route("#[Home]::test", null, 'test'),
         
+        // Dev Routes (remove from production!)
         new Route("#[Dev]::monitors", "dev/monitors", "monitors"),
-        new Route("#[Dev]::models", "dev/models.json"),
-        new Route("#[Home]::gallery", "gallery/items.json"),
-        
+        new Route("#[Dev]::models", "dev/models.json"), // Content-Type: application/json
         new Route("#[Dev]::eg", "dev/example", "example"),
+        
+        // (site helpers)
+        new Route("#[Home]::gallery", "gallery/items.json"),  // Content-Type: application/json
+        
+        // User Routes
         new Route("[User]@login", "user/login$"),
         new Route("[User]@userByID", "user/{id}:[a-zA-Z@\.]+"),
         
+        // Catch-all
         new Route("#[Home]::index", ".*"),
     
     ]
