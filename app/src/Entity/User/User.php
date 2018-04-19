@@ -73,7 +73,7 @@ class User extends Entity {
     }
     public function destroy() {
         $primaryModel = $this->getPrimaryModel($this->modelDataManager);
-        $result       = $this->modelDataManager->persistenceManager->mark_delete($primaryModel);
+        $result       = $this->modelDataManager->persistenceManager->markDelete($primaryModel);
         var_dump($result);
     }
     #

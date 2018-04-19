@@ -5,7 +5,7 @@ import ReactTooltip from "react-tooltip";
 
 const ModelConfigurationWrapper = function ({model, type, description}) {
     let className = 'model--configuration';
-    const title   = `${type[0].toUpperCase() + type.substr(1)} as JSON`;
+    const title   = `Model Config à la ${type[0].toUpperCase() + type.substr(1)}`;
     const smID    = model.smID;
     
     return <SelectivelyActive trigger={"click"}

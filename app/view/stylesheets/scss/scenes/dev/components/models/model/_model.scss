@@ -129,19 +129,19 @@
 	align-items     : flex-start;
 	flex-wrap       : wrap;
 	display         : flex;
-	> .wrapper {
+	.query--wrapper {
+		border           : thin solid $dev--model-_-text-color;
+		background-color : lighten($model--bg, 10%);
+		.__json {
+			font-size : .9em;
+		}
+	}
+	.query--wrapper, .model--configuration--wrapper {
 		background-color : lighten($model--bg, 7%);
 		padding          : 10px;
 		margin           : 5px;
 		flex             : 1 0;
 
-		&.query--wrapper {
-			border           : thin solid $dev--model-_-text-color;
-			background-color : lighten($model--bg, 10%);
-			.__json {
-				font-size : .9em;
-			}
-		}
 		&.selectively-active {
 			cursor : pointer;
 			&.active {
@@ -152,5 +152,8 @@
 			}
 		}
 	}
+}
+
+.query--wrapper {
 }
 

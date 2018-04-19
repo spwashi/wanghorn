@@ -6,7 +6,7 @@
     "scripts": {
         "init": "export NODE_ENV=development && cd scripts && ./initialize.sh",
         "build": "export NODE_ENV=development && cd scripts && ./initApplication.sh",
-        "webpack": "cd tasks && gulp webpack"
+        "webpack": "export NODE_ENV=development && cd tasks && gulp webpack"
     },
     "author": "",
     "license": "ISC",
@@ -31,6 +31,7 @@
         "chai": "^3.5.0",
         "chai-as-promised": "^6.0.0",
         "chalk": "latest",
+        "clean-webpack-plugin": "^0.1.19",
         "concat-stream": "^1.0.3",
         "css-loader": "^0.28.9",
         "deepmerge": "^1.5.0",

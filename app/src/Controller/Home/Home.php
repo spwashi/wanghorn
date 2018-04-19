@@ -11,17 +11,30 @@ use Sm\Data\Model\Model;
  * The controller that contains the core of the application logic.
  */
 class Home extends BaseApplicationController {
+    /**
+     * @return string
+     * @throws \Sm\Core\Exception\UnimplementedError
+     */
     public function index() {
         $html_filename = APP__NAME . '.html';
         return $this->app->representation->render($html_filename);
     }
+    /**
+     * @return string
+     * @throws \Sm\Core\Exception\InvalidArgumentException
+     * @throws \Sm\Core\Exception\UnimplementedError
+     */
     public function test() {
         $application         = $this->app;
         $representationLayer = $application->representation;
         $dataLayer           = $application->data;
         
+        /** @var \Sm\Data\Model\ModelDataManager $model_manager */
         $model_manager = $dataLayer->getDataManager(Model::class);
-        var_dump($model_manager);
+        
+        $model = new Model;
+        
+        $model_manager->persistenceManager->find($model);
         
         # -- rendering
         

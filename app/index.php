@@ -46,7 +46,6 @@ try {
             $errorRequest     = HttpRequest::init()->setParentRequest($originalRequest)->setUrl($error_url);
             $primedErrorRoute = $error_route->prime($errorRequest);
             $res              = $primedErrorRoute->resolve();
-            
             # Not a redirect
             $communicationLayer->dispatch(Http::class, $res);
         } catch (\Sm\Core\Exception\Exception $exception) {

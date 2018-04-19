@@ -2,47 +2,41 @@ import webpack from "webpack";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HtmlPlugin from "html-webpack-plugin";
 import path from "path";
-
+import CleanWebpackPlugin from "clean-webpack-plugin";
 import {APP_NAME, APP_PATH__PUBLIC_DIR, APP_PATH__VIEW_DIR, APP_URL, ENVIRONMENT} from "../config/config";
 
-//++sm++ boilerplate
-export const outputPath       = `${APP_PATH__PUBLIC_DIR}`;
-export const outputPath__JS   = path.resolve(outputPath, 'js');
-export const outputPath__HTML = path.resolve(outputPath, 'html');
-export const inputPath__CSS   = path.resolve(APP_PATH__VIEW_DIR, 'stylesheets', 'scss');
-//--sm-- boilerplate
-
+export const outputPath            = `${APP_PATH__PUBLIC_DIR}`;
+export const outputPath__JS        = path.resolve(outputPath, 'js');
+export const outputPath__HTML      = path.resolve(outputPath, 'html');
+export const outputPath__CSS       = path.resolve(outputPath, 'css');
+export const inputPath__CSS        = path.resolve(APP_PATH__VIEW_DIR, 'stylesheets', 'scss');
 const IS_PROD                      = ENVIRONMENT === 'production';
 const htmlTemplatePath             = path.resolve(__dirname, '../view/html/react.html');
-const relativeCSS_output           = "../css/style.css";
-export const indexHTML_name        = `${APP_NAME}.html`;
-const relativeHTML_output_filename = `../html/${indexHTML_name}`;
+const relativeCSS_output_filename  = "../css/style.css";
 const publicPath__JS               = `${APP_URL}/public/js`;
 const publicPath__HTML             = `${APP_URL}/public/html`;
 const publicPath__IMG              = `${APP_URL}/public/img`;
 const publicPath__CSS              = `${APP_URL}/public/css`;
 const outputFileName               = `${APP_NAME}-[hash:6].js`;
-
-const plugins = [
-    new ExtractTextPlugin({filename: relativeCSS_output}),
-    new HtmlPlugin({
-                       title:    APP_NAME,
-                       template: htmlTemplatePath,
-                       filename: relativeHTML_output_filename,
-                       public:   {
-                           publicPath__IMG,
-                           publicPath__HTML,
-                           publicPath__JS,
-                       }
-                   }),
-    new webpack.NamedModulesPlugin(),
-    new webpack.DefinePlugin({
-                                 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-                             }),
-];
-if (IS_PROD) {
-    plugins.push(new webpack.optimize.UglifyJsPlugin({compress: {warnings: false}}))
-}
+const indexHTML_name               = `${APP_NAME}.html`;
+const relativeHTML_output_filename = `../html/${indexHTML_name}`;
+const plugins                      = [new ExtractTextPlugin({filename: relativeCSS_output_filename}),
+                                      new HtmlPlugin({
+                                                         title:    APP_NAME,
+                                                         template: htmlTemplatePath,
+                                                         filename: relativeHTML_output_filename,
+                                                         public:   {
+                                                             publicPath__IMG,
+                                                             publicPath__HTML,
+                                                             publicPath__JS,
+                                                         }
+                                                     }),
+                                      new CleanWebpackPlugin([outputPath__JS, outputPath__HTML, outputPath__CSS],
+                                                             {allowExternal: true}),
+                                      new webpack.DefinePlugin({
+                                                                   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+                                                               })];
+if (IS_PROD) plugins.push(new webpack.optimize.UglifyJsPlugin({compress: {warnings: false}}));
 
 export default {
     entry:

@@ -13,10 +13,18 @@ class SelectivelyActive extends Component {
     
     constructor(props: { isActive: boolean | undefined, trigger: "click" }) {
         super(props);
-        this._activeComponent   = props.activeComponent;
-        this._inactiveComponent = props.inactiveComponent || (() => <div />);
-        this.matchTarget        = props.matchTarget || this.matchTarget;
-        this.state              = {
+        if (props.children) {
+            const children = props.children;
+            React.Children.forEach(children, (child) => {
+                if (child.type === ActiveComponent) {this._activeComponent = () => child;}
+                if (child.type === InactiveComponent) {this._inactiveComponent = () => child;}
+            });
+        } else {
+            this._activeComponent   = props.activeComponent;
+            this._inactiveComponent = props.inactiveComponent || (() => <div />);
+        }
+        this.matchTarget = props.matchTarget || this.matchTarget;
+        this.state       = {
             isActive: props.isActive,
         }
     }
@@ -77,6 +85,8 @@ class SelectivelyActive extends Component {
     }
 }
 
+export const ActiveComponent   = ({children}) => children;
+export const InactiveComponent = ({children}) => children;
 export default SelectivelyActive;
 
 SelectivelyActive.propTypes = {
@@ -85,5 +95,19 @@ SelectivelyActive.propTypes = {
     isActive:          PropTypes.bool,
     activeComponent:   PropTypes.func,
     inactiveComponent: PropTypes.func,
-    
+    children:          function (props, propName, componentName) {
+        const children = props[propName];
+        let error      = null;
+        if (React.Children.count(children) > 2) {
+            error = new Error("Can only have two children (which should be Active or Inactive components)");
+        } else {
+            React.Children.forEach(children,
+                                   (child: React.ComponentElement) => {
+                                       if (child.type !== ActiveComponent && child.type !== InactiveComponent) {
+                                           error = new Error('`' + componentName + '` children should be either an Active or Inactive Component`.');
+                                       }
+                                   });
+        }
+        return error
+    }
 };

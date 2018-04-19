@@ -3,5 +3,5 @@
    "appDomain": "http://localhost",
    "appUrl": "http://localhost/wanghorn",
    "appPath": "wanghorn",
-   "appPublicUrl": "http://localhost/public"
+   "appPublicUrl": "http://localhost/wanghorn/public"
 }

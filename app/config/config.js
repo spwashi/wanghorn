@@ -13,7 +13,7 @@ export const APP_NAMESPACE     = APP_NAME.toUpperCase();
 // The URL including the Path that we will use to access our files
 export const APP_URL           = `${APP_ROOT_URL}/${APP_BASE_URL_PATH}`;
 // URL for the public files (where we access the files output by webpack)
-export const APP_URL__PUBLIC   = `${APP_ROOT_URL}/public`;
+export const APP_URL__PUBLIC   = `${APP_URL}/public`;
 // The environment in which we are operating -- defaults to production for the sake of probable intention
 export const ENVIRONMENT       = process.env.NODE_ENV || 'production';
 

@@ -5,8 +5,13 @@ namespace WANGHORN\Controller\Dev;
 use Error;
 use Sm\Application\Controller\BaseApplicationController;
 use Sm\Core\Exception\Exception;
+use Sm\Core\Exception\InvalidArgumentException;
 use Sm\Core\Exception\UnimplementedError;
+use Sm\Core\Factory\Exception\FactoryCannotBuildException;
+use Sm\Core\Query\Module\Exception\UnfoundQueryModuleException;
 use Sm\Data\Model\Exception\ModelNotFoundException;
+use Sm\Data\Model\ModelPersistenceManager;
+use Sm\Data\Model\ModelPropertyMetaSchematic;
 use Sm\Data\Model\ModelSchematic;
 use Sm\Data\Property\PropertySchematic;
 use Sm\Data\Source\Database\Table\TableSourceSchematic;
@@ -19,8 +24,10 @@ use Sm\Modules\Query\Sql\Data\Column\DateTimeColumnSchema;
 use Sm\Modules\Query\Sql\Data\Column\IntegerColumnSchema;
 use Sm\Modules\Query\Sql\Data\Column\VarcharColumnSchema;
 use Sm\Modules\Query\Sql\Formatting\SqlQueryFormatterManager;
+use Sm\Modules\Query\Sql\SqlDisplayContext;
 use Sm\Modules\Query\Sql\Statements\AlterTableStatement;
 use Sm\Modules\Query\Sql\Statements\CreateTableStatement;
+use Sm\Query\Proxy\String_QueryProxy;
 use WANGHORN\Entity\User\User;
 
 class Dev extends BaseApplicationController {
@@ -71,6 +78,44 @@ class Dev extends BaseApplicationController {
         return $column;
     }
     
+    protected function dieWithQueryError($error) {
+        header('Content-Type: application/json');
+        $msg = [ 'error' => $error ];
+        echo json_encode($msg);
+        die();
+    }
+    
+    /**
+     * @throws \Sm\Core\Exception\Exception
+     */
+    public function executeQuery($smID, $queryType) {
+        $do_execute = isset($_GET['run']);
+        if (!$smID) $this->dieWithQueryError('No smID provided');
+        if (!$queryType) $this->dieWithQueryError('No QueryType provided');
+        try {
+            $modelSchematics = $this->app->data->models->getRegisteredSchematics();
+            list($createTableStrings, $createTableStatements, $alterTableStrings, $alterTableStatements) = $this->modelsToQueries($modelSchematics);
+            switch ($queryType) {
+                case 'CREATE_TABLE':
+                    $res = [ 'query' => $createTableStrings[ $smID ] ];
+                    if ($do_execute) $res['success'] = $this->app->query->interpret($createTableStatements[ $smID ]);
+                    break;
+                case 'ALTER_TABLE':
+                    $res = [ 'queries' => $alterTableStrings[ $smID ] ];
+                    if ($do_execute) $res['success'] = [];
+                    foreach (($alterTableStatements[ $smID ] ?? []) as $query) {
+                        if ($do_execute) $res['success'][] = $this->app->query->interpret($query);
+                    }
+                    break;
+                default :
+                    $this->dieWithQueryError("Cannot execute requested query");
+                    break;
+            }
+            return $res;
+        } catch (\Exception|InvalidArgumentException|UnimplementedError $e) {
+            $this->dieWithQueryError($e->getMessage());
+        }
+    }
     public function modelConfig() {
         $html_filename = APP__CONFIG_PATH . 'out/models.json';
         $json          = file_get_contents($html_filename);
@@ -86,8 +131,10 @@ class Dev extends BaseApplicationController {
         
         #   $this->app->query->interpret($query);
         
-        $models        = $this->app->data->models->getRegisteredSchematics();
-        $model_configs = $this->modelConfig();
+        $modelDataManager        = $this->app->data->models;
+        $modelPersistenceManager = $modelDataManager->persistenceManager;
+        $models                  = $modelDataManager->getRegisteredSchematics();
+        $model_configs           = $this->modelConfig();
         
         
         switch ($fetch) {
@@ -111,6 +158,21 @@ class Dev extends BaseApplicationController {
                     foreach ($model_arr as $smID => $config) {
                         $all[ $smID ]                  = $all[ $smID ] ?? [];
                         $all[ $smID ][ $config_index ] = $config;
+                        $tableName                     = $modelPersistenceManager->getModelSource($smID)->getName();
+                        try {
+                            $tableCheck = String_QueryProxy::init("SELECT 1 FROM {$tableName} LIMIT 1;");
+                            try {
+                                $this->app->query->interpret($tableCheck);
+                                $table_exists = true;
+                            } catch (\PDOException $e) {
+                                $table_exists = false;
+                            }
+                            $all[ $smID ]['tableExists'] = $table_exists;
+                        } catch (FactoryCannotBuildException $e) {
+                        } catch (UnfoundQueryModuleException $e) {
+                        } catch (\Exception $e) {
+                            return $e;
+                        }
                     }
                 }
                 
@@ -161,6 +223,8 @@ class Dev extends BaseApplicationController {
         $queryFormatter                  = MySqlQueryModule::init()->initialize()->getQueryFormatter();
         
         foreach ($models as $modelSmID => $model) {
+            $tableName = $this->getModelPersistenceManager()->getModelSource($model)->getName();
+            if (strpos($tableName, '_') === 0) continue;
             $this->convertPropertiesToColumns($model,
                                               $all_columns,
                                               $tableReferenceArr__array,
@@ -220,7 +284,7 @@ class Dev extends BaseApplicationController {
                 $alterTableStatement_arr[ $smID ]          = $alterTableStatement_arr[ $smID ] ?? [];
                 $alterTableStatement_string_arr[ $smID ]   = $alterTableStatement_string_arr[ $smID ] ?? [];
                 $alterTableStatement_arr[ $smID ][]        = $alterTableStatement;
-                $alterTableStatement_string_arr[ $smID ][] = $queryFormatter->format($alterTableStatement);
+                $alterTableStatement_string_arr[ $smID ][] = $queryFormatter->format($alterTableStatement, new SqlDisplayContext);
             }
         }
         
@@ -244,16 +308,17 @@ class Dev extends BaseApplicationController {
                                                   &$meta,
                                                   &$columns,
                                                   &$primaries): void {
-        $properties = $modelSchematic->getProperties();
-        $meta       = $modelSchematic->getPropertyMeta();
-        $columns    = [];
-        $primaries  = [];
+        $properties  = $modelSchematic->getProperties();
+        $meta        = $modelSchematic->getPropertyMeta();
+        $columns     = [];
+        $primaries   = [];
+        $table_name  = $this->getModelTablename($modelSchematic);
+        $tableSchema = TableSourceSchematic::init()->setName($table_name);
+        
         /**
          * @var                                     $property_name
          * @var \Sm\Data\Property\PropertySchematic $property
          */
-        $modelName   = $modelSchematic->getName();
-        $tableSchema = TableSourceSchematic::init()->setName($modelName);
         foreach ($properties as $property_name => $property) {
             try {
                 $column                              = $this->propertyToColumn($property, $tableSchema);
@@ -269,11 +334,10 @@ class Dev extends BaseApplicationController {
             $columns[]                    = $column;
             $referenceDescriptorSchematic = $property->getReferenceDescriptor();
             if ($referenceDescriptorSchematic) {
-                $tableReferenceArr__array[ $modelName ]   = $tableReferenceArr__array[ $modelName ] ?? [];
-                $tableReferenceArr__array[ $modelName ][] = [
-                    'column'                 => $column,
-                    'modelSchematic'         => $modelSchematic,
-                    'referenced_column_smID' => $referenceDescriptorSchematic->getHydrationMethod(),
+                $tableReferenceArr__array[ $table_name ]   = $tableReferenceArr__array[ $table_name ] ?? [];
+                $tableReferenceArr__array[ $table_name ][] = [ 'column'                 => $column,
+                                                               'modelSchematic'         => $modelSchematic,
+                                                               'referenced_column_smID' => $referenceDescriptorSchematic->getHydrationMethod(),
                 ];
             }
         }
@@ -307,28 +371,40 @@ class Dev extends BaseApplicationController {
      *
      * @return CreateTableStatement
      */
-    protected function createCreateTableStatement(ModelSchematic $model,
-                                                  $columns,
-                                                  $primaries,
-                                                  $meta,
-                                                  $all_columns): CreateTableStatement {
+    protected function createCreateTableStatement(ModelSchematic $model, $columns, $primaries, $meta, $all_columns): CreateTableStatement {
         /** @var CreateTableStatement $createTable */
-        $tableName   = $model->getName();
-        $createTable = CreateTableStatement::init($tableName)
-                                           ->withColumns(...$columns);
+        $table_name  = $this->getModelTablename($model);
+        $createTable = CreateTableStatement::init($table_name)->withColumns(...$columns);
         
         if (count($primaries)) {
-            $createTable->withConstraints(PrimaryKeyConstraintSchema::init()
-                                                                    ->addColumn(...$primaries));
+            $createTable->withConstraints(PrimaryKeyConstraintSchema::init()->addColumn(...$primaries));
         }
         
         # figure out unique keys
-        /** @var  \Sm\Data\Model\ModelPropertyMetaSchematic $meta */
+        
+        /** @var ModelPropertyMetaSchematic $meta */
         $_unique_keys = $meta->getUniqueKeyGroup();
         
         if (!empty($_unique_keys)) {
             $this->addUniqueKeyConstraint($_unique_keys, $all_columns, $createTable);
         }
+        
         return $createTable;
+    }
+    /**
+     * @return ModelPersistenceManager
+     */
+    protected function getModelPersistenceManager(): ModelPersistenceManager {
+        return $this->app->data->models->persistenceManager;
+    }
+    /**
+     * @param \Sm\Data\Model\ModelSchematic $model
+     *
+     * @return null|string
+     */
+    protected function getModelTablename(ModelSchematic $model) {
+        $persistenceManager = $this->getModelPersistenceManager();
+        $table_name         = $persistenceManager->getModelSource($model)->getName();
+        return $table_name;
     }
 }

@@ -26,13 +26,17 @@
          "pattern": "dev/models.json"
       },
       {
-         "resolution": "#Home\\Home::gallery",
-         "pattern": "gallery/items.json"
+         "resolution": "#Dev\\Dev::executeQuery",
+         "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       {
          "resolution": "#Dev\\Dev::eg",
          "pattern": "dev/example",
          "name": "example"
+      },
+      {
+         "resolution": "#Home\\Home::gallery",
+         "pattern": "gallery/items.json"
       },
       {
          "resolution": "User\\User@login",

@@ -4,6 +4,7 @@ use Sm\Application\Application;
 use Sm\Core\Event\GenericEvent;
 use Sm\Core\Util;
 use Sm\Data\Model\Model;
+use Sm\Data\Model\StandardModelPersistenceManager;
 use Sm\Data\Model\StdModelPersistenceManager;
 use Sm\Modules\Query\MySql\Authentication\MySqlAuthentication;
 use Sm\Modules\Query\MySql\MySqlQueryModule;
@@ -38,9 +39,7 @@ $default = [
     ],
 ];
 $config  = $config ?? [];
-
-$config = Util::arrayMergeRecursive($default, $config);
-
+$config  = Util::arrayMergeRecursive($default, $config);
 $app->setEnvironment($config['env']);
 
 #++sm++ boilerplate
@@ -67,6 +66,7 @@ _controller_layer($app);
 _communication_layer($app);
 _data_layer($app);
 _representation_layer($app);
+
 ####################################################################################
 #####              helper functions                                          #######
 ####################################################################################
@@ -111,18 +111,26 @@ function _communication_layer(Application $app): void {
     $app->getMonitor('info')->append(...$app_events);
 }
 
+/**
+ * @param \Sm\Application\Application $app
+ *
+ * @throws \Sm\Core\Exception\InvalidArgumentException
+ * @throws \Sm\Core\Factory\Exception\FactoryCannotBuildException
+ * @throws \Sm\Core\SmEntity\Exception\InvalidConfigurationException
+ */
 function _data_layer(Application $app): void {
     $data_json_path = APP__CONFIG_PATH . 'out/models.json';
-    
     if (file_exists($data_json_path)) {
         $dataJson    = file_get_contents($data_json_path);
         $data_config = json_decode($dataJson, 1);
         $app->data->configure($data_config);
     }
     /** @var \Sm\Data\Model\ModelDataManager $modelDataManager */
-    $modelDataManager = $app->data->getDataManager(Model::class);
-    $modelDataManager->setPersistenceManager((new StdModelPersistenceManager)->setQueryInterpreter($app->query->getQueryModule(null)));
-    
+    $modelDataManager   = $app->data->getDataManager(Model::class);
+    $queryModule        = $app->query->getQueryModule();
+    $persistenceManager = new StandardModelPersistenceManager;
+    $persistenceManager->setQueryInterpreter($queryModule);
+    $modelDataManager->setPersistenceManager($persistenceManager);
     $app->data->models->registerResolver(function (string $smID) {
         switch ($smID) {
             case '[Model]users':

@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux'
 import bind from "bind-decorator";
 import {SelectivelyActive} from "../../components";
-import Model from "./model";
-import {activateModel, deactivateModel, fetchModels, toggleModelActivity} from "./actions";
+import ModelDevComponent from "./model";
+import {activateModel, deactivateModel, executeModelQuery, fetchModels, toggleModelActivity} from "./actions";
 import {selectActiveDevModels, selectActiveModelSmIDs, selectModelDevInterface} from "./selector";
 import ModelLinkContainer from "./components/nav";
 
@@ -26,15 +26,16 @@ export default class ModelScene extends Component {
     /**
      * Given the response from the /dev/models API call, format each individual Model
      * @param data
-     * @return {Array<Model>}
+     * @return {Array<ModelDevComponent>}
      */
-    static createModels(data) {
+    createModels(data) {
         return Object.entries(data)
                      .map(queryEntry => {
-                         const [key, modelData]                                            = queryEntry;
-                         const {model, config, alterTableStatements, createTableStatement} = modelData;
-                         const props                                                       = {model, config, alterTableStatements, createTableStatement};
-                         return <Model key={key} smID={key} {...props} />
+                         const [key, modelData] = queryEntry;
+                         return <ModelDevComponent key={key}
+                                                   smID={key}
+                                                   {...modelData}
+                                                   executeModelQuery={this.props.executeModelQuery} />
                      });
     }
     
@@ -42,7 +43,7 @@ export default class ModelScene extends Component {
         let Active                = () => {
             const models = this.props.models;
             if (!models) return 'loading';
-            const Models           = ModelScene.createModels(models);
+            const Models           = this.createModels(models);
             const activeModelSmIDs = this.props.activeModelSmIDs;
             const smIDs            = this.props.allModelSmIDs;
             return (
@@ -85,5 +86,11 @@ function mapState(state) {
     return {models, allModelSmIDs, activeModelSmIDs};
 }
 function mapDispatch(dispatch) {
-    return bindActionCreators({toggleModelActivity, activateModel, deactivateModel, fetchModels}, dispatch);
+    return bindActionCreators({
+                                  toggleModelActivity,
+                                  activateModel,
+                                  deactivateModel,
+                                  fetchModels,
+                                  executeModelQuery
+                              }, dispatch);
 }

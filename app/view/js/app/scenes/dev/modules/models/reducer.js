@@ -1,4 +1,4 @@
-import {ACTIVATE_MODEL, DEACTIVATE_MODEL, FETCH_MODELS_RECEIVED, TOGGLE_ACTIVATE_MODEL} from "./actions";
+import {ACTIVATE_MODEL, DEACTIVATE_MODEL, EXECUTE_MODEL_QUERY__END, FETCH_MODELS_RECEIVED, TOGGLE_ACTIVATE_MODEL} from "./actions";
 import {combineReducers} from "redux";
 
 function activeSmIDs(state, action) {
@@ -28,10 +28,20 @@ export const modelReducer = combineReducers({
                                                             return state || [];
                                                     }
                                                 },
-                                                models: (state, {type, models}) => {
+                                                models: (state, action) => {
+                                                    const {type, models} = action;
                                                     switch (type) {
                                                         case FETCH_MODELS_RECEIVED:
                                                             return models;
+                                                        case EXECUTE_MODEL_QUERY__END:
+                                                            const {smID, query, result} = action;
+                                                            alert(`Attempted to ${query} on ${smID} -- was${result && result.success ? '' : ' NOT'} successful`);
+                                                            if (query === 'CREATE_TABLE') {
+                                                                const createTableModel       = state[smID];
+                                                                createTableModel.tableExists = result.success;
+                                                                console.log(createTableModel);
+                                                            }
+                                                            return {...state};
                                                         default:
                                                             return state || {};
                                                     }

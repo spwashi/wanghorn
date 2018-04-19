@@ -12,7 +12,7 @@
    "urls": {
       "src": null,
       "config": null,
-      "public": "http://localhost/public",
+      "public": "http://localhost/wanghorn/public",
       "root": "http://localhost",
       "base": "http://localhost/wanghorn"
    }
