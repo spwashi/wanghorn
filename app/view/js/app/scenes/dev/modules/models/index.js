@@ -7,6 +7,7 @@ import ModelDevComponent from "./model";
 import {activateModel, deactivateModel, executeModelQuery, fetchModels, toggleModelActivity} from "./actions";
 import {selectActiveDevModels, selectActiveModelSmIDs, selectModelDevInterface} from "./selector";
 import ModelLinkContainer from "./components/nav";
+import {ActiveComponent, InactiveComponent} from "../../components/selectivelyActive";
 
 @connect(mapState, mapDispatch)
 export default class ModelScene extends Component {
@@ -42,48 +43,52 @@ export default class ModelScene extends Component {
     render() {
         let Active                = () => {
             const models = this.props.models;
-            if (!models) return 'loading';
-            const Models           = this.createModels(models);
-            const activeModelSmIDs = this.props.activeModelSmIDs;
-            const smIDs            = this.props.allModelSmIDs;
+            console.log(Object.entries(models).length);
+            const {allModelSmIDs: smIDs, activeModelSmIDs} = this.props;
             return (
                 <div className={"model--container"}>
                     <h2 className={"model--container--title"}>Models</h2>
-                    <ModelLinkContainer onItemClick={this.handleModelLinkClick}
-                                        activeSmIDs={activeModelSmIDs}
-                                        allSmIDs={smIDs} />
-                    {Models}
+                    <ModelLinkContainer onItemClick={this.handleModelLinkClick} activeSmIDs={activeModelSmIDs} allSmIDs={smIDs} />
+                    
+                    {
+                        (!models || !Object.entries(models).length) ? 'loading'
+                                                                    : this.createModels(models)
+                    }
                 </div>
             );
         };
-        let Inactive              = () => <div className={"model--container collapsed"}>Models</div>;
-        let matchActivationTarget = target => {
-            return (
-                target.classList.contains("dev--models") ||
-                target.classList.contains("dev--model--wrapper") ||
-                target.classList.contains("model--container--title") ||
-                target.classList.contains("model--container")
-            );
-        };
-        return <SelectivelyActive trigger={"click"}
-        
-                                  matchTarget={matchActivationTarget}
-        
-                                  className={"dev--models"}
-        
-                                  inactiveComponent={Inactive}
-                                  activeComponent={Active}
-        
-                                  isActive={true} />;
+        let matchActivationTarget =
+                target =>
+                    (
+                        target.classList.contains("dev--models") ||
+                        target.classList.contains("dev--model--wrapper") ||
+                        target.classList.contains("model--container--title") ||
+                        target.classList.contains("model--container")
+                    );
+        return (
+            <SelectivelyActive trigger={"click"} matchTarget={matchActivationTarget} className={"dev--models"} isActive={true}>
+                <ActiveComponent>
+                    <Active />
+                </ActiveComponent>
+                <InactiveComponent>
+                    <div className={"model--container collapsed"}>Models</div>
+                </InactiveComponent>
+            </SelectivelyActive>
+        );
     }
 }
 
 function mapState(state) {
-    let modelState         = selectModelDevInterface(state);
-    const models           = selectActiveDevModels(state) || {};
+    let modelState = selectModelDevInterface(state);
+    const models   = selectActiveDevModels(state) || {};
+    console.log(models);
     const activeModelSmIDs = selectActiveModelSmIDs(state) || [];
     const allModelSmIDs    = modelState.list || [];
-    return {models, allModelSmIDs, activeModelSmIDs};
+    return {
+        models,
+        allModelSmIDs,
+        activeModelSmIDs
+    };
 }
 function mapDispatch(dispatch) {
     return bindActionCreators({

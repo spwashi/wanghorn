@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import * as PropTypes from "prop-types";
+import Stateful from "../stateful/stateful";
+import State from "../stateful/state";
 
 class SelectivelyActive extends Component {
     _activeComponent;
@@ -66,27 +68,26 @@ class SelectivelyActive extends Component {
     }
     
     render() {
-        let className      = `${(this.props.className || '')} ${(this.state.isActive ? 'active' : 'inactive')}`;
-        let InnerComponent = ({active}) => {
-            const InactiveComponent = this._inactiveComponent;
-            const ActiveComponent   = this._activeComponent;
-            return active ? <ActiveComponent /> : <InactiveComponent />;
-        };
+        let className           = `${(this.props.className || '')} ${(this.state.isActive ? 'active' : 'inactive')}`;
+        const InactiveComponent = this._inactiveComponent;
+        const ActiveComponent   = this._activeComponent;
         return (
             <div className={className + ' selectively-active'}
                  onClick={this.handleClick.bind(this)}
                  onMouseDown={this.handleMouseDown.bind(this)}
                  onMouseUp={this.handleMouseUp.bind(this)}
-                 onMouseMove={this.handleMouseMove.bind(this)}
-            >
-                <InnerComponent active={this.state.isActive} />
+                 onMouseMove={this.handleMouseMove.bind(this)}>
+                <Stateful activeState={this.state.isActive ? 'active' : 'inactive'}>
+                    <State name={'active'}><ActiveComponent /></State>
+                    <State name={'inactive'}><InactiveComponent /></State>
+                </Stateful>
             </div>
         );
     }
 }
 
-export const ActiveComponent   = ({children}) => children;
-export const InactiveComponent = ({children}) => children;
+export const ActiveComponent   = ({children}) => children || null;
+export const InactiveComponent = ({children}) => children || null;
 export default SelectivelyActive;
 
 SelectivelyActive.propTypes = {

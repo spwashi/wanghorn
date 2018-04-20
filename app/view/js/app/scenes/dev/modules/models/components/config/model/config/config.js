@@ -37,6 +37,6 @@ class ModelConfiguration extends React.Component {
 ModelConfiguration.propTypes = {
     config:      PropTypes.object,
     title:       PropTypes.string,
-    description: PropTypes.oneOf([PropTypes.string, PropTypes.element])
+    description: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
 };
 export default ModelConfiguration;
