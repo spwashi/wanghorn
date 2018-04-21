@@ -10,10 +10,8 @@ import ModelLinkContainer from "./components/nav";
 import {ActiveComponent, InactiveComponent} from "../../components/selectivelyActive";
 
 @connect(mapState, mapDispatch)
-export default class ModelScene extends Component {
-    constructor(props) {
-        super(props);
-    }
+class ModelScene extends Component {
+    constructor(props) {super(props);}
     
     componentDidMount() {this.props.fetchModels();}
     
@@ -24,64 +22,50 @@ export default class ModelScene extends Component {
         this.props.toggleModelActivity({smID});
     }
     
-    /**
-     * Given the response from the /dev/models API call, format each individual Model
-     * @param data
-     * @return {Array<ModelDevComponent>}
-     */
-    createModels(data) {
-        return Object.entries(data)
-                     .map(queryEntry => {
-                         const [key, modelData] = queryEntry;
-                         return <ModelDevComponent key={key}
-                                                   smID={key}
-                                                   {...modelData}
-                                                   executeModelQuery={this.props.executeModelQuery} />
-                     });
-    }
+    static matchActivationTarget(target) {
+        return (
+            target.classList.contains("dev--models") ||
+            target.classList.contains("dev--model--wrapper") ||
+            target.classList.contains("model--container--title") ||
+            target.classList.contains("model--container")
+        );
+    };
     
     render() {
-        let Active                = () => {
-            const models = this.props.models;
-            console.log(Object.entries(models).length);
-            const {allModelSmIDs: smIDs, activeModelSmIDs} = this.props;
-            return (
-                <div className={"model--container"}>
-                    <h2 className={"model--container--title"}>Models</h2>
-                    <ModelLinkContainer onItemClick={this.handleModelLinkClick} activeSmIDs={activeModelSmIDs} allSmIDs={smIDs} />
-                    
-                    {
-                        (!models || !Object.entries(models).length) ? 'loading'
-                                                                    : this.createModels(models)
-                    }
-                </div>
-            );
-        };
-        let matchActivationTarget =
-                target =>
-                    (
-                        target.classList.contains("dev--models") ||
-                        target.classList.contains("dev--model--wrapper") ||
-                        target.classList.contains("model--container--title") ||
-                        target.classList.contains("model--container")
-                    );
+        const models                                   = this.props.models;
+        const {allModelSmIDs: smIDs, activeModelSmIDs} = this.props;
         return (
-            <SelectivelyActive trigger={"click"} matchTarget={matchActivationTarget} className={"dev--models"} isActive={true}>
-                <ActiveComponent>
-                    <Active />
-                </ActiveComponent>
-                <InactiveComponent>
-                    <div className={"model--container collapsed"}>Models</div>
-                </InactiveComponent>
+            <SelectivelyActive matchTarget={ModelScene.matchActivationTarget} className={"dev--models"} isActive={true}>
+                <ActiveComponent>{this.ActiveComponent}</ActiveComponent>
+                <InactiveComponent>{this.InactiveComponent}</InactiveComponent>
             </SelectivelyActive>
+        );
+    }
+    
+    @bind
+    InactiveComponent() {
+        return <div className={"model--container collapsed"}>!!!Models</div>;
+    }
+    
+    @bind
+    ActiveComponent(props) {
+        let modelEntry__devComponent =
+                ([smID, modelData]) =>
+                    <ModelDevComponent key={smID} smID={smID} {...modelData} executeModelQuery={this.props.executeModelQuery} />;
+        return (
+            <div className={"model--container"}>
+                <h2 className={"model--container--title"}>Models</h2>
+                <ModelLinkContainer onItemClick={this.handleModelLinkClick} activeSmIDs={this.props.activeModelSmIDs} allSmIDs={this.props.allModelSmIDs} />
+                {Object.entries(this.props.models).map(modelEntry__devComponent)}
+            </div>
         );
     }
 }
 
+export default ModelScene;
 function mapState(state) {
-    let modelState = selectModelDevInterface(state);
-    const models   = selectActiveDevModels(state) || {};
-    console.log(models);
+    const modelState       = selectModelDevInterface(state);
+    const models           = selectActiveDevModels(state) || {};
     const activeModelSmIDs = selectActiveModelSmIDs(state) || [];
     const allModelSmIDs    = modelState.list || [];
     return {

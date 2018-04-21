@@ -2,41 +2,52 @@ import React from "react"
 import * as PropTypes from "prop-types"
 import ModelConfigurationAttribute from "../attribute";
 import ModelConfigurationPropertiesAttribute from "../attribute/properties";
+import ModelConfigurationInheritsAttribute from "../attribute/inherits";
 
-export const ModelConfigurationTitle =
+export const ModelConfigurationTitle       =
                  ({children}) =>
-                     <div className={"configuration--title model--configuration--title"}>
+                     <div className={"title configuration--title model--configuration--title"}>
                          {children}
+                     </div>;
+export const ModelConfigurationDescription =
+                 ({children: description}) =>
+                     <div className="description configuration--description model--configuration--description">
+                         {description}
                      </div>;
 
 class ModelConfiguration extends React.Component {
+    ModelAttribute({name, value}) {
+        switch (name) {
+            case 'inherits':
+                return <ModelConfigurationInheritsAttribute inherits={value} />;
+            case 'properties':
+                return <ModelConfigurationPropertiesAttribute onPropertyLinkTrigger={this.props.onTogglePropertyClick} properties={value} />;
+            default:
+                return <ModelConfigurationAttribute attribute={name} value={value} />;
+        }
+    };
+    
     render() {
-        const {config, title, description}       = this.props;
+        const {config, description, title}       = this.props;
         const {smID, name, properties, ...attrs} = config;
-        const objectEntryToAttr                  =
-                  ([attr, value]) => {
-                      switch (attr) {
-                          case 'properties':
-                              return <ModelConfigurationPropertiesAttribute key={attr} properties={value} />;
-                          default:
-                              return <ModelConfigurationAttribute key={attr} attribute={attr} value={value} />;
-                      }
-                  };
+        const ModelAttribute                     = this.ModelAttribute.bind(this);
         return (
             <div className="model--configuration">
                 <ModelConfigurationTitle>{title}</ModelConfigurationTitle>
-                <div className="description model--configuration--description">
-                    {description}
-                </div>
-                {Object.entries({smID, name, ...attrs, properties}).map(objectEntryToAttr)}
+                <ModelConfigurationDescription>{description}</ModelConfigurationDescription>
+                {
+                    Object.entries({smID, name, ...attrs, properties})
+                          .map(([attr, value]) => <ModelAttribute key={attr} name={attr} value={value} />)
+                }
             </div>
         );
     }
 }
 
 ModelConfiguration.propTypes = {
-    config:      PropTypes.object,
-    title:       PropTypes.string,
-    description: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+    config:                PropTypes.object,
+    title:                 PropTypes.string,
+    onTogglePropertyClick: PropTypes.func,
+    description:           PropTypes.oneOfType([PropTypes.string, PropTypes.element])
 };
 export default ModelConfiguration;

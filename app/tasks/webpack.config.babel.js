@@ -31,7 +31,7 @@ const plugins                      = [new ExtractTextPlugin({filename: relativeC
                                                              publicPath__JS,
                                                          }
                                                      }),
-                                      new CleanWebpackPlugin([outputPath__JS, outputPath__HTML, outputPath__CSS],
+                                      new CleanWebpackPlugin([`${outputPath__JS}/*`, `${outputPath__CSS}/*`],
                                                              {allowExternal: true}),
                                       new webpack.DefinePlugin({
                                                                    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')

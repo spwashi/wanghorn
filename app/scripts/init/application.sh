@@ -24,60 +24,28 @@ if [[ -z APPLICATION_PATH ]];then
     return 1
 fi
 
-
-
-##
-###
-####     INITIALIZE CONFIGURATION
-###
-##
-function initSmJS {
-    if [[ -z $1 ]];then
-        echo "NO APPLICATION PATH SPECIFIED - either pipe in the application path as the first line or pass it in as the first argument."
-        return 1
-    fi
-
-    local FUNCTION_DESCRIPTION="Initialize the SmJS Framework and configure the application."
-    printf "'''\n${FUNCTION_DESCRIPTION}\n'''\n\tIN: \t$(pwd) \n"
-
-    local app_path=$1
-
-    ## Configure the application
-    FUNCTION_DESCRIPTION="2) Configure the application"
-    printf "\t'''\n${FUNCTION_DESCRIPTION}\n'''\n\t IN: \t$(pwd) \n"
-    printf "\tACTING IN: \t$(pwd) \n"
-
-    node --require babel-register initialize.js ${app_path}
-
-    cd ${app_path}
-    FUNCTION_DESCRIPTION="3) Create the app's views"
-    printf "\t'''\n${FUNCTION_DESCRIPTION}\n'''\n\t IN: \t$(pwd) \n"
-    printf "\tACTING IN: \t$(pwd) \n"
-
-    npm run webpack
-}
-
-
-
-
 ##
 ###
 ####     INITIALIZE THE APPLICATION
 ###
 ##
 function initApplication {
+    printf "\tUSING: \tAPPLICATION_PATH - ${APPLICATION_PATH} \n"
+
     cd ${APPLICATION_PATH}
 
-    local FUNCTION_DESCRIPTION="Initialize the application"
-    printf "'''\n${FUNCTION_DESCRIPTION}\n'''\n"
+    printf "\n......Installing Node Packages......\n"
+    npm install -dd
+    printf "\n...... Done Installing Node Packages......\n"
+
+    printf "\n......Initializing app variables......\n"
+    node --require babel-register initialize.js ${APPLICATION_PATH}
+    printf "\n\n... Done Initializing app variables\n"
 
 
-    printf "\tUSING: \tAPPLICATION_PATH - ${APPLICATION_PATH} \n"
-    printf "\tUSING: \tAPPLICATION_CONFIG_PATH - ${APPLICATION_CONFIG_PATH} \n"
-
-
-
-    initSmJS ${APPLICATION_PATH} ${APPLICATION_CONFIG_PATH}
+    printf "\n......Building App Views......\n"
+    npm run webpack
+    printf "\n......Done Building App Views......\n"
 }
 
 

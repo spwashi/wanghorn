@@ -29,8 +29,8 @@ class ModelDevComponent extends React.Component {
                 <h3 id={smID} className={"title model--smID"}>{smID}</h3>
                 
                 <div className="wrapper component--wrapper model--component--wrapper">
-                    <ModelConfigurationWrapper description={jsConfigDescription} type={'SmJS'} model={config} />
-                    <ModelConfigurationWrapper description={phpConfigDescription} type={'SmPHP'} model={model} />
+                    <ModelConfigurationWrapper onTogglePropertyClick={prop_smID => alert('TOGGLE PROPERTY ' + prop_smID + ' FOR  SmJS ' + smID)} description={jsConfigDescription} type={'SmJS'} model={config} />
+                    <ModelConfigurationWrapper onTogglePropertyClick={prop_smID => alert('TOGGLE PROPERTY ' + prop_smID + ' FOR SmPHP ' + smID)} description={phpConfigDescription} type={'SmPHP'} model={model} />
                 </div>
                 
                 <div className="wrapper component--wrapper model--component--wrapper">

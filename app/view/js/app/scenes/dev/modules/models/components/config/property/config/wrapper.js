@@ -1,25 +1,23 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import PropertyConfiguration, {PropertyConfigurationTitle} from "./index";
-import SelectivelyActive from "../../../../../../components/selectivelyActive";
+import PropertyConfiguration, {PropertyConfigurationTitle} from "./config";
+import SelectivelyActive, {ActiveComponent, InactiveComponent} from "../../../../../../components/selectivelyActive";
 
-const PropertyConfigurationWrapper     = ({name, config}) =>
-    <SelectivelyActive key={name}
-                       className={"property--configuration--wrapper"}
-                       trigger={"click"}
-                       isActive={false}
-                       matchTarget={target => target.classList.contains('configuration--title')}
-                       inactiveComponent={
-                           props =>
-                               <div className={"property--configuration inactive"}>
-                                   <PropertyConfigurationTitle>{name}</PropertyConfigurationTitle>
-                               </div>
-                       }
-                       activeComponent={
-                           props => <PropertyConfiguration className={"active"}
-                                                           name={name}
-                                                           config={{name, ...config}} />
-                       } />;
+const PropertyConfigurationWrapper     =
+          ({name, config}) =>
+              <SelectivelyActive key={name}
+                                 className={"property--configuration--wrapper"}
+                                 isActive={false}
+                                 matchTarget={target => target.classList.contains('configuration--title')}>
+                  <InactiveComponent>
+                      <div className={"property--configuration inactive"}>
+                          <PropertyConfigurationTitle>{name}</PropertyConfigurationTitle>
+                      </div>
+                  </InactiveComponent>
+                  <ActiveComponent>
+                      <PropertyConfiguration className={"active"} name={name} config={{name, ...config}} />
+                  </ActiveComponent>
+              </SelectivelyActive>;
 PropertyConfigurationWrapper.propTypes = {
     name:   PropTypes.string,
     config: PropTypes.object

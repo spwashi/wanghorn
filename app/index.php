@@ -18,7 +18,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $app = Application::init(APP__APP_PATH, APP__CONFIG_PATH);
 
 try {
-    
     #   - Create & Boot the application
     
     $app                = $app->boot();
@@ -30,35 +29,25 @@ try {
     try {
         
         ###- Create and dispatch the response -###
-        
         $request        = $originalRequest;
         $route          = $communicationLayer->getRoute($request);
         $response       = $route->resolve();
         $dispatchResult = $communicationLayer->dispatch(Http::class, $response);
-        
     } catch (RouteNotFoundException $exception) {
-        
-        try {###- Create and dispatch the error response -###
-            
-            $error_route      = $communicationLayer->getRoute('404');
-            $primedErrorRoute = $error_route->prime(null, [ 'path' => $originalRequest->getUrlPath() ]);
-            $error_url        = $primedErrorRoute->getRequestDescriptor()->asUrlPath([ 'path' => $originalRequest->getUrlPath() ]);
-            $errorRequest     = HttpRequest::init()->setParentRequest($originalRequest)->setUrl($error_url);
-            $primedErrorRoute = $error_route->prime($errorRequest);
-            $res              = $primedErrorRoute->resolve();
-            # Not a redirect
-            $communicationLayer->dispatch(Http::class, $res);
-        } catch (\Sm\Core\Exception\Exception $exception) {
-            \Kint::dump($exception);
-            \Kint::dump($app->getMonitors());
-        }
-        
+        ###- Create and dispatch the error response -###
+        $error_route      = $communicationLayer->getRoute('404');
+        $primedErrorRoute = $error_route->prime(null, [ 'path' => $originalRequest->getUrlPath() ]);
+        $error_url        = $primedErrorRoute->getRequestDescriptor()
+                                             ->asUrlPath([ 'path' => $originalRequest->getUrlPath() ]);
+        $errorRequest     = HttpRequest::init()
+                                       ->setParentRequest($originalRequest)
+                                       ->setUrl($error_url);
+        $primedErrorRoute = $error_route->prime($errorRequest);
+        $response         = $primedErrorRoute->resolve();
+        $dispatchResult   = $communicationLayer->dispatch(Http::class, $response); # Not a redirect
     }
     
-    #
-    
-} catch (\Sm\Core\Exception\Exception $exception) {
-    
+} catch (\Sm\Core\Exception\Exception|\Exception $exception) {
     if ($app->environmentIs(Application::ENV_DEV)) {
         header('Content-Type: application/json');
         echo json_encode([
@@ -68,19 +57,7 @@ try {
                              $exception,
                          ]);
     }
-} catch (\Exception $exception) {
-    if ($app->environmentIs(Application::ENV_DEV)) {
-        header('Content-Type: application/json');
-        echo json_encode([
-                             $exception->getMessage(),
-                             $exception->getPrevious(),
-                             $exception,
-                         ]);
-    }
 } finally {
-    
-    #-- terminate the script
-    
-    die;
+    die; /* terminate the script */
 }
 

@@ -1,7 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {ModelConfigurationAttributeValue} from "./value";
-import {ModelConfigurationAttributeTitle} from "./title";
+import {ModelConfigurationAttributeValue} from "./attr/value";
+import {ModelConfigurationAttributeTitle} from "./attr/title";
 
 const ModelConfigurationAttribute = ({value, attribute, valueMeta, children}) =>
     <div className={`attribute configuration--attribute model--configuration--attribute ${attribute} attribute__${attribute}`}>

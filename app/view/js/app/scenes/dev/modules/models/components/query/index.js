@@ -18,26 +18,21 @@ const QueryControlContainer = ({canExecute, executeQuery}) => {
     )
 };
 
-export let Query = ({
-                        query,
-                        type,
-                        canExecute,
-                        executeQuery
-                    }) => {
+export let Query = ({query, type, canExecute, executeQuery}) => {
     let className = "query";
+    if (!query || !query.length) return null;
+    let ActiveQuery =
+            props =>
+                <pre className={className}>
+                    <QueryControlContainer canExecute={canExecute} executeQuery={executeQuery} />
+                    <code className={'query'}>{query}</code>
+                </pre>;
     return (
         <SelectivelyActive trigger={"click"} className={`wrapper query--wrapper`} isActive={false}>
             <InactiveComponent>
-                <div className={className + ' ' + type.toLowerCase()}>
-                    [ {type} (MySQL Query) ]
-                </div>
+                <div className={className + ' ' + type.toLowerCase()}>[ {type} (MySQL Query) ]</div>
             </InactiveComponent>
-            <ActiveComponent>
-                <QueryControlContainer canExecute={canExecute} executeQuery={executeQuery} />
-                <pre className={className}>
-                    <code className={'query'}>{query}</code>
-                </pre>
-            </ActiveComponent>
+            <ActiveComponent component={ActiveQuery} />
         </SelectivelyActive>
     );
 };

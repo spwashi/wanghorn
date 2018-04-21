@@ -6,7 +6,6 @@ export const ModelConfigurationAttributeTitle = ({attribute}) =>
                      configuration--attribute--title
                      model--configuration--attribute--title
                      attribute__${attribute}--title`}>{attribute}</div>;
-
-ModelConfigurationAttributeTitle.propTypes = {
+ModelConfigurationAttributeTitle.propTypes    = {
     attribute: PropTypes.string,
 };

@@ -43,6 +43,9 @@
    },
    "project": {
       "smID": "[Model]project",
+      "inherits": [
+         "[Model]_"
+      ],
       "propertyMeta": {
          "primary": [
             "[Property]{[Model]project} id"
@@ -99,6 +102,9 @@
    },
    "user": {
       "smID": "[Model]user",
+      "inherits": [
+         "[Model]_"
+      ],
       "propertyMeta": {
          "primary": [
             "[Property]{[Model]user} id"
@@ -169,6 +175,9 @@
    },
    "email": {
       "smID": "[Model]email",
+      "inherits": [
+         "[Model]_"
+      ],
       "propertyMeta": {
          "primary": [
             "[Property]{[Model]email} id"
@@ -223,6 +232,9 @@
    },
    "file": {
       "smID": "[Model]file",
+      "inherits": [
+         "[Model]_"
+      ],
       "propertyMeta": {
          "primary": [
             "[Property]{[Model]file} id"
@@ -276,6 +288,9 @@
    },
    "pw": {
       "smID": "[Model]pw",
+      "inherits": [
+         "[Model]_"
+      ],
       "propertyMeta": {
          "primary": [
             "[Property]{[Model]pw} id"

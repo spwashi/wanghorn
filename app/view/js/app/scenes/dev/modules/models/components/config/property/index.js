@@ -1,3 +1,3 @@
-import PropertyConfiguration from "./config/index";
+import PropertyConfiguration from "./config/config";
 
 export {PropertyConfiguration};

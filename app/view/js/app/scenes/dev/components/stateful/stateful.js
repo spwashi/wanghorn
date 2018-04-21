@@ -9,19 +9,17 @@ class Stateful extends React.Component {
     constructor(props) {
         super(props);
         const {activeState} = props;
-        this.state          = {activeState}
     }
     
     render() {
         const children  = this.props.children || [];
-        let activeChild = null;
+        let ActiveChild = null;
         let activeState = this.props.activeState;
-        console.log(activeState);
         children.forEach((child: State) => {
             if (child.props.name !== activeState) return;
-            activeChild = child;
+            ActiveChild = child;
         });
-        return activeChild;
+        return ActiveChild;
     }
 }
 
@@ -34,10 +32,10 @@ Stateful.propTypes = {
     children: (props, propName, componentName) => {
         const children = props[propName];
         let error      = null;
-        React.children.forEach(children,
+        React.Children.forEach(children,
                                (child: React.ComponentElement) => {
                                    if (child.type !== State) {
-                                       error = new Error("Can only have States as children to a " + componentName);
+                                       error = new Error(`Can only have States as children to a ${componentName} -- ${child.type || typeof child} given`);
                                    }
                                });
         return error;
