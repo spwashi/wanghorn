@@ -4,8 +4,8 @@ import {bindActionCreators} from 'redux'
 import bind from "bind-decorator";
 import {SelectivelyActive} from "../../components";
 import ModelDevComponent from "./model";
-import {activateModel, deactivateModel, executeModelQuery, fetchModels, toggleModelActivity} from "./actions";
-import {selectActiveDevModels, selectActiveModelSmIDs, selectModelDevInterface} from "./selector";
+import {activateModel, deactivateModel, executeModelQuery, fetchModels, toggleModelActivity, toggleModelPropertyActivity} from "./actions";
+import {selectActiveModelMetas, selectActiveModelSmIDs, selectModelDevInterface} from "./selector";
 import ModelLinkContainer from "./components/nav";
 import {ActiveComponent, InactiveComponent} from "../../components/selectivelyActive";
 
@@ -50,8 +50,14 @@ class ModelScene extends Component {
     @bind
     ActiveComponent(props) {
         let modelEntry__devComponent =
-                ([smID, modelData]) =>
-                    <ModelDevComponent key={smID} smID={smID} {...modelData} executeModelQuery={this.props.executeModelQuery} />;
+                ([smID, modelState]) =>
+                    <ModelDevComponent key={smID}
+                                       {...{...modelState, smID}}
+                                       onTogglePropertyClick={
+                                           propertySmID => {
+                                               return this.props.toggleModelPropertyActivity({smID: propertySmID});
+                                           }}
+                                       executeModelQuery={this.props.executeModelQuery} />;
         return (
             <div className={"model--container"}>
                 <h2 className={"model--container--title"}>Models</h2>
@@ -65,7 +71,7 @@ class ModelScene extends Component {
 export default ModelScene;
 function mapState(state) {
     const modelState       = selectModelDevInterface(state);
-    const models           = selectActiveDevModels(state) || {};
+    const models           = selectActiveModelMetas(state) || {};
     const activeModelSmIDs = selectActiveModelSmIDs(state) || [];
     const allModelSmIDs    = modelState.list || [];
     return {
@@ -76,6 +82,7 @@ function mapState(state) {
 }
 function mapDispatch(dispatch) {
     return bindActionCreators({
+                                  toggleModelPropertyActivity,
                                   toggleModelActivity,
                                   activateModel,
                                   deactivateModel,

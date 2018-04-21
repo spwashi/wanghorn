@@ -1,0 +1,1 @@
+export const normalizeSmID = smID => (smID || '').replace(' ', '');

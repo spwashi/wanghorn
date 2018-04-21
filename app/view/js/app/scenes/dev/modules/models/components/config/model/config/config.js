@@ -21,7 +21,9 @@ class ModelConfiguration extends React.Component {
             case 'inherits':
                 return <ModelConfigurationInheritsAttribute inherits={value} />;
             case 'properties':
-                return <ModelConfigurationPropertiesAttribute onPropertyLinkTrigger={this.props.onTogglePropertyClick} properties={value} />;
+                return <ModelConfigurationPropertiesAttribute activeProperties={this.props.activeProperties}
+                                                              onPropertyLinkTrigger={this.props.onTogglePropertyClick}
+                                                              properties={value} />;
             default:
                 return <ModelConfigurationAttribute attribute={name} value={value} />;
         }
@@ -48,6 +50,7 @@ ModelConfiguration.propTypes = {
     config:                PropTypes.object,
     title:                 PropTypes.string,
     onTogglePropertyClick: PropTypes.func,
+    activeProperties:      PropTypes.arrayOf(PropTypes.string),
     description:           PropTypes.oneOfType([PropTypes.string, PropTypes.element])
 };
 export default ModelConfiguration;

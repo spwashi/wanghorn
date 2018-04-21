@@ -120,6 +120,9 @@
 			padding          : 10px;
 			border           : thin solid $model--configuration--attribute__properties--link-_-border-color;
 			color            : $model--configuration--attribute__properties--link-_-txt-color;
+			&.active {
+				background-color : darken($model--configuration--attribute__properties--link-_-background, 10%);
+			}
 		}
 	}
 }

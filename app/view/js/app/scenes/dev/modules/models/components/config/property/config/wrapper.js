@@ -7,7 +7,7 @@ const PropertyConfigurationWrapper     =
           ({name, config}) =>
               <SelectivelyActive key={name}
                                  className={"property--configuration--wrapper"}
-                                 isActive={false}
+                                 isActive={true}
                                  matchTarget={target => target.classList.contains('configuration--title')}>
                   <InactiveComponent>
                       <div className={"property--configuration inactive"}>

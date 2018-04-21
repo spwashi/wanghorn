@@ -15,7 +15,8 @@ const AlterTableStatementList = ({statements, executeQuery}) =>
 class ModelDevComponent extends React.Component {
     render() {
         const {smID, config, model}                                     = this.props;
-        const {executeModelQuery}                                       = this.props;
+        const {activeProperties}                                        = this.props;
+        const {executeModelQuery, onTogglePropertyClick}                = this.props;
         const {createTableStatement, alterTableStatements, tableExists} = this.props;
         
         const jsConfigDescription  = <div>What <a href={"https://github.com/spwashi/SmJS"}>SmJS</a> uses to configure my models.</div>;
@@ -27,10 +28,17 @@ class ModelDevComponent extends React.Component {
         return (
             <div key={smID} className={"dev--model--wrapper"}>
                 <h3 id={smID} className={"title model--smID"}>{smID}</h3>
-                
                 <div className="wrapper component--wrapper model--component--wrapper">
-                    <ModelConfigurationWrapper onTogglePropertyClick={prop_smID => alert('TOGGLE PROPERTY ' + prop_smID + ' FOR  SmJS ' + smID)} description={jsConfigDescription} type={'SmJS'} model={config} />
-                    <ModelConfigurationWrapper onTogglePropertyClick={prop_smID => alert('TOGGLE PROPERTY ' + prop_smID + ' FOR SmPHP ' + smID)} description={phpConfigDescription} type={'SmPHP'} model={model} />
+                    <ModelConfigurationWrapper onTogglePropertyClick={onTogglePropertyClick}
+                                               description={jsConfigDescription}
+                                               type={'SmJS'}
+                                               activeProperties={activeProperties}
+                                               model={config} />
+                    <ModelConfigurationWrapper onTogglePropertyClick={onTogglePropertyClick}
+                                               description={phpConfigDescription}
+                                               type={'SmPHP'}
+                                               activeProperties={activeProperties}
+                                               model={model} />
                 </div>
                 
                 <div className="wrapper component--wrapper model--component--wrapper">
@@ -48,12 +56,14 @@ class ModelDevComponent extends React.Component {
 }
 
 ModelDevComponent.propTypes = {
-    smID:                 PropTypes.string,
-    config:               PropTypes.object,
-    model:                PropTypes.object,
-    tableExists:          PropTypes.bool,
-    createTableStatement: PropTypes.string,
-    alterTableStatements: PropTypes.arrayOf(PropTypes.string),
+    smID:                  PropTypes.string,
+    config:                PropTypes.object,
+    model:                 PropTypes.object,
+    tableExists:           PropTypes.bool,
+    activeProperties:      PropTypes.arrayOf(PropTypes.string),
+    onTogglePropertyClick: PropTypes.func,
+    createTableStatement:  PropTypes.string,
+    alterTableStatements:  PropTypes.arrayOf(PropTypes.string),
 };
 
 export default ModelDevComponent;

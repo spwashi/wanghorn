@@ -41,6 +41,7 @@ class ModelConfigurationWrapper extends React.Component {
     @bind
     ActiveComponent(props) {
         return <ModelConfiguration title={this.title}
+                                   activeProperties={this.props.activeProperties}
                                    config={this.props.model}
                                    onTogglePropertyClick={this.props.onTogglePropertyClick}
                                    description={this.props.description} />;
@@ -50,6 +51,8 @@ class ModelConfigurationWrapper extends React.Component {
 ModelConfigurationWrapper.propTypes = {
     type:                  PropTypes.string,
     onTogglePropertyClick: PropTypes.func,
+    model:                 PropTypes.object,
+    activeProperties:      PropTypes.arrayOf(PropTypes.string),
     description:           PropTypes.oneOfType([PropTypes.string, PropTypes.element])
 };
 export default ModelConfigurationWrapper;

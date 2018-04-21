@@ -1,7 +1,8 @@
 import {ACTIVATE_MODEL, DEACTIVATE_MODEL, FETCH_MODELS_RECEIVED, TOGGLE_ACTIVATE_MODEL} from "../actions";
 import {combineReducers} from "redux";
 import {reduceEntriesIntoObject} from "../../../../../../utility";
-import devComponentReducer from "./devComponent";
+import modelMetaReducer from "./modelMeta";
+import deepmerge from "deepmerge";
 
 function activeSmID_reducer(state, action) {
     const {type, models} = action;
@@ -33,12 +34,13 @@ let modelObject_reducer         = (state, action) => {
     const {type, models} = action;
     switch (type) {
         case FETCH_MODELS_RECEIVED:
-            return Object.entries(action.models)
-                         .map(([smID, model]) => [smID, devComponentReducer(model, action)])
-                         .reduce(reduceEntriesIntoObject, {});
+            let fetched_models = Object.entries(action.models)
+                                       .map(([smID, model]) => [smID, modelMetaReducer(model, action)])
+                                       .reduce(reduceEntriesIntoObject, {});
+            return deepmerge.all([state, fetched_models]);
         default:
             return Object.entries(state || {})
-                         .map(([smID, model]) => [smID, devComponentReducer(model, action)])
+                         .map(([smID, model]) => [smID, modelMetaReducer(model, action)])
                          .reduce(reduceEntriesIntoObject, {});
     }
 };

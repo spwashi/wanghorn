@@ -1,40 +1,55 @@
 import React from "react"
 import * as PropTypes from "prop-types"
+import {normalizeSmID} from "../../../../../sm/utility";
 
-const PropertySmIDLink     = ({smID, children, onTrigger}) => {
-    onTrigger       = onTrigger || (() => {});
-    let handleClick = (event) => {
+const PropertySmIDLink     = ({smID, children, onTrigger, isActive}) => {
+    onTrigger             = onTrigger || (() => {});
+    let handleClick       = (event) => {
         onTrigger(smID, event);
         event.stopPropagation();
     };
+    const activeClassName = isActive ? 'active' : 'inactive';
     return (
-        <a className={`attribute__properties--link`} href={`#${smID.replace(' ', '')}`} onClick={handleClick}>
+        <a className={`attribute__properties--link ${activeClassName}`} href={`#${smID.replace(' ', '')}`} onClick={handleClick}>
             {children}
         </a>
     );
 };
 PropertySmIDLink.propTypes = {
     smID:      PropTypes.string,
+    isActive:  PropTypes.bool,
     children:  PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
     onTrigger: PropTypes.func
 };
 
-const PropertiesAttrMetaList = ({properties, onPropertyLinkTrigger}) => {
-    return (
-        <ul className={`attribute__properties--meta-list attribute__properties--link--container`}>
-            {
-                Object.entries(properties)
-                      .filter(([name, config]) => !!config.smID)
-                      .map(([name, config]) =>
-                               <PropertySmIDLink onTrigger={onPropertyLinkTrigger} key={name} smID={config.smID}>
-                                   {name}
-                               </PropertySmIDLink>)
-            }
-        </ul>
-    )
-};
+class PropertiesAttrMetaList extends React.Component {
+    render() {
+        const {properties, onPropertyLinkTrigger} = this.props;
+        const activeProperties                    = this.props.activeProperties || [];
+        return (
+            <ul className={`attribute__properties--meta-list attribute__properties--link--container`}>
+                {
+                    Object.entries(properties)
+                          .filter(([name, config]) => !!config.smID)
+                          .map(([name, config]) => {
+                              let smID       = normalizeSmID(config.smID);
+                              const isActive = (activeProperties).indexOf(smID) >= 0;
+                              return (
+                                  <PropertySmIDLink isActive={isActive} onTrigger={onPropertyLinkTrigger} key={name} smID={smID}>
+                                      {name}
+                                  </PropertySmIDLink>
+                              );
+                          })
+                }
+            </ul>
+        )
+        
+    }
+}
+
 export default PropertiesAttrMetaList;
 PropertiesAttrMetaList.propTypes = {
     properties:            PropTypes.object,
+    activeProperties:      PropTypes.arrayOf(PropTypes.string),
     onPropertyLinkTrigger: PropTypes.func
 };
