@@ -12,12 +12,12 @@ export const outputPath__CSS       = path.resolve(outputPath, 'css');
 export const inputPath__CSS        = path.resolve(APP_PATH__VIEW_DIR, 'stylesheets', 'scss');
 const IS_PROD                      = ENVIRONMENT === 'production';
 const htmlTemplatePath             = path.resolve(__dirname, '../view/html/react.html');
-const relativeCSS_output_filename  = "../css/style.css";
+const relativeCSS_output_filename  = "../css/style-[hash:6].css";
 const publicPath__JS               = `${APP_URL}/public/js`;
 const publicPath__HTML             = `${APP_URL}/public/html`;
 const publicPath__IMG              = `${APP_URL}/public/img`;
 const publicPath__CSS              = `${APP_URL}/public/css`;
-const outputFileName               = `${APP_NAME}-[hash:6].js`;
+const outputJS_Filename               = `${APP_NAME}-[hash:6].js`;
 const indexHTML_name               = `${APP_NAME}.html`;
 const relativeHTML_output_filename = `../html/${indexHTML_name}`;
 const plugins                      = [new ExtractTextPlugin({filename: relativeCSS_output_filename}),
@@ -47,7 +47,7 @@ export default {
                  ]
              },
     output:  {
-        filename:   outputFileName,
+        filename:   outputJS_Filename,
         publicPath: publicPath__JS,
         path:       outputPath__JS
     },
