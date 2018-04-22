@@ -1,5 +1,5 @@
 import React from "react"
-import {LinkContainer} from "../../../../components";
+import {LinkContainer} from "base-components";
 
 const Navigation = ({links}) =>
     <nav className="main main--navigation navigation">

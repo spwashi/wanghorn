@@ -1,6 +1,6 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {normalizeSmID} from "../../../../../sm/utility";
+import {normalizeSmID} from "../../../../../../../sm/utility";
 
 const PropertySmIDLink     = ({smID, children, onTrigger, isActive}) => {
     onTrigger             = onTrigger || (() => {});
@@ -34,9 +34,12 @@ class PropertiesAttrMetaList extends React.Component {
                           .map(([name, config]) => {
                               let smID       = normalizeSmID(config.smID);
                               const isActive = (activeProperties).indexOf(smID) >= 0;
+                              let title      = name.replace(/_([a-z])/g, ([str, match]) => ` ${match}`.toUpperCase());
+                              title          = title.charAt(0).toUpperCase() + title.substr(1);
+                        
                               return (
                                   <PropertySmIDLink isActive={isActive} onTrigger={onPropertyLinkTrigger} key={name} smID={smID}>
-                                      {name}
+                                      {title}
                                   </PropertySmIDLink>
                               );
                           })

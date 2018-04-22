@@ -4,7 +4,7 @@ import bind from "bind-decorator";
 import {TweenLite} from "gsap";
 // animation imports
 import "gsap/ScrollToPlugin";
-import {LinkItem} from "../../../../../components/navigation";
+import {LinkItem} from "base-components/navigation";
 
 export class ContentSectionLink extends React.Component {
     _anchor;

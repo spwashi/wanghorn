@@ -58,7 +58,15 @@ class Gallery extends React.Component {
                     {filters}
                 </aside>
                 <GalleryItemContainer>
-                    {items.map((item, key) => <Item key={key} {...item} />)}
+                    {
+                        items.map(
+                            (item, key) => {
+                                let img = item.asPerson ? (item.img || <div className={`image ${item.asPerson.toLowerCase()}`} />)
+                                                        : item.img;
+                                
+                                return <Item key={key} {...item} img={img} />;
+                            })
+                    }
                 </GalleryItemContainer>
             </div>
         );

@@ -1,6 +1,8 @@
 @import "../../../colors/colors";
 
 $pageContent--color : saturate(lighten($palette_color_5, 25%), 10%);
+$page--nav-_-color : black;
+$pageContent--shadow-_-color : darken($body--backgroundColor, 20%);
 $pageContent--text--color : darken($pageContent--color, 20%);
 $page-link-_-bg-color : $pageContent--color;
 $hyperlink-_-bottom-border-color : #aaa;

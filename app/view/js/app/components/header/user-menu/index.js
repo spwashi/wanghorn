@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import {USER_LOGIN_PATH} from "../../../../paths";
-import {Button} from "../../../../components";
+import {Button} from "base-components";
 import "whatwg-fetch";
 import bind from "bind-decorator"
 

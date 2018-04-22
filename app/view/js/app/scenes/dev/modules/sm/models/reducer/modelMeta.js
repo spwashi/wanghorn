@@ -1,5 +1,5 @@
 import {ACTIVATE_MODEL_PROPERTY, DEACTIVATE_MODEL_PROPERTY, EXECUTE_MODEL_QUERY__END, FETCH_MODELS_RECEIVED, TOGGLE_ACTIVATE_MODEL_PROPERTY} from "../actions";
-import {normalizeSmID} from "../sm/utility";
+import {normalizeSmID} from "../../../sm/utility";
 import {selectActiveProperties_fromModelMetaObject, selectPropertySmIDs_fromModel} from "../selector";
 
 type modelMeta = {

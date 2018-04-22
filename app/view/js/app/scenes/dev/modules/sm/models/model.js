@@ -26,7 +26,7 @@ class ModelDevComponent extends React.Component {
         const executeAllAlterTableStatements = () => { executeModelQuery({smID, query: 'ALTER_TABLE'})};
         
         return (
-            <div key={smID} className={"dev--model--wrapper"}>
+            <div key={smID} className={"model--meta--wrapper"}>
                 <h3 id={smID} className={"title model--smID"}>{smID}</h3>
                 <div className="wrapper component--wrapper model--component--wrapper">
                     <ModelConfigurationWrapper onTogglePropertyClick={onTogglePropertyClick}

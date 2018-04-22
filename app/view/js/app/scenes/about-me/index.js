@@ -1,7 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import {ContentSection, ContentSectionLink, PageContent} from "../../components/page";
-import {Link} from "../../../components/navigation/components/link";
+import {Link} from "base-components/navigation/components/link";
 import {DEV__PATH} from "../dev/paths";
 
 const pageClassName = 'about-me';

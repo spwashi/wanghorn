@@ -1,6 +1,6 @@
 import {ACTIVATE_MODEL, DEACTIVATE_MODEL, FETCH_MODELS_RECEIVED, TOGGLE_ACTIVATE_MODEL} from "../actions";
 import {combineReducers} from "redux";
-import {reduceEntriesIntoObject} from "../../../../../../utility";
+import {reduceEntriesIntoObject} from "../../../../../../../utility";
 import modelMetaReducer from "./modelMeta";
 import deepmerge from "deepmerge";
 

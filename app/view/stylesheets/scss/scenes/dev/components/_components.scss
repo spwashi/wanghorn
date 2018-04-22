@@ -1,13 +1,14 @@
 @import "models/models";
 
 .page--__--dev {
-	width       : 95%;
-	font-family : monospace;
-	font-size   : .6em;
-	* {
-		font-family : monospace;
+	width : 100%;
+	&, * {font-family : monospace;}
+	.page--description {
+		font-size    : .6em;
+		width        : 95%;
+		margin-left  : auto;
+		margin-right : auto;
 	}
-
 	p, .page--description * {
 		* {
 			font-size : inherit;
@@ -24,3 +25,4 @@
 		bottom      : 0px;
 	}
 }
+

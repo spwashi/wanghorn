@@ -1,5 +1,5 @@
 import React from "react";
-import {LinkItem} from "../components";
+import {LinkItem} from "base-components";
 import {ABOUT_ME, DEV, GALLERY, HOME} from "../paths";
 
 // remember to add the appropriate route in ./routes

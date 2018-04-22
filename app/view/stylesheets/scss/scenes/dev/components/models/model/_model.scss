@@ -1,13 +1,16 @@
 @import "header";
 @import "colors";
 
-.dev--model--wrapper {
-	background-color : $model--bg;
-	padding          : 10px;
+.model--meta--wrapper {
+	background-color : $modelMeta--bg;
+	color            : $model--meta-_-text-color;
+	padding          : 0;
 	margin-bottom    : 20px;
+	overflow         : hidden;
 	border           : thin solid $body--backgroundColor-shadowNear;
-	pre {
-		padding : 0;
+	> .title {
+		background-color : $model--configuration--attribute--title-_-background;
+		border-bottom    : thin solid darken($modelMeta--bg--color, 20%);
 	}
 }
 
@@ -15,46 +18,51 @@
 	border-bottom : thin solid $dev--configuration--attribute-_-border-color;
 	display       : flex;
 	flex-flow     : row nowrap;
+	align-items   : stretch;
 	.attribute--title {
+		font-weight    : bold;
 		text-transform : capitalize;
 		flex           : 1 1 25%;
 	}
 	.attribute--value {
-		border-left : thin solid $dev--model-_-text-color;
+		border-left : thin solid $model--meta-_-text-color;
+		overflow    : hidden;
 		padding     : 10px;
 		flex        : 1 1 75%;
 	}
 }
 
 .property--configuration {
-	margin-bottom : 20px;
-	&.inactive {
-		font-style : italic;
+	&.inactive {font-style : italic;}
+}
+
+.property--configuration--title {
+	padding       : 10px 7px;
+	border-bottom : thin solid $property--configuration--title-_-color;
+	background    : $model--configuration--attribute__properties--title-_-background;
+	color         : $model--configuration--attribute__properties--title-_-txt-color;
+	font-weight   : bold;
+}
+
+.property--configuration--attribute {
+	> * { margin : 0; }
+	.attribute--title {
+		flex       : 1 1 30%;
+		padding    : 10px 0 10px 20px;
+		background : $model--configuration--attribute__properties--title-_-background;
+		color      : $model--configuration--attribute__properties--title-_-txt-color;
 	}
-	.property--configuration--title {
-		padding       : 10px 7px;
-		border-bottom : thin solid $property--configuration--title-_-color;
-		background    : $model--configuration--attribute__properties--title-_-background;
-		color         : $model--configuration--attribute__properties--title-_-txt-color;
-		font-weight   : bold;
-	}
-	.property--configuration--attribute {
-		> * { margin : 0; }
-		.attribute--title {
-			font-weight : normal;
-			padding     : 10px;
-			background  : $model--configuration--attribute__properties--title-_-background;
-			color       : $model--configuration--attribute__properties--title-_-txt-color;
-			height      : 100%;
-		}
-		.attribute--value {
-			padding   : 1em 10px;
-			font-size : .9em;
-		}
+	.attribute--value {
+		padding   : 1em 10px;
+		flex      : 1 1 70%;
+		font-size : .9em;
 	}
 }
 
 .model--configuration--wrapper {
+	&:first-child {
+		border-right : thin solid $model--configuration--component-_-bg;
+	}
 	.description--tooltip {
 		&:hover {
 			visibility : visible !important;
@@ -67,63 +75,92 @@
 }
 
 .model--configuration {
-	.model--configuration--title {
-		padding-bottom : 10px;
-		border-bottom  : thin solid $model--configuration--title-_-border-bottom-color;
-		margin-bottom  : 10px;
-		font-weight    : bold;
-		display        : block;
-		width          : 100%;
-	}
 	a {
 		text-decoration : none;
-		border-bottom   : thin solid $dev--model-_-text-color;
 		font-weight     : bold;
-		padding         : 5px;
 	}
-	.model--configuration--description {
-		padding : 2px 10px 5px;
-	}
-	.model--smID {
-		display : block;
-		width   : 100%;
-	}
-	.model--configuration--attribute {
-		align-items : flex-start;
-		display     : flex;
-		&.properties {
-			> .attribute--value {
-				padding : 0;
-			}
-		}
-		> .attribute--title {
-			background-color : $model--configuration--attribute__properties--title-_-background;
-			padding          : 10px;
-			width            : 20%;
-			color            : $model--configuration--attribute__properties--title-_-txt-color;
+}
+
+.model--smID {
+	display : block;
+	width   : 100%;
+}
+
+.model--configuration--attribute {
+	align-items : stretch;
+	display     : flex;
+	flex-flow   : row nowrap;
+	&.properties {
+		> .attribute--value {
+			padding : 0;
 		}
 	}
-	.attribute__properties--link--container {
-		flex-wrap     : wrap;
-		display       : flex;
-		padding       : 0 0 10px 0;
-		margin-top    : 0;
-		border-bottom : thin solid $dev--model-_-text-color;
-		.attribute__properties--link {
-			background-color : $model--configuration--attribute__properties--link-_-background;
-			text-decoration  : none;
-			margin-bottom    : 5px;
-			margin-right     : 5px;
-			font-weight      : bold;
-			margin-top       : 5px;
-			font-size        : .7em;
-			padding          : 10px;
-			border           : thin solid $model--configuration--attribute__properties--link-_-border-color;
-			color            : $model--configuration--attribute__properties--link-_-txt-color;
-			&.active {
-				background-color : darken($model--configuration--attribute__properties--link-_-background, 10%);
-			}
+	> .attribute--title {
+		background-color : $model--configuration--attribute--title-_-background;
+		padding          : 10px;
+		width            : 20%;
+		display          : block;
+		color            : $model--configuration--attribute--title-_-txt-color;
+	}
+}
+
+.attribute__properties--link--container {
+	flex-wrap : wrap;
+	display   : flex;
+	padding   : 0;
+	margin    : 5px;
+}
+
+.attribute__properties--link {
+	background-color : $model--configuration--attribute__properties--link-_-background;
+	text-decoration  : none;
+	margin-bottom    : 5px;
+	margin-right     : 5px;
+	font-weight      : bold;
+	margin-top       : 5px;
+	font-size        : .7em;
+	padding          : 10px;
+	border           : thin solid $model--configuration--attribute__properties--link-_-border-color;
+	color            : $model--configuration--attribute__properties--link-_-txt-color;
+	transition       : background-color .5s;
+	&.active {
+		background-color : darken($model--configuration--attribute__properties--link-_-background, 10%);
+	}
+	.page & {
+		border-bottom : thin solid $model--configuration--attribute__properties--link-_-border-color;
+	}
+}
+
+.model--configuration--title {
+	border-bottom : thin solid $model--configuration--title-_-border-bottom-color;
+	padding       : 10px;
+	margin-bottom : 10px;
+	font-weight   : bold;
+	display       : block;
+	width         : 100%;
+	.model--configuration--wrapper.inactive & {
+		border-bottom : 0;
+		margin-bottom : 0;
+		&::before {
+			position    : absolute;
+			right       : 10%;
+			content     : '+';
+			font-weight : bold;
+			top         : 33%;
 		}
+	}
+}
+
+.model--configuration--description {
+	padding       : 2px 30px 15px;
+	position      : relative;
+	display       : block;
+	border-bottom : thin solid $model--configuration--title-_-border-bottom-color;
+	&::before {
+		content  : '--';
+		position : absolute;
+		top      : 0;
+		left     : 10px;
 	}
 }
 
@@ -132,31 +169,24 @@
 	align-items     : flex-start;
 	flex-wrap       : wrap;
 	display         : flex;
-	.query--wrapper {
-		border           : thin solid $dev--model-_-text-color;
-		background-color : lighten($model--bg, 10%);
-		.__json {
-			font-size : .9em;
-		}
-	}
-	.query--wrapper, .model--configuration--wrapper {
-		background-color : lighten($model--bg, 7%);
-		padding          : 10px;
-		margin           : 5px;
-		flex             : 1 0;
-
-		&.selectively-active {
-			cursor : pointer;
-			&.active {
-				font-size : .9em;
-			}
-			&.inactive {
-				font-style : italic;
-			}
-		}
-	}
 }
 
 .query--wrapper {
+	border           : thin solid $model--meta-_-text-color;
+	background-color : lighten($modelMeta--bg, 10%);
+	.__json {
+		font-size : .9em;
+	}
 }
 
+.query--wrapper, .model--configuration--wrapper {
+	flex     : 1 0;
+	position : relative;
+	> .title, > .title--wrapper .title {
+		padding : 10px;
+	}
+	&.inactive {
+		font-style    : italic;
+		margin-bottom : 10px;
+	}
+}

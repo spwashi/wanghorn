@@ -1,5 +1,5 @@
-import {selectDev} from "../../selector";
-import {normalizeSmID} from "./sm/utility";
+import {selectDev} from "../../../selector";
+import {normalizeSmID} from "../../sm/utility";
 
 export const selectModelDevInterface                    = state => (selectDev(state) || {}).models;
 export const selectActiveModelSmIDs                     = state => (selectModelDevInterface(state) || {}).activeSmIDs;

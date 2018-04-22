@@ -5,10 +5,8 @@ import {completeTag, TAG_TYPE__PROGRAMMING_LANGUAGE} from "./tags";
 
 const correctItem =
           item => {
-              item = {...item};
-              if (item.asPerson) {
-                  item.img = <div className={"image " + item.asPerson.toLowerCase()}></div>;
-              }
+              item     = {...item};
+              item.img = null;
               if (item.tags.languages) {
                   item.tags.languages = item.tags.languages.map(config => completeTag(TAG_TYPE__PROGRAMMING_LANGUAGE,
                                                                                       config));

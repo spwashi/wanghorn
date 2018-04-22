@@ -2,12 +2,11 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux'
 import bind from "bind-decorator";
-import {SelectivelyActive} from "../../components";
+import {ActiveComponent, InactiveComponent, SelectivelyActive} from "../../../components/selectivelyActive";
 import ModelDevComponent from "./model";
+import ModelLinkContainer from "./components/nav";
 import {activateModel, deactivateModel, executeModelQuery, fetchModels, toggleModelActivity, toggleModelPropertyActivity} from "./actions";
 import {selectActiveModelMetas, selectActiveModelSmIDs, selectModelDevInterface} from "./selector";
-import ModelLinkContainer from "./components/nav";
-import {ActiveComponent, InactiveComponent} from "../../components/selectivelyActive";
 
 @connect(mapState, mapDispatch)
 class ModelScene extends Component {
@@ -16,7 +15,7 @@ class ModelScene extends Component {
     componentDidMount() {this.props.fetchModels();}
     
     @bind
-    handleModelLinkClick(event) {
+    handleModelLinkTrigger(event) {
         const smID = event.target.dataset.sm_id;
         event.preventDefault();
         this.props.toggleModelActivity({smID});
@@ -24,8 +23,8 @@ class ModelScene extends Component {
     
     static matchActivationTarget(target) {
         return (
-            target.classList.contains("dev--models") ||
-            target.classList.contains("dev--model--wrapper") ||
+            target.classList.contains("model--metas") ||
+            target.classList.contains("model--meta--wrapper") ||
             target.classList.contains("model--container--title") ||
             target.classList.contains("model--container")
         );
@@ -35,7 +34,7 @@ class ModelScene extends Component {
         const models                                   = this.props.models;
         const {allModelSmIDs: smIDs, activeModelSmIDs} = this.props;
         return (
-            <SelectivelyActive matchTarget={ModelScene.matchActivationTarget} className={"dev--models"} isActive={true}>
+            <SelectivelyActive matchTarget={ModelScene.matchActivationTarget} className={"model--metas"} isActive={true}>
                 <ActiveComponent>{this.ActiveComponent}</ActiveComponent>
                 <InactiveComponent>{this.InactiveComponent}</InactiveComponent>
             </SelectivelyActive>
@@ -44,7 +43,7 @@ class ModelScene extends Component {
     
     @bind
     InactiveComponent() {
-        return <div className={"model--container collapsed"}>!!!Models</div>;
+        return <div className={"model--container collapsed"}>Models</div>;
     }
     
     @bind
@@ -61,7 +60,7 @@ class ModelScene extends Component {
         return (
             <div className={"model--container"}>
                 <h2 className={"model--container--title"}>Models</h2>
-                <ModelLinkContainer onItemClick={this.handleModelLinkClick} activeSmIDs={this.props.activeModelSmIDs} allSmIDs={this.props.allModelSmIDs} />
+                <ModelLinkContainer onItemTrigger={this.handleModelLinkTrigger} activeSmIDs={this.props.activeModelSmIDs} allSmIDs={this.props.allModelSmIDs} />
                 {Object.entries(this.props.models).map(modelEntry__devComponent)}
             </div>
         );

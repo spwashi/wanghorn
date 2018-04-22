@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types"
 import ModelConfigurationAttribute from "../index";
 import PropertiesAttrMetaList from "./metaList";
 import PropertyConfigurationWrapper from "../../../property/config/wrapper";
-import {normalizeSmID} from "../../../../../sm/utility";
+import {normalizeSmID} from "../../../../../../../sm/utility";
 
 class ModelConfigurationPropertiesAttribute extends React.Component {
     get meta() {

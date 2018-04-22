@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import * as PropTypes from "prop-types";
 import Stateful from "../stateful/stateful";
 import State from "../stateful/state";
+import bind from "bind-decorator";
 
 class SelectivelyActive extends Component {
     _activeComponent;
@@ -27,6 +28,7 @@ class SelectivelyActive extends Component {
     
     matchTarget() {return true;}
     
+    @bind
     handleMouseMove(e) {
         if (!this.props.trigger === "click") return;
         if (!this._mouseDown) return;
@@ -40,25 +42,43 @@ class SelectivelyActive extends Component {
         }
     }
     
+    @bind
     handleMouseDown(e) {
         this._cancelClick = false;
         if (!this.props.trigger === "click") return;
         this._mouseDown = {x: e.screenX, y: e.screenY};
     }
     
+    @bind
     handleMouseUp(e) {
         if (!this.props.trigger === "click") return;
         this._mouseDown = null;
     }
     
+    @bind
     handleClick(event) {
         if (this.props.trigger !== "click") return;
         if (this._cancelClick) return;
         const target = event.target;
         
         if (this.matchTarget(target)) {
-            this.setState({isActive: !this.state.isActive});
+            this.toggleActive();
             event.stopPropagation();
+        }
+    }
+    
+    toggleActive() {
+        this.setState({isActive: !this.state.isActive});
+    }
+    
+    @bind
+    handleKeyDown(event) {
+        const keyCode = event.keyCode;
+        switch (keyCode) {
+            case 32:
+                this.toggleActive();
+                event.stopPropagation();
+                break;
         }
     }
     
@@ -66,10 +86,12 @@ class SelectivelyActive extends Component {
         let className = `${(this.props.className || '')} ${(this.state.isActive ? 'active' : 'inactive')}`;
         return (
             <div className={className + ' selectively-active'}
-                 onClick={this.handleClick.bind(this)}
-                 onMouseDown={this.handleMouseDown.bind(this)}
-                 onMouseUp={this.handleMouseUp.bind(this)}
-                 onMouseMove={this.handleMouseMove.bind(this)}>
+                 tabIndex={0}
+                 onClick={this.handleClick}
+                 onKeyDown={this.handleKeyDown}
+                 onMouseDown={this.handleMouseDown}
+                 onMouseUp={this.handleMouseUp}
+                 onMouseMove={this.handleMouseMove}>
                 <Stateful activeState={this.state.isActive ? 'active' : 'inactive'}>
                     <State name={'active'}>{this._activeComponent}</State>
                     <State name={'inactive'}>{this._inactiveComponent}</State>

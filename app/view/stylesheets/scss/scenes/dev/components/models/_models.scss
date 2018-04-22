@@ -1,47 +1,59 @@
 @import "model/model";
 
 .model--container {
-	cursor  : pointer;
-	padding : 5px 10px 10px;
-	a {
-		color : darken($body--backgroundColor, 45%);
-	}
-	h2 {
-		margin : 10px 0 0 0;
-	}
-	.model--container--link--container {
-		list-style : none;
-		margin     : 10px 0 10px 0;
-		padding    : 10px 0;
-		display    : flex;
-		flex-flow  : row wrap;
-		li {
-			margin : 1em 0;
-		}
-		.active {
-			a {
-				background-color : darken($body--backgroundColor, 23%);
-			}
-		}
-		a {
-			padding          : 10px;
-			margin-right     : 10px;
-			background-color : darken($body--backgroundColor, 13%);
-			font-weight      : bold;
-		}
-	}
-	.model--container--title {
-		color         : #fff;
-		cursor        : pointer;
-		padding       : 0 0 10px 0;
-		border-bottom : thin solid white;
-	}
-	> * {
-		cursor : auto;
-	}
+	cursor      : pointer;
+	position    : relative;
+	font-size   : .6em;
+	font-weight : normal;
+	&, * {border-collapse : collapse;}
+
+	a {color : darken($body--backgroundColor, 45%);}
+	h2 {margin : 10px 0 0 0;}
+	> * {cursor : auto;}
 	&.collapsed {
-		width            : 100%;
-		background-color : #fff;
+		display       : inline-block;
+		padding       : 10px;
+		&::after {
+			content  : '--->';
+			position : absolute;
+			right    : -50%;
+		}
+	}
+}
+
+.model--container > .model--container--link--container {
+	margin  : 10px 0 10px 0;
+	padding : 10px 0;
+}
+
+.model--container--link--container {
+	list-style : none;
+	margin     : 0;
+	padding    : 0;
+	display    : flex;
+	flex-flow  : row wrap;
+	li {
+		margin : 1em 0;
+	}
+	.active {
+		a {
+			background-color : darken($modelMeta--bg, 23%);
+			transition       : background-color .1s;
+			color            : white;
+		}
+	}
+	a {
+		background-color : $modelMeta--bg;
+		margin-right     : 10px;
+		font-weight      : bold;
+		transition       : background-color .1s;
 		padding          : 10px;
 	}
+}
+
+.model--container--title {
+	color         : #fff;
+	cursor        : pointer;
+	padding       : 0 0 10px 0;
+	border-bottom : thin solid white;
 }

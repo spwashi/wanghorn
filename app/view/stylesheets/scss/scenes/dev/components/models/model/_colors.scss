@@ -1,10 +1,30 @@
-$model--bg : darken($body--backgroundColor, 15%);
-$dev--model-_-text-color : #555;
+@import "../../../../../colors/colors";
+
+$modelMeta--bg--color : desaturate(lighten($accent_color__1, 20%), 10%);
+$modelMeta--bg : rgba($modelMeta--bg--color, .3);
+
+$modelMeta--title--bg--color : desaturate(lighten($accent_color__2, 20%), 40%);
+$modelMeta--title--bg : rgba($modelMeta--title--bg--color, .3);
+
+$model--meta-_-text-color : darken($modelMeta--bg--color, 50%);
+
 $dev--configuration--attribute-_-border-color : black;
 $property--configuration--title-_-color : #333;
-$model--configuration--title-_-border-bottom-color : #000;
-$model--configuration--attribute__properties--link-_-background : lighten($body--backgroundColor, 5%);
-$model--configuration--attribute__properties--title-_-background : darken($model--bg, 5%);
-$model--configuration--attribute__properties--title-_-txt-color : #fff;
+
+$model--configuration--component-_-border-color : darken($modelMeta--bg--color, 40%);
+$model--configuration--component-_-bg : rgba(darken($modelMeta--bg--color, 15%), .3);
+
+$model--configuration--title-_-border-bottom-color : darken($modelMeta--bg, 40%);
+
+$model--configuration--attribute--title-_-background : darken($modelMeta--bg, 15%);
+$model--configuration--attribute--title-_-txt-color : $model--meta-_-text-color;
+$model--configuration--attribute--title-_-txt-color : white;
+
+$model--configuration--attribute__properties--link-_-background : lighten($modelMeta--bg, 5%);
+$model--configuration--attribute__properties--link-_-background : lighten($modelMeta--bg, 5%);
+$model--configuration--attribute__properties--title-_-background : $model--configuration--attribute--title-_-background;
+
+$model--configuration--attribute__properties--title-_-txt-color : #000;
 $model--configuration--attribute__properties--link-_-txt-color : #000;
-$model--configuration--attribute__properties--link-_-border-color : darken($body--backgroundColor, 15%);
+
+$model--configuration--attribute__properties--link-_-border-color : darken($modelMeta--bg, 45%);

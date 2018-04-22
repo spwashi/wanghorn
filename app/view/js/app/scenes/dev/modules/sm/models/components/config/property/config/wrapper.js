@@ -1,7 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import PropertyConfiguration, {PropertyConfigurationTitle} from "./config";
-import SelectivelyActive, {ActiveComponent, InactiveComponent} from "../../../../../../components/selectivelyActive";
+import {ActiveComponent, InactiveComponent, SelectivelyActive} from "../../../../../../../components/selectivelyActive";
 
 const PropertyConfigurationWrapper     =
           ({name, config}) =>

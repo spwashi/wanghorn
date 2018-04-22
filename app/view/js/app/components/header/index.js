@@ -3,7 +3,7 @@ import React from "react";
 import Logo from './logo';
 import UserMenu from "./user-menu";
 import Navigation from './navigation';
-import {StdHeader} from "../../../components";
+import {StdHeader} from "base-components";
 
 export const Header =
                  ({links}) => {

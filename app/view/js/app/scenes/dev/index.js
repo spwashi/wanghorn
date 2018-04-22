@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import ModelModule from "./modules/models";
+import ModelModule from "./modules/sm/models";
 import reducer from "./reducer"
 import {selectDev} from "./selector";
 import {PageContent} from "../../components/page";

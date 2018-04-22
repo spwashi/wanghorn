@@ -1,4 +1,4 @@
-import {get_EXECUTE_MODEL_QUERY, MODELS} from "../../paths";
+import {get_EXECUTE_MODEL_QUERY, MODELS} from "../../../paths";
 import axios from "axios"
 
 // FETCHING ITEMS

@@ -1,7 +1,7 @@
 import React from "react";
 import * as PropTypes from "prop-types";
 import ModelConfiguration, {ModelConfigurationDescription, ModelConfigurationTitle} from "./config";
-import {ActiveComponent, InactiveComponent, SelectivelyActive} from "../../../../../../components/selectivelyActive/index";
+import {ActiveComponent, InactiveComponent, SelectivelyActive} from "../../../../../../../components/selectivelyActive";
 import ReactTooltip from "react-tooltip";
 import bind from "bind-decorator";
 

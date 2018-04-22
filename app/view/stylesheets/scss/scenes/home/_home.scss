@@ -2,49 +2,50 @@
 
 .page--__--home {
 	color     : darken($body--backgroundColor, 40%);
-	a {
-		color : $accent_color__2;
-	}
 	width     : 100%;
 	height    : 100%;
 	margin    : 0;
 	font-size : 30px;
+	a {
+		color : $accent_color__2;
+	}
+}
 
-	#profile {
-		height         : 100%;
-		display        : flex;
-		flex-direction : row;
-		position       : relative;
-		&::before {
-			content         : "";
-			position        : fixed;
-			top             : 0;
-			left            : 0;
-			width           : 100%;
-			height          : 100%;
-			opacity         : .4;
-			z-index         : -1;
-			background      : url("#{$site_public_url_or_path}/img/base-2.png") no-repeat center;
-			background-size : cover;
+.page--__--home #profile {
+	height         : 100%;
+	display        : flex;
+	flex-direction : row;
+	position       : relative;
+	&::before {
+		content         : "";
+		position        : fixed;
+		top             : 0;
+		left            : 0;
+		width           : 100%;
+		height          : 100%;
+		opacity         : .4;
+		z-index         : -1;
+		background      : url("#{$site_public_url_or_path}/img/base-2.png") no-repeat center;
+		background-size : cover;
+	}
+
+	section {
+		font-weight      : bold;
+		padding-top      : 17vh;
+		padding-left     : 33vw;
+		width            : 100%;
+		background-color : transparent;
+		position         : absolute;
+		> * {
+			position : relative;
+			margin   : 0 0 2vh;
 		}
+		> *:first-child {left : -5vw;}
+		> *:nth-child(2) {left : -3vw;}
+		> *:nth-child(3) {left : -1.5vw;}
+		> *:nth-child(4) {left : -2vw;}
+		> *:nth-child(5) {left : -3vw;}
 
-		section {
-			padding-top      : 17vh;
-			padding-left     : 33vw;
-			width            : 100%;
-			background-color : transparent;
-			position         : absolute;
-			> * {
-				position : relative;
-				margin   : 0 0 2vh;
-			}
-			> *:first-child {left : -5vw;}
-			> *:nth-child(2) {left : -3vw;}
-			> *:nth-child(3) {left : -1.5vw;}
-			> *:nth-child(4) {left : -2vw;}
-			> *:nth-child(5) {left : -3vw;}
-
-		}
 	}
 }
 
@@ -149,8 +150,5 @@
 				background : mix(lighten($header__backgroundColor, 25%), $palette_color_1);
 			}
 		}
-	}
-	main {
-		font-size : 37px;
 	}
 }
