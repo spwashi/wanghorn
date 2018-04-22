@@ -48,7 +48,7 @@ try {
     }
     
 } catch (\Sm\Core\Exception\Exception|\Exception $exception) {
-    if ($app->environmentIs(Application::ENV_DEV)) {
+//    if ($app->environmentIs(Application::ENV_DEV)) {
         header('Content-Type: application/json');
         echo json_encode([
                              $exception->getMessage(),
@@ -56,7 +56,7 @@ try {
                              $exception->getMonitorContainer(),
                              $exception,
                          ]);
-    }
+//    }
 } finally {
     die; /* terminate the script */
 }
