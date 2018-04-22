@@ -1,33 +1,18 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import AttrValue from "../../attribute/value";
+import {PropertyConfigurationAttributeTitle} from "./components/title";
+import {PropertyConfigurationAttributeValue} from "./components/value";
 
-export const PropertyConfigurationAttributeTitle =
-                 ({attribute}) =>
-                     <h4 className={`attribute--title
-                                     configuration--attribute--title
-                                     property--configuration--attribute--title
-                                     attribute__${attribute}--title`}>{attribute.replace(/([A-Z][a-z])/g, ' $1').trim()}</h4>;
-PropertyConfigurationAttributeTitle.propTypes    = {
-    attribute: PropTypes.string
-};
-const PropertyConfigurationAttributeValue        = ({value, attribute}) =>
-    <div className={`attribute--value
-                     configuration--attribute--value
-                     property--configuration--attribute--value
-                     attribute__${value}--value`}>
-        <AttrValue attr={attribute} value={value} />
-    </div>;
-PropertyConfigurationAttributeValue.propTypes    = {
-    value:     PropTypes.any,
-    attribute: PropTypes.string
-};
-export const PropertyConfigurationAttribute      =
-                 ({value, attribute}) =>
+export const PropertyConfigurationAttribute =
+                 ({value, attribute, children}) =>
                      <div className={`configuration--attribute property--configuration--attribute ${attribute} attribute__${attribute}`}>
                          <PropertyConfigurationAttributeTitle attribute={attribute} />
-                         <PropertyConfigurationAttributeValue attribute={attribute} value={value} />
+                         <PropertyConfigurationAttributeValue attribute={attribute} value={value}>
+                             {children}
+                         </PropertyConfigurationAttributeValue>
                      </div>;
-PropertyConfigurationAttribute.propTypes         = {
-    attribute: PropTypes.string
+PropertyConfigurationAttribute.propTypes    = {
+    attribute: PropTypes.string,
+    value:     PropTypes.any,
+    children:  PropTypes.any,
 };

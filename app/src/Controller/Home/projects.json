@@ -4,6 +4,7 @@
         "asPerson":     "Philip",
         "externalLink": "https://github.com/spwashi/SmPHP",
         "price":        2015.02,
+        "description":  "The PHP framework driving my backend.",
         "tags":         {
             "languages": [
                 { "text": "PHP", "url": "http://www.php.net" }
@@ -13,9 +14,9 @@
     {
         "name":         "William",
         "asPerson":     "William",
-        "externalLink": "https://github.com/spwashi/wanghorn",
         "price":        2017.08,
         "status":       "Active",
+        "description":  "Me! A dummy application to demonstrate features and serve as a code library",
         "tags":         {
             "languages": [
                 { "text": "ECMAScript", "url": "https://en.wikipedia.org/wiki/ECMAScript" },
@@ -27,6 +28,7 @@
         "name":         "Jessica!",
         "asPerson":     "Jessica",
         "externalLink": "https://github.com/spwashi/SmJS",
+        "description":  "A library to more easily configure SmPHP.",
         "price":        2017.1,
         "tags":         {
             "languages": [

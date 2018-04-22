@@ -24,7 +24,9 @@ class Tag extends React.Component {
         const clickableClass        = this.props.externalLink ? 'clickable' : '';
         return (
             <div className={`tag ${clickableClass} ${className}`} onClick={this.handleClick}>
-                {children}
+                <a href={this.props.externalLink} onClick={event => event.preventDefault()}>
+                    {children}
+                </a>
             </div>
         )
     }

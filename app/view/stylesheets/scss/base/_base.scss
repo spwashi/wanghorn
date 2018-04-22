@@ -4,20 +4,20 @@
 @import "standard";
 
 html {
-	margin    : 0;
-	padding   : 0;
-	font-size : 1em;
-	height    : 100%;
-}
-
-* {
+	margin       : 0;
+	padding      : 0;
+	height       : 100%;
+	font-size    : 23px;
 	word-spacing : 0;
 	line-height  : 1.2em;
 	font-family  : 'Spwashi2', sans-serif;
-	h1 {font-size : 1.5em;}
-	h2 {font-size : 1.3em;}
-	h3 {font-size : 1.1em;}
 }
+
+h1 {font-size : 1.5em;}
+
+h2 {font-size : 1.3em;}
+
+h3 {font-size : 1.1em;}
 
 button, input {
 	font-family : monospace;
@@ -40,7 +40,6 @@ a {
 body {
 	height           : 100%;
 	background-color : $body--backgroundColor;
-	font-size        : 23px;
 }
 
 input, button {
@@ -58,8 +57,8 @@ code {
 	}
 }
 
-@media screen and (max-device-width : 400px), screen and (max-width : 800px) {
-	main {
-		font-size : 30px;
+@media screen and (max-device-width : 400px) {
+	html {
+		font-size : 35px;
 	}
 }

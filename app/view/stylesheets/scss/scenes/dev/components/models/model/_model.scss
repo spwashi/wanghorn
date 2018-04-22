@@ -1,7 +1,7 @@
 @import "header";
 @import "colors";
 
-.model--meta--wrapper {
+.model--meta {
 	background-color : $modelMeta--bg;
 	color            : $model--meta-_-text-color;
 	padding          : 0;
@@ -131,22 +131,27 @@
 	}
 }
 
-.model--configuration--title {
+.alter_table_statement--container {
+	width : 100%;
+}
+
+.model--configuration--title, .query--title {
+	cursor        : pointer;
 	border-bottom : thin solid $model--configuration--title-_-border-bottom-color;
 	padding       : 10px;
 	margin-bottom : 10px;
 	font-weight   : bold;
 	display       : block;
 	width         : 100%;
-	.model--configuration--wrapper.inactive & {
+	.wrapper.inactive & {
 		border-bottom : 0;
 		margin-bottom : 0;
 		&::before {
+			right       : 30px;
 			position    : absolute;
-			right       : 10%;
 			content     : '+';
 			font-weight : bold;
-			top         : 33%;
+			top         : 10px;
 		}
 	}
 }
@@ -166,22 +171,38 @@
 
 .model--component--wrapper {
 	justify-content : space-between;
-	align-items     : flex-start;
+	align-items     : stretch;
 	flex-wrap       : wrap;
 	display         : flex;
 }
 
 .query--wrapper {
-	border           : thin solid $model--meta-_-text-color;
-	background-color : lighten($modelMeta--bg, 10%);
-	.__json {
-		font-size : .9em;
+	cursor : pointer;
+	pre {
+		margin : 0;
+	}
+	.query--control--container {
+		position         : absolute;
+		right            : 0;
+		top              : 0;
+		height           : 100%;
+		background-color : darken($modelMeta--bg, 10%);
+	}
+	&.active {
+		padding          : 10px;
+		background-color : darken($modelMeta--bg, 10%);
 	}
 }
 
 .query--wrapper, .model--configuration--wrapper {
 	flex     : 1 0;
 	position : relative;
+	.__json {font-size : .9em;}
+	> .title, > .title--wrapper {
+		&, & > .title {
+			height : 100%;
+		}
+	}
 	> .title, > .title--wrapper .title {
 		padding : 10px;
 	}
@@ -193,5 +214,13 @@
 	&.inactive {
 		font-style    : italic;
 		margin-bottom : 10px;
+	}
+}
+
+@media screen and (max-device-width : 400px), screen and (max-width : 800px) {
+	main {
+		.query--wrapper, .model--configuration--wrapper {
+			flex-basis : 100%;
+		}
 	}
 }

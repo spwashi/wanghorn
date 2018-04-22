@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux'
 import bind from "bind-decorator";
 import {ActiveComponent, InactiveComponent, SelectivelyActive} from "../../../components/selectivelyActive";
-import ModelDevComponent from "./model";
+import ModelDevComponent from "./modelMeta";
 import ModelLinkContainer from "./components/nav";
 import {activateModel, deactivateModel, executeModelQuery, fetchModels, toggleModelActivity, toggleModelPropertyActivity} from "./actions";
 import {selectActiveModelMetas, selectActiveModelSmIDs, selectModelDevInterface} from "./selector";
@@ -24,7 +24,7 @@ class ModelScene extends Component {
     static matchActivationTarget(target) {
         return (
             target.classList.contains("model--metas") ||
-            target.classList.contains("model--meta--wrapper") ||
+            target.classList.contains("model--meta") ||
             target.classList.contains("model--container--title") ||
             target.classList.contains("model--container")
         );

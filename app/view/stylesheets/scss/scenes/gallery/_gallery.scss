@@ -7,14 +7,9 @@ $gallery_item--borderColor : lighten(#555, 70%);
 
 .page--__--gallery {
 	.gallery_item--container--control_component--container, .gallery_item {
-		* {
-			font-weight : normal;
-			font-family : inherit;
-		}
-		&, & > * {
-			font-family : monospace;
-			font-size   : .9em;
-		}
+		font-weight : normal;
+		font-size   : .9em;
+		font-family : monospace;
 	}
 	height : 100%;
 	width  : 100%;
@@ -53,9 +48,8 @@ $gallery_item--borderColor : lighten(#555, 70%);
 		background      : $gallery--profile-_-background-_-prop;
 		background-size : cover;
 		opacity         : .5;
-		filter          : blur(2px);
 		z-index         : -1;
-		position        : absolute;
+		position        : fixed;
 	}
 	&::after {
 		display          : block;
@@ -64,7 +58,7 @@ $gallery_item--borderColor : lighten(#555, 70%);
 		position         : fixed;
 		top              : 0;
 		background-color : lighten($body--backgroundColor, 10%);
-		opacity          : .5;
+		opacity          : .3;
 		content          : '';
 		z-index          : -1;
 	}

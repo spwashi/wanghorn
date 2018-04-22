@@ -10,7 +10,7 @@ import {MODELS} from "./paths";
 const Dev = ({models}) => {
     return (
         <PageContent pageTitle="Developer Interface" pageClass={`.page--__--dev`}>
-            <div className="description page--description">
+            <section className="content--section description page--description">
                 <p>
                     This is a <dt>Developer's interface</dt><sub>(work-in-progress)</sub> for the sites/apps that <a href={HOME} title={'William'}>I (william)</a> help build.
                 </p>
@@ -29,7 +29,7 @@ const Dev = ({models}) => {
                 <p>
                     It also describes the <a href={"https://dev.mysql.com/doc/refman/5.7/en/create-table.html"}>CREATE TABLE</a> and <a href={"https://dev.mysql.com/doc/refman/5.7/en/alter-table.html"}>ALTER TABLE</a> statements that could be used to connect the data structures to a MySQL database.
                 </p>
-            </div>
+            </section>
             <ModelModule />
         </PageContent>
     );

@@ -15,27 +15,6 @@
 	.inline-display--container {
 		border-bottom : thin solid #555;
 	}
-	.content--section {
-		font-size        : .8em;
-		padding          : 10px;
-		margin-bottom    : 15px;
-		background-color : $pageContent--color;
-		box-shadow       : 1px 1px 8px $pageContent--shadow-_-color;
-		.content--section {
-			box-shadow : none;
-		}
-		h1 {
-		}
-		h1, h2, h3 {
-			width          : 100%;
-			margin         : 0 0 10px;
-			border-bottom  : thin solid #555;
-			padding-bottom : 0px;
-		}
-		p {
-			margin : 0;
-		}
-	}
 }
 
 .goal--wrapper {

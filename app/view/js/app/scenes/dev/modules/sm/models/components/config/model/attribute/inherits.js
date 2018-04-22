@@ -1,7 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import ModelConfigurationAttribute from "../index";
-import ModelLinkContainer from "../../../../nav";
+import ModelConfigurationAttribute from "./index";
+import ModelLinkContainer from "../../../nav/index";
 
 const ModelConfigurationInheritsAttribute     =
           ({inherits}) => {

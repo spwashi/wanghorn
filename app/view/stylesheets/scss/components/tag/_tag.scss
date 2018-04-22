@@ -1,0 +1,16 @@
+$tag_bg : lighten(#747a61, 35%);
+
+.inline.tag {
+	display       : inline-block;
+	background    : $tag_bg;
+	border        : 1px solid darken($tag_bg, 45%);
+	color         : darken($tag_bg, 65%);
+	border-radius : 2px;
+	padding       : 5px;
+	user-select   : none;
+	&.clickable:hover {
+		font-weight     : normal;
+		border          : 1px solid lighten($tag_bg, 20%);
+		text-decoration : underline;
+	}
+}

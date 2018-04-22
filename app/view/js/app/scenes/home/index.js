@@ -1,7 +1,6 @@
 import React from "react"
 import {PageContent} from "../../components/page";
 import {ProfileImageContainer} from "./profile/image/container";
-import ContentSection from "../../components/page/content/section";
 import {LinkItem} from "base-components/navigation";
 import {ABOUT_ME} from "../../../paths";
 
@@ -15,7 +14,7 @@ export const Home = () => {
     ];
     return (
         <PageContent pageTitle="Home" pageClass=".page--__--home">
-            <ContentSection name={'profile'}>
+            <section id={'profile'}>
                 <ProfileImageContainer>
                     <div className="image william"></div>
                 </ProfileImageContainer>
@@ -30,7 +29,7 @@ export const Home = () => {
                         )
                     }
                 </section>
-            </ContentSection>
+            </section>
         </PageContent>
     );
 };
