@@ -185,6 +185,11 @@
 	> .title, > .title--wrapper .title {
 		padding : 10px;
 	}
+	&:hover, &:focus {
+		> .title, > .title--wrapper .title {
+			background-color : darken($modelMeta--bg, 10%);
+		}
+	}
 	&.inactive {
 		font-style    : italic;
 		margin-bottom : 10px;
