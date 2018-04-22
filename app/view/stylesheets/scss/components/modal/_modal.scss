@@ -7,8 +7,10 @@
 		top              : 0;
 		height           : 100%;
 		width            : 100%;
+		z-index          : 10;
 	}
 	&.modal--base {
+		z-index          : 11;
 		position         : relative;
 		top              : 20%;
 		background-color : #fff;
