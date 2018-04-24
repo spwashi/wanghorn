@@ -7,6 +7,8 @@ import mocha from "gulp-mocha";
 import sass from "gulp-sass";
 import postcss from "gulp-postcss";
 import autoprefixer from "autoprefixer";
+import plumber from "gulp-plumber";
+import {exec} from "child_process";
 
 const _app_path_  = path.resolve(__dirname, '..');
 const _root_path_ = path.resolve(_app_path_, '..');
@@ -54,14 +56,13 @@ const sassTask         = () => gulp.src(directories.src.css + '/scss/**/*.scss')
 const webpackTask      = () => {
     const webpack_config = getWebpackConfig();
     return gulp.src(`${directories.src.js}/index.js`)
+               .pipe(plumber())
                .pipe(webpackStream(webpack_config))
-               .on('error', swallowError)
                .pipe(gulp.dest(directories.dist.js + '/'))
-               .on('error', swallowError);
+               .on('end', args => exec('command -v beep && beep -l 70 -f 200'));
 };
 const watchCSS_Task    = () => {
     sassTask();
-    // console.log(require('./webpack.config.js'));
     return gulp.watch([
                           directories.src.css + '/scss/**/*.scss',
                           directories.src.css + '/scss/**/**/*.scss',
@@ -82,7 +83,6 @@ gulp.task('sass', sassTask);
 gulp.task('mocha', mochaTask);
 gulp.task('watch:css', watchCSS_Task);
 gulp.task('watch:js', watchJS_Task);
-
 gulp.task('watch', () => [
     watchCSS_Task(),
     watchJS_Task()

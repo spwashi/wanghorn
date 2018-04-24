@@ -7,6 +7,7 @@ import ModelDevComponent from "./modelMeta";
 import ModelLinkContainer from "./components/nav";
 import {activateModel, deactivateModel, executeModelQuery, fetchModels, toggleModelActivity, toggleModelPropertyActivity} from "./actions";
 import {selectActiveModelMetas, selectActiveModelSmIDs, selectModelDevInterface} from "./selector";
+import ContentSection from "../../../../../components/page/content/section";
 
 @connect(mapState, mapDispatch)
 class ModelScene extends Component {
@@ -58,11 +59,11 @@ class ModelScene extends Component {
                                            }}
                                        executeModelQuery={this.props.executeModelQuery} />;
         return (
-            <div className={"model--container"}>
+            <ContentSection className={"model--container"}>
                 <h2 className={"model--container--title"}>Models</h2>
                 <ModelLinkContainer onItemTrigger={this.handleModelLinkTrigger} activeSmIDs={this.props.activeModelSmIDs} allSmIDs={this.props.allModelSmIDs} />
                 {Object.entries(this.props.models).map(modelEntry__devComponent)}
-            </div>
+            </ContentSection>
         );
     }
 }

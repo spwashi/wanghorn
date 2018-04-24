@@ -5,7 +5,6 @@ use Sm\Core\Event\GenericEvent;
 use Sm\Core\Util;
 use Sm\Data\Model\Model;
 use Sm\Data\Model\StandardModelPersistenceManager;
-use Sm\Data\Model\StdModelPersistenceManager;
 use Sm\Modules\Query\MySql\Authentication\MySqlAuthentication;
 use Sm\Modules\Query\MySql\MySqlQueryModule;
 use Sm\Modules\View\PlainFile\PlainFileViewModule;
@@ -17,7 +16,8 @@ use WANGHORN\Model\User;
 #####              APPLICATION CONSTANTS                                     #######
 ####################################################################################
 require_once APP__CONFIG_PATH . 'autoload.php';
-const CONFIG_FILE = __DIR__ . '/out/config.json';
+const CONFIG_FILE          = APP__CONFIG_PATH . 'out/config.json';
+const CONNECTION_INFO_FILE = APP__CONFIG_PATH . 'out/connect.json';
 $_required_ci_app = [];
 
 if (file_exists(CONFIG_FILE)) {
@@ -46,6 +46,7 @@ $app->setEnvironment($config['env']);
 define('APP__NAME', $config['name']);
 define('APP__NAMESPACE', $config['namespace']);
 define('APP__URL', $config['urls']['base'] ?? 'http://localhost');
+define('APP__URL__ROOT', $config['urls']['root'] ?? 'http://localhost');
 define('APP__PUBLIC_URL', $config['urls']['public'] ?? (APP__URL . '/public'));
 define('APP__PUBLIC_PATH__LOCAL', $config['paths']['public'] ?? (APP__APP_PATH . '../public/'));
 const APP__VIEW_TWIG_PATH = APP__APP_PATH . 'view/twig/';
@@ -73,16 +74,21 @@ _representation_layer($app);
 
 
 function _getAuth() {
-    return MySqlAuthentication::init()
-                              ->setCredentials("codozsqq",
-                                               "^bzXfxDc!Dl6",
-                                               "localhost",
-                                               'sm_test');
+    
 }
 
 function _query_layer(Application $app): void {
-    $queryModule = (new MySqlQueryModule)->registerAuthentication(_getAuth());
+    $queryModule = new MySqlQueryModule;
     $app->registerDefaultQueryModule($queryModule);
+    if (file_exists(CONNECTION_INFO_FILE)) {
+        $json_string = file_get_contents(CONNECTION_INFO_FILE);
+        $config      = json_decode($json_string, true);
+        $queryModule->registerAuthentication(MySqlAuthentication::init()
+                                                                ->setCredentials($config['std']['username'] ?? null,
+                                                                                 $config['std']['password'] ?? null,
+                                                                                 $config['std']['host'] ?? null,
+                                                                                 $config['std']['database'] ?? null));
+    }
 }
 
 function _controller_layer(Application $app): void {

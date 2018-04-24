@@ -14,8 +14,9 @@
     "prefer-stable":     true,
 
     "require":           {
-        "spwashi/smphp": "v0.8.4",
-        "kint-php/kint": "2.1.*",
+        "spwashi/smphp":        "v0.8.4",
+        "phpmailer/phpmailer":  "~6.0",
+        "kint-php/kint":        "2.1.*",
         "icanboogie/inflector": "^1.4"
     }
 }

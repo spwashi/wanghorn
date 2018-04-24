@@ -1,10 +1,11 @@
-import React from "react"
-import * as PropTypes from "prop-types"
+import React from 'react'
+import * as PropTypes from 'prop-types'
 
-const ContentSection = ({name, children}) => {
+const ContentSection = ({name, children, className}) => {
+    className = 'content--section ' + (className || '');
     return (
-        <section className={'content--section'} id={name ? name : null}>
-            {name ? <a name={name} /> : ''}
+        <section className={className} id={name ? name : null}>
+            {name ? <a name={name}/> : ''}
             {children}
         </section>
     )

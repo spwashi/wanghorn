@@ -106,7 +106,7 @@ export default class Item extends React.Component {
         };
         return (
             <div onClick={this.handleClick} onKeyDown={this.handleKeyDown} tabIndex={0} className={`gallery_item  ${clickableClass}`}>
-                <ReactModal isOpen={this.state.modalOpen} contentLabel="Minimal Modal Example" overlayClassName={modalOverlayClassNames} className={modalClassNames}>
+                <ReactModal isOpen={this.state.modalOpen} contentLabel={name} overlayClassName={modalOverlayClassNames} className={modalClassNames}>
                     <button className={'button__close modal--button__close'} onClick={onModalButtonCloseClick}>X</button>
                 </ReactModal>
                 <div className={`gallery_item--image--wrapper image--wrapper`}>{children}</div>

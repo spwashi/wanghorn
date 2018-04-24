@@ -22,7 +22,12 @@ export const routes = {
         
         // User Routes
         new Route("[User]@login", "user/login$"),
-        new Route("[User]@userByID", "user/{id}:[a-zA-Z@\.]+"),
+        new Route("[User]@userByID", "user/{id}:[a-zA-Z@\.]+$"),
+        new Route("[User]@signUp", "user/signup/receive"),
+        
+        new Route("[Email]@test", "dev/email/test$"),
+        new Route("[Email]@tmp", "dev/email/boon$"),
+        new Route("[Email]@completeTest", "dev/email/test/{signup_nonce}", 'user_signup_eg_email'),
         
         // Catch-all
         new Route("#[Home]::index", ".*"),

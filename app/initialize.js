@@ -1,4 +1,5 @@
-import models from "./config/pre/models";
+import {models} from "./config/pre/models";
+import defaultConnection from "./config/pre/connection";
 import {routes} from "./config/pre/routes/routes"
 import {APP_BASE_URL_PATH, APP_NAME, APP_NAMESPACE, APP_PATH__APP_DIR, APP_PATH__CONFIG_DIR, APP_PATH__PUBLIC_DIR, APP_ROOT_URL, APP_URL__PUBLIC, ENVIRONMENT} from "./config/config";
 import fs from "fs";
@@ -23,10 +24,11 @@ const appConfigured = configureApplication({
     
                                                rootUrl:     APP_ROOT_URL,
                                                baseUrlPath: APP_BASE_URL_PATH,
-                                               urls:        {
+    
+                                               urls:  {
                                                    public: APP_URL__PUBLIC
                                                },
-                                               paths:       {
+                                               paths: {
                                                    app:    APP_PATH__APP_DIR,
                                                    public: APP_PATH__PUBLIC_DIR,
                                                    config: APP_PATH__CONFIG_DIR,
@@ -38,15 +40,18 @@ appConfigured.then(createConfigOutput)
 
 function configureApplication(appConfig: appConfig): Application {
     let applicationConfiguration = new ApplicationConfiguration(appConfig);
+    let cancel                   = false;
+    let saveEventsAndDie         = new Promise((resolve, reject) => {
+        return setTimeout(i => {
+            !cancel && saveAppConfigEvents();
+            return reject("Could not configure Application");
+        }, 1000);
+    });
     return Promise.race([
-                            new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    saveAppConfigEvents();
-                                    return reject("Could not configure Application");
-                                }, 1000)
-                            }),
+                            saveEventsAndDie,
                             applicationConfiguration.configure(new Application)
                                                     .then(saveAppConfigEvents)
+                                                    .then(i => ((cancel = true), i))
                         ]);
     
     function saveAppConfigEvents(app: Application) {
@@ -63,6 +68,7 @@ function createConfigOutput(app: Application) {
     const {models, routes, ...config} = appAsJson;
     
     saveJSON(config, 'config');
+    saveJSON({std: normalizeConnection(defaultConnection)}, 'connect');
     saveJSON(configPublic, 'public');
     saveJSON(models, 'models');
     saveJSON(routes, 'routes');
@@ -95,6 +101,11 @@ function replaceAppBoilerplateConstants(app) {
     return replace(options)
         .then(changes => console.log('Replaced the default namespace in :\n\t', changes.join(',\n\t')))
         .catch(error => console.error('Error occurred:', error));
+}
+
+function normalizeConnection(connection) {
+    let {username, password, host, database} = connection;
+    return {username, password, host, database};
 }
 
 type appConfig = { models: {}, routes: {}, name: string, namespace: string, domain: string, urlPath: string };

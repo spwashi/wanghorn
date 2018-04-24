@@ -18,6 +18,13 @@ header {
 			width        : 48%;
 			height       : 100%;
 		}
+		.login_action--button--container {
+			> * {
+				&:first-child {
+					margin-right : 10px;
+				}
+			}
+		}
 		.input--container {display : inline-block;}
 		.text_input--container {
 			width        : 72%;

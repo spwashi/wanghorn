@@ -44,7 +44,24 @@
       },
       {
          "resolution": "User\\User@userByID",
-         "pattern": "user/{id}:[a-zA-Z@.]+"
+         "pattern": "user/{id}:[a-zA-Z@.]+$"
+      },
+      {
+         "resolution": "User\\User@signUp",
+         "pattern": "user/signup/receive"
+      },
+      {
+         "resolution": "Email\\Email@test",
+         "pattern": "dev/email/test$"
+      },
+      {
+         "resolution": "Email\\Email@tmp",
+         "pattern": "dev/email/boon$"
+      },
+      {
+         "resolution": "Email\\Email@completeTest",
+         "pattern": "dev/email/test/{signup_nonce}",
+         "name": "user_signup_eg_email"
       },
       {
          "resolution": "#Home\\Home::index",
