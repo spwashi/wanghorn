@@ -1,9 +1,10 @@
 import React from "react";
 import * as PropTypes from "prop-types";
 import ModelConfiguration, {ModelConfigurationDescription, ModelConfigurationTitle} from "./config";
-import {ActiveComponent, InactiveComponent, SelectivelyActive} from "../../../../../../../components/selectivelyActive";
+import {SelectivelyActive} from "../../../../../../../components/selectivelyActive";
 import ReactTooltip from "react-tooltip";
 import bind from "bind-decorator";
+import {ActiveComponent, InactiveComponent} from "../../../../../../../components/selectivelyActive/components";
 
 /**
  * Wraps the configuration of a Model to provide more specific display capabilities
@@ -18,7 +19,15 @@ class ModelConfigurationWrapper extends React.Component {
     
     render() {
         return (
-            <SelectivelyActive className={`wrapper model--configuration--wrapper`} matchTarget={ModelConfigurationWrapper.matchTarget}>
+            <SelectivelyActive className={`wrapper model--configuration--wrapper`}
+                               handleDeactivationAttempt={
+                                   ({activeElement, inactiveElement}) => {
+                                       console.log({activeElement, inactiveElement});
+                                       return new Promise(resolve => {
+                                           setTimeout(resolve, 1000);
+                                       })
+                                   }}
+                               matchTarget={ModelConfigurationWrapper.matchTarget}>
                 <ActiveComponent component={this.ActiveComponent} />
                 <InactiveComponent component={this.InactiveComponent} />
             </SelectivelyActive>

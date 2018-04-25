@@ -8,10 +8,26 @@
 	margin-bottom    : 20px;
 	overflow         : hidden;
 	border           : thin solid $body--backgroundColor-shadowNear;
-	> .title {
+	> header {
 		background-color : $model--configuration--attribute--title-_-background;
 		border-bottom    : thin solid darken($modelMeta--bg--color, 20%);
+		position         : relative;
+		h3 {
+			border-bottom : none;
+		}
+		.model_source--existence {
+			display  : block;
+			position : absolute;
+			right    : 1%;
+			top      : 20%;
+			color    : darken($model--configuration--attribute--title-_-background, 60%);
+			&.existent::before { content : 'Exists';}
+			&.non-existent::before { content : 'Does NOT exist';}
+		}
 	}
+}
+
+.selectively-active {
 }
 
 .configuration--attribute {

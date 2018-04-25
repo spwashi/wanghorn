@@ -4,30 +4,26 @@ import * as PropTypes from "prop-types"
 import State from "./state";
 
 class Stateful extends React.Component {
-    previousState = null;
-    
-    constructor(props) {
-        super(props);
-        const {activeState} = props;
-    }
-    
     render() {
-        const children  = this.props.children || [];
-        let ActiveChild = null;
-        let activeState = this.props.activeState;
-        children.forEach((child: State) => {
-            if (child.props.name !== activeState) return;
-            ActiveChild = child;
-        });
-        return ActiveChild;
+        const children     = this.props.children || [];
+        let activeChildren = [];
+        let activeState    = this.props.activeStates;
+        children.forEach(
+            (child: State) => {
+                if (activeState.indexOf(child.props.name) < 0) return;
+                activeChildren.push(child);
+            });
+        return activeChildren;
     }
 }
 
 export default Stateful;
-Stateful.propTypes = {
-    activeState:       PropTypes.string,
+Stateful.propTypes    = {
+    activeStates:      PropTypes.arrayOf(PropTypes.string),
     onTransitionBegin: PropTypes.func,
     onTransitionEnd:   PropTypes.func,
+    
+    setStateRefs: PropTypes.func,
     
     children: (props, propName, componentName) => {
         const children = props[propName];
@@ -40,4 +36,7 @@ Stateful.propTypes = {
                                });
         return error;
     }
+};
+Stateful.defaultProps = {
+    setStateRefs: () => {}
 };

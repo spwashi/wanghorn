@@ -12,7 +12,7 @@ const AlterTableStatementList = ({statements, executeQuery}) =>
                                                    query={statement} />)}
     </div>;
 
-class ModelDevComponent extends React.Component {
+class ModelMeta extends React.Component {
     render() {
         const {smID, config, model}                                     = this.props;
         const {activeProperties}                                        = this.props;
@@ -27,7 +27,10 @@ class ModelDevComponent extends React.Component {
         
         return (
             <div key={smID} className={"model--meta"}>
-                <h3 id={smID} className={"title model--smID"}>{smID}</h3>
+                <header>
+                    <h3 id={smID} className={"title model--smID"}>{smID}</h3>
+                    <div className={`model--source--existence ${tableExists && createTableStatement && createTableStatement.length ? 'existent' : 'non-existent'}`}></div>
+                </header>
                 <div className="wrapper component--wrapper model--component--wrapper">
                     <ModelConfigurationWrapper onTogglePropertyClick={onTogglePropertyClick}
                                                description={jsConfigDescription}
@@ -55,7 +58,7 @@ class ModelDevComponent extends React.Component {
     }
 }
 
-ModelDevComponent.propTypes = {
+ModelMeta.propTypes = {
     smID:                  PropTypes.string,
     config:                PropTypes.object,
     model:                 PropTypes.object,
@@ -66,4 +69,4 @@ ModelDevComponent.propTypes = {
     alterTableStatements:  PropTypes.arrayOf(PropTypes.string),
 };
 
-export default ModelDevComponent;
+export default ModelMeta;

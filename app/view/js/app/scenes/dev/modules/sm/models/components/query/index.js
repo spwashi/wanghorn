@@ -1,6 +1,7 @@
 import React from "react";
 import * as PropTypes from "prop-types";
-import {ActiveComponent, InactiveComponent, SelectivelyActive} from "../../../../../components/selectivelyActive";
+import {SelectivelyActive} from "../../../../../components/selectivelyActive";
+import {ActiveComponent, InactiveComponent} from "../../../../../components/selectivelyActive/components";
 
 const QueryControlContainer = ({canExecute, executeQuery}) => {
     if (!canExecute) return null;
@@ -16,27 +17,27 @@ const QueryControlContainer = ({canExecute, executeQuery}) => {
         </div>
     )
 };
-
-const QueryTitle = ({className, type}) => <div className={`title ${className}--title ${type.toLowerCase()}--title`}>[ {type} (MySQL Query) ]</div>;
-export let Query = ({query, type, canExecute, executeQuery}) => {
-    let className = "query";
-    if (!query || !query.length) return null;
-    let ActiveQuery =
-            props =>
-                <pre className={className}>
+const QueryTitle            = ({className, type}) => <div className={`title ${className}--title ${type.toLowerCase()}--title`}>[ {type} (MySQL Query) ]</div>;
+let ActiveQuery             =
+          ({className, executeQuery, query, canExecute}) =>
+              <pre className={className}>
                     <QueryControlContainer canExecute={canExecute} executeQuery={executeQuery} />
                     <code className={'query'}>{query}</code>
                 </pre>;
-    return (
-        <SelectivelyActive trigger={"click"} className={`wrapper query--wrapper`} isActive={false}>
-            <InactiveComponent>
-                <QueryTitle {...{className, type}} />
-            </InactiveComponent>
-            <ActiveComponent component={ActiveQuery} />
-        </SelectivelyActive>
-    );
-};
-Query.propTypes  = {
+export let Query            =
+          props => {
+              let className                               = "query";
+              let {query, type, canExecute, executeQuery} = props;
+              if (!query || !query.length) return null;
+        
+              return (
+                  <SelectivelyActive trigger={"click"} className={`wrapper query--wrapper`} isActive={false}>
+                      <InactiveComponent component={QueryTitle} {...{className, type}} />
+                      <ActiveComponent component={ActiveQuery} {...{...props, className}} />
+                  </SelectivelyActive>
+              );
+          };
+Query.propTypes             = {
     type:         PropTypes.string,
     query:        PropTypes.string,
     canExecute:   PropTypes.bool,

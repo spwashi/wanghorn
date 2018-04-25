@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types"
 import ModelConfigurationAttribute from "../attribute";
 import ModelConfigurationPropertiesAttribute from "../attribute/properties";
 import ModelConfigurationInheritsAttribute from "../attribute/inherits";
-import ModelConfigurationDatatypesAttribute from "../../property/attribute/datatypes";
 
 export const ModelConfigurationTitle       =
                  ({children}) =>

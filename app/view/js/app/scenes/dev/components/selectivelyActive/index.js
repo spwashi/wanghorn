@@ -3,27 +3,21 @@ import * as PropTypes from "prop-types";
 import Stateful from "../stateful/stateful";
 import State from "../stateful/state";
 import bind from "bind-decorator";
+import {ActiveComponent, InactiveComponent} from "./components";
 
 class SelectivelyActive extends Component {
-    _activeComponent;
-    _inactiveComponent;
-    
+    active;
+    inactive;
     _cancelClick = false;
     
     constructor(props) {
         super(props);
-        this.initChildren();
         this.matchTarget = props.matchTarget || this.matchTarget;
         const isActive   = props.isActive;
-        this.state       = {isActive}
-    }
-    
-    initChildren() {
-        React.Children.forEach(this.props.children || [],
-            (child: React.ComponentElement) => {
-                if (child.type === ActiveComponent) {this._activeComponent = child;}
-                if (child.type === InactiveComponent) {this._inactiveComponent = child;}
-            });
+        this.state       = {
+            isActive,
+            isDeactivating: false
+        }
     }
     
     matchTarget() {return true;}
@@ -68,7 +62,11 @@ class SelectivelyActive extends Component {
     }
     
     toggleActive() {
-        this.setState({isActive: !this.state.isActive});
+        if (this.state.isActive) {
+            this.beginClose()
+        } else {
+            this.setState({isActive: true});
+        }
     }
     
     @bind
@@ -82,8 +80,37 @@ class SelectivelyActive extends Component {
         }
     }
     
+    beginClose() {
+        const handleDeactivationAttempt = this.props.handleDeactivationAttempt || (() => {});
+        let onStateSet                  = () => {
+            let {active, inactive} = this;
+            const els              = {active, inactive};
+            Promise.resolve(handleDeactivationAttempt(els))
+                   .then(i => {
+                       console.log("resolved", i);
+                       this.setState({
+                                         isDeactivating: false,
+                                         isActive:       false
+                                     })
+                   })
+        };
+        this.setState({isDeactivating: true}, onStateSet);
+    }
+    
     render() {
-        let className = `${(this.props.className || '')} ${(this.state.isActive ? 'active' : 'inactive')}`;
+        let activeString   = this.state.isActive ? 'active' : 'inactive';
+        let inactiveString = !this.state.isActive ? 'active' : 'inactive';
+        let activityStatus = [activeString];
+        if (this.state.isActivating || this.state.isDeactivating) {
+            activityStatus.push(inactiveString);
+        }
+        let className = `${this.props.className || ''} ${activityStatus}`;
+        this.state.isDeactivating && (className += " is-deactivating");
+        this.state.isActivating && (className += " is-activating");
+        console.log(activityStatus);
+        let {inactiveChild, activeChild}                      = this.getChildren();
+        let {component: ActiveChild, ...activeChildProps}     = activeChild.props;
+        let {component: InactiveChild, ...inactiveChildProps} = inactiveChild.props;
         return (
             <div className={className + ' selectively-active'}
                  tabIndex={0}
@@ -92,38 +119,42 @@ class SelectivelyActive extends Component {
                  onMouseDown={this.handleMouseDown}
                  onMouseUp={this.handleMouseUp}
                  onMouseMove={this.handleMouseMove}>
-                <Stateful activeState={this.state.isActive ? 'active' : 'inactive'}>
-                    <State name={'active'}>{this._activeComponent}</State>
-                    <State name={'inactive'}>{this._inactiveComponent}</State>
+                <Stateful activeStates={activityStatus}>
+                    <State name={'active'}>
+                        <ActiveChild activeElRef={el => this.active = el} {...(activeChildProps || {})} />
+                    </State>
+                    <State name={'inactive'}>
+                        <InactiveChild activeElRef={el => {
+                            console.log(el);
+                            this.inactive = el
+                        }} {...(inactiveChildProps || {})} />
+                    </State>
                 </Stateful>
             </div>
         );
     }
-}
-
-export const ActiveComponent   = props => returnChild(props);
-export const InactiveComponent = props => returnChild(props);
-function returnChild({children, component}) {
-    children        = children || component;
-    const childType = typeof children;
-    switch (childType) {
-        case "function":
-            return children();
-        case "object":
-            return children;
-        default:
-            return null;
+    
+    getChildren() {
+        let inactiveChild;
+        let activeChild;
+        React.Children.forEach(this.props.children || [],
+            (child: React.ComponentElement) => {
+                if (child.type === ActiveComponent) {activeChild = child;}
+                if (child.type === InactiveComponent) {inactiveChild = child;}
+            });
+        return {inactiveChild, activeChild};
     }
 }
 
-export default SelectivelyActive;
 export {SelectivelyActive};
 SelectivelyActive.propTypes    = {
-    trigger:     PropTypes.oneOf(["click"]),
-    matchTarget: PropTypes.func,
-    className:   PropTypes.string,
-    isActive:    PropTypes.bool,
-    children:    function (props, propName, componentName) {
+    trigger:                   PropTypes.oneOf(["click"]),
+    matchTarget:               PropTypes.func,
+    handleDeactivationAttempt: PropTypes.func,
+    onUpdateActivationStatus:  PropTypes.func,
+    className:                 PropTypes.string,
+    isActive:                  PropTypes.bool,
+    children:                  function (props, propName, componentName) {
         const children = props[propName];
         let error      = null;
         if (React.Children.count(children) > 2) {
@@ -140,5 +171,3 @@ SelectivelyActive.propTypes    = {
     }
 };
 SelectivelyActive.defaultProps = {isActive: false, trigger: 'click'};
-ActiveComponent.propTypes      = {component: PropTypes.oneOfType([PropTypes.func, PropTypes.element])};
-InactiveComponent.propTypes    = {component: PropTypes.oneOfType([PropTypes.func, PropTypes.element])};
