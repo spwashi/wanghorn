@@ -20,13 +20,6 @@ class ModelConfigurationWrapper extends React.Component {
     render() {
         return (
             <SelectivelyActive className={`wrapper model--configuration--wrapper`}
-                               handleDeactivationAttempt={
-                                   ({activeElement, inactiveElement}) => {
-                                       console.log({activeElement, inactiveElement});
-                                       return new Promise(resolve => {
-                                           setTimeout(resolve, 1000);
-                                       })
-                                   }}
                                matchTarget={ModelConfigurationWrapper.matchTarget}>
                 <ActiveComponent component={this.ActiveComponent} />
                 <InactiveComponent component={this.InactiveComponent} />

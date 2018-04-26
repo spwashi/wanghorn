@@ -15,16 +15,29 @@
 		h3 {
 			border-bottom : none;
 		}
-		.model_source--existence {
+		.model--source--existence {
 			display  : block;
 			position : absolute;
 			right    : 1%;
 			top      : 20%;
 			color    : darken($model--configuration--attribute--title-_-background, 60%);
-			&.existent::before { content : 'Exists';}
-			&.non-existent::before { content : 'Does NOT exist';}
+			&.existent::before {
+				content : 'Model Source has been instantiated';
+				font-size : .5em
+			}
+			&.non-existent::before {
+				content         : 'Model Source has NOT been instantiated';
+				font-size       : .7em;
+				text-decoration : underline;
+				font-weight     : bold;
+			}
 		}
 	}
+}
+
+.model--meta--action--container {
+	width         : 100%;
+	border-bottom : thin solid darken($modelMeta--bg--color, 10%);
 }
 
 .selectively-active {

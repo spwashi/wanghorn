@@ -68,7 +68,7 @@ export default (modelMeta: modelMeta, action) => {
             
             let success = result && result.success;
             
-            alert(`Attempted to ${query} on ${smID} -- was${success ? '' : ' NOT'} successful`);
+            console.log(`Attempted to ${query} on ${smID} -- was${success ? '' : ' NOT'} successful`);
             
             modelMeta = {...modelMeta};
             

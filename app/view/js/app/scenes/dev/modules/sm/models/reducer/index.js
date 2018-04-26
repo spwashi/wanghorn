@@ -1,9 +1,21 @@
-import {ACTIVATE_MODEL, DEACTIVATE_MODEL, FETCH_MODELS_RECEIVED, TOGGLE_ACTIVATE_MODEL} from "../actions";
+import {ACTIVATE_MODEL, CLOSE_MODEL_EDIT, DEACTIVATE_MODEL, FETCH_MODELS_RECEIVED, OPEN_MODEL_EDIT, TOGGLE_ACTIVATE_MODEL} from "../actions";
 import {combineReducers} from "redux";
 import {reduceEntriesIntoObject} from "../../../../../../../utility";
 import modelMetaReducer from "./modelMeta";
 import deepmerge from "deepmerge";
 
+function editingSmID_reducer(state, action) {
+    const {type, models} = action;
+    const {smID}         = action;
+    switch (type) {
+        case CLOSE_MODEL_EDIT:
+            return state.filter(item => item !== smID);
+        case OPEN_MODEL_EDIT:
+            return [...new Set([...state, smID])];
+        default :
+            return state || [];
+    }
+}
 function activeSmID_reducer(state, action) {
     const {type, models} = action;
     const {smID}         = action;
@@ -11,7 +23,6 @@ function activeSmID_reducer(state, action) {
         // case FETCH_MODELS_RECEIVED:
         //     return Object.keys(models);
         case TOGGLE_ACTIVATE_MODEL:
-            console.log(state);
             return state.indexOf(smID) > -1 ? activeSmID_reducer(state, {...action, type: DEACTIVATE_MODEL})
                                             : activeSmID_reducer(state, {...action, type: ACTIVATE_MODEL});
         case DEACTIVATE_MODEL:
@@ -45,7 +56,8 @@ let modelObject_reducer         = (state, action) => {
     }
 };
 export const modelModuleReducer = combineReducers({
-                                                      activeSmIDs: activeSmID_reducer,
-                                                      list:        modelSmIDList_reducer,
-                                                      models:      modelObject_reducer
+                                                      activeSmIDs:           activeSmID_reducer,
+                                                      creatingModelMetaSmIDs: editingSmID_reducer,
+                                                      list:                  modelSmIDList_reducer,
+                                                      models:                modelObject_reducer
                                                   });

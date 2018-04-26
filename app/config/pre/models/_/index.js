@@ -13,15 +13,18 @@ export const properties  = {
         isGenerated: true
     },
     delete_dt:      {
-        datatypes: [DATETIME_, NULL_],
+        datatypes:   [DATETIME_, NULL_],
+        isGenerated: true
     },
     creation_dt:    {
         datatypes:    DATETIME_,
-        defaultValue: 'now'
+        defaultValue: 'now',
+        isGenerated:  true
     },
     last_update_dt: {
         datatypes:    DATETIME_,
         updateValue:  'now',
-        defaultValue: 'now'
+        defaultValue: 'now',
+        isGenerated:  true
     }
 };

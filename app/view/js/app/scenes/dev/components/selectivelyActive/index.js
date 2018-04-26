@@ -54,7 +54,6 @@ class SelectivelyActive extends Component {
         if (this.props.trigger !== "click") return;
         if (this._cancelClick) return;
         const target = event.target;
-        
         if (this.matchTarget(target)) {
             this.toggleActive();
             event.stopPropagation();
@@ -74,6 +73,7 @@ class SelectivelyActive extends Component {
         const keyCode = event.keyCode;
         switch (keyCode) {
             case 32:
+            case 13:
                 this.toggleActive();
                 event.stopPropagation();
                 break;
@@ -86,13 +86,11 @@ class SelectivelyActive extends Component {
             let {active, inactive} = this;
             const els              = {active, inactive};
             Promise.resolve(handleDeactivationAttempt(els))
-                   .then(i => {
-                       console.log("resolved", i);
-                       this.setState({
-                                         isDeactivating: false,
-                                         isActive:       false
-                                     })
-                   })
+                   .then(i =>
+                             this.setState({
+                                               isDeactivating: false,
+                                               isActive:       false
+                                           }))
         };
         this.setState({isDeactivating: true}, onStateSet);
     }
@@ -107,7 +105,6 @@ class SelectivelyActive extends Component {
         let className = `${this.props.className || ''} ${activityStatus}`;
         this.state.isDeactivating && (className += " is-deactivating");
         this.state.isActivating && (className += " is-activating");
-        console.log(activityStatus);
         let {inactiveChild, activeChild}                      = this.getChildren();
         let {component: ActiveChild, ...activeChildProps}     = activeChild.props;
         let {component: InactiveChild, ...inactiveChildProps} = inactiveChild.props;
@@ -124,10 +121,7 @@ class SelectivelyActive extends Component {
                         <ActiveChild activeElRef={el => this.active = el} {...(activeChildProps || {})} />
                     </State>
                     <State name={'inactive'}>
-                        <InactiveChild activeElRef={el => {
-                            console.log(el);
-                            this.inactive = el
-                        }} {...(inactiveChildProps || {})} />
+                        <InactiveChild activeElRef={el => this.inactive = el} {...(inactiveChildProps || {})} />
                     </State>
                 </Stateful>
             </div>

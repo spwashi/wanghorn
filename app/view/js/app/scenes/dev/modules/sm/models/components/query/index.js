@@ -31,7 +31,7 @@ export let Query            =
               if (!query || !query.length) return null;
         
               return (
-                  <SelectivelyActive trigger={"click"} className={`wrapper query--wrapper`} isActive={false}>
+                  <SelectivelyActive className={`wrapper query--wrapper`} isActive={false}>
                       <InactiveComponent component={QueryTitle} {...{className, type}} />
                       <ActiveComponent component={ActiveQuery} {...{...props, className}} />
                   </SelectivelyActive>

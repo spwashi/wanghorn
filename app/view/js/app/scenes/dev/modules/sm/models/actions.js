@@ -39,6 +39,12 @@ export const activateModel         = ({smID}) => ({type: ACTIVATE_MODEL, smID});
 export const toggleModelActivity   = ({smID}) => ({type: TOGGLE_ACTIVATE_MODEL, smID});
 export const deactivateModel       = ({smID}) => ({type: DEACTIVATE_MODEL, smID});
 
+// EDITING
+export const OPEN_MODEL_EDIT      = "OPEN_MODEL_EDIT";
+export const CLOSE_MODEL_EDIT     = "CLOSE_MODEL_EDIT";
+export const openModelCreateDialog  = ({smID}) => ({type: OPEN_MODEL_EDIT, smID});
+export const closeModelCreateDialog = ({smID}) => ({type: CLOSE_MODEL_EDIT, smID});
+
 export const ACTIVATE_MODEL_PROPERTY        = 'ACTIVATE_MODEL_PROPERTY';
 export const TOGGLE_ACTIVATE_MODEL_PROPERTY = 'TOGGLE_ACTIVATE_MODEL_PROPERTY';
 export const DEACTIVATE_MODEL_PROPERTY      = 'DEACTIVATE_MODEL_PROPERTY';

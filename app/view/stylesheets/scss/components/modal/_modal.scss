@@ -57,8 +57,13 @@
 		margin    : 2px 0 2px 20%;
 	}
 	.input--wrapper {
-		width : 100%;
-		label {width : 20%;}
-		input { width : 80%; border : thin solid #ccc;}
+		width         : 100%;
+		margin-bottom : 10px;
+		label {
+			width     : 25%;
+			display   : inline-block;
+			font-size : .95em;
+		}
+		input { width : 75%; border : thin solid #ccc;display : inline-block;}
 	}
 }

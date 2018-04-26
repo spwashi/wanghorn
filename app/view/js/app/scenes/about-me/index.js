@@ -71,7 +71,7 @@ export default class extends React.Component {
                         <h3>I'm a code library!</h3>
                         <p>
                             I stub out some common structures and features of web applications to help Sam
-                            rapidly prototype and develop websites.
+                            <a href={"https://youtrack.spwashi.com"}> rapidly prototype and develop websites</a>.
                         </p>
                         <ul>
                             <li>

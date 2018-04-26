@@ -22,13 +22,15 @@
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]_} delete_dt"
+            "smID": "[Property]{[Model]_} delete_dt",
+            "isGenerated": true
          },
          "creation_dt": {
             "datatypes": [
                "datetime"
             ],
             "smID": "[Property]{[Model]_} creation_dt",
+            "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
@@ -36,6 +38,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]_} last_update_dt",
+            "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          }
@@ -67,13 +70,15 @@
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]project} delete_dt"
+            "smID": "[Property]{[Model]project} delete_dt",
+            "isGenerated": true
          },
          "creation_dt": {
             "datatypes": [
                "datetime"
             ],
             "smID": "[Property]{[Model]project} creation_dt",
+            "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
@@ -81,6 +86,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]project} last_update_dt",
+            "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },
@@ -130,13 +136,15 @@
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]user} delete_dt"
+            "smID": "[Property]{[Model]user} delete_dt",
+            "isGenerated": true
          },
          "creation_dt": {
             "datatypes": [
                "datetime"
             ],
             "smID": "[Property]{[Model]user} creation_dt",
+            "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
@@ -144,6 +152,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]user} last_update_dt",
+            "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },
@@ -203,13 +212,15 @@
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]email} delete_dt"
+            "smID": "[Property]{[Model]email} delete_dt",
+            "isGenerated": true
          },
          "creation_dt": {
             "datatypes": [
                "datetime"
             ],
             "smID": "[Property]{[Model]email} creation_dt",
+            "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
@@ -217,6 +228,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]email} last_update_dt",
+            "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },
@@ -256,13 +268,15 @@
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]file} delete_dt"
+            "smID": "[Property]{[Model]file} delete_dt",
+            "isGenerated": true
          },
          "creation_dt": {
             "datatypes": [
                "datetime"
             ],
             "smID": "[Property]{[Model]file} creation_dt",
+            "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
@@ -270,6 +284,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]file} last_update_dt",
+            "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },
@@ -312,13 +327,15 @@
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]pw} delete_dt"
+            "smID": "[Property]{[Model]pw} delete_dt",
+            "isGenerated": true
          },
          "creation_dt": {
             "datatypes": [
                "datetime"
             ],
             "smID": "[Property]{[Model]pw} creation_dt",
+            "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
@@ -326,6 +343,7 @@
                "datetime"
             ],
             "smID": "[Property]{[Model]pw} last_update_dt",
+            "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },

@@ -3,6 +3,7 @@ import {normalizeSmID} from "../../sm/utility";
 
 export const selectModelDevInterface                    = state => (selectDev(state) || {}).models;
 export const selectActiveModelSmIDs                     = state => (selectModelDevInterface(state) || {}).activeSmIDs;
+export const selectCreatingModelMetaSmIDs                = state => (selectModelDevInterface(state) || {}).creatingModelMetaSmIDs;
 export const selectAllModelMetaObjects                  = state => (selectModelDevInterface(state) || {}).models;
 export const selectProperties_fromModel                 = state => (state || {}).properties;
 export const selectActiveProperties_fromModelMetaObject = state => (state || {}).activeProperties;
