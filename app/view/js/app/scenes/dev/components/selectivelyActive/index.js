@@ -20,7 +20,12 @@ class SelectivelyActive extends Component {
         }
     }
     
-    matchTarget() {return true;}
+    matchTarget(target) {
+        if (target === this.active || target === this.inactive) return true;
+        const {active, inactive} = this.getChildren();
+        console.log(active, inactive);
+        return !this.active && !this.inactive;
+    }
     
     @bind
     handleMouseMove(e) {
@@ -74,6 +79,7 @@ class SelectivelyActive extends Component {
         switch (keyCode) {
             case 32:
             case 13:
+                if (event.target !== this.selectivelyActiveWrapper) return;
                 this.toggleActive();
                 event.stopPropagation();
                 break;
@@ -110,6 +116,7 @@ class SelectivelyActive extends Component {
         let {component: InactiveChild, ...inactiveChildProps} = inactiveChild.props;
         return (
             <div className={className + ' selectively-active'}
+                 ref={el => this.selectivelyActiveWrapper = el}
                  tabIndex={0}
                  onClick={this.handleClick}
                  onKeyDown={this.handleKeyDown}

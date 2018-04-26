@@ -15,6 +15,7 @@ export const routes = {
         new Route("#[Dev]::monitors", "dev/monitors", "monitors"),
         new Route("#[Dev]::models", "dev/models.json"), // Content-Type: application/json
         new Route("#[Dev]::executeQuery", "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"), // Content-Type: application/json
+        new Route("#[Dev]::createModel", "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/create"), // Content-Type: application/json
         new Route("#[Dev]::eg", "dev/example", "example"),
         
         // (site helpers)

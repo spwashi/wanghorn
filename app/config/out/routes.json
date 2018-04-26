@@ -30,6 +30,10 @@
          "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       {
+         "resolution": "#Dev\\Dev::createModel",
+         "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/create"
+      },
+      {
          "resolution": "#Dev\\Dev::eg",
          "pattern": "dev/example",
          "name": "example"

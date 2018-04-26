@@ -15,6 +15,7 @@ use Sm\Data\Model\ModelPropertyMetaSchematic;
 use Sm\Data\Model\ModelSchematic;
 use Sm\Data\Property\PropertySchematic;
 use Sm\Data\Source\Database\Table\TableSourceSchematic;
+use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use Sm\Modules\Query\MySql\MySqlQueryModule;
 use Sm\Modules\Query\Sql\Constraints\ForeignKeyConstraintSchema;
 use Sm\Modules\Query\Sql\Constraints\PrimaryKeyConstraintSchema;
@@ -181,6 +182,10 @@ class Dev extends BaseApplicationController {
     }
     public function monitors() {
         return json_decode(json_encode($this->app->getMonitors()), 1);
+    }
+    public function createModel() {
+        $data = HttpRequestFromEnvironment::getRequestData();
+        return $data;
     }
     public function eg() {
         
