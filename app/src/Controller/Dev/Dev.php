@@ -195,7 +195,7 @@ class Dev extends BaseApplicationController {
         foreach ($data as $key => $item) {
             $properties[ $key ] = $schematic->getProperties()->{$key};
         }
-        return $properties;
+        return $this->app->data->properties->getRegisteredSchematics();
     }
     public function eg() {
         

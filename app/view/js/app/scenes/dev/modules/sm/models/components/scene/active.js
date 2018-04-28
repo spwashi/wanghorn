@@ -45,8 +45,8 @@ export class ActiveModelScene extends React.Component {
             return toggleModelPropertyActivity({smID: propertySmID});
         };
         return (
-            <ContentSection sectionRef={activeElRef} className={"model--container"}>
-                <h2 className={"model--container--title"}>Models</h2>
+            <ContentSection sectionRef={activeElRef} className={"dev--component model--container"}>
+                <h2 className={"title model--container--title"}>Models</h2>
                 <ModelContainerDescription />
                 <ModelLinkContainer onItemTrigger={this.handleModelLinkTrigger}
                                     activeSmIDs={activeModelSmIDs}

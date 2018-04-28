@@ -66,10 +66,11 @@ class SelectivelyActive extends Component {
     }
     
     toggleActive() {
+        this.blurWrapper();
         if (this.state.isActive) {
             this.beginClose()
         } else {
-            this.setState({isActive: true});
+            this.beginOpen()
         }
     }
     
@@ -82,23 +83,29 @@ class SelectivelyActive extends Component {
                 if (event.target !== this.selectivelyActiveWrapper) return;
                 this.toggleActive();
                 event.stopPropagation();
+                event.preventDefault();
                 break;
         }
     }
     
+    blurWrapper() {this.selectivelyActiveWrapper.blur()}
+    
+    focusWrapper() {this.selectivelyActiveWrapper.focus()}
+    
     beginClose() {
         const handleDeactivationAttempt = this.props.handleDeactivationAttempt || (() => {});
-        let onStateSet                  = () => {
-            let {active, inactive} = this;
-            const els              = {active, inactive};
-            Promise.resolve(handleDeactivationAttempt(els))
-                   .then(i =>
-                             this.setState({
-                                               isDeactivating: false,
-                                               isActive:       false
-                                           }))
-        };
+        let onStateSet                  = () =>
+            Promise.resolve(handleDeactivationAttempt({active: this.active, inactive: this.inactive}))
+                   .then(i => this.setState({isDeactivating: false, isActive: false}, this.focusWrapper));
         this.setState({isDeactivating: true}, onStateSet);
+    }
+    
+    beginOpen() {
+        const handleActivationAttempt = this.props.handleActivationAttempt || (() => {});
+        let onStateSet                = () =>
+            Promise.resolve(handleActivationAttempt({active: this.active, inactive: this.inactive}))
+                   .then(i => this.setState({isActivating: false, isActive: true}, this.focusWrapper));
+        this.setState({isActivating: true}, onStateSet);
     }
     
     render() {
@@ -117,7 +124,7 @@ class SelectivelyActive extends Component {
         return (
             <div className={className + ' selectively-active'}
                  ref={el => this.selectivelyActiveWrapper = el}
-                 tabIndex={0}
+                 tabIndex={!this.state.isDeactivating && !this.state.isActivating ? 0 : -1}
                  onClick={this.handleClick}
                  onKeyDown={this.handleKeyDown}
                  onMouseDown={this.handleMouseDown}
@@ -152,6 +159,7 @@ SelectivelyActive.propTypes    = {
     trigger:                   PropTypes.oneOf(["click"]),
     matchTarget:               PropTypes.func,
     handleDeactivationAttempt: PropTypes.func,
+    handleActivationAttempt:   PropTypes.func,
     onUpdateActivationStatus:  PropTypes.func,
     className:                 PropTypes.string,
     isActive:                  PropTypes.bool,

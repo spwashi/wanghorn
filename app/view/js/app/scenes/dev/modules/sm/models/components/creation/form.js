@@ -45,6 +45,8 @@ export class ModelCreationForm extends React.Component {
                                   onKeyDown = event => {
                                       if (event.keyCode === 32) event.preventDefault();
                                   }
+                              } else if (property.datatypes.indexOf('int') > -1) {
+                                  inputType = "number";
                               }
                               let input = <input type={inputType}
                                                  onKeyDown={onKeyDown}

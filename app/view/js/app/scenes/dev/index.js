@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import ModelModule from "./modules/sm/models/modelScene";
+import {RoutesScene as RoutesModule} from "./modules/routes/routesScene";
 import reducer from "./reducer"
 import {selectDev} from "./selector";
 import {PageContent} from "../../components/page";
@@ -15,6 +16,7 @@ const Dev = ({models}) => {
                 </p>
             </section>
             <ModelModule />
+            <RoutesModule></RoutesModule>
         </PageContent>
     );
 };

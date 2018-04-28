@@ -1,21 +1,12 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {ModelConfigurationAttributeValue} from "./components/value";
-import {ModelConfigurationAttributeTitle} from "./components/title";
+import {ConfigurationAttribute} from "../../../../../../../components/configuration";
 
-const ModelConfigurationAttribute = ({value, attribute, valueMeta, children}) =>
-    <div className={`attribute configuration--attribute model--configuration--attribute ${attribute} attribute__${attribute}`}>
-        <ModelConfigurationAttributeTitle attribute={attribute} />
-        <ModelConfigurationAttributeValue attribute={attribute} value={value}>
-            <div className="configuration--value--meta model--configuration--value--meta">
-                {valueMeta}
-            </div>
-            {children}
-        </ModelConfigurationAttributeValue>
-    </div>;
+const ModelConfigurationAttribute = props => {
+    return <ConfigurationAttribute {...props} ownerType={"model"} />;
+};
 
 export default ModelConfigurationAttribute;
-
 ModelConfigurationAttribute.propTypes = {
     attribute: PropTypes.string,
     meta:      PropTypes.element

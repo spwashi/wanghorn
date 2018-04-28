@@ -1,6 +1,6 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import AttrValue from "../../../attribute/value";
+import AttrValue from "../../../../../../../../components/configuration/attribute/value";
 
 export class PropertyConfigurationAttributeValue extends React.Component {
     render() {

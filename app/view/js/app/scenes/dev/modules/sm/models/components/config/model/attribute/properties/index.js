@@ -14,7 +14,7 @@ class ModelConfigurationPropertiesAttribute extends React.Component {
     render() {
         return (
             <ModelConfigurationAttribute valueMeta={this.meta} attribute="properties">
-                <div className="model--configuration--attribute--container attribute__properties--container">
+                <div className="attribute__properties--container">
                     {
                         Object.entries(this.props.properties)
                               .filter(([name, {smID: propertySmID}]) => this.props.activeProperties.indexOf(normalizeSmID(propertySmID)) > -1)

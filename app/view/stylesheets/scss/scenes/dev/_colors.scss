@@ -1,0 +1,28 @@
+@import "../../colors/colors";
+
+$component--meta--bg--color : desaturate(lighten($accent_color__1, 20%), 10%);
+$component--meta--bg : rgba($component--meta--bg--color, .3);
+$component--meta--title--bg--color : desaturate(lighten($accent_color__2, 20%), 40%);
+$component--meta--title--bg : rgba($component--meta--title--bg--color, .3);
+$component--meta-_-text-color : darken($component--meta--bg--color, 50%);
+
+$dev--configuration--attribute-_-border-color : black;
+$property--configuration--title-_-color : #333;
+
+$configuration--component-_-border-color : darken($component--meta--bg--color, 40%);
+$configuration--component-_-bg : rgba(darken($component--meta--bg--color, 15%), .3);
+
+$configuration--title-_-border-bottom-color : darken($component--meta--bg, 40%);
+
+$configuration--attribute--title-_-background : darken($component--meta--bg, 15%);
+$configuration--attribute--title-_-txt-color : $component--meta-_-text-color;
+$configuration--attribute--title-_-txt-color : white;
+
+$configuration--attribute__properties--link-_-background : lighten($component--meta--bg, 5%);
+$configuration--attribute__properties--link-_-background : lighten($component--meta--bg, 5%);
+$configuration--attribute__properties--title-_-background : $configuration--attribute--title-_-background;
+
+$configuration--attribute__properties--title-_-txt-color : #000;
+$configuration--attribute__properties--link-_-txt-color : #000;
+
+$configuration--attribute__properties--link-_-border-color : darken($component--meta--bg, 45%);

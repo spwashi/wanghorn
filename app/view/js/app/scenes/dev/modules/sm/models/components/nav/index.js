@@ -23,7 +23,7 @@ class ModelLinkContainer extends React.Component {
     render() {
         const {activeSmIDs, onItemTrigger, allSmIDs} = this.props;
         return (
-            <ul className={"model--container--link--container"}>
+            <ul className={"link--container dev_component--link--container model--container--link--container"}>
                 {
                     allSmIDs.map(smID => <ModelLinkItem key={smID}
                                                         smID={smID}
