@@ -10,8 +10,6 @@ export const name           = 'file';
 export const file__identity = Model.identify(name);
 export const properties     = {
     user_id: {
-        length:    11,
-        datatypes: [INTEGER_],
         reference: {
             identity:        user__identity,
             hydrationMethod: {

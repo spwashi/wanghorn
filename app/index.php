@@ -17,6 +17,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 /** @var Application $app */
 $app = Application::init(APP__APP_PATH, APP__CONFIG_PATH);
 
+
 try {
     #   - Create & Boot the application
     
@@ -35,7 +36,7 @@ try {
         $dispatchResult = $communicationLayer->dispatch(Http::class, $response);
     } catch (RouteNotFoundException $exception) {
         ###- Create and dispatch the error response -###
-        $error_route      = $communicationLayer->getRoute('404');
+        $error_route      = $communicationLayer->getRoute('error-404');
         $primedErrorRoute = $error_route->prime(null, [ 'path' => $originalRequest->getUrlPath() ]);
         $error_url        = $primedErrorRoute->getRequestDescriptor()
                                              ->asUrlPath([ 'path' => $originalRequest->getUrlPath() ]);
@@ -46,9 +47,8 @@ try {
         $response         = $primedErrorRoute->resolve();
         $dispatchResult   = $communicationLayer->dispatch(Http::class, $response); # Not a redirect
     }
-    
-} catch (\Sm\Core\Exception\Exception|\Exception $exception) {
-//    if ($app->environmentIs(Application::ENV_DEV)) {
+} catch (\Sm\Core\Exception\Exception $exception) {
+    if ($app->environmentIs(Application::ENV_DEV)) {
         header('Content-Type: application/json');
         echo json_encode([
                              $exception->getMessage(),
@@ -56,8 +56,16 @@ try {
                              $exception->getMonitorContainer(),
                              $exception,
                          ]);
-//    }
+    }
+} catch (\Throwable $exception) {
+    if ($app->environmentIs(Application::ENV_DEV)) {
+        header('Content-Type: application/json');
+        echo json_encode([
+                             $exception->getMessage(),
+                             $exception->getPrevious(),
+                             $exception,
+                         ]);
+    }
 } finally {
     die; /* terminate the script */
 }
-

@@ -4,7 +4,7 @@
       {
          "resolution": "Error\\Error@rt_404",
          "pattern": "404/{path}",
-         "name": "404"
+         "name": "error-404"
       },
       {
          "resolution": "#Home\\Home::index",
@@ -26,12 +26,26 @@
          "pattern": "dev/models.json"
       },
       {
+         "resolution": "#Dev\\Dev::routes",
+         "pattern": "dev/routes.json"
+      },
+      {
          "resolution": "#Dev\\Dev::executeQuery",
          "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       {
+         "resolution": "#Dev\\Dev::getSchematic",
+         "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+$",
+         "http_method": [
+            "get"
+         ]
+      },
+      {
          "resolution": "#Dev\\Dev::createModel",
-         "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/create"
+         "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/create",
+         "http_method": [
+            "post"
+         ]
       },
       {
          "resolution": "#Dev\\Dev::eg",

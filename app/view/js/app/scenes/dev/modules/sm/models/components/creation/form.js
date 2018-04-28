@@ -1,6 +1,6 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {getTitleFromPropName} from "../../../utility";
+import {getTitleFromPropName, normalizeSmID} from "../../../utility";
 import bind from "bind-decorator";
 import axios from "axios";
 import {get_CREATE_MODEL} from "../../../../../paths";
@@ -11,7 +11,7 @@ export class ModelCreationForm extends React.Component {
         this.state               = {};
         const settableProperties = this.getSettableProperties(this.props.model.properties);
         Object.entries(settableProperties)
-              .forEach(([propName, property]) => this.state[property.smID] = property.defaultValue || '')
+              .forEach(([propName, property]) => this.state[propName] = property.defaultValue || '')
     }
     
     @bind
@@ -33,14 +33,16 @@ export class ModelCreationForm extends React.Component {
                 {
                     Object.entries(settableProperties)
                           .map(([propertyName, property]) => {
-                              let inputType = "text";
-                              let pattern   = "";
+                              let inputType       = "text";
+                              let pattern         = null;
                               let onKeyDown;
-                              let value     = this.state[property.smID];
-                              if (propertyName.toLowerCase().substr(propertyName.length - "email".length) === "email") {
+                              let normalizedSmID  = normalizeSmID(property.smID);
+                              let value           = this.state[propertyName];
+                              let propertyIsEmail = propertyName.toLowerCase().substr(propertyName.length - "email".length) === "email";
+                              if (propertyIsEmail) {
                                   inputType = "email";
                                   pattern   = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$";
-                                  onKeyDown = (event) => {
+                                  onKeyDown = event => {
                                       if (event.keyCode === 32) event.preventDefault();
                                   }
                               }
@@ -48,16 +50,21 @@ export class ModelCreationForm extends React.Component {
                                                  onKeyDown={onKeyDown}
                                                  onChange={e => {
                                                      let val = e.target.value;
-                                                     if (val && !/[a-z0-9._%+-@]+$/.test(val)) return;
                             
-                                                     this.setState({[property.smID]: val})
+                                                     if (propertyIsEmail) {
+                                                         if (val && !/[a-z0-9._%+-@]+$/.test(val)) {
+                                                             return;
+                                                         }
+                                                     }
+                            
+                                                     this.setState({[propertyName]: val})
                                                  }}
                                                  value={value}
                                                  pattern={pattern}
-                                                 key={property.smID}
+                                                 key={normalizedSmID}
                                                  name={propertyName} />;
                               return (
-                                  <div key={property.smID} className={"input--wrapper " + propertyName + '--wrapper'}>
+                                  <div key={normalizedSmID} className={"input--wrapper " + propertyName + '--wrapper'}>
                                       <label htmlFor={propertyName}>{getTitleFromPropName(propertyName)}</label>
                                       {input}
                                   </div>

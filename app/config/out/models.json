@@ -44,14 +44,14 @@
          }
       }
    },
-   "project": {
-      "smID": "[Model]project",
+   "person": {
+      "smID": "[Model]person",
       "inherits": [
          "[Model]_"
       ],
       "propertyMeta": {
          "primary": [
-            "[Property]{[Model]project} id"
+            "[Property]{[Model]person} id"
          ],
          "unique": {}
       },
@@ -60,7 +60,7 @@
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]project} id",
+            "smID": "[Property]{[Model]person} id",
             "length": 11,
             "primary": true,
             "isGenerated": true
@@ -70,14 +70,14 @@
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]project} delete_dt",
+            "smID": "[Property]{[Model]person} delete_dt",
             "isGenerated": true
          },
          "creation_dt": {
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]project} creation_dt",
+            "smID": "[Property]{[Model]person} creation_dt",
             "isGenerated": true,
             "defaultValue": "now"
          },
@@ -85,7 +85,7 @@
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]project} last_update_dt",
+            "smID": "[Property]{[Model]person} last_update_dt",
             "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
@@ -94,14 +94,7 @@
             "datatypes": [
                "string"
             ],
-            "smID": "[Property]{[Model]project} name",
-            "length": 255
-         },
-         "url": {
-            "datatypes": [
-               "string"
-            ],
-            "smID": "[Property]{[Model]project} url",
+            "smID": "[Property]{[Model]person} name",
             "length": 255
          }
       }
@@ -242,6 +235,96 @@
          }
       }
    },
+   "project": {
+      "smID": "[Model]project",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]project} id"
+         ],
+         "unique": {}
+      },
+      "properties": {
+         "id": {
+            "datatypes": [
+               "int"
+            ],
+            "smID": "[Property]{[Model]project} id",
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "smID": "[Property]{[Model]project} delete_dt",
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "datatypes": [
+               "datetime"
+            ],
+            "smID": "[Property]{[Model]project} creation_dt",
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "datatypes": [
+               "datetime"
+            ],
+            "smID": "[Property]{[Model]project} last_update_dt",
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "name": {
+            "datatypes": [
+               "string"
+            ],
+            "smID": "[Property]{[Model]project} name",
+            "length": 255
+         },
+         "external_link": {
+            "datatypes": [
+               "string",
+               "null"
+            ],
+            "smID": "[Property]{[Model]project} external_link",
+            "length": 255
+         },
+         "price": {
+            "datatypes": [
+               "string",
+               "null"
+            ],
+            "smID": "[Property]{[Model]project} price",
+            "length": 11
+         },
+         "description": {
+            "datatypes": [
+               "string",
+               "null"
+            ],
+            "smID": "[Property]{[Model]project} description",
+            "length": 1000
+         },
+         "person_id": {
+            "datatypes": [
+               "int",
+               "null"
+            ],
+            "smID": "[Property]{[Model]project} person_id",
+            "reference": {
+               "identity": "[Model]person",
+               "hydrationMethod": "[Property]{[Model]person} id"
+            }
+         }
+      }
+   },
    "file": {
       "smID": "[Model]file",
       "inherits": [
@@ -289,11 +372,8 @@
             "updateValue": "now"
          },
          "user_id": {
-            "datatypes": [
-               "int"
-            ],
+            "datatypes": [],
             "smID": "[Property]{[Model]file} user_id",
-            "length": 11,
             "reference": {
                "identity": "[Model]user",
                "hydrationMethod": "[Property]{[Model]user} id"

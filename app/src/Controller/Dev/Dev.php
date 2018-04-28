@@ -60,10 +60,9 @@ class Dev extends BaseApplicationController {
     }
     protected function _initIntColumn(PropertySchematic $propertySchema): ColumnSchema {
         $column = IntegerColumnSchema::init();
-        $column
-            ->setAutoIncrement($propertySchema->isGenerated())
-            ->setName($propertySchema->getName())
-            ->setLength($propertySchema->getLength());
+        $column->setAutoIncrement($propertySchema->isGenerated())
+               ->setName($propertySchema->getName())
+               ->setLength($propertySchema->getLength() ?? 11);
         return $column;
     }
     protected function _initDatetimeColumn(PropertySchematic $propertySchema): ColumnSchema {
@@ -137,7 +136,6 @@ class Dev extends BaseApplicationController {
         $models                  = $modelDataManager->getRegisteredSchematics();
         $model_configs           = $this->modelConfig();
         
-        
         switch ($fetch) {
             case 'config':
                 return $model_configs;
@@ -145,7 +143,11 @@ class Dev extends BaseApplicationController {
             case 'model':
                 return $models;
             case null:
-                list($createTableStatement_strings, , $alterTableStatement_strings) = $this->modelsToQueries($models);
+                try {
+                    list($createTableStatement_strings, , $alterTableStatement_strings) = $this->modelsToQueries($models);
+                } catch (Exception $e) {
+                    return $e;
+                }
                 
                 $indices = [
                     'model'                => $models,
@@ -170,7 +172,9 @@ class Dev extends BaseApplicationController {
                             }
                             $all[ $smID ]['tableExists'] = $table_exists;
                         } catch (FactoryCannotBuildException $e) {
+                            return $e;
                         } catch (UnfoundQueryModuleException $e) {
+                            return $e;
                         } catch (\Exception $e) {
                             return $e;
                         }
@@ -183,9 +187,15 @@ class Dev extends BaseApplicationController {
     public function monitors() {
         return json_decode(json_encode($this->app->getMonitors()), 1);
     }
-    public function createModel() {
+    public function createModel($modelSmID) {
         $data = HttpRequestFromEnvironment::getRequestData();
-        return $data;
+        /** @var ModelSchematic $schematic */
+        $schematic  = $this->app->data->models->getSchematicByName($modelSmID);
+        $properties = [];
+        foreach ($data as $key => $item) {
+            $properties[ $key ] = $schematic->getProperties()->{$key};
+        }
+        return $properties;
     }
     public function eg() {
         
@@ -203,10 +213,13 @@ class Dev extends BaseApplicationController {
         
         # -- rendering
         
-        $vars     = [
+        $vars = [
             'path_to_site' => $this->app->path,
         ];
-        $rendered = $this->app->representation->render('hello.twig', $vars);
+        try {
+            $rendered = $this->app->representation->render('hello.twig', $vars);
+        } catch (UnimplementedError $e) {
+        }
         
         # -- response
         
