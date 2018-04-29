@@ -86,6 +86,11 @@
 }
 
 .model--configuration {
+	.model--configuration--title {
+		font-weight      : bold;
+		padding          : 10px;
+		background-color : $configuration--attribute__properties--title-_-background;
+	}
 	a {
 		text-decoration : none;
 		font-weight     : bold;

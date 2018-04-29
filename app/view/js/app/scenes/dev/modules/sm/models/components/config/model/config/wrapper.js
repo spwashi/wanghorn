@@ -43,6 +43,7 @@ class ModelConfigurationWrapper extends React.Component {
         );
     }
     
+    @bind
     ModelAttribute({name, value}) {
         switch (name) {
             case 'inherits':
@@ -58,8 +59,9 @@ class ModelConfigurationWrapper extends React.Component {
     
     @bind
     ActiveComponent(props) {
-        const {model: config}                    = this.props;
+        const {model: config}                         = this.props;
         const {smID, name, properties, ...attributes} = config;
+        const ModelAttribute                          = this.ModelAttribute;
         return (
             <div className="model--configuration">
                 <ModelConfigurationTitle>{this.title}</ModelConfigurationTitle>
