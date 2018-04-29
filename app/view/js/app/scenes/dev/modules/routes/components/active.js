@@ -55,6 +55,7 @@ export class ActiveRoutesScene extends React.Component {
         Object.entries(routes)
               .forEach(
                   ([name, config]) => {
+                      console.log([name, config]);
                       if (!isNaN(parseInt(name))) {
                           numericRoutes.push(config);
                       } else {
