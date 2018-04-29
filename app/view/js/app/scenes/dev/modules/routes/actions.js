@@ -12,3 +12,7 @@ export const fetchRoutes           = () =>
         return axios.get(ROUTES)
                     .then(response => dispatch(fetchRoutesCompleted(response && response.data && response.data)));
     };
+
+export const TOGGLE_ROUTE_SCENE_ACTIVITY = "TOGGLE_ROUTE_SCENE_ACTIVITY";
+export const toggleRouteScene            = () => ({type: TOGGLE_ROUTE_SCENE_ACTIVITY});
+

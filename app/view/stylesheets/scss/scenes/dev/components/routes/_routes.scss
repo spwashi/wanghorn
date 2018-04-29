@@ -1,6 +1,7 @@
 @import "../../colors";
 
 .route--wrapper {
+	position : relative;
 	&:hover {
 		background-color : $component--meta--bg;
 	}
@@ -16,6 +17,41 @@
 		* {
 			display : inline-block;
 		}
+	}
+	.selectively-active--toggle {
+		position   : absolute;
+		width      : 35px;
+		height     : 30px;
+		max-height : 100%;
+		display    : block;
+		top        : 0;
+		right      : 0;
+		background : rgba($component--meta--bg--color, .3);
+		color      : transparent;
+		text-align : center;
+		&::before {
+			color       : rgba($component--meta--bg--color, .7);
+			font-weight : bold;
+			display     : block;
+			width       : 100%;
+			height      : 100%;
+			@at-root {
+				.route--wrapper.active .selectively-active--toggle::before {
+					content : '+';
+				}
+
+				.route--wrapper.inactive .selectively-active--toggle::before {
+					content : '-';
+				}
+			}
+		}
+		&:hover {
+			background : rgba(darken($component--meta--bg--color, 4%), .5);
+		}
+	}
+	.route--navigate {
+		background  : rgba($component--meta--bg--color, .5);
+		margin-left : 10px;
 	}
 }
 
@@ -63,10 +99,10 @@
 }
 
 .route--container--wrapper {
-	flex         : 1 1 48%;
+	flex         : 1 1 50%;
+	width        : 50%;
 	border-right : thin solid $component--meta--bg;
 	.route--configuration {
-		margin-bottom : 10px;
 	}
 }
 
@@ -74,5 +110,17 @@
 	> .title {
 		background-color : $component--meta--bg;
 		border-bottom    : thin solid $configuration--component-_-border-color;
+	}
+}
+
+.route--navigation--form {
+	a {
+		font-style : normal;
+		&.active {
+			font-weight : bold;
+		}
+		&.disabled {
+			cursor : auto;
+		}
 	}
 }

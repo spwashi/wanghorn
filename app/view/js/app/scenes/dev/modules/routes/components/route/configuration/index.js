@@ -15,7 +15,7 @@ class NavigationModal extends React.Component {
         };
         return (
             <Modal key="modal" isOpen={isOpen} onRequestClose={onRequestClose} title={`${updatedPath || path}`} contentLabel={`Navigate to ${path}`}>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={onSubmit} className={"route--navigation--form"}>
                     {
                         Object.entries(validators || {}).map(([variable, regex], i) => {
                             return (
@@ -33,7 +33,7 @@ class NavigationModal extends React.Component {
                             )
                         })
                     }
-                    <button>Navigate</button>
+                    <a href={updatedPath || path} className={updatedPath || !Object.entries(validators || {}).length ? 'active' : 'disabled'}>Navigate</a>
                 </form>
             </Modal>)
     };
@@ -79,11 +79,7 @@ class RouteName extends React.Component {
     };
     
     beginNavigation(validators, path) {
-        if (Object.entries(validators).length) {
-            this.setState({isNavigationBegun: true},);
-        } else {
-            this.followPath(path);
-        }
+        this.setState({isNavigationBegun: true},);
     };
     
     followPath(path) {
@@ -113,7 +109,7 @@ class RouteName extends React.Component {
         return (
             <div key='name' className="route--identifier">
                 <div className="name route--name">{name}</div>
-                <div key={"path"} className="path route--path" onClick={event => event.shiftKey && this.beginNavigation(validators, path)}>
+                <div key={"path"} className="path route--path">
                     {path}
                     <NavigationModal key={"navigation-modal"}
                                      path={path}
@@ -133,6 +129,10 @@ class RouteName extends React.Component {
                                                                   });
                                          }} />
                 </div>
+                <button key={"toggle-active"} className={"selectively-active--toggle"}>Toggle</button>
+                <button key={"navigate"} className={"route--navigate"} onClick={event => {
+                    this.beginNavigation(validators, path)
+                }}>Navigate</button>
             </div>)
     }
 };
@@ -168,12 +168,13 @@ export default class RouteConfiguration extends React.Component {
                     .join('/');
         const routeNameProps = {validators, path, name};
         return (
-            <SelectivelyActive className="route--wrapper" matchTarget={target => target.classList.contains('route--identifier')}>
+            <SelectivelyActive className="route--wrapper" matchTarget={target => target.classList.contains('selectively-active--toggle')}>
                 <ActiveComponent component={props => [<RouteName key='route-name' {...routeNameProps} />,
-                                                      <Configuration {...props} key='route-configuration' />]}
+                                                      <Configuration {...props} key='route-configuration' />,
+                ]}
                                  key='configuration'
                                  route={route} />
-                <InactiveComponent component={RouteName} {...routeNameProps} />
+                <InactiveComponent component={props => [<RouteName key={'route-name'}{...props} />]} {...routeNameProps} />
             </SelectivelyActive>
         )
     }

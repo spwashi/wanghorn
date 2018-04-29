@@ -1,13 +1,15 @@
-import {FETCH_ROUTES_RECEIVED} from "./actions";
+import {FETCH_ROUTES_RECEIVED, TOGGLE_ROUTE_SCENE_ACTIVITY} from "./actions";
 
 export default (state, action) => {
     let routes;
     switch (action.type) {
+        case TOGGLE_ROUTE_SCENE_ACTIVITY:
+            return {...state, isActive: !state.isActive};
         case FETCH_ROUTES_RECEIVED:
             routes = action.routes;
             console.log(routes);
-            return routes;
+            return {...state, routes};
         default:
-            return state || {routes: {}};
+            return state || {routes: {}, isActive: false};
     }
 }

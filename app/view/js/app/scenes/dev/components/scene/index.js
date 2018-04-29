@@ -94,12 +94,21 @@ export class DevScene extends React.Component {
             return target.classList.contains("title");
         };
         const {title, className, childClassName} = this.props;
+        const {onActivate, onDeactivate}         = this.props;
+        const {isActive}                         = this.props;
         return (
             <div className={`scene--wrapper dev--scene--wrapper ${className}--scene--wrapper`}>
                 <SelectivelyActive matchTarget={matchActivationTarget}
-                                   handleActivationAttempt={handleModelSceneActivationAttempt}
-                                   handleDeactivationAttempt={handleModelSceneDeactivationAttempt}
-                                   className={`scene dev--scene ${className}--scene dev--component--wrapper`} isActive={false}>
+                                   handleActivationAttempt={(...arg) => {
+                                       onActivate();
+                                       return handleModelSceneActivationAttempt(...arg)
+                                   }}
+                                   handleDeactivationAttempt={(...arg) => {
+                                       onDeactivate();
+                                       return handleModelSceneDeactivationAttempt(...arg)
+                                   }}
+                                   className={`scene dev--scene ${className}--scene dev--component--wrapper`}
+                                   isActive={isActive}>
                     {this.props.children}
                     <InactiveComponent component={InactiveDevComponent} title={title} className={childClassName} />
                 </SelectivelyActive>

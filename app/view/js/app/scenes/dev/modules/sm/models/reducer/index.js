@@ -1,4 +1,4 @@
-import {ACTIVATE_MODEL, CLOSE_MODEL_EDIT, DEACTIVATE_MODEL, FETCH_MODELS_RECEIVED, OPEN_MODEL_EDIT, TOGGLE_ACTIVATE_MODEL} from "../actions";
+import {ACTIVATE_MODEL, CLOSE_MODEL_EDIT, DEACTIVATE_MODEL, FETCH_MODELS_RECEIVED, OPEN_MODEL_EDIT, TOGGLE_ACTIVATE_MODEL, TOGGLE_MODEL_SCENE_ACTIVITY} from "../actions";
 import {combineReducers} from "redux";
 import {reduceEntriesIntoObject} from "../../../../../../../utility";
 import modelMetaReducer from "./modelMeta";
@@ -56,8 +56,16 @@ let modelObject_reducer         = (state, action) => {
     }
 };
 export const modelModuleReducer = combineReducers({
-                                                      activeSmIDs:           activeSmID_reducer,
+                                                      isActive:               (state, action) => {
+                                                          switch (action.type) {
+                                                              case TOGGLE_MODEL_SCENE_ACTIVITY:
+                                                                  return !state.isActive;
+                                                              default:
+                                                                  return state || false;
+                                                          }
+                                                      },
+                                                      activeSmIDs:            activeSmID_reducer,
                                                       creatingModelMetaSmIDs: editingSmID_reducer,
-                                                      list:                  modelSmIDList_reducer,
-                                                      models:                modelObject_reducer
+                                                      list:                   modelSmIDList_reducer,
+                                                      models:                 modelObject_reducer
                                                   });

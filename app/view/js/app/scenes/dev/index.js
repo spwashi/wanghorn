@@ -12,11 +12,11 @@ const Dev = ({models}) => {
         <PageContent pageTitle="Developer Interface" pageClass={`.page--__--dev`}>
             <section className="description page--description">
                 <p>
-                    This is a <dt>Developer's interface</dt><sub>(work-in-progress)</sub> for the sites/apps that <a href={HOME} title={'William'}>I (william)</a> help build.
+                    This is a Developer's interface <sub>(work-in-progress)</sub> for the sites/apps that <a href={HOME} title={'William'}>I</a> help build.
                 </p>
             </section>
             <ModelModule />
-            <RoutesModule></RoutesModule>
+            <RoutesModule/>
         </PageContent>
     );
 };

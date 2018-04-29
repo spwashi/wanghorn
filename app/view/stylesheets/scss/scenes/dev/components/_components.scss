@@ -62,7 +62,7 @@
 	font-size    : .6em;
 	font-weight  : normal;
 
-	a { color : darken($body--backgroundColor, 45%);}
+	a { color : darken($body--backgroundColor, 75%);}
 	h2 {margin : 10px 0 0 0;}
 
 	> .description {
@@ -173,7 +173,7 @@
 	&.is-deactivating, &.is-activating {
 		height : 100%;
 		.dev--component.collapsed {
-			background-color : $body--backgroundColor;
+			background-color : rgba($body--backgroundColor, .5);
 			height           : 100%;
 			> .title {
 				&:hover {
