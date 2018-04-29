@@ -56,6 +56,8 @@ class SelectivelyActive extends Component {
     
     @bind
     handleClick(event) {
+        let result = this.props.onClick && this.props.onClick(event);
+        if (result === false) return false;
         if (this.props.trigger !== "click") return;
         if (this._cancelClick) return;
         const target = event.target;

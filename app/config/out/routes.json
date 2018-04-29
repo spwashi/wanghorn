@@ -18,7 +18,7 @@
       },
       {
          "resolution": "#Dev\\Dev::monitors",
-         "pattern": "dev/monitors",
+         "pattern": "dev/monitors.json",
          "name": "dev--monitors"
       },
       {

@@ -59,7 +59,7 @@ const webpackTask      = () => {
                .pipe(plumber())
                .pipe(webpackStream(webpack_config))
                .pipe(gulp.dest(directories.dist.js + '/'))
-               .on('end', args => exec('command -v beep && beep -l 70 -f 200'));
+               .on('end', args => exec('command -v beep && beep -l 40 -f 100'));
 };
 const watchCSS_Task    = () => {
     sassTask();

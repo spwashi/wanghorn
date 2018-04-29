@@ -23,7 +23,7 @@ const homeRoutes    = [
 const devRoutes     = [
     new Route({
                   resolution: "#[Dev]::monitors",
-                  pattern:    "dev/monitors",
+                  pattern:    "dev/monitors.json",
                   name:       "dev--monitors"
               }),
     new Route({
