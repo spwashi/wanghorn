@@ -91,7 +91,7 @@ export class InactiveDevComponent extends React.Component {
 export class DevScene extends React.Component {
     render() {
         const matchActivationTarget              = (target) => {
-            return target.classList.contains("model--container--title");
+            return target.classList.contains("title");
         };
         const {title, className, childClassName} = this.props;
         return (

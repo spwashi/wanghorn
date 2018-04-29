@@ -24,39 +24,36 @@ const devRoutes     = [
     new Route({
                   resolution: "#[Dev]::monitors",
                   pattern:    "dev/monitors",
-                  name:       "monitors"
+                  name:       "dev--monitors"
               }),
     new Route({
                   resolution: "#[Dev]::models",
-                  pattern:    "dev/models.json"
+                  pattern:    "dev/models.json",
+                  name:       "dev--models"
               }),
     new Route({
                   resolution: "#[Dev]::routes",
-                  pattern:    "dev/routes.json"
+                  pattern:    "dev/routes.json",
+                  name:       "dev--routes"
               }),
     new Route({
                   resolution: "#[Dev]::executeQuery",
-                  pattern:    `dev/model/{smID}:${smID_regex}/execute/{query}:[a-zA-Z_]+`
+                  pattern:    `dev/model/{smID}:${smID_regex}/execute/{query}:[a-zA-Z_]+`,
+                  name:       "dev--execute_query"
               }),
     new Route({
                   resolution: "#[Dev]::getSchematic",
                   pattern:    `dev/model/{smID}:${smID_regex}$`,
                   httpMethod: HTTP__GET,
-                  name:       null
+                  name:       "dev--get_model_schematic"
               }),
     new Route({
                   resolution: "#[Dev]::createModel",
                   pattern:    `dev/model/{smID}:${smID_regex}/create`,
                   httpMethod: HTTP__POST,
-                  name:       null
+                  name:       'dev--create_model'
               }),
-    new Route({
-                  resolution: "#[Dev]::eg",
-                  pattern:    "dev/example",
-                  name:       "example"
-              }),
-];
-let emailRoutes     = [
+    
     new Route({
                   resolution: "[Email]@test",
                   pattern:    "dev/email/test$"
@@ -68,8 +65,9 @@ let emailRoutes     = [
     new Route({
                   resolution: "[Email]@completeTest",
                   pattern:    "dev/email/test/{signup_nonce}",
-                  name:       'user_signup_eg_email'
-              }),];
+                  name:       'user--signup_continue'
+              }),
+];
 export const routes = {
     pattern_prefix: APP_BASE_URL_PATH + '/',
     routes:         [
@@ -85,12 +83,6 @@ export const routes = {
         // Dev Routes (remove from production!)
         ...devRoutes,
         
-        // (site helpers)
-        new Route({
-                      resolution: "#[Home]::gallery",
-                      pattern:    "gallery/items.json"
-                  }),
-        
         // User Routes
         new Route({
                       resolution: "[User]@login",
@@ -105,8 +97,11 @@ export const routes = {
                       pattern:    "user/signup/receive"
                   }),
         
-        // Email
-        ...emailRoutes,
+        // (site helpers)
+        new Route({
+                      resolution: "#[Home]::gallery",
+                      pattern:    "gallery/items.json"
+                  }),
         
         // Catch-all
         new Route({

@@ -78,7 +78,7 @@ class EmailController extends AppController {
         return "Received Nonce: {$nonce}";
     }
     public function tmp() {
-        $requestDescriptor = $this->app->communication->getRoute('user_signup_eg_email')
+        $requestDescriptor = $this->app->communication->getRoute('user--signup_continue')
                                                       ->getRequestDescriptor();
         if ($requestDescriptor instanceof HttpRequestDescriptor) {
             $link = APP__URL__ROOT . $requestDescriptor->asUrlPath([ 'signup_nonce' => 'oogabooga' ]);
@@ -96,7 +96,7 @@ class EmailController extends AppController {
         $link               = APP__URL__ROOT;
         
         try {
-            $requestDescriptor = $communicationLayer->getRoute('user_signup_eg_email')->getRequestDescriptor();
+            $requestDescriptor = $communicationLayer->getRoute('user--signup_continue')->getRequestDescriptor();
             if ($requestDescriptor instanceof HttpRequestDescriptor) {
                 $link .= $requestDescriptor->asUrlPath([ 'signup_nonce' => 'oogabooga' ]);
             }

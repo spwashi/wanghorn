@@ -1,26 +1,36 @@
 import React from "react"
 import {DevScene} from "../../components/scene";
 import {ActiveComponent} from "../../components/selectivelyActive/components";
+import {selectRoutes} from "./selector";
+import {fetchRoutes} from "./actions";
+import {bindActionCreators} from 'redux'
+import {connect} from "react-redux";
+import {ActiveRoutesScene} from "./components/active";
 
-class ActiveRoutesScene extends React.Component {
-    render() {
-        return (
-            <div className="routes--container" ref={this.props.activeElRef}>
-                <h2 className={`title routes--container--title`}>Routes</h2>
-            </div>
-        )
-    }
+function mapState(state) {
+    const routes = selectRoutes(state);
+    return {routes};
+}
+function mapDispatch(dispatch) {
+    return bindActionCreators({
+                                  fetchRoutes,
+                              }, dispatch);
 }
 
+@connect(mapState, mapDispatch)
 export class RoutesScene extends React.Component {
     constructor(props) {
         super(props);
     }
     
+    componentDidMount() {
+        this.props.fetchRoutes();
+    }
+    
     render() {
         return <DevScene className={"routes"}
                          title={"Routes"}
-                         childClassName={"route--container"}>
+                         childClassName={"dev--component route--container"}>
             <ActiveComponent component={ActiveRoutesScene} {...this.props} />
         </DevScene>
     }

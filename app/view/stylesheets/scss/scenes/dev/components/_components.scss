@@ -1,4 +1,5 @@
 @import "models/models";
+@import "routes/routes";
 @import "configuration/configuration";
 
 .dev--scene--wrapper {
@@ -125,6 +126,45 @@
 					transition   : word-spacing .5s;
 				}
 			}
+		}
+	}
+	.selectively-active.wrapper {
+		position : relative;
+		.__json {font-size : .9em;}
+		> .title, > .title--wrapper {
+			cursor        : pointer;
+			border-bottom : thin solid $configuration--title-_-border-bottom-color;
+			padding       : 10px;
+			margin-bottom : 10px;
+			font-weight   : bold;
+			display       : block;
+			width         : 100%;
+			.wrapper.inactive & {
+				border-bottom : 0;
+				margin-bottom : 0;
+				&::before {
+					right       : 30px;
+					position    : absolute;
+					content     : '+';
+					font-weight : bold;
+					top         : 10px;
+				}
+			}
+			&, & > .title {
+				height : 100%;
+			}
+		}
+		> .title, > .title--wrapper .title {
+			padding : 10px;
+		}
+		&:hover, &:focus {
+			> .title, > .title--wrapper .title {
+				background-color : darken($component--meta--bg, 10%);
+			}
+		}
+		&.inactive {
+			font-style    : italic;
+			margin-bottom : 10px;
 		}
 	}
 }

@@ -1,0 +1,78 @@
+@import "../../colors";
+
+.route--wrapper {
+	&:hover {
+		background-color : $component--meta--bg;
+	}
+	.route--identifier {
+		border-bottom : thin solid #ccc;
+		font-size     : .7em;
+		.name:not(:empty) {
+			font-weight   : bold;
+			margin-right  : 10px;
+			padding-right : 10px;
+			border-right  : thin solid #ccc;
+		}
+		* {
+			display : inline-block;
+		}
+	}
+}
+
+.route--configuration {
+	font-size : .8em;
+	.attribute__requestDescriptor {
+		word-break : keep-all;
+		.attribute--value {
+			padding  : 0;
+			position : relative;
+			> div {
+				height     : 100%;
+				overflow-x : auto;
+				line-break : unset;
+				position   : relative;
+				width      : 100%;
+			}
+		}
+		table {
+			height         : 100%;
+			border-spacing : 0;
+			width          : 100%;
+		}
+		tr {
+			width : 100%;
+		}
+		td {
+			padding       : 3px;
+			border-bottom : thin solid $configuration--component-_-border-color;
+			//white-space   : nowrap;
+			&.attribute {
+				border-right     : thin solid $configuration--component-_-bg;
+				text-transform   : capitalize;
+				background-color : $component--meta--bg;
+			}
+			&.value {
+			}
+		}
+	}
+}
+
+.route--container--container {
+	display   : flex;
+	flex-flow : row wrap;
+}
+
+.route--container--wrapper {
+	flex         : 1 1 48%;
+	border-right : thin solid $component--meta--bg;
+	.route--configuration {
+		margin-bottom : 10px;
+	}
+}
+
+.route--configuration--list, .route--configuration--container {
+	> .title {
+		background-color : $component--meta--bg;
+		border-bottom    : thin solid $configuration--component-_-border-color;
+	}
+}

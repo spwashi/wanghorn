@@ -1,10 +1,13 @@
 import React from "react";
 import * as PropTypes from "prop-types";
-import ModelConfiguration, {ModelConfigurationDescription, ModelConfigurationTitle} from "./config";
+import {ModelConfigurationDescription, ModelConfigurationTitle} from "./config";
 import {SelectivelyActive} from "../../../../../../../components/selectivelyActive";
 import ReactTooltip from "react-tooltip";
 import bind from "bind-decorator";
 import {ActiveComponent, InactiveComponent} from "../../../../../../../components/selectivelyActive/components";
+import ModelConfigurationAttribute from "../attribute";
+import ModelConfigurationPropertiesAttribute from "../attribute/properties";
+import ModelConfigurationInheritsAttribute from "../attribute/inherits";
 
 /**
  * Wraps the configuration of a Model to provide more specific display capabilities
@@ -40,13 +43,33 @@ class ModelConfigurationWrapper extends React.Component {
         );
     }
     
+    ModelAttribute({name, value}) {
+        switch (name) {
+            case 'inherits':
+                return <ModelConfigurationInheritsAttribute inherits={value} />;
+            case 'properties':
+                return <ModelConfigurationPropertiesAttribute activeProperties={this.props.activeProperties}
+                                                              onPropertyLinkTrigger={this.props.onTogglePropertyClick}
+                                                              properties={value} />;
+            default:
+                return <ModelConfigurationAttribute attribute={name} value={value} />;
+        }
+    };
+    
     @bind
     ActiveComponent(props) {
-        return <ModelConfiguration title={this.title}
-                                   activeProperties={this.props.activeProperties}
-                                   config={this.props.model}
-                                   onTogglePropertyClick={this.props.onTogglePropertyClick}
-                                   description={this.props.description} />;
+        const {model: config}                    = this.props;
+        const {smID, name, properties, ...attributes} = config;
+        return (
+            <div className="model--configuration">
+                <ModelConfigurationTitle>{this.title}</ModelConfigurationTitle>
+                <ModelConfigurationDescription>{this.props.description}</ModelConfigurationDescription>
+                {
+                    Object.entries({smID, name, ...attributes, properties})
+                          .map(([attr, value]) => <ModelAttribute key={attr} name={attr} value={value} />)
+                }
+            </div>
+        );
     }
 }
 

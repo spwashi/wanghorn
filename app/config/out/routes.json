@@ -19,42 +19,51 @@
       {
          "resolution": "#Dev\\Dev::monitors",
          "pattern": "dev/monitors",
-         "name": "monitors"
+         "name": "dev--monitors"
       },
       {
          "resolution": "#Dev\\Dev::models",
-         "pattern": "dev/models.json"
+         "pattern": "dev/models.json",
+         "name": "dev--models"
       },
       {
          "resolution": "#Dev\\Dev::routes",
-         "pattern": "dev/routes.json"
+         "pattern": "dev/routes.json",
+         "name": "dev--routes"
       },
       {
          "resolution": "#Dev\\Dev::executeQuery",
-         "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
+         "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+",
+         "name": "dev--execute_query"
       },
       {
          "resolution": "#Dev\\Dev::getSchematic",
          "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+$",
          "http_method": [
             "get"
-         ]
+         ],
+         "name": "dev--get_model_schematic"
       },
       {
          "resolution": "#Dev\\Dev::createModel",
          "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/create",
          "http_method": [
             "post"
-         ]
+         ],
+         "name": "dev--create_model"
       },
       {
-         "resolution": "#Dev\\Dev::eg",
-         "pattern": "dev/example",
-         "name": "example"
+         "resolution": "Email\\Email@test",
+         "pattern": "dev/email/test$"
       },
       {
-         "resolution": "#Home\\Home::gallery",
-         "pattern": "gallery/items.json"
+         "resolution": "Email\\Email@tmp",
+         "pattern": "dev/email/boon$"
+      },
+      {
+         "resolution": "Email\\Email@completeTest",
+         "pattern": "dev/email/test/{signup_nonce}",
+         "name": "user--signup_continue"
       },
       {
          "resolution": "User\\User@login",
@@ -69,17 +78,8 @@
          "pattern": "user/signup/receive"
       },
       {
-         "resolution": "Email\\Email@test",
-         "pattern": "dev/email/test$"
-      },
-      {
-         "resolution": "Email\\Email@tmp",
-         "pattern": "dev/email/boon$"
-      },
-      {
-         "resolution": "Email\\Email@completeTest",
-         "pattern": "dev/email/test/{signup_nonce}",
-         "name": "user_signup_eg_email"
+         "resolution": "#Home\\Home::gallery",
+         "pattern": "gallery/items.json"
       },
       {
          "resolution": "#Home\\Home::index",

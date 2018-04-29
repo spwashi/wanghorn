@@ -14,7 +14,7 @@ class AttrValue extends React.Component {
         } else {
             inner =
                 <pre>
-                    {Array.isArray(value) ? JSON.stringify(value) : JSON.stringify(value, ' ', 3)}
+                    {Array.isArray(value) ? value.map((item, i) => <div key={i} className={`array--item__${i}`}>{item}</div>) : JSON.stringify(value, ' ', 3)}
                 </pre>;
         }
         return inner;

@@ -1,6 +1,7 @@
 @import "../../colors";
 
 .configuration--attribute {
+	border-top    : thin solid $dev--configuration--attribute-_-border-color;
 	border-bottom : thin solid $dev--configuration--attribute-_-border-color;
 	display       : flex;
 	flex-flow     : row nowrap;

@@ -2,11 +2,11 @@ import React from "react"
 import * as PropTypes from "prop-types"
 import AttrValue from "./attribute/value";
 
-export const ConfigurationAttributeTitle = ({attribute, ownerType}) => {
+export const ConfigurationAttributeTitle = ({attribute, ownerType, title}) => {
     return <div className={`attribute--title
                             configuration--attribute--title
                             ${ownerType}--configuration--attribute--title
-                            attribute__${attribute}--title`}>{attribute}</div>
+                            attribute__${attribute}--title`}>{title || attribute}</div>
 };
 export const ConfigurationAttributeValue = ({value, attribute, children, ownerType}) => {
     return (
@@ -18,14 +18,12 @@ export const ConfigurationAttributeValue = ({value, attribute, children, ownerTy
         </div>
     );
 };
-export const ConfigurationAttribute      = ({value, attribute, valueMeta, children, ownerType}) => {
+export const ConfigurationAttribute      = ({value, attribute, valueMeta, title, children, ownerType}) => {
     return (
         <div className={`attribute configuration--attribute ${ownerType}--configuration--attribute ${attribute} attribute__${attribute}`}>
-            <ConfigurationAttributeTitle attribute={attribute} ownerType={ownerType} />
+            <ConfigurationAttributeTitle attribute={attribute} title={title} ownerType={ownerType} />
             <ConfigurationAttributeValue attribute={attribute} value={value} ownerType={ownerType}>
-                <div className={`configuration--value--meta ${ownerType}--configuration--value--meta`}>
-                    {valueMeta}
-                </div>
+                {valueMeta && <div className={`configuration--value--meta ${ownerType}--configuration--value--meta`}>{valueMeta}</div>}
                 {children}
             </ConfigurationAttributeValue>
         </div>
@@ -33,6 +31,7 @@ export const ConfigurationAttribute      = ({value, attribute, valueMeta, childr
 };
 ConfigurationAttributeTitle.propTypes    = {
     attribute: PropTypes.string,
+    title:     PropTypes.string,
     ownerType: PropTypes.string
 };
 ConfigurationAttributeValue.propTypes    = {
@@ -44,6 +43,7 @@ ConfigurationAttributeValue.propTypes    = {
 };
 ConfigurationAttribute.propTypes         = {
     attribute: PropTypes.string,
+    title:     PropTypes.string,
     ownerType: PropTypes.string,
     value:     PropTypes.any,
     children:  PropTypes.any

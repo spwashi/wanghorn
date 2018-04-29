@@ -184,6 +184,9 @@ class Dev extends BaseApplicationController {
                 return $all;
         }
     }
+    public function routes() {
+        return $this->app->communication->routing->listRoutes();
+    }
     public function monitors() {
         return json_decode(json_encode($this->app->getMonitors()), 1);
     }
