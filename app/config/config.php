@@ -77,6 +77,9 @@ function _getAuth() {
     
 }
 
+function _logging_layer(Application $app): void {
+}
+
 function _query_layer(Application $app): void {
     $queryModule = new MySqlQueryModule;
     $app->registerDefaultQueryModule($queryModule);
