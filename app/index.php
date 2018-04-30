@@ -3,9 +3,12 @@
 define('SM_IS_CLI', php_sapi_name() === 'cli');
 error_reporting(E_ALL);
 
-const APP__APP_PATH    = __DIR__ . '/';
-const APP__CONFIG_PATH = __DIR__ . '/config/';
+const APP__APP_PATH            = __DIR__ . '/';
+const DEFAULT_APP__CONFIG_PATH = __DIR__ . '/config/';
+const DEFAULT_APP__LOG_PATH    = __DIR__ . '/../log/';
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Sm\Application\Application;
 use Sm\Communication\Routing\Exception\RouteNotFoundException;
 use Sm\Modules\Network\Http\Http;
@@ -15,7 +18,7 @@ use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 /** @var Application $app */
-$app = Application::init(APP__APP_PATH, APP__CONFIG_PATH);
+$app = Application::init(APP__APP_PATH, DEFAULT_APP__CONFIG_PATH);
 
 
 try {
@@ -67,5 +70,10 @@ try {
                          ]);
     }
 } finally {
+    if (isset($_GET['DO_LOG_REQ']) ?? null) {
+        $log = new Logger('std');
+        $log->pushHandler(new StreamHandler(DEFAULT_APP__LOG_PATH . 'log', Logger::WARNING));
+        $log->warning(json_encode($app->getMonitors()));
+    }
     die; /* terminate the script */
 }

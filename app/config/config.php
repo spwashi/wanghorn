@@ -15,9 +15,9 @@ use WANGHORN\Model\User;
 ####################################################################################
 #####              APPLICATION CONSTANTS                                     #######
 ####################################################################################
-require_once APP__CONFIG_PATH . 'autoload.php';
-const CONFIG_FILE          = APP__CONFIG_PATH . 'out/config.json';
-const CONNECTION_INFO_FILE = APP__CONFIG_PATH . 'out/connect.json';
+require_once DEFAULT_APP__CONFIG_PATH . 'autoload.php';
+const CONFIG_FILE          = DEFAULT_APP__CONFIG_PATH . 'out/config.json';
+const CONNECTION_INFO_FILE = DEFAULT_APP__CONFIG_PATH . 'out/connect.json';
 $_required_ci_app = [];
 
 if (file_exists(CONFIG_FILE)) {
@@ -99,8 +99,8 @@ function _controller_layer(Application $app): void {
 function _communication_layer(Application $app): void {
     $app_events = [];
     
-    $json_path = APP__CONFIG_PATH . 'out/routes.json';
-    $php_path  = APP__CONFIG_PATH . 'routes/routes.php';
+    $json_path = DEFAULT_APP__CONFIG_PATH . 'out/routes.json';
+    $php_path  = DEFAULT_APP__CONFIG_PATH . 'routes/routes.php';
     if (file_exists($json_path)) {
         $json_routes = file_get_contents($json_path);
         $app->communication->registerRoutes($json_routes);
@@ -125,7 +125,7 @@ function _communication_layer(Application $app): void {
  * @throws \Sm\Core\SmEntity\Exception\InvalidConfigurationException
  */
 function _data_layer(Application $app): void {
-    $data_json_path = APP__CONFIG_PATH . 'out/models.json';
+    $data_json_path = DEFAULT_APP__CONFIG_PATH . 'out/models.json';
     if (file_exists($data_json_path)) {
         $dataJson    = file_get_contents($data_json_path);
         $data_config = json_decode($dataJson, 1);
