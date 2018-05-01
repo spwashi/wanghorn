@@ -8,7 +8,6 @@ export class Link extends React.Component {
         if (!!redirect) {
             return <Redirect push to={to}></Redirect>
         }
-        console.log(to);
         return <NavLink to={to}
                         exact={!!exact}
                         className={className || ''}

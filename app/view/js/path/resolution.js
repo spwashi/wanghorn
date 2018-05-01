@@ -49,5 +49,7 @@ export const getURI        =
         
                      let {path, validators} = getCleanPath(pattern);
                      path                   = addArgsToPath(path, routeArguments, validators, skipEmpty);
-                     return `${root || ''}/${path}`;
+                     path                   = `${root !== false ? (root || '') + '/' : ''}${path}`;
+                     console.log(path);
+                     return path;
                  };

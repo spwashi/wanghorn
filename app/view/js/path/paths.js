@@ -1,6 +1,5 @@
 import {getURI} from "./resolution";
 
-export const stdPathOptions      = {root: ``};
 // Standard paths do not need a "root" url
 export const HOME                = getURI("home");
 export const ABOUT_ME            = getURI("about_me");
