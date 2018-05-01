@@ -67,8 +67,8 @@ try {
                          ]);
     }
 } finally {
-    if (isset($_GET['DO_LOG_MONITORS'])) {
-        $app->logging->log($app->getMonitors());
+    if (isset($_GET['d_lm'])) {
+        $app->logging->log($app->getMonitors(), 'monitors');
     }
     die; /* terminate the script */
 }
