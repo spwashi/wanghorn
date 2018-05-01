@@ -91,7 +91,7 @@ const devRoutes     = [
 export const routes = normalizeRoutes(
     {
         frontend_renderer: '#[Home]::index',
-        pattern_prefix:    APP_BASE_URL_PATH + '/',
+        pattern_prefix:    APP_BASE_URL_PATH && APP_BASE_URL_PATH.length ? `${APP_BASE_URL_PATH}'/'` : '',
         routes:            [
             // Error Handlers
             new Route({
