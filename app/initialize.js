@@ -5,6 +5,7 @@ import {APP_BASE_URL_PATH, APP_NAME, APP_NAMESPACE, APP_PATH__APP_DIR, APP_PATH_
 import fs from "fs";
 import replace from "replace-in-file";
 import {Sm} from "spwashi-sm"
+import {Route} from "./config/pre/routes/route";
 
 // Requires appPath to be set. Assumes the configPath is either passed in or derived from the appPath
 let [, , appPath, configPath__ARG] = process.argv;
@@ -64,8 +65,17 @@ function configureApplication(appConfig: appConfig): Application {
 // Generate config files used by SmPHP
 function createConfigOutput(app: Application) {
     const appAsJson                   = {env: ENVIRONMENT || 'production', ...app.toJSON()};
-    const configPublic                = app.toJSON__public();
+    const configPublic                = app.toJSON__public() || {};
     const {models, routes, ...config} = appAsJson;
+    
+    Object.entries(routes.routes)
+          .forEach(entry => {
+              let route: Route = entry[1];
+              if (route.name && route.pattern) {
+                  configPublic.routes             = configPublic.routes || {};
+                  configPublic.routes[route.name] = {pattern: route.pattern, http_method: route.http_method}
+              }
+          });
     
     saveJSON(config, 'config');
     saveJSON({std: normalizeConnection(defaultConnection)}, 'connect');

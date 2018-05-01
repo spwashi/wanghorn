@@ -1,89 +1,102 @@
 {
-   "pattern_prefix": "wanghorn/",
    "routes": [
       {
+         "name": "error-404",
          "resolution": "Error\\Error@rt_404",
-         "pattern": "404/{path}",
-         "name": "error-404"
+         "pattern": "wanghorn/404/{path}"
       },
       {
+         "name": "home",
          "resolution": "#Home\\Home::index",
-         "pattern": "$",
-         "name": "home"
+         "pattern": "wanghorn/$"
       },
       {
-         "resolution": "#Home\\Home::test",
-         "pattern": null,
-         "name": "test"
+         "name": "test",
+         "resolution": "#Home\\Home::test"
       },
       {
+         "name": "about_me",
+         "resolution": "#Home\\Home::index",
+         "pattern": "wanghorn/about-me$"
+      },
+      {
+         "name": "gallery--home",
+         "resolution": "#Home\\Home::index",
+         "pattern": "wanghorn/gallery$"
+      },
+      {
+         "name": "gallery--items",
+         "resolution": "#Home\\Home::gallery",
+         "pattern": "wanghorn/gallery/items.json$"
+      },
+      {
+         "name": "dev--home",
+         "resolution": "#Home\\Home::index",
+         "pattern": "wanghorn/dev$"
+      },
+      {
+         "name": "dev--monitors",
          "resolution": "#Dev\\Dev::monitors",
-         "pattern": "dev/monitors.json",
-         "name": "dev--monitors"
+         "pattern": "wanghorn/dev/monitors.json$"
       },
       {
+         "name": "dev--models",
          "resolution": "#Dev\\Dev::models",
-         "pattern": "dev/models.json",
-         "name": "dev--models"
+         "pattern": "wanghorn/dev/models.json$"
       },
       {
+         "name": "dev--routes",
          "resolution": "#Dev\\Dev::routes",
-         "pattern": "dev/routes.json",
-         "name": "dev--routes"
+         "pattern": "wanghorn/dev/routes.json$"
       },
       {
+         "name": "dev--execute_query",
          "resolution": "#Dev\\Dev::executeQuery",
-         "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+",
-         "name": "dev--execute_query"
+         "pattern": "wanghorn/dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       {
+         "name": "dev--get_model_schematic",
          "resolution": "#Dev\\Dev::getSchematic",
-         "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+$",
+         "pattern": "wanghorn/dev/model/{smID}:[\\[a-zA-Z\\]\\s]+$",
          "http_method": [
             "get"
-         ],
-         "name": "dev--get_model_schematic"
+         ]
       },
       {
+         "name": "dev--create_model",
          "resolution": "#Dev\\Dev::createModel",
-         "pattern": "dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/create",
+         "pattern": "wanghorn/dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/create",
          "http_method": [
             "post"
-         ],
-         "name": "dev--create_model"
+         ]
       },
       {
          "resolution": "Email\\Email@test",
-         "pattern": "dev/email/test$"
+         "pattern": "wanghorn/dev/email/test$"
       },
       {
          "resolution": "Email\\Email@tmp",
-         "pattern": "dev/email/boon$"
+         "pattern": "wanghorn/dev/email/boon$"
       },
       {
+         "name": "user--signup_continue",
          "resolution": "Email\\Email@completeTest",
-         "pattern": "dev/email/test/{signup_nonce}",
-         "name": "user--signup_continue"
+         "pattern": "wanghorn/dev/email/test/{signup_nonce}"
       },
       {
+         "name": "user--login",
          "resolution": "User\\User@login",
-         "pattern": "user/login$"
+         "pattern": "wanghorn/user/login$"
       },
       {
+         "name": "user--profile__json",
          "resolution": "User\\User@userByID",
-         "pattern": "user/{id}:[a-zA-Z@.]+$"
+         "pattern": "wanghorn/user/{id}:[a-zA-Z@.]+$"
       },
       {
+         "name": "user--process_signup",
          "resolution": "User\\User@signUp",
-         "pattern": "user/signup/receive"
-      },
-      {
-         "resolution": "#Home\\Home::gallery",
-         "pattern": "gallery/items.json"
-      },
-      {
-         "resolution": "#Home\\Home::index",
-         "pattern": ".*"
+         "pattern": "wanghorn/user/signup/receive"
       }
    ]
 }

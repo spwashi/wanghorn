@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {USER_LOGIN_PATH, USER_SIGNUP} from "../../../../paths";
+import {USER_LOGIN_PATH, USER_SIGNUP_PROCESS} from "../../../../path/paths";
 import {Button} from "base-components";
 import "whatwg-fetch";
 import bind from "bind-decorator"
@@ -33,7 +33,7 @@ class UserMenu extends Component {
                     url = USER_LOGIN_PATH;
                     break;
                 case 'signup':
-                    url                      = USER_SIGNUP;
+                    url                      = USER_SIGNUP_PROCESS;
                     let {username, password} = data;
                     this.setState({username, password});
                     break;

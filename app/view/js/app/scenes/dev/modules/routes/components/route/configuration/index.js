@@ -5,11 +5,12 @@ import {ActiveComponent, InactiveComponent} from "../../../../../components/sele
 import Modal from "../../../../../../../components/modal";
 import AttrValue from "../../../../../components/configuration/attribute/value";
 import {ConfigurationAttribute} from "../../../../../components/configuration";
+import {getCleanPath, getURI} from "../../../../../../../../path/resolution";
 
 class NavigationModal extends React.Component {
     render() {
-        let {path, inputValues, isOpen, onRequestClose, onRequestNavigate, handleChange, validators, updatedPath} = this.props;
-        let onSubmit                                                                                              = event => {
+        let {path, inputValues, isOpen, onRequestClose, onRequestNavigate, handleChange, canNavigate, validators, updatedPath} = this.props;
+        let onSubmit                                                                                                           = event => {
             event.preventDefault();
             return onRequestNavigate();
         };
@@ -33,7 +34,11 @@ class NavigationModal extends React.Component {
                             )
                         })
                     }
-                    <a href={updatedPath || path} className={updatedPath || !Object.entries(validators || {}).length ? 'active' : 'disabled'}>Navigate</a>
+                    <a href={canNavigate ? (updatedPath || path) : null} target={'_blank'} onKeyDown={event => {
+                        event.keyCode === 32 && onSubmit(event);
+                    }} className={'navigate ' + (canNavigate
+                                                 ? 'active'
+                                                 : 'disabled')}>Navigate</a>
                 </form>
             </Modal>)
     };
@@ -78,34 +83,31 @@ class RouteName extends React.Component {
         inputs:            {}
     };
     
-    beginNavigation(validators, path) {
-        this.setState({isNavigationBegun: true},);
+    constructor(props) {
+        super(props);
+        this.state.updatedPath = this.getLocation(props.name, true, '');
+    }
+    
+    beginNavigation() {
+        this.setState({isNavigationBegun: true});
     };
     
     followPath(path) {
         let location = this.getLocation(path);
-        const win    = window.open(`/${location}`, '_blank');
+        const win    = window.open(`${location}`, '_blank');
         win.focus && win.focus();
     }
     
-    getLocation(path, skipIfEmpty) {
-        let location = path;
-        if (path[path.length - 1] === '$') {
-            location = path.substr(0, path.length - 1);
-        }
-        for (const variable in this.state.inputs) {
-            if (!this.state.inputs.hasOwnProperty(variable)) continue;
-            
-            let val = this.state.inputs[variable] || '';
-            if (!(val = val.trim()).length && skipIfEmpty) continue;
-            location = location.replace(variable, val);
-        }
-        console.log(location);
-        return location;
+    getLocation(name, skipIfEmpty, root) {
+        let args    = this.state.inputs;
+        let options = {skipEmpty: skipIfEmpty};
+        if (root) options.root = root;
+        return getURI(name, args, options);
     }
     
     render() {
         const {name, path, validators} = this.props;
+        let canNavigate                = () => {try {return !!this.getLocation(name, false)} catch (e) {return false;}};
         return (
             <div key='name' className="route--identifier">
                 <div className="name route--name">{name}</div>
@@ -115,24 +117,28 @@ class RouteName extends React.Component {
                                      path={path}
                                      updatedPath={this.state.updatedPath}
                                      isOpen={this.state.isNavigationBegun}
-                                     onRequestNavigate={event => {
-                                         return this.followPath(path);
-                                     }}
+                                     onRequestNavigate={event => this.followPath(name)}
                                      validators={validators}
                                      inputValues={this.state.inputs}
+                                     canNavigate={canNavigate()}
                                      onRequestClose={e => this.setState({isNavigationBegun: false})}
                                      handleChange={
                                          ({variable, value}) => {
                                              return this.setState({inputs: {...this.state.inputs, [variable]: value}},
                                                                   () => {
-                                                                      this.setState({updatedPath: this.getLocation(path, true)})
+                                                                      this.setState({updatedPath: this.getLocation(name, true, '')})
                                                                   });
                                          }} />
                 </div>
+                {
+                    this.state.updatedPath ? <button key={"navigate"}
+                                                     className={"route--navigate"}
+                                                     onClick={event => {this.beginNavigation()}}>
+                                               Navigate
+                                           </button> :
+                    null
+                }
                 <button key={"toggle-active"} className={"selectively-active--toggle"}>Toggle</button>
-                <button key={"navigate"} className={"route--navigate"} onClick={event => {
-                    this.beginNavigation(validators, path)
-                }}>Navigate</button>
             </div>)
     }
 };
@@ -151,22 +157,10 @@ export default class RouteConfiguration extends React.Component {
            };
     
     render() {
-        let route            = this.props.route;
-        let name             = this.props.name;
-        let validators       = {};
-        let path             =
-                (route.requestDescriptor ? route.requestDescriptor.original : '')
-                    .split('/')
-                    .map(pathPart => {
-                        let variable = /({[a-zA-Z0-9_]+}):*(.*)/.exec(pathPart);
-                        if (variable && variable[1]) {
-                            validators[variable[1]] = variable[2];
-                            return variable[1];
-                        }
-                        return pathPart;
-                    })
-                    .join('/');
-        const routeNameProps = {validators, path, name};
+        let route              = this.props.route;
+        let name               = this.props.name;
+        let {path, validators} = getCleanPath(route.requestDescriptor ? route.requestDescriptor.original : '');
+        const routeNameProps   = {validators, path, name};
         return (
             <SelectivelyActive className="route--wrapper" matchTarget={target => target.classList.contains('selectively-active--toggle')}>
                 <ActiveComponent component={props => [<RouteName key='route-name' {...routeNameProps} />,

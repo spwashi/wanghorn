@@ -3,6 +3,7 @@ import {SelectivelyActive} from "../../../components/selectivelyActive";
 import {ActiveComponent, InactiveComponent} from "../../../components/selectivelyActive/components";
 import ContentSection from "../../../../../components/page/content/section";
 import RouteConfiguration from "./route/configuration";
+import {routes as availableRoutes} from "../../../../../../path/resolution";
 
 let RouteContainerTitle = ({title, typeClassname}) =>
     <div className={`title configuration--title route--configuration--${typeClassname}--title`}>
@@ -55,14 +56,11 @@ export class ActiveRoutesScene extends React.Component {
         Object.entries(routes)
               .forEach(
                   ([name, config]) => {
-                      console.log([name, config]);
                       if (!isNaN(parseInt(name))) {
                           numericRoutes.push(config);
                       } else {
                           namedRoutes[name] = config;
-                          if (config.isPublic) {
-                              publicRoutes[name] = config;
-                          }
+                          availableRoutes[name] && (publicRoutes[name] = config)
                       }
                   });
         return (

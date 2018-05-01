@@ -1,6 +1,6 @@
 import React from "react";
 import {Route} from 'react-router-dom'
-import {ABOUT_ME, DEV, HOME, GALLERY} from "../paths";
+import {ABOUT_ME, DEV, HOME, GALLERY} from "../path/paths";
 import {AboutMe, Dev, Home, GalleryPage} from "./scenes";
 
 // remember to add the appropriate link in ./links

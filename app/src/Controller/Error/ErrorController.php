@@ -12,7 +12,6 @@ class ErrorController extends BaseApplicationController {
             header('Content-Type: application/json');
         }
         http_response_code(404);
-        
         return "Could not find -- " . $argument;
     }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import {LinkItem} from "base-components";
-import {ABOUT_ME, DEV, GALLERY, HOME} from "../paths";
+import {ABOUT_ME, DEV, GALLERY, HOME} from "../path/paths";
 
 // remember to add the appropriate route in ./routes
 export const links = [

@@ -8,4 +8,4 @@ export const randomString = (strlen = 5) => {
     return text;
 };
 
-export const reduceEntriesIntoObject = (obj, [k, v]) => ({...obj, [k]: v});
+export const reduceEntriesIntoObject = (obj, [k, v]) => ((obj[k] = v), obj);

@@ -1,6 +1,6 @@
 import React from "react"
 import {LogoContainer} from "base-components"
-import {HOME} from "../../../../paths";
+import {HOME} from "../../../../path/paths";
 import {Link} from "base-components/navigation/components/link";
 
 const HeaderLogoContainer = () =>

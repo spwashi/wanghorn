@@ -1,5 +1,6 @@
-import {get_EXECUTE_MODEL_QUERY, MODELS} from "../../../paths";
+import {MODELS} from "../../../paths";
 import axios from "axios"
+import {getURI} from "../../../../../../path/resolution";
 
 // FETCHING ITEMS
 export const FETCH_MODELS_RECEIVED = "FETCH_MODELS_RECEIVED";
@@ -20,7 +21,7 @@ const executeModelQueryEnd            = ({smID, query, result}) => ({type: EXECU
 export const executeModelQuery        = ({smID, query}) =>
     dispatch => {
         dispatch(executeModelQueryBegin({smID, query}));
-        return axios.get(get_EXECUTE_MODEL_QUERY(smID, query))
+        return axios.get(getURI("dev--execute_query", {smID, query}))
                     .then(response =>
                               dispatch(executeModelQueryEnd({
                                                                 smID,

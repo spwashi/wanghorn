@@ -1,4 +1,4 @@
-import {GALLERY_ITEMS} from "../../../paths";
+import {GALLERY_ITEMS} from "../../../path/paths";
 import axios from "axios"
 
 // FETCHING ITEMS

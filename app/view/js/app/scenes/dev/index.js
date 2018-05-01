@@ -5,7 +5,7 @@ import {RoutesScene as RoutesModule} from "./modules/routes/routesScene";
 import reducer from "./reducer"
 import {selectDev} from "./selector";
 import {PageContent} from "../../components/page";
-import {HOME} from "../../../paths";
+import {HOME} from "../../../path/paths";
 
 const Dev = ({models}) => {
     return (

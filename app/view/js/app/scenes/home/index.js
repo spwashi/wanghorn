@@ -2,7 +2,7 @@ import React from "react"
 import {PageContent} from "../../components/page";
 import {ProfileImageContainer} from "./profile/image/container";
 import {LinkItem} from "base-components/navigation";
-import {ABOUT_ME} from "../../../paths";
+import {ABOUT_ME} from "../../../path/paths";
 
 const spwashi_site = "https://spwashi.com";
 
