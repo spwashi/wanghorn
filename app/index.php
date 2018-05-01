@@ -57,6 +57,12 @@ try {
                              $exception,
                          ]);
     }
+    $app->logging->log([
+                           $exception->getMessage(),
+                           $exception->getPrevious(),
+                           $exception->getMonitorContainer(),
+                           $exception,
+                       ], 'sm_exception');
 } catch (\Throwable $exception) {
     if ($app->environmentIs(Application::ENV_DEV)) {
         header('Content-Type: application/json');
@@ -66,6 +72,11 @@ try {
                              $exception,
                          ]);
     }
+    $app->logging->log([
+                           $exception->getMessage(),
+                           $exception->getPrevious(),
+                           $exception,
+                       ], 'exception');
 } finally {
     if (isset($_GET['d_lm'])) {
         $app->logging->log($app->getMonitors(), 'monitors');
