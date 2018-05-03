@@ -1,6 +1,7 @@
 import {Sm} from 'spwashi-sm'
-import {NULL_, STRING_} from "../datatypes";
+import {STRING_} from "../datatypes";
 import * as _ from "../_";
+import {person__identity} from "../person";
 
 const Model = Sm.Model;
 
@@ -8,17 +9,16 @@ export const name           = 'user';
 export const user__identity = Model.identify(name);
 export const inherits       = _.name;
 export const properties     = {
-    email:      {
+    email:     {
         length:    255,
         datatypes: [STRING_],
         unique:    true,
     },
-    first_name: {
-        length:    50,
-        datatypes: [STRING_, NULL_]
-    },
-    last_name:  {
-        length:    50,
-        datatypes: [STRING_, NULL_]
+    person_id: {
+        length:    11,
+        reference: {
+            identity:        person__identity,
+            hydrationMethod: {property: 'id'}
+        }
     }
 };

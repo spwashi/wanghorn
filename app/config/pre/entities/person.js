@@ -1,50 +1,28 @@
-const PERSON = {
-    user:     {
-        model:   '[Model]users',
-        context: null
-    },
-    employee: {
-        model:   '[Model]employees',
-        context: [
-            {company: '[Model]companies'}
-        ],
-    }
-};
+import {user__identity} from "../models/user";
+import {password__entity} from "../models/pw";
 
-export const components = {
-    user:     {
-        identity: PERSON.user
+const CONTEXT_TYPES = {TYPE: 'type', IDENTITY: 'identity'};
+
+let getStandardUserContext = () => ({
+    self:   {
+        name:        'user',
+        contextType: CONTEXT_TYPES.IDENTITY,
+        title:       'User'
     },
-    employee: {
-        identity: PERSON.employee,
-        finds:    {
-            email_address: {
-                container: 'email_addresses'
+    others: null
+});
+export const contexts      = {
+    logging_in: {name: 'logging_in', ...getStandardUserContext()},
+    signing_up: {name: 'signing_up', ...getStandardUserContext()}
+};
+export const components    = {
+    user: {
+        identity:   user__identity,
+        properties: {
+            password: {
+                identity: password__entity.identity,
+                contexts: [contexts.logging_in, contexts.signing_up]
             }
         }
-    }
-};
-export const properties = {
-    username:        {
-        index:       true,
-        derivedFrom: PERSON.user,
-        datatypes:   ['string'],
-    },
-    first_name:      {
-        index:       true,
-        derivedFrom: PERSON.user,
-        datatypes:   ['string'],
-    },
-    last_name:       {
-        index:       true,
-        derivedFrom: PERSON.user,
-        datatypes:   ['string'],
-    },
-    email_addresses: {
-        propertyType: PERSON.user,
-        derivedFrom:  [
-            {source: PERSON.user, property: 'email_address'},
-            {source: PERSON.employee, property: 'email_address'}
-        ]
     },
 };

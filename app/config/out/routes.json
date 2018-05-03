@@ -7,6 +7,7 @@
       },
       {
          "name": "home",
+         "title": "Home",
          "resolution": "#Home\\Home::index",
          "pattern": "wanghorn/$"
       },
@@ -16,11 +17,13 @@
       },
       {
          "name": "about_me",
+         "title": "About Me",
          "resolution": "#Home\\Home::index",
          "pattern": "wanghorn/about-me$"
       },
       {
          "name": "gallery--home",
+         "title": "Gallery",
          "resolution": "#Home\\Home::index",
          "pattern": "wanghorn/gallery$"
       },
@@ -31,6 +34,7 @@
       },
       {
          "name": "dev--home",
+         "title": "Dev",
          "resolution": "#Home\\Home::index",
          "pattern": "wanghorn/dev$"
       },
@@ -43,6 +47,11 @@
          "name": "dev--models",
          "resolution": "#Dev\\Dev::models",
          "pattern": "wanghorn/dev/models.json$"
+      },
+      {
+         "name": "dev--entities",
+         "resolution": "#Dev\\Dev::entities",
+         "pattern": "wanghorn/dev/entities.json$"
       },
       {
          "name": "dev--routes",

@@ -44,7 +44,7 @@ export default class ModelScene extends Component {
 function mapState(state) {
     const modelState             = selectModelDevInterface(state);
     const models                 = selectActiveModelMetas(state) || {};
-    const isActive               = selectModelSceneActivity(state) || {};
+    const isActive               = selectModelSceneActivity(state);
     const activeModelSmIDs       = selectActiveModelSmIDs(state) || [];
     const creatingModelMetaSmIDs = selectCreatingModelMetaSmIDs(state) || [];
     const allModelSmIDs          = modelState.list || [];

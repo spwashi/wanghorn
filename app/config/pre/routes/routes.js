@@ -12,7 +12,8 @@ const homeRoutes    = [
     new Route({
                   renderedBy: "client",
                   pattern:    "$",
-                  name:       "home"
+                  name:       "home",
+                  title:      "Home"
               }),
     new Route({
                   resolution: "#[Home]::test",
@@ -22,12 +23,14 @@ const homeRoutes    = [
     new Route({
                   renderedBy: "client",
                   pattern:    'about-me$',
-                  name:       'about_me'
+                  name:       'about_me',
+                  title:      "About Me"
               }),
     new Route({
                   renderedBy: "client",
                   pattern:    'gallery$',
-                  name:       'gallery--home'
+                  name:       'gallery--home',
+                  title:      "Gallery"
               }),
     new Route({
                   name:       'gallery--items',
@@ -37,9 +40,10 @@ const homeRoutes    = [
 ];
 const devRoutes     = [
     new Route({
+                  name:       "dev--home",
+                  title:      "Dev",
                   renderedBy: "client",
-                  pattern:    "dev$",
-                  name:       "dev--home"
+                  pattern:    "dev$"
               }),
     new Route({
                   resolution: "#[Dev]::monitors",
@@ -50,6 +54,11 @@ const devRoutes     = [
                   resolution: "#[Dev]::models",
                   pattern:    "dev/models.json$",
                   name:       "dev--models"
+              }),
+    new Route({
+                  resolution: "#[Dev]::entities",
+                  pattern:    "dev/entities.json$",
+                  name:       "dev--entities"
               }),
     new Route({
                   resolution: "#[Dev]::routes",
@@ -91,7 +100,7 @@ const devRoutes     = [
 export const routes = normalizeRoutes(
     {
         frontend_renderer: '#[Home]::index',
-        pattern_prefix:    APP_BASE_URL_PATH && APP_BASE_URL_PATH.length ? `${APP_BASE_URL_PATH}'/'` : '',
+        pattern_prefix:    APP_BASE_URL_PATH && APP_BASE_URL_PATH.length ? `${APP_BASE_URL_PATH}/` : '',
         routes:            [
             // Error Handlers
             new Route({

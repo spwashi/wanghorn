@@ -2,7 +2,6 @@ import {ACTIVATE_MODEL, CLOSE_MODEL_EDIT, DEACTIVATE_MODEL, FETCH_MODELS_RECEIVE
 import {combineReducers} from "redux";
 import {reduceEntriesIntoObject} from "../../../../../../../utility";
 import modelMetaReducer from "./modelMeta";
-import deepmerge from "deepmerge";
 
 function editingSmID_reducer(state, action) {
     const {type, models} = action;
@@ -42,13 +41,13 @@ let modelSmIDList_reducer       = (state, {type, models}) => {
     }
 };
 let modelObject_reducer         = (state, action) => {
-    const {type, models} = action;
+    const {type} = action;
     switch (type) {
         case FETCH_MODELS_RECEIVED:
             let fetched_models = Object.entries(action.models)
                                        .map(([smID, model]) => [smID, modelMetaReducer(model, action)])
                                        .reduce(reduceEntriesIntoObject, {});
-            return deepmerge.all([state, fetched_models]);
+            return {...state, ...fetched_models};
         default:
             return Object.entries(state || {})
                          .map(([smID, model]) => [smID, modelMetaReducer(model, action)])

@@ -126,6 +126,9 @@ class Dev extends BaseApplicationController {
         }
         return $config_arr;
     }
+    public function entities() {
+        return $this->app->data->entities;
+    }
     public function models() {
         $fetch = $_GET['fetch'] ?? null;
         

@@ -1,8 +1,9 @@
 @import "components/components";
 
 .page--__--dev {
-	width       : 95%;
-	padding-top : 20px;
+	width          : 95%;
+	padding-top    : 20px;
+	padding-bottom : 50px;
 	&::before {
 		content         : "";
 		position        : fixed;

@@ -19,8 +19,7 @@ use WANGHORN\Entity\Entity;
  * @property-read UserPropertyContainer                                   $properties
  */
 class User extends Entity {
-    protected $primaryModelName = 'users';
-    protected $_authentications;
+    protected $primaryModelName = 'user';
     
     use EntityHasPrimaryModelTrait;
     
@@ -33,8 +32,7 @@ class User extends Entity {
         }
         
         foreach ($attributes as $index => $attribute) {
-            $this->properties->register($index, Property::init()
-                                                        ->setValue($attribute));
+            $this->properties->register($index, Property::init()->setValue($attribute));
         }
         $this->set($attributes);
         var_dump($this->properties);

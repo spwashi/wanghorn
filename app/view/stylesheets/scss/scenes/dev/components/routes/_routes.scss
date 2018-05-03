@@ -1,6 +1,7 @@
 @import "../../colors";
 
 .route--wrapper {
+	$sa_toggle_width : 35px;
 	position : relative;
 	&:hover {
 		background-color : $component--meta--bg;
@@ -12,6 +13,7 @@
 			font-weight   : bold;
 			margin-right  : 10px;
 			padding-right : 10px;
+			width         : 20%;
 			border-right  : thin solid #ccc;
 		}
 		* {
@@ -20,7 +22,7 @@
 	}
 	.selectively-active--toggle {
 		position   : absolute;
-		width      : 35px;
+		width      : $sa_toggle_width;
 		height     : 30px;
 		max-height : 100%;
 		display    : block;
@@ -50,8 +52,9 @@
 		}
 	}
 	.route--navigate {
-		background  : rgba($component--meta--bg--color, .5);
-		margin-left : 10px;
+		background : rgba($component--meta--bg--color, .5);
+		right      : $sa_toggle_width + 10px;
+		position   : absolute;
 	}
 }
 
@@ -99,10 +102,19 @@
 }
 
 .route--container--wrapper {
-	flex         : 1 1 50%;
-	width        : 50%;
+	flex         : 1 1 100%;
+	width        : 100%;
 	border-right : thin solid $component--meta--bg;
-	.route--configuration {
+	.route--configuration--title--wrapper {
+		border-bottom : thin solid #ccc;
+		position      : relative;
+		.description {
+			right       : 0;
+			position    : absolute;
+			bottom      : 0;
+			font-weight : normal;
+			font-size   : .7em;
+		}
 	}
 }
 
@@ -110,6 +122,8 @@
 	> .title {
 		background-color : $component--meta--bg;
 		border-bottom    : thin solid $configuration--component-_-border-color;
+	}
+	.description {
 	}
 }
 

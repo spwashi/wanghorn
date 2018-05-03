@@ -8,7 +8,7 @@ export const selectCreatingModelMetaSmIDs               = state => (selectModelD
 export const selectAllModelMetaObjects                  = state => (selectModelDevInterface(state) || {}).models;
 export const selectProperties_fromModel                 = state => (state || {}).properties;
 export const selectActiveProperties_fromModelMetaObject = state => (state || {}).activeProperties;
-export const selectPropertySmIDs_fromModel              = state => Object.entries(selectProperties_fromModel(state)).map(([name, property]) => normalizeSmID((property).smID));
+export const selectPropertySmIDs_fromModel              = state => Object.entries(selectProperties_fromModel(state) || {}).map(([name, property]) => normalizeSmID((property).smID));
 export const selectActiveModelMetas                     = state => {
     const models              = selectAllModelMetaObjects(state);
     const activeSmIDs         = selectActiveModelSmIDs(state);

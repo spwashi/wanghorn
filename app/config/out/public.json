@@ -9,25 +9,32 @@
          "pattern": "wanghorn/404/{path}"
       },
       "home": {
-         "pattern": "wanghorn/$"
+         "pattern": "wanghorn/$",
+         "title": "Home"
       },
       "about_me": {
-         "pattern": "wanghorn/about-me$"
+         "pattern": "wanghorn/about-me$",
+         "title": "About Me"
       },
       "gallery--home": {
-         "pattern": "wanghorn/gallery$"
+         "pattern": "wanghorn/gallery$",
+         "title": "Gallery"
       },
       "gallery--items": {
          "pattern": "wanghorn/gallery/items.json$"
       },
       "dev--home": {
-         "pattern": "wanghorn/dev$"
+         "pattern": "wanghorn/dev$",
+         "title": "Dev"
       },
       "dev--monitors": {
          "pattern": "wanghorn/dev/monitors.json$"
       },
       "dev--models": {
          "pattern": "wanghorn/dev/models.json$"
+      },
+      "dev--entities": {
+         "pattern": "wanghorn/dev/entities.json$"
       },
       "dev--routes": {
          "pattern": "wanghorn/dev/routes.json$"

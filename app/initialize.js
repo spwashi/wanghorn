@@ -73,7 +73,11 @@ function createConfigOutput(app: Application) {
               let route: Route = entry[1];
               if (route.name && route.pattern) {
                   configPublic.routes             = configPublic.routes || {};
-                  configPublic.routes[route.name] = {pattern: route.pattern, http_method: route.http_method}
+                  configPublic.routes[route.name] = {
+                      pattern:     route.pattern,
+                      http_method: route.http_method,
+                      title:       route.title
+                  }
               }
           });
     

@@ -5,18 +5,20 @@ type routeParams = {
     pattern: string,
     http_method: string,
     name: string,
+    title: string,
     renderedBy: renderedByType | Array<renderedByType>
 }
 
 export class Route {
     constructor(params: routeParams) {
-        let {resolution, pattern, http_method, name, renderedBy} = params;
-        this.name                                                = name;
-        this.resolution                                          = resolution
-                                                                   ? resolution.replace(/\[([a-zA-Z]+)]/,
-                                                                                        (match, className) => `${className}\\${className}`)
-                                                                   : null;
-        this.pattern                                             = pattern;
+        let {resolution, pattern, http_method, name, title, renderedBy} = params;
+        this.name                                                       = name;
+        this.title                                                      = title;
+        this.resolution                                                 = resolution
+                                                                          ? resolution.replace(/\[([a-zA-Z]+)]/,
+                                                                                               (match, className) => `${className}\\${className}`)
+                                                                          : null;
+        this.pattern                                                    = pattern;
         if (typeof http_method === "string") {
             http_method = [http_method];
         } else if (http_method && !Array.isArray(http_method)) {
@@ -49,6 +51,7 @@ export class Route {
         const obj = {};
         
         this.name && (obj.name = this.name);
+        this.title && (obj.title = this.title);
         this.resolution && (obj.resolution = this.resolution);
         this.pattern && (obj.pattern = this.pattern);
         this.http_method && (obj.http_method = this.http_method);

@@ -42,7 +42,8 @@ export const addArgsToPath =
                      }
                      return location;
                  };
-export const getURI        =
+
+export const getURI   =
                  (name, routeArguments = {}, {root, skipEmpty} = {}) => {
                      let pattern = (routes[name] || {}).pattern;
                      if (!pattern) return false;
@@ -52,3 +53,8 @@ export const getURI        =
                      path                   = `${root !== false ? (root || '') + '/' : ''}${path}`;
                      return path;
                  };
+export const getTitle = name => {
+    let route = routes[name];
+    if (!route) return false;
+    return route.title || false;
+}

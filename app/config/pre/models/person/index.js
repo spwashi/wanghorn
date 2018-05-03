@@ -8,5 +8,6 @@ export const name             = 'person';
 export const person__identity = Model.identify(name);
 export const inherits         = _.name;
 export const properties       = {
-    name: {datatypes: [STRING_], length: 255}
+    first_name: {datatypes: [STRING_], length: 255},
+    last_name:  {datatypes: [STRING_], length: 255},
 };
