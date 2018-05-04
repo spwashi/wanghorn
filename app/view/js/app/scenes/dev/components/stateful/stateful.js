@@ -7,7 +7,7 @@ class Stateful extends React.Component {
     render() {
         const children     = this.props.children || [];
         let activeChildren = [];
-        let activeState    = this.props.activeStates;
+        let activeState    = Array.isArray(this.props.activeStates) ? this.props.activeStates : [this.props.activeStates];
         children.forEach(
             (child: State) => {
                 if (activeState.indexOf(child.props.name) < 0) return;
@@ -19,7 +19,7 @@ class Stateful extends React.Component {
 
 export default Stateful;
 Stateful.propTypes    = {
-    activeStates:      PropTypes.arrayOf(PropTypes.string),
+    activeStates:      PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
     onTransitionBegin: PropTypes.func,
     onTransitionEnd:   PropTypes.func,
     

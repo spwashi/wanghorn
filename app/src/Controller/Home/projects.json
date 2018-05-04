@@ -8,19 +8,28 @@
         "tags":         {
             "languages": [
                 { "text": "PHP", "url": "http://www.php.net" }
+            ],
+            "purpose":   [
+                { "text": "Utility" },
+                { "text": "Learning" }
             ]
         }
     },
     {
-        "name":         "William",
-        "asPerson":     "William",
-        "price":        2017.08,
-        "status":       "Active",
-        "description":  "Me! A dummy application to demonstrate features and serve as a code library",
-        "tags":         {
+        "name":        "William",
+        "asPerson":    "William",
+        "price":       2017.08,
+        "status":      "Active",
+        "description": "Me! A dummy application to demonstrate features and serve as a code library",
+        "tags":        {
             "languages": [
                 { "text": "ECMAScript", "url": "https://en.wikipedia.org/wiki/ECMAScript" },
                 { "text": "PHP" }
+            ],
+            "purpose":   [
+                { "text": "Utility" },
+                { "text": "Learning" },
+                { "text": "Demonstration" }
             ]
         }
     },
@@ -33,6 +42,9 @@
         "tags":         {
             "languages": [
                 { "text": "ECMAScript" }
+            ],
+            "purpose":   [
+                { "text": "Utility" }
             ]
         }
     }

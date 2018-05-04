@@ -1,8 +1,17 @@
 @import "../../../colors/colors";
 
-$pageContent--color : saturate(lighten($palette_color_5, 25%), 10%);
-$page--nav-_-color : black;
+$active__accent_color__1 : darken($accent_color__1, 5%);
+
+$pageContent--color : desaturate(lighten($palette_color_5, 35%), 5%);
+$pageContent--header--color : $active__accent_color__1;
+$pageContent--header--txt-color : white;
+$page--nav-_-color : white;
+$page--nav-_-color__active : white;
 $pageContent--shadow-_-color : darken($body--backgroundColor, 20%);
+$pageContent--border-_-style : 2px solid $active__accent_color__1;
 $pageContent--text--color : darken($pageContent--color, 20%);
-$page-link-_-bg-color : $pageContent--color;
+$page-link-_-bg-color : $accent_color__2;
+$page-link-_-bg-color__active : $active__accent_color__1;
+$page-link-_-border-color : white;
+$page-link-_-border-color__active : white;
 $hyperlink-_-bottom-border-color : #aaa;

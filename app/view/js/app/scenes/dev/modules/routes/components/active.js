@@ -1,7 +1,7 @@
 import React from "react"
 import {SelectivelyActive} from "../../../components/selectivelyActive";
 import {ActiveComponent, InactiveComponent} from "../../../components/selectivelyActive/components";
-import ContentSection from "../../../../../components/page/content/section";
+import ContentSection, {ContentSectionHeader} from "../../../../../components/page/content/section";
 import RouteConfiguration from "./route/configuration";
 import {routes as availableRoutes} from "../../../../../../path/resolution";
 
@@ -69,8 +69,7 @@ export class ActiveRoutesScene extends React.Component {
                       }
                   });
         return (
-            <ContentSection sectionRef={this.props.activeElRef} className={'dev--component routes--container'}>
-                <h2 className={`title routes--container--title`}>Routes</h2>
+            <ContentSection sectionRef={this.props.activeElRef} className={'dev--component routes--container'} header={<ContentSectionHeader title="Routes" />}>
                 <div className="route--container--container">
                     <RouteContainer title={"Unnamed Routes"}
                                     routes={numericRoutes}

@@ -7,10 +7,12 @@ const correctItem =
           item => {
               item     = {...item};
               item.img = null;
-              if (item.tags.languages) {
-                  item.tags.languages = item.tags.languages.map(config => completeTag(TAG_TYPE__PROGRAMMING_LANGUAGE,
-                                                                                      config));
-              }
+              Object.entries(item.tags || {})
+                    .forEach(([key, tags]) => {
+                        let type       = key === 'languages' ? TAG_TYPE__PROGRAMMING_LANGUAGE : key;
+                        item.tags[key] = tags.map(config => completeTag(type,
+                                                                        config));
+                    });
               return item;
           };
 export default combineReducers({

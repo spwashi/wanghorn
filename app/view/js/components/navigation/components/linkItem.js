@@ -35,7 +35,9 @@ class LinkItem extends React.Component {
             } = this.props;
         
         const Wrapper         = wrapper || (p => (<div {...p} />));
-        const isActive        = location.pathname.replace(/\/$/, "") === to.replace(/\/$/, "");
+        const isActive        = typeof this.props.isActive !== "undefined" ? !!this.props.isActive
+                                                                           : (to && to[0] === '#' ? location.hash === to
+                                                                                                  : location.pathname.replace(/\/$/, "") === to.replace(/\/$/, ""));
         const activeClassname = isActive ? 'active active--link' : '';
         className             = className || '';
         className             = `link_item navigation--link_item ${className} ${activeClassname}`;
@@ -52,6 +54,7 @@ class LinkItem extends React.Component {
                      onClick={onTrigger || (() => {})}>
                 <Link redirect={this.state.redirect}
                       exact={exact}
+                      isActive={() => isActive}
                       to={to}
                       activeClassName={activeClassName}>
                     {children}
@@ -60,14 +63,15 @@ class LinkItem extends React.Component {
     }
 }
 
-LinkItem           = withRouter(LinkItem);
 LinkItem.propTypes = {
     onTrigger:       PropTypes.func,
     wrapper:         PropTypes.func,
     exact:           PropTypes.bool,
+    isActive:        PropTypes.bool,
     activeClassName: PropTypes.string,
     to:              PropTypes.string,
     className:       PropTypes.string,
     children:        PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired
 };
+LinkItem           = withRouter(LinkItem);
 export {LinkItem};

@@ -1,4 +1,7 @@
 @import "../../colors/colors";
+@import "../../components/header/colors";
 
+$image_overlay_color : mix(lighten($header__backgroundColor, 25%), $palette_color_1);
+$image_overlay_color : rgba($accent_color__3, .5);
 $profile--image--container-_-borderRight-color : white;
 $profile--image-_-borderColor : $accent_color__1;

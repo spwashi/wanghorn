@@ -4,7 +4,7 @@ import bind from "bind-decorator";
 import ModelMeta from "../../modelMeta";
 import ModelLinkContainer from "../nav";
 import {ModelContainerDescription} from "./components";
-import ContentSection from "../../../../../../../components/page/content/section";
+import ContentSection, {ContentSectionHeader} from "../../../../../../../components/page/content/section";
 
 export class ActiveModelScene extends React.Component {
     static propTypes = {
@@ -45,8 +45,7 @@ export class ActiveModelScene extends React.Component {
             return toggleModelPropertyActivity({smID: propertySmID});
         };
         return (
-            <ContentSection sectionRef={activeElRef} className={"dev--component model--container"}>
-                <h2 className={"title model--container--title"}>Models</h2>
+            <ContentSection sectionRef={activeElRef} className={"dev--component model--container"} header={<ContentSectionHeader title="Models" />}>
                 <ModelContainerDescription />
                 <ModelLinkContainer onItemTrigger={this.handleModelLinkTrigger}
                                     activeSmIDs={activeModelSmIDs}

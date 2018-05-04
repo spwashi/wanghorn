@@ -3,18 +3,24 @@ import * as PropTypes from 'prop-types'
 
 class ContentSection extends React.Component {
     render() {
-        let {name, children, className, sectionRef} = this.props;
-        className                                   = 'content--section ' + (className || '');
+        let {name, header, children, className, sectionRef} = this.props;
+        className                                           = 'content--section ' + (className || '');
         return (
             <section ref={sectionRef} className={className} id={name ? name : null}>
                 {name ? <a name={name} /> : ''}
-                {children}
+                {header}
+                <div className="content">{children}</div>
             </section>
         )
     };
 }
 
+export const ContentSectionHeader = ({title}) => <header><h2>{title || children}</h2></header>;
+
 export default ContentSection;
 ContentSection.propTypes = {
-    name: PropTypes.string
+    name:       PropTypes.string,
+    header:     PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
+    className:  PropTypes.string,
+    sectionRef: PropTypes.func
 };

@@ -10,6 +10,7 @@ export class Link extends React.Component {
         }
         return <NavLink to={to}
                         exact={!!exact}
+                        isActive={this.props.isActive}
                         className={className || ''}
                         activeClassName={"active link_item--active " + (activeClassName || '')}>
             {children}
@@ -20,6 +21,7 @@ export class Link extends React.Component {
 Link.propTypes = {
     to:              PropTypes.string,
     exact:           PropTypes.bool,
+    isActive:        PropTypes.func,
     activeClassName: PropTypes.string,
     className:       PropTypes.string
 };

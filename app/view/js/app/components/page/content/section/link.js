@@ -16,6 +16,7 @@ export class ContentSectionLink extends React.Component {
     
     @bind
     onTrigger(event) {
+        if (!this.props.doScroll) return;
         TweenLite.to(window, .5,
                      {
                          scrollTo:   this._anchor,
@@ -24,14 +25,24 @@ export class ContentSectionLink extends React.Component {
     }
     
     render() {
-        let {anchor, children, ...attrs} = this.props;
+        let {anchor, isActive, children, onRequestFollow, ...attrs} = this.props;
+        onRequestFollow                                             = onRequestFollow || (() => true);
         return <LinkItem onKeyDown={event => event.stopPropagation()}
-                         onTrigger={this.onTrigger}
+                         isActive={isActive}
+                         onTrigger={event => {
+                             Promise.resolve(onRequestFollow(anchor))
+                                    .then(i => {
+                                        this.onTrigger(event);
+                                    })
+                         }}
                          to={`#${anchor}`} {...attrs}>{children}</LinkItem>
     };
 }
 
 ContentSectionLink.propTypes = {
     ...LinkItem.propTypes,
-    anchor: PropTypes.string
+    anchor:          PropTypes.string,
+    doScroll:        PropTypes.bool,
+    isActive:        PropTypes.bool,
+    onRequestFollow: PropTypes.func
 };

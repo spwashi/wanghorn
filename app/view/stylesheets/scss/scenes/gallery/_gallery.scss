@@ -49,6 +49,7 @@ $gallery_item--borderColor : lighten(#555, 70%);
 		background-size : cover;
 		opacity         : .5;
 		z-index         : -1;
+		top             : 0;
 		position        : fixed;
 	}
 	&::after {
