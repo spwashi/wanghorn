@@ -1,7 +1,5 @@
-import {Sm} from 'spwashi-sm'
 import {DATETIME_, INTEGER_, NULL_} from "../datatypes";
-
-const Model = Sm.Model;
+import {Model} from "../helpers";
 
 export const name        = '_';
 export const ___identity = Model.identify(name);

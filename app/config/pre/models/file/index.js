@@ -1,8 +1,6 @@
-import {Sm} from 'spwashi-sm'
 import {user__identity} from "../user";
 import * as _ from "../_";
-
-const Model = Sm.Model;
+import {Model} from "../helpers";
 
 export const inherits       = _.name;
 export const name           = 'file';

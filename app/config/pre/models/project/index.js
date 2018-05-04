@@ -1,9 +1,7 @@
-import {Sm} from 'spwashi-sm'
 import {INTEGER_, NULL_, STRING_} from "../datatypes";
 import * as _ from "../_";
 import {person__identity} from "../person";
-
-const Model = Sm.Model;
+import {Model} from "../helpers";
 
 export const name              = 'project';
 export const project__identity = Model.identify(name);

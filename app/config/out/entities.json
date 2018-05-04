@@ -1,0 +1,69 @@
+{
+   "password": {
+      "smID": "[Entity]password",
+      "properties": {
+         "password": {
+            "smID": "[Property]{[Entity]password} password",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255,
+            "derivedFrom": "[Property]{[Model]password} password"
+         }
+      },
+      "persistedIdentity": "[Model]password",
+      "representations": {
+         "inline": {
+            "datatype": "string",
+            "requireFormatting": true
+         }
+      }
+   },
+   "user": {
+      "smID": "[Entity]user",
+      "properties": {
+         "username": {
+            "smID": "[Property]{[Entity]user} username",
+            "datatypes": [
+               "string"
+            ],
+            "length": 40,
+            "derivedFrom": "[Property]{[Model]user} username"
+         },
+         "email": {
+            "smID": "[Property]{[Entity]user} email",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255,
+            "unique": true,
+            "derivedFrom": "[Property]{[Model]user} email"
+         },
+         "password": {
+            "smID": "[Property]{[Entity]user} password",
+            "datatypes": [
+               "[Entity]password"
+            ],
+            "derivedFrom": {
+               "user_id": "[Property]{[Model]user} id"
+            }
+         }
+      },
+      "persistedIdentity": "[Model]user"
+   },
+   "person": {
+      "smID": "[Entity]person",
+      "properties": {
+         "user": {
+            "smID": "[Property]{[Entity]person} user",
+            "datatypes": [
+               "[Entity]user"
+            ],
+            "derivedFrom": {
+               "person_id": "[Property]{[Model]person} id"
+            }
+         }
+      },
+      "persistedIdentity": "[Model]person"
+   }
+}

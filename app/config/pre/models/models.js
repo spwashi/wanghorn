@@ -1,7 +1,7 @@
 import * as _ from './_';
 import * as user from './user';
 import * as file from './file';
-import * as pw from './pw';
+import * as password from './password';
 import * as person from './person';
 import * as email from './email';
 import * as project from './project';
@@ -9,7 +9,7 @@ import * as project from './project';
 export const models = {
     _,
     file,
-    pw,
+    password,
     project,
     person,
     user,

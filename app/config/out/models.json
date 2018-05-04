@@ -9,35 +9,35 @@
       },
       "properties": {
          "id": {
+            "smID": "[Property]{[Model]_} id",
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]_} id",
             "length": 11,
             "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
+            "smID": "[Property]{[Model]_} delete_dt",
             "datatypes": [
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]_} delete_dt",
             "isGenerated": true
          },
          "creation_dt": {
+            "smID": "[Property]{[Model]_} creation_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]_} creation_dt",
             "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
+            "smID": "[Property]{[Model]_} last_update_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]_} last_update_dt",
             "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
@@ -57,51 +57,51 @@
       },
       "properties": {
          "id": {
+            "smID": "[Property]{[Model]person} id",
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]person} id",
             "length": 11,
             "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
+            "smID": "[Property]{[Model]person} delete_dt",
             "datatypes": [
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]person} delete_dt",
             "isGenerated": true
          },
          "creation_dt": {
+            "smID": "[Property]{[Model]person} creation_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]person} creation_dt",
             "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
+            "smID": "[Property]{[Model]person} last_update_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]person} last_update_dt",
             "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },
          "first_name": {
+            "smID": "[Property]{[Model]person} first_name",
             "datatypes": [
                "string"
             ],
-            "smID": "[Property]{[Model]person} first_name",
             "length": 255
          },
          "last_name": {
+            "smID": "[Property]{[Model]person} last_name",
             "datatypes": [
                "string"
             ],
-            "smID": "[Property]{[Model]person} last_name",
             "length": 255
          }
       }
@@ -123,44 +123,44 @@
       },
       "properties": {
          "id": {
+            "smID": "[Property]{[Model]email} id",
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]email} id",
             "length": 11,
             "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
+            "smID": "[Property]{[Model]email} delete_dt",
             "datatypes": [
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]email} delete_dt",
             "isGenerated": true
          },
          "creation_dt": {
+            "smID": "[Property]{[Model]email} creation_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]email} creation_dt",
             "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
+            "smID": "[Property]{[Model]email} last_update_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]email} last_update_dt",
             "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },
          "email": {
+            "smID": "[Property]{[Model]email} email",
             "datatypes": [
                "string"
             ],
-            "smID": "[Property]{[Model]email} email",
             "length": 255,
             "unique": true
          }
@@ -179,76 +179,76 @@
       },
       "properties": {
          "id": {
+            "smID": "[Property]{[Model]project} id",
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]project} id",
             "length": 11,
             "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
+            "smID": "[Property]{[Model]project} delete_dt",
             "datatypes": [
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]project} delete_dt",
             "isGenerated": true
          },
          "creation_dt": {
+            "smID": "[Property]{[Model]project} creation_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]project} creation_dt",
             "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
+            "smID": "[Property]{[Model]project} last_update_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]project} last_update_dt",
             "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },
          "name": {
+            "smID": "[Property]{[Model]project} name",
             "datatypes": [
                "string"
             ],
-            "smID": "[Property]{[Model]project} name",
             "length": 255
          },
          "external_link": {
+            "smID": "[Property]{[Model]project} external_link",
             "datatypes": [
                "string",
                "null"
             ],
-            "smID": "[Property]{[Model]project} external_link",
             "length": 255
          },
          "price": {
+            "smID": "[Property]{[Model]project} price",
             "datatypes": [
                "string",
                "null"
             ],
-            "smID": "[Property]{[Model]project} price",
             "length": 11
          },
          "description": {
+            "smID": "[Property]{[Model]project} description",
             "datatypes": [
                "string",
                "null"
             ],
-            "smID": "[Property]{[Model]project} description",
             "length": 1000
          },
          "person_id": {
+            "smID": "[Property]{[Model]project} person_id",
             "datatypes": [
                "int",
                "null"
             ],
-            "smID": "[Property]{[Model]project} person_id",
             "reference": {
                "identity": "[Model]person",
                "hydrationMethod": "[Property]{[Model]person} id"
@@ -273,49 +273,55 @@
       },
       "properties": {
          "id": {
+            "smID": "[Property]{[Model]user} id",
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]user} id",
             "length": 11,
             "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
+            "smID": "[Property]{[Model]user} delete_dt",
             "datatypes": [
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]user} delete_dt",
             "isGenerated": true
          },
          "creation_dt": {
+            "smID": "[Property]{[Model]user} creation_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]user} creation_dt",
             "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
+            "smID": "[Property]{[Model]user} last_update_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]user} last_update_dt",
             "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },
-         "email": {
+         "username": {
+            "smID": "[Property]{[Model]user} username",
             "datatypes": [
                "string"
             ],
+            "length": 40
+         },
+         "email": {
             "smID": "[Property]{[Model]user} email",
+            "datatypes": [
+               "string"
+            ],
             "length": 255,
             "unique": true
          },
          "person_id": {
-            "datatypes": [],
             "smID": "[Property]{[Model]user} person_id",
             "length": 11,
             "reference": {
@@ -338,41 +344,40 @@
       },
       "properties": {
          "id": {
+            "smID": "[Property]{[Model]file} id",
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]file} id",
             "length": 11,
             "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
+            "smID": "[Property]{[Model]file} delete_dt",
             "datatypes": [
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]file} delete_dt",
             "isGenerated": true
          },
          "creation_dt": {
+            "smID": "[Property]{[Model]file} creation_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]file} creation_dt",
             "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
+            "smID": "[Property]{[Model]file} last_update_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]file} last_update_dt",
             "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },
          "user_id": {
-            "datatypes": [],
             "smID": "[Property]{[Model]file} user_id",
             "reference": {
                "identity": "[Model]user",
@@ -381,64 +386,64 @@
          }
       }
    },
-   "pw": {
-      "smID": "[Model]pw",
+   "password": {
+      "smID": "[Model]password",
       "inherits": [
          "[Model]_"
       ],
       "propertyMeta": {
          "primary": [
-            "[Property]{[Model]pw} id"
+            "[Property]{[Model]password} id"
          ],
          "unique": {}
       },
       "properties": {
          "id": {
+            "smID": "[Property]{[Model]password} id",
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]pw} id",
             "length": 11,
             "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
+            "smID": "[Property]{[Model]password} delete_dt",
             "datatypes": [
                "datetime",
                "null"
             ],
-            "smID": "[Property]{[Model]pw} delete_dt",
             "isGenerated": true
          },
          "creation_dt": {
+            "smID": "[Property]{[Model]password} creation_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]pw} creation_dt",
             "isGenerated": true,
             "defaultValue": "now"
          },
          "last_update_dt": {
+            "smID": "[Property]{[Model]password} last_update_dt",
             "datatypes": [
                "datetime"
             ],
-            "smID": "[Property]{[Model]pw} last_update_dt",
             "isGenerated": true,
             "defaultValue": "now",
             "updateValue": "now"
          },
-         "pw": {
+         "password": {
+            "smID": "[Property]{[Model]password} password",
             "datatypes": [
                "string"
             ],
-            "smID": "[Property]{[Model]pw} pw",
             "length": 255
          },
          "user_id": {
+            "smID": "[Property]{[Model]password} user_id",
             "datatypes": [
                "int"
             ],
-            "smID": "[Property]{[Model]pw} user_id",
             "length": 11,
             "reference": {
                "identity": "[Model]user",
