@@ -130,7 +130,7 @@ class Dev extends BaseApplicationController {
         return $this->app->data->entities->getRegisteredSchematics();
     }
     public function models() {
-        $fetch = $_GET['fetch'] ?? null;
+        $fetch = $_GET['fetch'] ?? (isset($_GET['models']) ? 'models' : null);
         
         #   $this->app->query->interpret($query);
         
