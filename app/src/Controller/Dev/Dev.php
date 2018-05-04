@@ -127,7 +127,7 @@ class Dev extends BaseApplicationController {
         return $config_arr;
     }
     public function entities() {
-        return $this->app->data->entities;
+        return $this->app->data->entities->getRegisteredSchematics();
     }
     public function models() {
         $fetch = $_GET['fetch'] ?? null;

@@ -128,11 +128,17 @@ function _communication_layer(Application $app): void {
  * @throws \Sm\Core\SmEntity\Exception\InvalidConfigurationException
  */
 function _data_layer(Application $app): void {
-    $data_json_path = DEFAULT_APP__CONFIG_PATH . 'out/models.json';
-    if (file_exists($data_json_path)) {
-        $dataJson    = file_get_contents($data_json_path);
-        $data_config = json_decode($dataJson, 1);
-        $app->data->configure($data_config);
+    $model_json_path = DEFAULT_APP__CONFIG_PATH . 'out/models.json';
+    if (file_exists($model_json_path)) {
+        $model_json   = file_get_contents($model_json_path);
+        $model_config = json_decode($model_json, 1);
+        $app->data->configure($model_config);
+    }
+    $entity_json_path = DEFAULT_APP__CONFIG_PATH . 'out/entities.json';
+    if (file_exists($entity_json_path)) {
+        $entity_json   = file_get_contents($entity_json_path);
+        $entity_config = json_decode($entity_json, 1);
+        $app->data->configure($entity_config);
     }
     /** @var \Sm\Data\Model\ModelDataManager $modelDataManager */
     $modelDataManager   = $app->data->getDataManager(Model::class);
