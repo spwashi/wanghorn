@@ -2,7 +2,8 @@ import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
 import Tag from "base-components/tag/index";
-import ReactModal from "react-modal";
+import {getURI} from "../../../../../path/resolution";
+import {Link} from "../../../../../components/navigation/components/link";
 
 class TagContainer extends React.Component {
     createTagElements() {
@@ -91,29 +92,21 @@ export default class Item extends React.Component {
     }
     
     render() {
-        let {img: children, name, price, status, externalLink, tags, description} = this.props;
-        const hasModalDialog                                                      = true;
-        const formatted_price                                                     = price.toFixed(2)
-                                                                                         .replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-        tags                                                                      = tags || [];
-        const clickableClass                                                      = externalLink || hasModalDialog ? 'clickable ' : '';
-        let modalStatusClassNames                                                 = {afterOpen: 'modal__-open', beforeClose: 'modal__-closing'};
-        let modalClassNames                                                       = {base: 'modal--base', ...modalStatusClassNames};
-        let modalOverlayClassNames                                                = {base: 'modal--overlay', ...modalStatusClassNames};
-        let onModalButtonCloseClick                                               = event => {
-            event.stopPropagation();
-            this.setState({modalOpen: false})
-        };
+        let {img: children, name, title, price, status, externalLink, tags, description} = this.props;
+        const hasModalDialog                                                             = !externalLink;
+        const formatted_price                                                            = price.toFixed(2)
+                                                                                                .replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        tags                                                                             = tags || [];
+        const clickableClass                                                             = externalLink || hasModalDialog ? 'clickable ' : '';
+        
         return (
             <div onClick={this.handleClick} onKeyDown={this.handleKeyDown} tabIndex={0} className={`gallery_item  ${clickableClass}`}>
-                <ReactModal isOpen={this.state.modalOpen} contentLabel={name} overlayClassName={modalOverlayClassNames} className={modalClassNames}>
-                    <button className={'button__close modal--button__close'} onClick={onModalButtonCloseClick}>X</button>
-                </ReactModal>
                 <div className={`gallery_item--image--wrapper image--wrapper`}>{children}</div>
-                <div className={"name gallery_item--name"}>{name}</div>
+                <div className={"name gallery_item--name"}>{title}</div>
                 <div className={"price gallery_item--price"}>${formatted_price.replace('.00', '')}</div>
                 <div className={"status gallery_item--status"}>{status}</div>
-                <div className={"description gallery_item--description"}><Teaser>{description}</Teaser></div>
+                <div className={"description gallery_item--description"}>{!this.props.isExpanded ? <Teaser>{description}</Teaser> : description}</div>
+                {hasModalDialog ? <Link className={'view--link'} to={getURI('gallery--item__view', {name}) || externalLink}></Link> : null}
                 <TagContainer tags={tags} />
             </div>
         )
@@ -121,18 +114,19 @@ export default class Item extends React.Component {
 }
 
 Item.propTypes = {
-    img:    PropTypes.element.isRequired,
-    name:   PropTypes.string.isRequired,
-    status: PropTypes.string,
-    price:  PropTypes.number,
-    tags:   PropTypes.oneOfType([
-                                    PropTypes.arrayOf(
-                                        PropTypes.oneOfType(
-                                            [PropTypes.string, PropTypes.object]
-                                        )
-                                    ),
-                                    PropTypes.object
-                                ]),
+    img:        PropTypes.element.isRequired,
+    name:       PropTypes.string.isRequired,
+    status:     PropTypes.string,
+    isExpanded: PropTypes.bool,
+    price:      PropTypes.number,
+    tags:       PropTypes.oneOfType([
+                                        PropTypes.arrayOf(
+                                            PropTypes.oneOfType(
+                                                [PropTypes.string, PropTypes.object]
+                                            )
+                                        ),
+                                        PropTypes.object
+                                    ]),
     
     externalLink: PropTypes.string
 };

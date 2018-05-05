@@ -138,7 +138,7 @@ class RouteName extends React.Component {
                                            </button> :
                     null
                 }
-                <button key={"toggle-active"} className={"selectively-active--toggle"}>Toggle</button>
+                <button key={"toggle-active"} tabIndex={-1} className={"selectively-active--toggle"}>Toggle</button>
             </div>)
     }
 };

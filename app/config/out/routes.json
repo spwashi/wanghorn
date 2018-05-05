@@ -28,6 +28,12 @@
          "pattern": "wanghorn/gallery$"
       },
       {
+         "name": "gallery--item__view",
+         "title": "Gallery Item View",
+         "resolution": "#Home\\Home::index",
+         "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+"
+      },
+      {
          "name": "gallery--items",
          "resolution": "#Home\\Home::gallery",
          "pattern": "wanghorn/gallery/items.json$"

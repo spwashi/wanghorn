@@ -6,6 +6,7 @@ import {DEV__PATH} from "../dev/paths";
 import Stateful from "../dev/components/stateful/stateful";
 import State from "../dev/components/stateful/state";
 import {ContentSectionHeader} from "../../components/page/content/section";
+import {getURI} from "../../../path/resolution";
 
 const pageClassName = 'about-me';
 let WhatIDo         = function () {
@@ -91,7 +92,7 @@ let HowIWork        = function () {
                     <li>
                         He configures the application using a <a href={"https://github.com/spwashi/SmJS"} title={"The library that configures me"}>JavaScript library </a>
                         to create <a href={"https://github.com/spwashi/wanghorn/tree/local/app/config/out"}>.json files</a> which will be interpreted by <a href={"https://github.com/spwashi/wanghorn"} title={"My back-end code"}>my back-end </a> via
-                        <a href={"https://github.com/spwashi/SmPHP"} title={"The framework of my backend"}>SmPHP.</a>
+                        <a href={"https://github.com/spwashi/SmPHP"} title={"The framework of my backend"}> SmPHP.</a>
                         <ul>
                             <li><a href="https://github.com/spwashi/wanghorn/blob/local/app/config/index.js">General Configuration</a></li>
                             <li><a href="https://github.com/spwashi/wanghorn/blob/local/app/config/pre/routes/routes.js">Route Configuration</a></li>
@@ -115,16 +116,15 @@ let ToDo            = function () {
             <li>
                 Documentation
                 <ul>
-                    <li>The <Link to={DEV__PATH}>Dev Interface</Link> has no way to describe properties</li>
-                    <li><ContentSectionLink anchor="how-I-work">"How I Work" Section</ContentSectionLink> could be improved.</li>
+                    <li>The <Link to={DEV__PATH}>Dev Interface</Link> needs to describe <a href={getURI("dev--entities")}>Entities</a></li>
+                    <li><a href="#how-I-work">"How I Work" Section</a> could be improved.</li>
                 </ul>
             </li>
             
             <li>
                 Styling
                 <ul>
-                    <li>Not too big a fan of the nav links at the top of this page's content. They could be buttons?</li>
-                    <li>There's a formatting error in the Documentation tab of this list!</li>
+                    <li>Mobile responsiveness and retina-displays</li>
                 </ul>
             </li>
             <li>

@@ -20,10 +20,11 @@ export default class Modal extends React.Component {
         return (
             <ReactModal onRequestClose={onRequestClose}
                         isOpen={isOpen}
+                        shouldFocusAfterRender={true}
                         contentLabel={contentLabel}
                         overlayClassName={modalOverlayClassNames}
                         className={modalClassNames}>
-                <header>
+                <header >
                     <h2>{title}</h2>
                     <button tabIndex={0} className={'button__close modal--button__close'} onClick={onRequestClose}>X</button>
                 </header>

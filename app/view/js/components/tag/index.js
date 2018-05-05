@@ -6,7 +6,7 @@ class Tag extends React.Component {
     @bind
     handleClick(event) {
         if (event.isPropagationStopped()) return;
-        this.attemptNavigation() || event.stopPropagation();
+        this.attemptNavigation() && event.stopPropagation();
     }
     
     attemptNavigation() {
@@ -24,7 +24,9 @@ class Tag extends React.Component {
         const clickableClass        = this.props.externalLink ? 'clickable' : '';
         return (
             <div className={`tag ${clickableClass} ${className}`} onClick={this.handleClick}>
-                <a href={this.props.externalLink} onClick={event => event.preventDefault()}>
+                <a href={this.props.externalLink} onClick={event => {
+                    event.preventDefault();
+                }}>
                     {children}
                 </a>
             </div>

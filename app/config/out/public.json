@@ -20,6 +20,10 @@
          "pattern": "wanghorn/gallery$",
          "title": "Gallery"
       },
+      "gallery--item__view": {
+         "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+",
+         "title": "Gallery Item View"
+      },
       "gallery--items": {
          "pattern": "wanghorn/gallery/items.json$"
       },

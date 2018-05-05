@@ -33,10 +33,15 @@ export function selectGalleryItems(state) {
     const {items} = selectGallery(state);
     return items;
 }
+function convertToTagID({tag, category}) {return `${category}__${tag}`;}
+export const selectActiveTagIDs = function (state) {
+    let activeTags = from_gallery_selectActiveTags(state).map(convertToTagID);
+    activeTags     = [...new Set(activeTags || [])];
+    return activeTags;
+};
 export function selectActiveGalleryItems(state) {
-    const convertToTagID   = ({tag, category}) => `${category}__${tag}`;
     const items            = selectGalleryItems(state);
-    const activeTags       = from_gallery_selectActiveTags(state).map(convertToTagID);
+    let activeTags         = selectActiveTagIDs(state);
     const itemHasActiveTag = item => {
         let hasActiveTag = false;
         Object.entries(item.tags)
@@ -55,4 +60,10 @@ export function selectActiveGalleryItems(state) {
     };
     return !activeTags.length ? items
                               : items.filter(itemHasActiveTag);
+}
+export function selectNamedItemFromItemList(items, name) {
+    return items.reduce((match, item) => {
+        console.log(name);
+        return match || (item && item.name === name && item) || null;
+    }, null)
 }

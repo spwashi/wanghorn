@@ -1,16 +1,19 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import Item from "./item/item";
-import {connect} from "react-redux";
-import {bindActionCreators} from 'redux'
-import {from_gallery_selectAllTags, selectActiveGalleryItems} from "../selector";
 import GalleryItemContainer from "./item/container";
-import {activateTag, deactivateTag, fetchGalleryItems} from "../actions";
 import ControlComponent from "./control/controlComponent";
 import {CONTROL__SELECT_MULTIPLE} from "./control/constants";
 import bind from "bind-decorator";
 
+export const itemToImg = item => item.asPerson ? (item.img || <div className={`image ${item.asPerson.toLowerCase()}`} />)
+                                               : item.img;
+
 class Gallery extends React.Component {
+    state = {
+        modalOpen: false
+    };
+    
     componentDidMount() {
         this.props.fetchGalleryItems();
     }
@@ -43,6 +46,7 @@ class Gallery extends React.Component {
                                          controlType={CONTROL__SELECT_MULTIPLE}
                                          name={name}
                                          title={title}
+                                         activeItems={this.props.activeItems}
                                          onControlEvent={this.handleControlEvent}
                                          items={items} />;
             });
@@ -52,6 +56,7 @@ class Gallery extends React.Component {
     render() {
         const {items} = this.props;
         const filters = this.getFilters();
+        
         return (
             <div className="gallery">
                 <aside className="gallery_item--container--control_component--container">
@@ -59,13 +64,7 @@ class Gallery extends React.Component {
                 </aside>
                 <GalleryItemContainer>
                     {
-                        items.map(
-                            (item, key) => {
-                                let img = item.asPerson ? (item.img || <div className={`image ${item.asPerson.toLowerCase()}`} />)
-                                                        : item.img;
-                                
-                                return <Item key={key} {...item} img={img} />;
-                            })
+                        items.map((item, key) => <Item key={key} {...item} img={itemToImg(item)} />)
                     }
                 </GalleryItemContainer>
             </div>
@@ -88,11 +87,4 @@ Gallery.propTypes = {
     )
 };
 
-const mapState         = state => {
-    const items = selectActiveGalleryItems(state);
-    const tags  = from_gallery_selectAllTags(state);
-    return {items, tags};
-};
-const mapDispatch      = dispatch => bindActionCreators({activateTag, deactivateTag, fetchGalleryItems}, dispatch);
-const connectOnGallery = connect(mapState, mapDispatch);
-export default connectOnGallery(Gallery);
+export default Gallery;

@@ -44,13 +44,16 @@ export const addArgsToPath =
                  };
 
 export const getURI   =
-                 (name, routeArguments = {}, {root, skipEmpty} = {}) => {
+                 (name, routeArguments = {}, {root, skipEmpty, asReactRoute} = {}) => {
                      let pattern = (routes[name] || {}).pattern;
                      if (!pattern) return false;
         
                      let {path, validators} = getCleanPath(pattern);
                      path                   = addArgsToPath(path, routeArguments, validators, skipEmpty);
-                     path                   = `${root !== false ? (root || '') + '/' : ''}${path}`;
+                     if (asReactRoute) {
+                         path = path.replace(/{([a-zA-Z0-9]+)}/g, ':$1');
+                     }
+                     path = `${root !== false ? (root || '') + '/' : ''}${path}`;
                      return path;
                  };
 export const getTitle = name => {

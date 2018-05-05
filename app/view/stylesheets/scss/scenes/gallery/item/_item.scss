@@ -1,17 +1,34 @@
 @import "colors";
 @import "tags";
 
+.gallery_item--container {
+	.gallery_item {
+		box-shadow    : 3px 3px 3px $gallery_item--shadowColor;
+		width         : 30%;
+		padding       : 1%;
+		height        : 250px;
+		flex-flow     : row wrap;
+		display       : flex;
+		align-content : baseline;
+		&.clickable:hover {
+			background-color : $gallery_item--backgroundColor__hover;
+		}
+	}
+}
+
 .gallery_item {
-	width            : 30%;
-	padding          : 1%;
-	height           : 250px;
-	box-shadow       : 3px 3px 3px $gallery_item--shadowColor;
 	background-color : $gallery_item--backgroundColor;
 	margin-bottom    : 15px;
-	display          : flex;
-	flex-flow        : row wrap;
 	position         : relative;
-	align-content    : baseline;
+	> .view--link {
+		position : absolute;
+		top      : 0;
+		left     : 0;
+		height   : 100%;
+		width    : 100%;
+		display  : block;
+		z-index  : 2;
+	}
 	&, .gallery_item--image--wrapper {
 		border : thin solid darken($body--backgroundColor, 40%);
 	}
@@ -19,9 +36,6 @@
 		&, .gallery_item--image--wrapper {
 			border : thin solid darken($gallery_item--borderColor, 70%);
 		}
-	}
-	&.clickable:hover {
-		background-color : $gallery_item--backgroundColor__hover;
 	}
 	.image--wrapper {
 		flex : 0 0 100%;
@@ -59,9 +73,50 @@
 		flex-flow       : row wrap;
 		justify-content : flex-end;
 		align-items     : center;
+		z-index         : 3;
 		.tag {
 			margin-left   : 4px;
 			margin-bottom : 4px;
+		}
+	}
+}
+
+.modal--base {
+	.gallery_item {
+		position   : relative;
+		box-shadow : none;
+		.gallery_item--image--wrapper {
+			width  : 40%;
+			height : 250px;
+		}
+		.description {
+			padding    : 20px;
+			border-top : none;
+			position   : absolute;
+			width      : 60%;
+			right      : 0;
+			top        : 0;
+		}
+		.price {
+			background-color : $accent_color__2;
+			color            : white;
+			width            : 40%;
+			text-align       : center;
+			display          : inline-block;
+		}
+		.view--link {
+			display : none;
+		}
+		.name {display : none;}
+		.tag--container {
+			width           : 60%;
+			padding         : 0 20px;
+			margin-right    : 0;
+			justify-content : space-between;
+			position        : relative;
+			float           : right;
+			bottom          : 10px;
+			right           : auto;
 		}
 	}
 }
@@ -83,10 +138,12 @@
 
 .gallery_item--image--wrapper {
 	.jessica {
+		filter                : invert(10%);
 		background-size       : cover;
 		background-position-y : bottom;
 	}
 	.philip {
+		filter                : invert(10%);
 		background-size       : cover;
 		background-position-y : -85px;
 	}

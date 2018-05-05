@@ -8,6 +8,9 @@
 	font-size : 30px;
 	a {
 		color : $accent_color__2;
+		&:hover {
+			color : darken($accent_color__2, 10%);
+		}
 	}
 }
 
@@ -94,9 +97,10 @@
 		#profile {
 			display : block;
 			section {
-				padding    : 2vw;
-				font-size  : 5vw;
-				margin-top : 2vw;
+				padding     : 2vw;
+				font-size   : 5vw;
+				line-height : 6vw;
+				margin-top  : 2vw;
 				* {
 					margin : 0 0 4vw;
 				}
@@ -104,7 +108,7 @@
 				> *:nth-child(2) { left : auto; max-width : 45vw; }
 				> *:nth-child(3) {
 					left      : auto;
-					max-width : 100vw;
+					max-width : 160vw;
 					.text {
 						float : left;
 					}
@@ -112,7 +116,7 @@
 						content  : '';
 						position : relative;
 						float    : right;
-						height   : 11vw;
+						height   : 20vw;
 						width    : 40vw;
 						display  : block;
 						right    : 5px;
@@ -124,10 +128,10 @@
 			}
 		}
 		.profile--image--wrapper {
-			top      : 20vw;
+			top      : 5vw;
 			left     : auto;
 			position : absolute;
-			right    : 10vw;
+			right    : 3vw;
 			height   : 40vw;
 			width    : 40vw;
 			border   : 5px solid $profile--image-_-borderColor;
@@ -136,7 +140,8 @@
 			border-right  : none;
 			border-bottom : .5vw solid $profile--image--container-_-borderRight-color;
 			width         : 100%;
-			height        : 10+15vw;
+			//height        : 10+15vw;
+			height        : 0;
 			position      : relative;
 			&::before {
 				content    : "";
@@ -144,7 +149,6 @@
 				left       : 0;
 				width      : 100%;
 				height     : 100%;
-				opacity    : .3;
 				z-index    : -1;
 				background : $image_overlay_color;
 			}

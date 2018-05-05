@@ -33,6 +33,12 @@ const homeRoutes    = [
                   title:      "Gallery"
               }),
     new Route({
+                  renderedBy: "client",
+                  pattern:    'gallery/{name}:[a-zA-Z]+',
+                  name:       'gallery--item__view',
+                  title:      "Gallery Item View"
+              }),
+    new Route({
                   name:       'gallery--items',
                   resolution: "#[Home]::gallery",
                   pattern:    "gallery/items.json$"
