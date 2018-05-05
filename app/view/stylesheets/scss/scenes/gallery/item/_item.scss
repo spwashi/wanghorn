@@ -12,6 +12,14 @@
 	flex-flow        : row wrap;
 	position         : relative;
 	align-content    : baseline;
+	&, .gallery_item--image--wrapper {
+		border : thin solid darken($body--backgroundColor, 40%);
+	}
+	&:hover {
+		&, .gallery_item--image--wrapper {
+			border : thin solid darken($gallery_item--borderColor, 70%);
+		}
+	}
 	&.clickable:hover {
 		background-color : $gallery_item--backgroundColor__hover;
 	}
@@ -43,14 +51,17 @@
 		text-align : right;
 	}
 	.tag--container {
-		position : absolute;
-		bottom   : -10px;
-		right    : 2%;
-		* {
-			float : right;
-		}
+		position        : absolute;
+		bottom          : -22px;
+		height          : 45px;
+		right           : 2%;
+		display         : flex;
+		flex-flow       : row wrap;
+		justify-content : flex-end;
+		align-items     : center;
 		.tag {
-			margin-left : 4px;
+			margin-left   : 4px;
+			margin-bottom : 4px;
 		}
 	}
 }
@@ -83,6 +94,10 @@
 		background-size : 325%;
 		width           : 40%;
 		left            : 30%;
+	}
+	.william::after {
+		background-color : desaturate(lighten($accent_color__1, 10%), 5%);
+		opacity          : .5;
 	}
 }
 

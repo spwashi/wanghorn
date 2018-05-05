@@ -1,6 +1,3 @@
-export const TAG_TYPE__PROGRAMMING_LANGUAGE = 'programming_language';
-export const TAG_TYPE__PURPOSE              = 'purpose';
-
 const cache = {};
 
 export function completeTag(type, config) {

@@ -7,14 +7,14 @@
 	}
 	.filter_category--wrapper {
 		label {
-			margin : 5px 0;
+			margin      : 5px 0;
 			cursor      : pointer;
 			display     : flex;
 			flex-flow   : row nowrap;
 			align-items : baseline;
 			[type=checkbox] {
 				&:hover::before {
-					border : #69c4c4;
+					border : thin solid #69c4c4;
 				}
 			}
 		}
@@ -44,7 +44,7 @@
 			width            : 110%;
 			height           : 110%;
 			background-color : #fff;
-			border           : thin solid #ccc;
+			border           : thin solid #555;
 			content          : '';
 		}
 	}

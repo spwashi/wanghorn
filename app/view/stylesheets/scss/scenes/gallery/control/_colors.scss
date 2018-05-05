@@ -1,4 +1,4 @@
 @import "../colors/colors";
 
-$control_component--title__fontColor : darken($body--backgroundColor, 40%);
+$control_component--title__fontColor : $pageContent--header--txt-color;
 $control_component--title__borderBottomColor : darken($body--backgroundColor, 20%);

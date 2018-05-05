@@ -1,11 +1,14 @@
 @import "colors";
 
 .control_component {
+	background-color : $pageContent--color;
+	border           : $pageContent--border-_-style;
+	margin-bottom    : 10px;
 	> .title, > .title--wrapper > .title {
-		color          : $control_component--title__fontColor;
-		border-bottom  : thin solid $control_component--title__borderBottomColor;
-		margin-bottom  : 10px;
-		padding-bottom : 10px;
-		text-transform : capitalize;
+		background-color : $pageContent--header--color;
+		color            : $control_component--title__fontColor;
+		border-bottom    : thin solid $control_component--title__borderBottomColor;
+		padding          : 5px;
+		text-transform   : capitalize;
 	}
 }

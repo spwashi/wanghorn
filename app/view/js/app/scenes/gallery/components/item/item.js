@@ -24,7 +24,7 @@ class TagContainer extends React.Component {
                              return (
                                  <Tag key={tag_id}
                                       externalLink={url}
-                                      className={`gallery_item--tag tag-_-${tag_id} gallery_item--tag__${name}`}>
+                                      className={`gallery_item--tag tag-_-${category} tag-_-${tag_id} gallery_item--tag__${name}`}>
                                      {text}
                                  </Tag>
                              );
@@ -42,7 +42,7 @@ class TagContainer extends React.Component {
 }
 
 const Teaser = ({children: text = ''}) => {
-    const character_limit = 50;
+    const character_limit = 40;
     let teaser            = text.split(' ')
                                 .reduce(
                                     (all, chunk) => {

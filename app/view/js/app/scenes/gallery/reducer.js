@@ -1,7 +1,7 @@
 import React from "react"
 import {combineReducers} from "redux";
 import {ACTIVATE_TAG, DEACTIVATE_TAG, FETCH_GALLERY_RECEIVED} from "./actions";
-import {completeTag, TAG_TYPE__PROGRAMMING_LANGUAGE} from "./tags";
+import {completeTag} from "./tags";
 
 const correctItem =
           item => {
@@ -9,7 +9,7 @@ const correctItem =
               item.img = null;
               Object.entries(item.tags || {})
                     .forEach(([key, tags]) => {
-                        let type       = key === 'languages' ? TAG_TYPE__PROGRAMMING_LANGUAGE : key;
+                        let type       = key;
                         item.tags[key] = tags.map(config => completeTag(type,
                                                                         config));
                     });

@@ -1,4 +1,7 @@
 @import "../colors/colors";
 
 $gallery_item--tag--colors_list : #4b8b8b #aea728 #747a61;
-$tag--color : lighten(#747a61, 35%);
+$tag--color__1 : lighten(#747a61, 35%);
+$tag--color__2 : desaturate(lighten(#4b8b8b, 35%), 17%);
+$tag--color__3 : #aea728;
+$gallery_item--borderColor : lighten(#555, 70%);
