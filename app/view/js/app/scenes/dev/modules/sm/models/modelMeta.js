@@ -2,8 +2,7 @@ import React from "react";
 import * as PropTypes from "prop-types"
 import {Query} from "./components/query/index";
 import {ModelConfigurationWrapper} from "./components/config/model";
-import Modal from "../../../../../components/modal";
-import {ModelCreationForm} from "./components/creation/form";
+import {getURI} from "../../../../../../path/resolution";
 
 const AlterTableStatementList = ({statements, executeQuery}) =>
     <div className="alter_table_statement--container alter_table_statement--list container list">
@@ -34,28 +33,14 @@ class ModelMeta extends React.Component {
                     <div className={`model--source--existence ${!canCreateTable ? 'existent' : 'non-existent'}`}></div>
                 </header>
                 <div className="model--meta--action--container">
-                    {
-                        tableExists ? (
-                                        <div className="model--meta--action--wrapper">
-                                            <button onClick={() => openModelCreateDialog({smID})}>Create New Model</button>
-                                            <Modal onRequestClose={() => closeModelCreateDialog({smID})}
-                                                   isOpen={this.props.isCreatingNew}
-                                                   title={`Create New ${smID}`}
-                                                   contentLabel="Create New">
-                                                <ModelCreationForm model={model} smID={smID} />
-                                            </Modal>
-                                        </div>
-                                    )
-                                    : null
-                    }
-                    {
-                        canCreateTable ? (
-                                           <div className="model--meta--action--wrapper">
-                                               <button onClick={executeCreateTableStatement}>Create Table</button>
-                                           </div>
-                                       )
-                                       : null
-                    }
+                    {tableExists ? (<div className="model--meta--action--wrapper">
+                                     <button><a href={getURI('dev--create_model', {smID})}>Create New Model</a></button>
+                                 </div>)
+                                 : null}
+                    {canCreateTable ? <div className="model--meta--action--wrapper">
+                                        <button onClick={executeCreateTableStatement}>Create Table</button>
+                                    </div>
+                                    : null}
                 </div>
                 <div className="wrapper component--wrapper model--component--wrapper">
                     <ModelConfigurationWrapper onTogglePropertyClick={onTogglePropertyClick}

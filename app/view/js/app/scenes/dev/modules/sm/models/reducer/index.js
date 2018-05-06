@@ -58,7 +58,7 @@ export const modelModuleReducer = combineReducers({
                                                       isActive:               (state, action) => {
                                                           switch (action.type) {
                                                               case TOGGLE_MODEL_SCENE_ACTIVITY:
-                                                                  return !state.isActive;
+                                                                  return !state;
                                                               default:
                                                                   return state || false;
                                                           }

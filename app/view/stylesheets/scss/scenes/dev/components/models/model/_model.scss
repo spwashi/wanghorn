@@ -41,6 +41,10 @@
 .model--meta--action--container {
 	width         : 100%;
 	border-bottom : thin solid darken($component--meta--bg--color, 10%);
+	button > a {
+		display : block;
+		height  : 100%;
+	}
 }
 
 .property--configuration {

@@ -7,7 +7,6 @@ export default (state, action) => {
             return {...state, isActive: !state.isActive};
         case FETCH_ROUTES_RECEIVED:
             routes = action.routes;
-            console.log(routes);
             return {...state, routes};
         default:
             return state || {routes: {}, isActive: false};

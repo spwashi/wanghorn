@@ -109,7 +109,7 @@ class RouteName extends React.Component {
         const {name, path, validators} = this.props;
         let canNavigate                = () => {try {return !!this.getLocation(name, false)} catch (e) {return false;}};
         return (
-            <div key='name' className="route--identifier">
+            <div key='name' className="route--identifier selectively-active--toggle">
                 <div className="name route--name">{name}</div>
                 <div key={"path"} className="path route--path">
                     {path}
@@ -162,7 +162,8 @@ export default class RouteConfiguration extends React.Component {
         let {path, validators} = getCleanPath(route.requestDescriptor ? route.requestDescriptor.original : '');
         const routeNameProps   = {validators, path, name};
         return (
-            <SelectivelyActive className="route--wrapper" matchTarget={target => target.classList.contains('selectively-active--toggle')}>
+            <SelectivelyActive className="route--wrapper"
+                               matchTarget={target => target.classList.contains('selectively-active--toggle')}>
                 <ActiveComponent component={props => [<RouteName key='route-name' {...routeNameProps} />,
                                                       <Configuration {...props} key='route-configuration' />,
                 ]}

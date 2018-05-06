@@ -14,7 +14,7 @@ import * as PropTypes from "prop-types"
 
 class GalleryPage extends React.Component {
     static contextTypes = {
-        router: PropTypes.func.isRequired
+        router: PropTypes.object.isRequired
     };
     
     render() {

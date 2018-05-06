@@ -1,13 +1,41 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
+import Modal from "../../../../../../../components/modal";
 import ModelMeta from "../../modelMeta";
 import ModelLinkContainer from "../nav";
-import {ModelContainerDescription} from "./components";
 import ContentSection, {ContentSectionHeader} from "../../../../../../../components/page/content/section";
+import {ModelContainerDescription} from "./components";
+import {Route} from "react-router-dom"
+import {getURI} from "../../../../../../../../path/resolution";
+import {SmEntityCreationForm} from "../creation/form";
+import {selectModelMetaHavingSmID_fromAllModelMetas} from "../../selector";
 
-export class ActiveModelScene extends React.Component {
-    static propTypes = {
+class CreateModelDialog extends React.Component {
+    state = {isActive: true};
+    
+    render() {
+        let {match, history, models} = this.props;
+        const {params}               = match;
+        const {smID}                 = params;
+        let onRequestClose           = () => {
+            let devURI = getURI('dev--home', null, {skipEmpty: true, asReactRoute: true});
+            this.setState({isActive: false});
+            return history.action === 'PUSH' ? history.goBack()
+                                             : history.push(devURI);
+        };
+        const modelMeta              = selectModelMetaHavingSmID_fromAllModelMetas(models, smID);
+        if (!modelMeta) return null;
+        return (
+            <Modal isOpen={this.state.isActive} onRequestClose={onRequestClose} title={`Create New ${smID}`} contentLabel="Create New">
+                <SmEntityCreationForm config={modelMeta.config} smID={smID} />
+            </Modal>
+        )
+    };
+};
+
+class ActiveModelScene extends React.Component {
+    static propTypes    = {
         models:                      PropTypes.object,
         creatingModelMetaSmIDs:      PropTypes.array,
         allModelSmIDs:               PropTypes.array,
@@ -22,6 +50,9 @@ export class ActiveModelScene extends React.Component {
         closeModelCreateDialog:      PropTypes.func,
         executeModelQuery:           PropTypes.func,
     };
+    static contextTypes = {
+        router: PropTypes.object.isRequired
+    };
     
     @bind
     handleModelLinkTrigger(event) {
@@ -34,9 +65,11 @@ export class ActiveModelScene extends React.Component {
         const toggleModelPropertyActivity = this.props.toggleModelPropertyActivity,
               executeModelQuery           = this.props.executeModelQuery,
               models                      = this.props.models,
-              openModelCreateDialog       = this.props.openModelCreateDialog,
+              location                    = this.props.location;
+        const modelSmIDsInLocation        = /\[Model]\s?[a-zA-Z]+/.exec(location.pathname) || [];
+        const openModelCreateDialog       = this.props.openModelCreateDialog,
               closeModelCreateDialog      = this.props.closeModelCreateDialog,
-              activeModelSmIDs            = this.props.activeModelSmIDs,
+              activeModelSmIDs            = modelSmIDsInLocation[0] ? [modelSmIDsInLocation[0]] : this.props.activeModelSmIDs,
               creatingModelMetaSmIDs      = this.props.creatingModelMetaSmIDs,
               allModelSmIDs               = this.props.allModelSmIDs;
         
@@ -67,7 +100,11 @@ export class ActiveModelScene extends React.Component {
                             return <ModelMeta key={smID} {...modelMetaProps} />;
                         })
                 }
+                <Route path={getURI('dev--create_model', null, {skipEmpty: true, asReactRoute: true})}
+                       component={props => <CreateModelDialog models={models} {...props} />} />
             </ContentSection>
         );
     }
 }
+
+export default ActiveModelScene;

@@ -73,20 +73,30 @@ const devRoutes     = [
               }),
     new Route({
                   resolution: "#[Dev]::executeQuery",
-                  pattern:    `dev/model/{smID}:${smID_regex}/execute/{query}:[a-zA-Z_]+`,
+                  pattern:    `dev/models/{smID}:${smID_regex}/execute/{query}:[a-zA-Z_]+`,
                   name:       "dev--execute_query"
               }),
     new Route({
-                  resolution:  "#[Dev]::getSchematic",
-                  pattern:     `dev/model/{smID}:${smID_regex}$`,
                   http_method: HTTP__GET,
+                  resolution:  "#[Dev]::getSchematic",
+                  pattern:     `dev/models/{smID}:${smID_regex}$`,
                   name:        "dev--get_model_schematic"
               }),
     new Route({
+                  renderedBy: 'client',
+                  pattern:    `dev/models$`,
+                  name:       'dev--model--home'
+              }),
+    new Route({
+                  renderedBy: 'client',
+                  pattern:    `dev/models/{smID}:${smID_regex}/create$`,
+                  name:       'dev--create_model'
+              }),
+    new Route({
                   resolution:  "#[Dev]::createModel",
-                  pattern:     `dev/model/{smID}:${smID_regex}/create`,
+                  pattern:     `dev/models/{smID}:${smID_regex}/create/receive$`,
                   http_method: HTTP__POST,
-                  name:        'dev--create_model'
+                  name:        'dev--create_model--receive'
               }),
     
     new Route({

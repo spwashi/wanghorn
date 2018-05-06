@@ -3,13 +3,14 @@ import * as PropTypes from "prop-types"
 import {getTitleFromPropName, normalizeSmID} from "../../../utility";
 import bind from "bind-decorator";
 import axios from "axios";
-import {get_CREATE_MODEL} from "../../../../../paths";
+import {getURI} from "../../../../../../../../path/resolution";
 
-export class ModelCreationForm extends React.Component {
+export class SmEntityCreationForm extends React.Component {
     constructor(props) {
         super(props);
         this.state               = {};
-        const settableProperties = this.getSettableProperties(this.props.model.properties);
+        const smEntity           = this.props.config;
+        const settableProperties = this.getSettableProperties(smEntity.properties);
         Object.entries(settableProperties)
               .forEach(([propName, property]) => this.state[propName] = property.defaultValue || '')
     }
@@ -17,16 +18,22 @@ export class ModelCreationForm extends React.Component {
     @bind
     handleSubmit(event) {
         event.preventDefault();
-        let url = get_CREATE_MODEL({smID: this.props.smID});
+        let url = getURI("dev--create_model--receive", {smID: this.props.smID});
         axios.post(url, this.state)
-             .then(({data}) => {
-                 console.log(data);
-             })
+             .then(
+                 ({data}) => {
+                     console.log(data);
+                 })
     }
     
     render() {
-        const model            = this.props.model;
-        const {properties}     = model;
+        const smEntity     = this.props.config;
+        const {properties} = smEntity;
+        
+        if (!properties) {
+            throw new Error("Can only prompt for SmEntities that have Properties");
+        }
+        
         let settableProperties = this.getSettableProperties(properties);
         return (
             <form onSubmit={this.handleSubmit}>
@@ -38,23 +45,28 @@ export class ModelCreationForm extends React.Component {
                               let onKeyDown;
                               let normalizedSmID  = normalizeSmID(property.smID);
                               let value           = this.state[propertyName];
-                              let propertyIsEmail = propertyName.toLowerCase().substr(propertyName.length - "email".length) === "email";
+                              let propertyIsEmail = propertyName.toLowerCase()
+                                                                .substr(propertyName.length - "email".length) === "email";
                               if (propertyIsEmail) {
                                   inputType = "email";
-                                  pattern   = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$";
-                                  onKeyDown = event => {
-                                      if (event.keyCode === 32) event.preventDefault();
-                                  }
-                              } else if (property.datatypes.indexOf('int') > -1) {
-                                  inputType = "number";
+                                  pattern   = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$";
+                                  onKeyDown =
+                                      event => {
+                                          if (event.keyCode === 32) event.preventDefault();
+                                      }
                               }
+                              if (propertyName.indexOf('_id') > 0 || propertyName === 'id' || (property.datatypes || []).indexOf('int') > -1) {
+                                  inputType = "number";
+                                  pattern   = null;
+                              }
+                        
                               let input = <input type={inputType}
                                                  onKeyDown={onKeyDown}
                                                  onChange={e => {
                                                      let val = e.target.value;
                             
                                                      if (propertyIsEmail) {
-                                                         if (val && !/[a-z0-9._%+-@]+$/.test(val)) {
+                                                         if (val && !/[a-zA-Z0-9._%+-@]+$/.test(val)) {
                                                              return;
                                                          }
                                                      }
@@ -89,7 +101,7 @@ export class ModelCreationForm extends React.Component {
     }
 }
 
-ModelCreationForm.propTypes = {
-    smID:  PropTypes.string.isRequired,
-    model: PropTypes.object.isRequired
+SmEntityCreationForm.propTypes = {
+    smID:   PropTypes.string.isRequired,
+    config: PropTypes.object.isRequired
 };

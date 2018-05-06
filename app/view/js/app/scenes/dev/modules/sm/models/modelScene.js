@@ -11,14 +11,15 @@ import {
     toggleModelPropertyActivity,
     toggleModelScene
 } from "./actions";
-import {selectActiveModelMetas, selectActiveModelSmIDs, selectCreatingModelMetaSmIDs, selectModelDevInterface, selectModelSceneActivity} from "./selector";
-import {DevScene} from "../../../components/scene";
 import {connect} from "react-redux";
+import {DevScene} from "../../../components/scene";
+import {withRouter} from "react-router"
+import ActiveModelScene from "./components/scene/active";
 import {ActiveComponent} from "../../../components/selectivelyActive/components";
-import {ActiveModelScene} from "./components/scene/active";
+import {selectActiveModelSmIDs, selectAllModelMetaObjects, selectCreatingModelMetaSmIDs, selectModelDevInterface, selectModelSceneActivity} from "./selector";
 
 @connect(mapState, mapDispatch)
-export default class ModelScene extends Component {
+class ModelScene extends Component {
     constructor(props) {
         super(props);
     }
@@ -28,9 +29,12 @@ export default class ModelScene extends Component {
     }
     
     render() {
+        const pathname = this.props.location.pathname;
+        let isActive   = this.props.isActive;
+        if (pathname.indexOf('models') > 0) isActive = true;
         return (
             <DevScene className={"model"}
-                      isActive={this.props.isActive}
+                      isActive={isActive}
                       onActivate={this.props.toggleModelScene}
                       onDeactivate={this.props.toggleModelScene}
                       childClassName={"model--container"}
@@ -41,10 +45,12 @@ export default class ModelScene extends Component {
     }
 }
 
+export default withRouter(ModelScene);
+
 function mapState(state) {
-    const modelState             = selectModelDevInterface(state);
-    const models                 = selectActiveModelMetas(state) || {};
+    const models                 = selectAllModelMetaObjects(state) || {};
     const isActive               = selectModelSceneActivity(state);
+    const modelState             = selectModelDevInterface(state);
     const activeModelSmIDs       = selectActiveModelSmIDs(state) || [];
     const creatingModelMetaSmIDs = selectCreatingModelMetaSmIDs(state) || [];
     const allModelSmIDs          = modelState.list || [];

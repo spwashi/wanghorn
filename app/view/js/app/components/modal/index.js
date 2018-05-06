@@ -11,6 +11,10 @@ export default class Modal extends React.Component {
         onModalButtonCloseClick: PropTypes.func,
     };
     
+    componentDidMount() {
+        ReactModal.setAppElement('#app--wrapper');
+    }
+    
     render() {
         let {title, onRequestClose, isOpen, contentLabel} = this.props;
         let modalStatusClassNames                         = {afterOpen: 'modal__-open', beforeClose: 'modal__-closing'};
@@ -24,7 +28,7 @@ export default class Modal extends React.Component {
                         contentLabel={contentLabel}
                         overlayClassName={modalOverlayClassNames}
                         className={modalClassNames}>
-                <header >
+                <header>
                     <h2>{title}</h2>
                     <button tabIndex={0} className={'button__close modal--button__close'} onClick={onRequestClose}>X</button>
                 </header>

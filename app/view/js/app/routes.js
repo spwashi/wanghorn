@@ -7,6 +7,6 @@ import {AboutMe, Dev, GalleryPage, Home} from "./scenes";
 export const routes = [
     <Route exact key='Home' path={HOME.length ? HOME : '/'} component={Home} />,
     <Route exact key='LinkOne' path={ABOUT_ME} component={AboutMe} />,
-    <Route exact={false} key='Gallery' path={GALLERY} component={GalleryPage} />,
-    <Route exact key='Dev' path={DEV} component={Dev} />,
+    <Route key='Gallery' path={GALLERY} component={GalleryPage} />,
+    <Route key='Dev' path={DEV} component={Dev} />,
 ];

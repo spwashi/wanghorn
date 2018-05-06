@@ -7,13 +7,8 @@ import {routes} from "./routes";
 import {Header} from "./components/header";
 import Content from "./components/content";
 import {anchorate} from 'anchorate';
-import ReactModal from 'react-modal';
 
 class Application extends React.Component {
-    componentDidMount() {
-        ReactModal.setAppElement('#app--wrapper');
-    }
-    
     render() {
         return (
             <Router onUpdate={() => anchorate()} history={browserHistory}>

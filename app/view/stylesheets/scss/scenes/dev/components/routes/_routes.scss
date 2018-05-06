@@ -20,7 +20,7 @@
 			display : inline-block;
 		}
 	}
-	.selectively-active--toggle {
+	button.selectively-active--toggle {
 		position   : absolute;
 		width      : $sa_toggle_width;
 		height     : 30px;
@@ -55,6 +55,21 @@
 		background : rgba($component--meta--bg--color, .5);
 		right      : $sa_toggle_width + 10px;
 		position   : absolute;
+		height     : 100%;
+		width      : 130px;
+		&:hover, &:focus {
+			background : rgba(darken($component--meta--bg--color, 10%), .9);
+			color      : white;
+		}
+	}
+	&.active {
+		.route--navigate {
+			background : rgba($accent_color__2, .9);
+			color      : white;
+			&:hover, &:focus {
+				background : rgba(darken($accent_color__2, 10%), .9);
+			}
+		}
 	}
 }
 
@@ -129,15 +144,13 @@
 
 .route--navigation--form {
 	a.navigate {
-		font-style   : normal;
-		width        : 80%;
-		margin-top   : 10px;
-		padding-top  : 10px;
-		border-top   : thin solid #ccc;
-		text-align   : center;
-		display      : block;
-		margin-right : auto;
-		margin-left  : auto;
+		font-style : normal;
+		width      : 80%;
+		border-top : thin solid #ccc;
+		text-align : center;
+		display    : block;
+		margin     : auto;
+		padding    : 10px 10px;
 		&.active {
 			font-weight : bold;
 		}

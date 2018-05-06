@@ -44,16 +44,22 @@
          "pattern": "wanghorn/dev/routes.json$"
       },
       "dev--execute_query": {
-         "pattern": "wanghorn/dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
+         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       "dev--get_model_schematic": {
-         "pattern": "wanghorn/dev/model/{smID}:[\\[a-zA-Z\\]\\s]+$",
+         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+$",
          "http_method": [
             "get"
          ]
       },
+      "dev--model--home": {
+         "pattern": "wanghorn/dev/models$"
+      },
       "dev--create_model": {
-         "pattern": "wanghorn/dev/model/{smID}:[\\[a-zA-Z\\]\\s]+/create",
+         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/create$"
+      },
+      "dev--create_model--receive": {
+         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/create/receive$",
          "http_method": [
             "post"
          ]
