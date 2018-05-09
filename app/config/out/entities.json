@@ -8,7 +8,8 @@
                "string"
             ],
             "length": 255,
-            "derivedFrom": "[Property]{[Model]password} password"
+            "derivedFrom": "[Property]{[Model]password} password",
+            "role": "value"
          }
       },
       "persistedIdentity": "[Model]password",
@@ -17,7 +18,8 @@
             "datatype": "string",
             "requireFormatting": true
          }
-      }
+      },
+      "contexts": {}
    },
    "user": {
       "smID": "[Entity]user",
@@ -47,10 +49,28 @@
             ],
             "derivedFrom": {
                "user_id": "[Property]{[Model]user} id"
-            }
+            },
+            "contexts": [
+               "login_process",
+               "signup_process"
+            ]
          }
       },
-      "persistedIdentity": "[Model]user"
+      "persistedIdentity": "[Model]user",
+      "contexts": {
+         "login_process": {
+            "self": {
+               "title": "User",
+               "name": "user"
+            }
+         },
+         "signup_process": {
+            "self": {
+               "title": "User",
+               "name": "user"
+            }
+         }
+      }
    },
    "person": {
       "smID": "[Entity]person",
@@ -65,6 +85,20 @@
             }
          }
       },
-      "persistedIdentity": "[Model]person"
+      "persistedIdentity": "[Model]person",
+      "contexts": {
+         "login_process": {
+            "self": {
+               "title": "Person",
+               "name": "person"
+            }
+         },
+         "signup_process": {
+            "self": {
+               "title": "Person",
+               "name": "person"
+            }
+         }
+      }
    }
 }

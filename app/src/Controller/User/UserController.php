@@ -4,10 +4,8 @@
 namespace WANGHORN\Controller\User;
 
 
-use Sm\Application\Application;
 use Sm\Application\Controller\BaseApplicationController;
 use Sm\Data\Entity\Exception\EntityModelNotFoundException;
-use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Controller\User\Login\ResponseStatus;
 use WANGHORN\Entity\User\User;
@@ -51,33 +49,23 @@ class UserController extends BaseApplicationController {
     public function login() {
         $username          = $_POST['username'] ?? null;
         $password          = $_POST['password'] ?? null;
-        $modelDataManager  = $this->app->data->models;
         $entityDataManager = $this->app->data->entities;
         
         # Instantiate a Model that we'll use to find a matching object (or throw an error if it doesn't exist)
         try {
             /** @var User $userEntity */
             $userEntity = $entityDataManager->instantiate('user');
-            
-            if ($username === 'test_dev' && $password === '8675309') {
-                $user                     = $userEntity->set([ 'username' => $username ]);
-                $_SESSION['IS_DEVELOPER'] = true;
-            } else {
-                /** @var User $user */
-                $user = $userEntity->find([ 'email' => $username ]);
-                $user->findPassword();
-                $user->findUsername();
-            }
-            return $user;
-        } catch (ModelNotFoundException|EntityModelNotFoundException $exception) {
-            if ($this->app->environmentIs(Application::ENV_DEV)) {
-                $error_message = $exception;
-            } else {
-                $error_message = 'Could not find User';
-            }
+            $userEntity->find([ 'email' => $username ]);
+            $userEntity->findUsername();
+            $userEntity->findPassword();
             return [
-                'error'   => $error_message,
+                'user'    => $userEntity,
                 'success' => true,
+            ];
+        } catch (EntityModelNotFoundException $exception) {
+            return [
+                'error'   => 'Could not find User with the provided username and password',
+                'success' => false,
             ];
         }
     }

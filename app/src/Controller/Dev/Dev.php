@@ -265,7 +265,8 @@ class Dev extends BaseApplicationController {
         $modelPersistenceManager = $this->app->data->models->persistenceManager;
         if ($modelPersistenceManager instanceof StandardModelPersistenceManager) {
             $model = $this->app->data->models->instantiate($smID);
-            return $modelPersistenceManager->setFindSafety(false)->findAll($model);
+            $all   = $modelPersistenceManager->setFindSafety(false)->findAll($model);
+            return $all;
         }
         return null;
     }

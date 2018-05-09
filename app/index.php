@@ -49,13 +49,18 @@ try {
     }
 } catch (\Sm\Core\Exception\Exception $exception) {
     if ($app->environmentIs(Application::ENV_DEV)) {
-        header('Content-Type: application/json');
-        echo json_encode([
-                             $exception->getMessage(),
-                             $exception->getPrevious(),
-                             $exception->getMonitorContainer(),
-                             $exception,
-                         ]);
+        try{
+            $error = json_encode([
+                                 $exception->getMessage(),
+                                 $exception->getPrevious(),
+                                 $exception->getMonitorContainer(),
+                                 $exception,
+                             ]);
+            header('Content-Type: application/json');
+            echo $error;
+        }catch (Exception $e){
+            var_dump($e);
+        }
     }
     $app->logging->log([
                            $exception->getMessage(),

@@ -81,36 +81,11 @@ class User extends Entity {
     public function findPassword(): Property {
         return $this->findProperty($this->properties->password);
     }
-    public function findUsername(): Property {
-        return $this->findProperty($this->properties->username);
-    }
     /**
-     * @param \Sm\Data\Property\Property $password
-     *
      * @return \Sm\Data\Property\Property
      * @throws \Sm\Core\Resolvable\Error\UnresolvableException
      */
-    public function findProperty(Property $password): Property {
-        /** @var \Sm\Data\Entity\Property\EntityPropertySchematic $passwordSchematic */
-        $passwordSchematic = $password->getEffectiveSchematic();
-        if (!($passwordSchematic instanceof EntityPropertySchematic)) return $password;
-        /** @var Model $primaryModel */
-        $derivedFrom = $passwordSchematic->getDerivedFrom();
-        
-        if (is_string($derivedFrom)) {
-            $val = $primaryModel->properties->{$derivedFrom};
-            var_dump($val);
-        } else if (!is_array($derivedFrom)) {
-            throw new UnresolvableException("Cannot resolve anything but an association of properties");
-        }
-        
-        if (!($password instanceof EntityAsProperty)) return $password;
-        $identity     = [];
-        $primaryModel = $this->getPersistedIdentity();
-        foreach ($derivedFrom as $find_property_name => $value_property_smID) {
-            $identity[ $find_property_name ] = $primaryModel->properties->{$value_property_smID};
-        }
-        $password->setIdentity($identity)->find();
-        return $password;
+    public function findUsername(): Property {
+        return $this->findProperty($this->properties->username);
     }
 }

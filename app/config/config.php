@@ -147,9 +147,19 @@ function _data_layer(Application $app): void {
     $modelDataManager   = $app->data->models;
     $entityDataManager  = $app->data->entities;
     $queryModule        = $app->query->getQueryModule();
-    $persistenceManager = new StandardModelPersistenceManager($modelDataManager->getSmEntityFactory());
+    $modelFactory       = $modelDataManager->getSmEntityFactory();
+    $persistenceManager = new StandardModelPersistenceManager($modelFactory);
     $persistenceManager->setQueryInterpreter($queryModule);
     $modelDataManager->setPersistenceManager($persistenceManager);
+    $app->data->properties->registerResolver(function (string $smID, $schematic = null) use ($app) {
+        $smID = str_replace(' ', '', $smID);
+        switch ($smID) {
+            default:
+                $property = new \WANGHORN\Model\Property;
+                return $property;
+        }
+        return null;
+    });
     $app->data->models->registerResolver(function (string $smID) use ($app) {
         switch ($smID) {
             case '[Model]user':
@@ -158,16 +168,8 @@ function _data_layer(Application $app): void {
                 return new \WANGHORN\Model\Model($app->data->models->getPropertyDataManager());
         }
     });
-    $app->data->entities->registerResolver(function (string $smID) use ($entityDataManager) {
-        switch ($smID) {
-            case '[Entity]user':
-                return new \WANGHORN\Entity\User\User($entityDataManager);
-            case '[Entity]password':
-                return new \WANGHORN\Entity\Password\Password($entityDataManager);
-            default:
-                throw new UnresolvableException("Cannot initialize $smID");
-        }
-    });
+    $datatypeFactory = DatatypeFactory::init()->setDataLayer($app->data);
+    
     $app->data->entityProperties->registerResolver(function (string $smID, $schematic = null) use ($app) {
         $smID = str_replace(' ', '', $smID);
         
@@ -178,21 +180,25 @@ function _data_layer(Application $app): void {
         if (!$parsed) return null;
         if (($parsed['manager'] ?? null) !== 'Entity') return null;
         $entityAsProperty = new EntityAsProperty;
-        $entityAsProperty->setSubject($app->data->entities->instantiate($primaryDataType[0]));
+        $entity           = $app->data->entities->instantiate($primaryDataType[0]);
+        $entityAsProperty->setEntity($entity);
         return $entityAsProperty;
         
         return null;
     });
-    $app->data->properties->registerResolver(function (string $smID, $schematic = null) use ($app) {
-        $smID = str_replace(' ', '', $smID);
+    
+    $app->data->properties->setDatatypeFactory($datatypeFactory);
+    $app->data->entityProperties->setDatatypeFactory($datatypeFactory);
+    
+    $app->data->entities->registerResolver(function (string $smID) use ($entityDataManager) {
         switch ($smID) {
+            case '[Entity]user':
+                return new \WANGHORN\Entity\User\User($entityDataManager);
+            case '[Entity]password':
+                return new \WANGHORN\Entity\Password\Password($entityDataManager);
             default:
-                $property        = new \WANGHORN\Model\Property;
-                $datatypeFactory = DatatypeFactory::init()->setDataLayer($app->data);
-                $property->setDatatypeFactory($datatypeFactory);
-                return $property;
+                throw new UnresolvableException("Cannot initialize $smID");
         }
-        return null;
     });
 }
 

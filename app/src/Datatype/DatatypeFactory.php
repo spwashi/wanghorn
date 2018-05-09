@@ -4,13 +4,12 @@
 namespace WANGHORN\Datatype;
 
 
+use Sm\Core\Exception\UnimplementedError;
 use Sm\Core\Resolvable\Error\UnresolvableException;
 use Sm\Data\DataLayer;
 use Sm\Data\SmEntity\SmEntityDataManager;
 
 class DatatypeFactory extends \Sm\Data\Type\DatatypeFactory {
-    // allows us to resolve Entities
-    protected $do_shift_args_for_anonymous = false;
     protected $dataLayer;
     
     /**
@@ -28,6 +27,7 @@ class DatatypeFactory extends \Sm\Data\Type\DatatypeFactory {
                                 if (!isset($dataLayer)) {
                                     throw new UnresolvableException("Cannot resolve $smID without being connected to a datalayer");
                                 }
+                                if (!$parsed) throw new UnimplementedError("Cannot resolve Datatype '" . $smID . "'");
                                 $manager = $dataLayer->getDataManager($parsed['manager'] ?? null);
                                 $item    = $manager->instantiate($parsed['name'] ?? null);
                                 return $item;

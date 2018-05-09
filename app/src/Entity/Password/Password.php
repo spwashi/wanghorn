@@ -27,6 +27,6 @@ class Password extends Entity implements Resolvable {
      * @return mixed
      */
     public function resolve() {
-        return 'boon';
+        return $this->properties->password->resolve();
     }
 }
