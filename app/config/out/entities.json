@@ -28,6 +28,7 @@
                "string"
             ],
             "length": 40,
+            "unique": true,
             "derivedFrom": "[Property]{[Model]user} username"
          },
          "email": {

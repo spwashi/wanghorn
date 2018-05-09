@@ -1,11 +1,11 @@
 import React from "react";
 import * as PropTypes from "prop-types"
-import ModelConfigurationAttribute from "../index";
 import PropertiesAttrMetaList from "./metaList";
-import PropertyConfigurationWrapper from "../../../property/config/wrapper";
-import {normalizeSmID} from "../../../../../../../sm/utility";
+import PropertyConfigurationWrapper from "../../property/config/wrapper";
+import {normalizeSmID} from "../../../../utility";
+import {ConfigurationAttribute} from "../../../../../../components/configuration/index";
 
-class ModelConfigurationPropertiesAttribute extends React.Component {
+class SmEntityConfigurationPropertiesAttribute extends React.Component {
     get meta() {
         const {properties, onPropertyLinkTrigger, activeProperties} = this.props;
         return <PropertiesAttrMetaList onPropertyLinkTrigger={onPropertyLinkTrigger} activeProperties={activeProperties} properties={properties} />
@@ -13,7 +13,7 @@ class ModelConfigurationPropertiesAttribute extends React.Component {
     
     render() {
         return (
-            <ModelConfigurationAttribute valueMeta={this.meta} attribute="properties">
+            <ConfigurationAttribute valueMeta={this.meta} ownerType={this.props.ownerType} attribute="properties">
                 <div className="attribute__properties--container">
                     {
                         Object.entries(this.props.properties)
@@ -21,18 +21,19 @@ class ModelConfigurationPropertiesAttribute extends React.Component {
                               .map(([name, config]) => <PropertyConfigurationWrapper key={name} {...{name, config}} />)
                     }
                 </div>
-            </ModelConfigurationAttribute>
+            </ConfigurationAttribute>
         );
         
     }
 }
 
-ModelConfigurationPropertiesAttribute.propTypes    = {
+SmEntityConfigurationPropertiesAttribute.propTypes    = {
     properties:            PropTypes.object,
+    ownerType:             PropTypes.string,
     activeProperties:      PropTypes.arrayOf(PropTypes.string),
     onPropertyLinkTrigger: PropTypes.func
 };
-ModelConfigurationPropertiesAttribute.defaultProps = {
+SmEntityConfigurationPropertiesAttribute.defaultProps = {
     activeProperties: []
 };
-export default ModelConfigurationPropertiesAttribute;
+export default SmEntityConfigurationPropertiesAttribute;

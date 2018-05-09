@@ -2,14 +2,17 @@
 
 use Sm\Application\Application;
 use Sm\Core\Event\GenericEvent;
+use Sm\Core\Resolvable\Error\UnresolvableException;
 use Sm\Core\Util;
-use Sm\Data\Model\Model;
+use Sm\Data\Entity\Property\EntityAsProperty;
+use Sm\Data\Entity\Property\EntityPropertySchematic;
 use Sm\Data\Model\StandardModelPersistenceManager;
+use Sm\Data\SmEntity\SmEntityDataManager;
 use Sm\Modules\Query\MySql\Authentication\MySqlAuthentication;
 use Sm\Modules\Query\MySql\MySqlQueryModule;
 use Sm\Modules\View\PlainFile\PlainFileViewModule;
 use Sm\Modules\View\Twig\TwigViewModule;
-use WANGHORN\Model\User;
+use WANGHORN\Datatype\DatatypeFactory;
 
 
 ####################################################################################
@@ -141,17 +144,53 @@ function _data_layer(Application $app): void {
         $app->data->configure($entity_config);
     }
     /** @var \Sm\Data\Model\ModelDataManager $modelDataManager */
-    $modelDataManager   = $app->data->getDataManager(Model::class);
+    $modelDataManager   = $app->data->models;
+    $entityDataManager  = $app->data->entities;
     $queryModule        = $app->query->getQueryModule();
-    $persistenceManager = new StandardModelPersistenceManager;
+    $persistenceManager = new StandardModelPersistenceManager($modelDataManager->getSmEntityFactory());
     $persistenceManager->setQueryInterpreter($queryModule);
     $modelDataManager->setPersistenceManager($persistenceManager);
-    $app->data->models->registerResolver(function (string $smID) {
+    $app->data->models->registerResolver(function (string $smID) use ($app) {
         switch ($smID) {
-            case '[Model]users':
-                return new User;
+            case '[Model]user':
+                return new \WANGHORN\Model\User($app->data->models->getPropertyDataManager());
             default:
-                return new \WANGHORN\Model\Model;
+                return new \WANGHORN\Model\Model($app->data->models->getPropertyDataManager());
+        }
+    });
+    $app->data->entities->registerResolver(function (string $smID) use ($entityDataManager) {
+        switch ($smID) {
+            case '[Entity]user':
+                return new \WANGHORN\Entity\User\User($entityDataManager);
+            case '[Entity]password':
+                return new \WANGHORN\Entity\Password\Password($entityDataManager);
+            default:
+                throw new UnresolvableException("Cannot initialize $smID");
+        }
+    });
+    $app->data->entityProperties->registerResolver(function (string $smID, $schematic = null) use ($app) {
+        $smID = str_replace(' ', '', $smID);
+        
+        if (!($schematic instanceof EntityPropertySchematic)) return null;
+        
+        $primaryDataType = $schematic->getRawDataTypes();
+        $parsed          = SmEntityDataManager::parseSmID($primaryDataType[0] ?? null);
+        if (!$parsed) return null;
+        if (($parsed['manager'] ?? null) !== 'Entity') return null;
+        $entityAsProperty = new EntityAsProperty;
+        $entityAsProperty->setSubject($app->data->entities->instantiate($primaryDataType[0]));
+        return $entityAsProperty;
+        
+        return null;
+    });
+    $app->data->properties->registerResolver(function (string $smID, $schematic = null) use ($app) {
+        $smID = str_replace(' ', '', $smID);
+        switch ($smID) {
+            default:
+                $property        = new \WANGHORN\Model\Property;
+                $datatypeFactory = DatatypeFactory::init()->setDataLayer($app->data);
+                $property->setDatatypeFactory($datatypeFactory);
+                return $property;
         }
         return null;
     });
@@ -160,7 +199,7 @@ function _data_layer(Application $app): void {
 function _representation_layer(Application $app): void {
     
     # This is a module that will allow us to reference files we want to represent as Views as they literally exist.
-    #   We'd ideally use this for returning pre-generated HTML or static JSON
+    #   We'd ideally use this for returning pre - generated HTML or static JSON
     $plainFileModule = new PlainFileViewModule;
     
     # Assume that we are going to use HTML files and they are typically going to be stored in the public directory

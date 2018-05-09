@@ -46,8 +46,17 @@
       "dev--execute_query": {
          "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
+      "dev--model": {
+         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+$"
+      },
       "dev--get_model_schematic": {
-         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+$",
+         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/schematic$",
+         "http_method": [
+            "get"
+         ]
+      },
+      "dev--all_models": {
+         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/all",
          "http_method": [
             "get"
          ]

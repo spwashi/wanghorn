@@ -1,7 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {normalizeSmID} from "../../../../../../../sm/utility";
-import {getTitleFromPropName} from "../../../../../../utility";
+import {normalizeSmID} from "../../../../utility";
+import {getTitleFromPropName} from "../../../../utility";
 
 const PropertySmIDLink     = ({smID, children, onTrigger, isActive}) => {
     onTrigger             = onTrigger || (() => {});

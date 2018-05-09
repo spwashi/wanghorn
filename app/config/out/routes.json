@@ -70,9 +70,22 @@
          "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       {
+         "name": "dev--model",
+         "resolution": "#Home\\Home::index",
+         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+$"
+      },
+      {
          "name": "dev--get_model_schematic",
          "resolution": "#Dev\\Dev::getSchematic",
-         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+$",
+         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/schematic$",
+         "http_method": [
+            "get"
+         ]
+      },
+      {
+         "name": "dev--all_models",
+         "resolution": "#Dev\\Dev::findAll",
+         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/all",
          "http_method": [
             "get"
          ]

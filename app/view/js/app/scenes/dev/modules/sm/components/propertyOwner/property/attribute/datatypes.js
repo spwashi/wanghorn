@@ -1,7 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import {PropertyConfigurationAttribute} from "./index";
-import Tag from "base-components/tag";
+import Tag from "../../../../../../../../../components/tag/index";
 
 class PropertyConfigurationDatatypesAttribute extends React.Component {
     render() {

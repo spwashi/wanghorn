@@ -14,5 +14,5 @@ const ModelConfigurationInheritsAttribute     =
           };
 ModelConfigurationInheritsAttribute.propTypes = {
     inherits: PropTypes.arrayOf(PropTypes.string)
-}
+};
 export default ModelConfigurationInheritsAttribute;

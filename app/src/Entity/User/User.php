@@ -4,13 +4,15 @@
 namespace WANGHORN\Entity\User;
 
 
-use Sm\Core\Event\GenericEvent;
 use Sm\Core\Exception\UnimplementedError;
-use Sm\Core\Internal\Monitor\Monitor;
+use Sm\Core\Resolvable\Error\UnresolvableException;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
+use Sm\Data\Entity\Property\EntityAsProperty;
+use Sm\Data\Entity\Property\EntityPropertySchematic;
 use Sm\Data\Property\Property;
 use Sm\Data\Property\PropertyContainer;
 use WANGHORN\Entity\Entity;
+use WANGHORN\Model\Model;
 
 /**
  * Class User
@@ -19,9 +21,9 @@ use WANGHORN\Entity\Entity;
  * @property-read UserPropertyContainer                                   $properties
  */
 class User extends Entity {
-    protected $primaryModelName = 'user';
-    
-    use EntityHasPrimaryModelTrait;
+    use EntityHasPrimaryModelTrait {
+        find as _find;
+    }
     
     #
     ##
@@ -35,7 +37,6 @@ class User extends Entity {
             $this->properties->register($index, Property::init()->setValue($attribute));
         }
         $this->set($attributes);
-        var_dump($this->properties);
         $model = $this->getPrimaryModel($this->modelDataManager);
         $model->set([
                         'email'      => $this->properties->email,
@@ -49,30 +50,9 @@ class User extends Entity {
     public function save($attributes = []) {
         throw new UnimplementedError("Cannot save User");
     }
-    public function find($attributes = [], $context = 0): User {
-        $this->registerPropertyValues($attributes);
-        
-        $primaryModel = $this->findPrimaryModel($this->modelDataManager);
-        
-        $this->getMonitor(Monitor::INFO)
-             ->append(GenericEvent::init('FOUND PRIMARY MODEL -- ',
-                                         [
-                                             $primaryModel,
-                                             $primaryModel->jsonSerialize(),
-                                         ]));
-        
-        $this->registerPropertyValues([
-                                          'user_id'    => $primaryModel->properties->id,
-                                          'first_name' => $primaryModel->properties->first_name,
-                                          'email'      => $primaryModel->properties->email,
-                                          'last_name'  => $primaryModel->properties->last_name,
-                                      ]);
-        return $this;
-    }
     public function destroy() {
         $primaryModel = $this->getPrimaryModel($this->modelDataManager);
         $result       = $this->modelDataManager->persistenceManager->markDelete($primaryModel);
-        var_dump($result);
     }
     #
     ##
@@ -95,28 +75,42 @@ class User extends Entity {
     public function getProperties(): PropertyContainer {
         return parent::getProperties();
     }
-    protected function getPrimaryModelProperties($context = null): PropertyContainer {
-        $propertyArray = [
-            'id'         => $this->properties->user_id,
-            'first_name' => $this->properties->first_name,
-            'last_name'  => $this->properties->last_name,
-        ];
-        $propertyArray = array_filter($propertyArray);
-        return PropertyContainer::init()->register($propertyArray);
-    }
-    
     /**
-     * @param $attributes
+     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
      */
-    protected function registerPropertyValues($attributes): void {
-        $properties = [];
+    public function findPassword(): Property {
+        return $this->findProperty($this->properties->password);
+    }
+    public function findUsername(): Property {
+        return $this->findProperty($this->properties->username);
+    }
+    /**
+     * @param \Sm\Data\Property\Property $password
+     *
+     * @return \Sm\Data\Property\Property
+     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
+     */
+    public function findProperty(Property $password): Property {
+        /** @var \Sm\Data\Entity\Property\EntityPropertySchematic $passwordSchematic */
+        $passwordSchematic = $password->getEffectiveSchematic();
+        if (!($passwordSchematic instanceof EntityPropertySchematic)) return $password;
+        /** @var Model $primaryModel */
+        $derivedFrom = $passwordSchematic->getDerivedFrom();
         
-        foreach ($attributes as $index => $value) {
-            $originalProperty        = $this->getProperties()->$index ?? Property::init();
-            $originalProperty->value = $value;
-            $newProperty             = $originalProperty;
-            $properties[ $index ]    = $newProperty;
+        if (is_string($derivedFrom)) {
+            $val = $primaryModel->properties->{$derivedFrom};
+            var_dump($val);
+        } else if (!is_array($derivedFrom)) {
+            throw new UnresolvableException("Cannot resolve anything but an association of properties");
         }
-        $this->getProperties()->register($properties);
+        
+        if (!($password instanceof EntityAsProperty)) return $password;
+        $identity     = [];
+        $primaryModel = $this->getPersistedIdentity();
+        foreach ($derivedFrom as $find_property_name => $value_property_smID) {
+            $identity[ $find_property_name ] = $primaryModel->properties->{$value_property_smID};
+        }
+        $password->setIdentity($identity)->find();
+        return $password;
     }
 }

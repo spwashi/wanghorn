@@ -26,6 +26,7 @@ class ModelMeta extends React.Component {
         const executeCreateTableStatement    = () => { executeModelQuery({smID, query: 'CREATE_TABLE'})};
         const executeAllAlterTableStatements = () => { executeModelQuery({smID, query: 'ALTER_TABLE'})};
         const canCreateTable                 = (!tableExists) && createTableStatement && createTableStatement.length;
+        let createModelURI                   = getURI('dev--create_model', {smID});
         return (
             <div key={smID} className={"model--meta"}>
                 <header>
@@ -34,7 +35,13 @@ class ModelMeta extends React.Component {
                 </header>
                 <div className="model--meta--action--container">
                     {tableExists ? (<div className="model--meta--action--wrapper">
-                                     <button><a href={getURI('dev--create_model', {smID})}>Create New Model</a></button>
+                                     <a href={createModelURI}
+                                        className={"button"}
+                                        onKeyDown={event => {
+                                            if (event.keyCode === 13 || event.keyCode === 32) {
+                                                window.location = createModelURI
+                                            }
+                                        }}>Create New Model</a>
                                  </div>)
                                  : null}
                     {canCreateTable ? <div className="model--meta--action--wrapper">

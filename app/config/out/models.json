@@ -267,6 +267,7 @@
          ],
          "unique": {
             "unique_key": [
+               "[Property]{[Model]user} username",
                "[Property]{[Model]user} email"
             ]
          }
@@ -311,7 +312,8 @@
             "datatypes": [
                "string"
             ],
-            "length": 40
+            "length": 40,
+            "unique": true
          },
          "email": {
             "smID": "[Property]{[Model]user} email",
@@ -323,6 +325,9 @@
          },
          "person_id": {
             "smID": "[Property]{[Model]user} person_id",
+            "datatypes": [
+               "int"
+            ],
             "length": 11,
             "reference": {
                "identity": "[Model]person",

@@ -30,8 +30,11 @@ class ModelScene extends Component {
     
     render() {
         const pathname = this.props.location.pathname;
+        const hash     = this.props.location.hash;
         let isActive   = this.props.isActive;
-        if (pathname.indexOf('models') > 0) isActive = true;
+        if (pathname.indexOf('models') > -1) isActive = true;
+        if (hash.indexOf('[Model]') > -1) isActive = true;
+        
         return (
             <DevScene className={"model"}
                       isActive={isActive}

@@ -6,7 +6,7 @@ import ReactTooltip from "react-tooltip";
 import bind from "bind-decorator";
 import {ActiveComponent, InactiveComponent} from "../../../../../../../components/selectivelyActive/components";
 import ModelConfigurationAttribute from "../attribute";
-import ModelConfigurationPropertiesAttribute from "../attribute/properties";
+import SmEntityConfigurationPropertiesAttribute from "../../../../../components/propertyOwner/attribute/properties";
 import ModelConfigurationInheritsAttribute from "../attribute/inherits";
 
 /**
@@ -49,9 +49,9 @@ class ModelConfigurationWrapper extends React.Component {
             case 'inherits':
                 return <ModelConfigurationInheritsAttribute inherits={value} />;
             case 'properties':
-                return <ModelConfigurationPropertiesAttribute activeProperties={this.props.activeProperties}
-                                                              onPropertyLinkTrigger={this.props.onTogglePropertyClick}
-                                                              properties={value} />;
+                return <SmEntityConfigurationPropertiesAttribute activeProperties={this.props.activeProperties}
+                                                                 onPropertyLinkTrigger={this.props.onTogglePropertyClick}
+                                                                 properties={value} />;
             default:
                 return <ModelConfigurationAttribute attribute={name} value={value} />;
         }

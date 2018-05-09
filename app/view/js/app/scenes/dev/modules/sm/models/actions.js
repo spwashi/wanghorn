@@ -21,7 +21,7 @@ const executeModelQueryEnd            = ({smID, query, result}) => ({type: EXECU
 export const executeModelQuery        = ({smID, query}) =>
     dispatch => {
         dispatch(executeModelQueryBegin({smID, query}));
-        return axios.get(getURI("dev--execute_query", {smID, query}))
+        return axios.get(getURI("dev--execute_query", {smID, query}) + '?run')
                     .then(response =>
                               dispatch(executeModelQueryEnd({
                                                                 smID,

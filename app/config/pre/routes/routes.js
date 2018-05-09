@@ -77,10 +77,21 @@ const devRoutes     = [
                   name:       "dev--execute_query"
               }),
     new Route({
+                  renderedBy: 'client',
+                  pattern:    `dev/models/{smID}:${smID_regex}$`,
+                  name:       "dev--model"
+              }),
+    new Route({
                   http_method: HTTP__GET,
                   resolution:  "#[Dev]::getSchematic",
-                  pattern:     `dev/models/{smID}:${smID_regex}$`,
+                  pattern:     `dev/models/{smID}:${smID_regex}/schematic$`,
                   name:        "dev--get_model_schematic"
+              }),
+    new Route({
+                  http_method: HTTP__GET,
+                  resolution:  "#[Dev]::findAll",
+                  pattern:     `dev/models/{smID}:${smID_regex}/all`,
+                  name:        "dev--all_models"
               }),
     new Route({
                   renderedBy: 'client',

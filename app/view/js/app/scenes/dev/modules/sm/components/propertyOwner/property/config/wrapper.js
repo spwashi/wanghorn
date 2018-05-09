@@ -1,8 +1,8 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import PropertyConfiguration, {PropertyConfigurationTitle} from "./config";
-import {SelectivelyActive} from "../../../../../../../components/selectivelyActive";
-import {ActiveComponent, InactiveComponent} from "../../../../../../../components/selectivelyActive/components";
+import {SelectivelyActive} from "../../../../../../components/selectivelyActive/index";
+import {ActiveComponent, InactiveComponent} from "../../../../../../components/selectivelyActive/components/index";
 
 let InactivePropertyConfigComponent    = ({name}) =>
     <div className={"property--configuration inactive"}>

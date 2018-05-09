@@ -3,7 +3,9 @@
 namespace WANGHORN\Controller\Dev;
 
 use Error;
+use Sm\Application\Application;
 use Sm\Application\Controller\BaseApplicationController;
+use Sm\Controller\Controller;
 use Sm\Core\Exception\Exception;
 use Sm\Core\Exception\InvalidArgumentException;
 use Sm\Core\Exception\UnimplementedError;
@@ -13,6 +15,7 @@ use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Model\ModelPersistenceManager;
 use Sm\Data\Model\ModelPropertyMetaSchematic;
 use Sm\Data\Model\ModelSchematic;
+use Sm\Data\Model\StandardModelPersistenceManager;
 use Sm\Data\Property\PropertySchematic;
 use Sm\Data\Source\Database\Table\TableSourceSchematic;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
@@ -116,6 +119,7 @@ class Dev extends BaseApplicationController {
             $this->dieWithQueryError($e->getMessage());
         }
     }
+    
     public function modelConfig() {
         $html_filename = DEFAULT_APP__CONFIG_PATH . 'out/models.json';
         $json          = file_get_contents($html_filename);
@@ -193,15 +197,32 @@ class Dev extends BaseApplicationController {
     public function monitors() {
         return json_decode(json_encode($this->app->getMonitors()), 1);
     }
+    /**
+     * @param $modelSmID
+     *
+     * @return \Sm\Data\Model\Model
+     * @throws \Sm\Core\Exception\InvalidArgumentException
+     * @throws \Sm\Core\Exception\UnimplementedError
+     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
+     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
+     */
     public function createModel($modelSmID) {
         $data = HttpRequestFromEnvironment::getRequestData();
-        /** @var ModelSchematic $schematic */
-        $schematic  = $this->app->data->models->getSchematicByName($modelSmID);
+        /** @var \WANGHORN\Model\Model $model */
+        $model      = $this->app->data->models->instantiate($modelSmID);
         $properties = [];
-        foreach ($data as $key => $item) {
-            $properties[ $key ] = $schematic->getProperties()->{$key};
+        foreach ($data as $key => $value) {
+            $property           = $model->getProperties()->{$key};
+            $properties[ $key ] = $property;
+            
+            if ($this->app->environmentIs(Application::ENV_DEV)) {
+                $model->set($key, $value);
+            }
         }
-        return $this->app->data->properties->getRegisteredSchematics();
+        $model->validate();
+        $modelPersistenceManager = $this->app->data->models->persistenceManager;
+        $newModel                = $modelPersistenceManager->create($model);
+        return $newModel;
     }
     public function eg() {
         
@@ -231,7 +252,29 @@ class Dev extends BaseApplicationController {
         
         return $rendered;
     }
-    
+    /**
+     * @param $smID
+     *
+     * @return null|\Sm\Data\Model\Model[]
+     * @throws \Sm\Core\Exception\InvalidArgumentException
+     * @throws \Sm\Core\Exception\UnimplementedError
+     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
+     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
+     */
+    public function findAll($smID) {
+        $modelPersistenceManager = $this->app->data->models->persistenceManager;
+        if ($modelPersistenceManager instanceof StandardModelPersistenceManager) {
+            $model = $this->app->data->models->instantiate($smID);
+            return $modelPersistenceManager->setFindSafety(false)->findAll($model);
+        }
+        return null;
+    }
+    public function proxy(): Controller {
+        $proxy      = new DevProxy($this);
+        $can_access = isset($_SESSION['IS_DEVELOPER']);
+        $proxy->setCanAccess(true);
+        return $proxy;
+    }
     /**
      * @param  \Sm\Data\Model\ModelSchematic[] $models
      *

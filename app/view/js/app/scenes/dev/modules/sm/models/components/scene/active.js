@@ -55,9 +55,11 @@ class ActiveModelScene extends React.Component {
     };
     
     @bind
-    handleModelLinkTrigger(event) {
-        const smID = event.target.dataset.sm_id;
-        event.preventDefault();
+    handleModelLinkTrigger(smID) {
+        if (this.props.activeModelSmIDs.indexOf(smID) > -1) {
+        } else {
+        
+        }
         this.props.toggleModelActivity({smID});
     }
     
@@ -66,15 +68,14 @@ class ActiveModelScene extends React.Component {
               executeModelQuery           = this.props.executeModelQuery,
               models                      = this.props.models,
               location                    = this.props.location;
-        const modelSmIDsInLocation        = /\[Model]\s?[a-zA-Z]+/.exec(location.pathname) || [];
+        let urlActiveSmIDs                = this.getActiveSmIDsFromLocation(location, this.props.activeModelSmIDs);
         const openModelCreateDialog       = this.props.openModelCreateDialog,
               closeModelCreateDialog      = this.props.closeModelCreateDialog,
-              activeModelSmIDs            = modelSmIDsInLocation[0] ? [modelSmIDsInLocation[0]] : this.props.activeModelSmIDs,
+              activeModelSmIDs            = urlActiveSmIDs,
               creatingModelMetaSmIDs      = this.props.creatingModelMetaSmIDs,
               allModelSmIDs               = this.props.allModelSmIDs;
-        
-        const {activeElRef}       = this.props;
-        let onTogglePropertyClick = propertySmID => {
+        const {activeElRef}               = this.props;
+        let onTogglePropertyClick         = propertySmID => {
             return toggleModelPropertyActivity({smID: propertySmID});
         };
         return (
@@ -104,6 +105,17 @@ class ActiveModelScene extends React.Component {
                        component={props => <CreateModelDialog models={models} {...props} />} />
             </ContentSection>
         );
+    }
+    
+    getActiveSmIDsFromLocation(location, prop_smIDs) {
+        let modelSmID_regex    = /\[Model]\s?[_a-zA-Z]+/;
+        const pathname_smIDs   = modelSmID_regex.exec(location.pathname) || [];
+        const modelSmIDsInHash = modelSmID_regex.exec(location.hash) || [];
+        let urlActiveSmIDs     = pathname_smIDs[0] ? [pathname_smIDs[0]] : [];
+        urlActiveSmIDs         = [...urlActiveSmIDs, ...prop_smIDs];
+        if (modelSmIDsInHash[0]) urlActiveSmIDs.push(modelSmIDsInHash[0]);
+        urlActiveSmIDs = urlActiveSmIDs.filter(item => !!item);
+        return [...new Set(urlActiveSmIDs)];
     }
 }
 

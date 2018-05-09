@@ -1,12 +1,19 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
+import {getURI} from "../../../../../../../../path/resolution";
+import {Link} from "../../../../../../../../components/navigation/components/link";
 
 export class SmID_Link extends React.Component {
     render() {
         const {smID, isActive, onTrigger} = this.props;
         let handleTrigger                 = onTrigger;
-        return <a onClick={handleTrigger} onKeyDown={this.handleKeyDown} data-sm_id={smID} href={`#${smID}`}>{smID}</a>;
+        let uri                           = getURI(isActive ? 'dev--home' : 'dev--model', {smID});
+        return <Link onClick={(event: React.SyntheticEvent) => {return handleTrigger(smID);}}
+                     replace
+                     onKeyDown={this.handleKeyDown}
+                     data-sm_id={smID}
+                     to={uri}>{smID}</Link>;
     }
     
     @bind
@@ -15,7 +22,9 @@ export class SmID_Link extends React.Component {
         const {keyCode}     = event;
         switch (keyCode) {
             case 32:
-                handleTrigger(event);
+                const smID = event.target.dataset.sm_id;
+                event.preventDefault();
+                handleTrigger(smID);
                 event.stopPropagation();
                 break;
         }
