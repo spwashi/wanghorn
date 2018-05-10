@@ -35,7 +35,7 @@ class User extends Entity {
             $this->properties->register($index, Property::init()->setValue($attribute));
         }
         $this->set($attributes);
-        $model = $this->getPrimaryModel($this->modelDataManager);
+        $model = $this->getPersistedIdentity($this->modelDataManager);
         $model->set([
                         'email'      => $this->properties->email,
                         'first_name' => $this->properties->first_name,
@@ -49,7 +49,7 @@ class User extends Entity {
         throw new UnimplementedError("Cannot save User");
     }
     public function destroy() {
-        $primaryModel = $this->getPrimaryModel($this->modelDataManager);
+        $primaryModel = $this->getPersistedIdentity();
         $result       = $this->modelDataManager->persistenceManager->markDelete($primaryModel);
     }
     /**
@@ -57,11 +57,9 @@ class User extends Entity {
      * @param \Sm\Core\Context\Context|null $context
      *
      * @return $this|mixed
-     * @throws \Sm\Core\Exception\InvalidArgumentException
-     * @throws \Sm\Core\Exception\UnimplementedError
+     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
      * @throws \Sm\Data\Entity\Exception\EntityModelNotFoundException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
-     * @throws \Sm\Data\Property\Exception\ReadonlyPropertyException
      */
     public function find($attributes = [], Context $context = null) {
         $this->_find($attributes, $context);

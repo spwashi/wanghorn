@@ -33,19 +33,19 @@ export class UserMenuLogin extends React.Component {
             (onSubmit || function () {})({username, password});
         };
         return (
-            <div id="user-menu--login" onKeyDown={this.handleKeydown}>
+            <div id="user_menu--login" onKeyDown={this.handleKeydown}>
                 <form action={USER_LOGIN_PATH} method="POST" onSubmit={handleSubmit}>
-                    <div className="user-menu--input--container input--container text_input--container">
+                    <div className="user_menu--input--container input--container text_input--container">
                         <UsernameAndPasswordInputs username={username} handleUsernameChange={this.handleUsernameChange}
                                                    response={(response || {})}
                                                    password={password} handlePasswordChange={this.handlePasswordChange} />
                     </div>
                     
-                    <div className="action_button--container user-menu--action_button--container input--container button--container">
-                        <Button className="action_button user-menu--action_button login-button"
+                    <div className="action_button--container user_menu--action_button--container input--container button--container">
+                        <Button className="action_button user_menu--action_button login-button"
                                 label="Login"
                                 type="submit" />
-                        <Button className="action_button user-menu--action_button cancel-button"
+                        <Button className="action_button user_menu--action_button cancel-button"
                                 label="Cancel"
                                 handleClick={onDeactivateAttempt} />
                     </div>

@@ -8,40 +8,40 @@
       {
          "name": "home",
          "title": "Home",
-         "resolution": "#Home\\Home::index",
+         "resolution": "Home\\Home@index",
          "pattern": "wanghorn/$"
       },
       {
          "name": "test",
-         "resolution": "#Home\\Home::test"
+         "resolution": "Home\\Home@test"
       },
       {
          "name": "about_me",
          "title": "About Me",
-         "resolution": "#Home\\Home::index",
+         "resolution": "Home\\Home@index",
          "pattern": "wanghorn/about-me$"
       },
       {
          "name": "gallery--home",
          "title": "Gallery",
-         "resolution": "#Home\\Home::index",
+         "resolution": "Home\\Home@index",
          "pattern": "wanghorn/gallery$"
       },
       {
          "name": "gallery--item__view",
          "title": "Gallery Item View",
-         "resolution": "#Home\\Home::index",
+         "resolution": "Home\\Home@index",
          "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+"
       },
       {
          "name": "gallery--items",
-         "resolution": "#Home\\Home::gallery",
+         "resolution": "Home\\Home@gallery",
          "pattern": "wanghorn/gallery/items.json$"
       },
       {
          "name": "dev--home",
          "title": "Dev",
-         "resolution": "#Home\\Home::index",
+         "resolution": "Home\\Home@index",
          "pattern": "wanghorn/dev$"
       },
       {
@@ -71,7 +71,7 @@
       },
       {
          "name": "dev--model",
-         "resolution": "#Home\\Home::index",
+         "resolution": "Home\\Home@index",
          "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+$"
       },
       {
@@ -92,12 +92,12 @@
       },
       {
          "name": "dev--model--home",
-         "resolution": "#Home\\Home::index",
+         "resolution": "Home\\Home@index",
          "pattern": "wanghorn/dev/models$"
       },
       {
          "name": "dev--create_model",
-         "resolution": "#Home\\Home::index",
+         "resolution": "Home\\Home@index",
          "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/create$"
       },
       {
@@ -125,6 +125,11 @@
          "name": "user--login",
          "resolution": "User\\User@login",
          "pattern": "wanghorn/user/login$"
+      },
+      {
+         "name": "user--logout$",
+         "resolution": "User\\User@logout",
+         "pattern": "wanghorn/user/logout$"
       },
       {
          "name": "user--profile__json",

@@ -79,6 +79,9 @@
       "user--login": {
          "pattern": "wanghorn/user/login$"
       },
+      "user--logout$": {
+         "pattern": "wanghorn/user/logout$"
+      },
       "user--profile__json": {
          "pattern": "wanghorn/user/{id}:[a-zA-Z@.]+$"
       },

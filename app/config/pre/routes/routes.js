@@ -16,7 +16,7 @@ const homeRoutes    = [
                   title:      "Home"
               }),
     new Route({
-                  resolution: "#[Home]::test",
+                  resolution: "[Home]@test",
                   pattern:    null,
                   name:       'test'
               }),
@@ -40,7 +40,7 @@ const homeRoutes    = [
               }),
     new Route({
                   name:       'gallery--items',
-                  resolution: "#[Home]::gallery",
+                  resolution: "[Home]@gallery",
                   pattern:    "gallery/items.json$"
               }),
 ];
@@ -124,9 +124,30 @@ const devRoutes     = [
                   name:       'user--signup_continue'
               }),
 ];
+let userRoutes      = [
+    new Route({
+                  name:       "user--login",
+                  resolution: "[User]@login",
+                  pattern:    "user/login$"
+              }),
+    new Route({
+                  name:       "user--logout$",
+                  resolution: "[User]@logout",
+                  pattern:    "user/logout$"
+              }),
+    new Route({
+                  name:       "user--profile__json",
+                  resolution: "[User]@userByID",
+                  pattern:    "user/{id}:[a-zA-Z@\.]+$"
+              }),
+    new Route({
+                  resolution: "[User]@signUp",
+                  pattern:    "user/signup/receive",
+                  name:       "user--process_signup"
+              }),];
 export const routes = normalizeRoutes(
     {
-        frontend_renderer: '#[Home]::index',
+        frontend_renderer: '[Home]@index',
         pattern_prefix:    APP_BASE_URL_PATH && APP_BASE_URL_PATH.length ? `${APP_BASE_URL_PATH}/` : '',
         routes:            [
             // Error Handlers
@@ -140,23 +161,8 @@ export const routes = normalizeRoutes(
             ...homeRoutes,
             // Dev Routes (remove from production!)
             ...devRoutes,
-            
             // User Routes
-            new Route({
-                          name:       "user--login",
-                          resolution: "[User]@login",
-                          pattern:    "user/login$"
-                      }),
-            new Route({
-                          name:       "user--profile__json",
-                          resolution: "[User]@userByID",
-                          pattern:    "user/{id}:[a-zA-Z@\.]+$"
-                      }),
-            new Route({
-                          resolution: "[User]@signUp",
-                          pattern:    "user/signup/receive",
-                          name:       "user--process_signup"
-                      }),
+            ...userRoutes
         ]
     }
 );

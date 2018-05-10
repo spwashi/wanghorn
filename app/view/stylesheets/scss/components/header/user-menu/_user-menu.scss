@@ -1,28 +1,17 @@
 @import "../variables";
 
 header {
-	> .user-menu {
+	> .user_menu {
 		justify-content : flex-end;
 		margin-right    : 20px;
-		width           : $user-menu__header-std__width;
+		width           : $user_menu__header-std__width;
 		height          : 100%;
 		position        : relative;
 		padding         : 10px;
-		.user--home--link--wrapper {
-			a {
-				color         : white;
-				font-weight   : bold;
-				border-bottom : thin solid #fff;
-				&:hover {
-					color               : mix(#eee, $accent_color__1);
-					border-bottom-color : mix(#eee, $accent_color__1);
-				}
-			}
-		}
 		button {
 			font-size : .7em;
 		}
-		#user-menu--login {
+		#user_menu--login {
 			label {display : none;}
 			display : inline-block;
 			.input--wrapper {
@@ -71,8 +60,44 @@ header {
 	}
 }
 
+.user_menu--link--container {
+	width           : 100%;
+	display         : flex;
+	flex-flow       : row nowrap;
+	justify-content : flex-end;
+	.link--wrapper {
+		display     : inline-block;
+		margin-left : 20px;
+		position    : relative;
+		&:first-child {margin-left : 0;}
+		&::before {
+			display          : block;
+			position         : absolute;
+			content          : '';
+			background-color : darken($header__backgroundColor, 4%);
+			width            : 2px;
+			height           : 100%;
+			right            : -12.5px;
+			top              : 0;
+		}
+		&:last-child {
+			&::before {
+				display : none;
+			}
+		}
+	}
+	a {
+		color       : white;
+		font-weight : bold;
+		&:hover {
+			color         : mix(#eee, $accent_color__1);
+			border-bottom : thin solid mix(#eee, $accent_color__1);
+		}
+	}
+}
+
 @media screen and (max-device-width : 400px) {
-	header > .user-menu {
+	header > .user_menu {
 		padding-top : 3px;
 		&.active {
 			padding-top : 35px;
@@ -98,7 +123,7 @@ header {
 				}
 			}
 		}
-		#user-menu--login {
+		#user_menu--login {
 			height : 100%;
 		}
 	}

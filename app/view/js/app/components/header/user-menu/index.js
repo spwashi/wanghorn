@@ -1,17 +1,26 @@
 import React, {Component} from "react"
 import {USER_SIGNUP_PROCESS} from "../../../../path/paths";
-import {Button} from "base-components";
 import "whatwg-fetch";
 import bind from "bind-decorator"
 import axios from "axios";
-import ReactModal from "react-modal";
-import SignupForm from "./signup";
-import {selectActiveUser} from "../../../scenes/dev/modules/session/selector";
+import {UserMenuController} from "./controller";
+import {selectActiveUser} from "../../../services/session/selector";
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
-import {attemptLogin} from "../../../scenes/dev/modules/session/actions";
-import {UserMenuLogin} from "./login";
+import {activeUserFound, attemptLogin} from "../../../services/session/actions";
 import {getURI} from "../../../../path/resolution";
+import {UserMenuLogin} from "./login";
+
+const LoggedInUserMenu = function ({activeUser}) {
+    return <div className="user_menu--link--container">
+        <div className={'link--wrapper user--home--link--wrapper'}>
+            <a href={getURI('home')}>{`Hello, ${activeUser.properties.username}`}</a>
+        </div>
+        <div className={'link--wrapper user--logout--link--wrapper'}>
+            <a href={getURI('user--logout$')}>Log Out</a>
+        </div>
+    </div>;
+};
 
 @connect(mapState, mapDispatch)
 class UserMenu extends Component {
@@ -21,6 +30,38 @@ class UserMenu extends Component {
             isLoginActive:  false, isSignupActive: false,
             username:       null, password: null,
             signupResponse: null, loginResponse: null
+        }
+    }
+    
+    render() {
+        let activeUser            = this.props.activeUser;
+        let isLoginActive         = this.state.isLoginActive;
+        const user_menu_classname = "user_menu " + (isLoginActive ? 'active' : '');
+        const activateLogin       = this.activateLogin;
+        const activateSignup      = this.activateSignup;
+        const onRequestClose      = () => this.deactivate();
+        const state               = this.state;
+        const onSignupKeydown     = this.handleKeydown;
+        const userSignupFormVars  = {
+            activateLogin, activateSignup, onRequestClose,
+            onSignupKeydown,
+            state
+        };
+        return (
+            <div className={user_menu_classname}>
+                {activeUser ? <LoggedInUserMenu activeUser={activeUser} />
+                            : isLoginActive ? <UserMenuLogin onSubmit={this.getHandleSubmit('login')} onDeactivateAttempt={onRequestClose} />
+                                            : <UserMenuController onSignupSubmit={this.getHandleSubmit('signup')} {...userSignupFormVars} />}
+            </div>
+        );
+    }
+    
+    componentDidMount() {
+        const userElement = document.getElementById('session__user');
+        if (userElement) {
+            let json = userElement.innerText || userElement.innerHTML;
+            //todo don't trust
+            this.props.dispatchActiveUserFound(JSON.parse(json))
         }
     }
     
@@ -69,63 +110,22 @@ class UserMenu extends Component {
         
     }
     
-    render() {
-        
-        const LoginInput = ({isLoginActive}) => {
-            const LoginButtons = this.LoginButtons;
-            if (this.props.activeUser) {
-                let username = this.props.activeUser.properties.username;
-                return <div className={'user--home--link--wrapper'}><a href={getURI('home')}>{`Hello, ${username}`}</a></div>;
-            }
-            return isLoginActive ? <UserMenuLogin onSubmit={this.getHandleSubmit('login')} onDeactivateAttempt={() => this.deactivate()} />
-                                 : <LoginButtons />;
-        };
-        
-        return (
-            <div className={"user-menu " + (this.state.isLoginActive ? 'active' : '')}>
-                <LoginInput isLoginActive={this.state.isLoginActive} />
-            </div>
-        );
-    }
-    
     @bind
     LoginButtons() {
-        const onModalButtonCloseClick = event => this.setState({isSignupActive: false});
-        let modalStatusClassNames     = {afterOpen: 'modal__-open', beforeClose: 'modal__-closing'};
-        let modalClassNames           = {base: 'signup--form--wrapper modal--base', ...modalStatusClassNames};
-        let modalOverlayClassNames    = {base: 'signup--form--wrapper--overlay modal--overlay', ...modalStatusClassNames};
-        return (
-            <div key={'user_menu--button--container'} className={'button--container login_action--button--container '}>
-                <Button label="Login" handleClick={this.activateLogin} />
-                <Button label="Signup" handleClick={this.activateSignup} />
-                <ReactModal key={'signup--form--modal'}
-                            onRequestClose={p => this.deactivate()}
-                            isOpen={this.state.isSignupActive}
-                            contentLabel="Sign Up" overlayClassName={modalOverlayClassNames} className={modalClassNames}>
-                    <header>
-                        <h2>Sign Up</h2>
-                        <button tabIndex={0} className={'button__close modal--button__close'} onClick={onModalButtonCloseClick}>X</button>
-                    </header>
-                    <SignupForm handleSubmit={this.getHandleSubmit('signup')}
-                                onKeyDown={this.handleKeydown}
-                                response={this.state.signupResponse}
-                                username={this.state.username}
-                                password={this.state.password} />
-                </ReactModal>
-            </div>
-        );
+    
     }
 }
 
 export default UserMenu;
+
 function mapState(state) {
     return {
         activeUser: selectActiveUser(state)
     }
 }
-
 function mapDispatch(dispatch) {
     return bindActionCreators({
-                                  attemptLogin
+                                  attemptLogin,
+                                  dispatchActiveUserFound: activeUserFound,
                               }, dispatch);
 }

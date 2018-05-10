@@ -2,16 +2,17 @@
 
 namespace WANGHORN\Controller\Home;
 
-use Sm\Application\Controller\BaseApplicationController;
+use Sm\Data\Entity\EntityContext;
 use Sm\Data\Model\Model;
 use Sm\Modules\View\Twig\TwigView;
+use WANGHORN\Controller\AppController;
 
 /**
  * Class Home
  *
  * The controller that contains the core of the application logic.
  */
-class Home extends BaseApplicationController {
+class HomeController extends AppController {
     /**
      * @return string
      * @throws \Sm\Core\Exception\UnimplementedError
@@ -21,10 +22,18 @@ class Home extends BaseApplicationController {
         $html_filename = APP__NAME . '.html';
         /** @var \Sm\Data\Entity\EntitySchematic $userSchematic */
         $context_name  = 'login_process';
-        $entityContext = $this->app->controller->createControllerResolvable('User\\User@resolveContext')
-                                               ->resolve($context_name);
-        $tag           = $this->wrapWithScriptTag($entityContext, "context__{$context_name}--configuration");
-        return $this->app->representation->render(TwigView::class, $html_filename, [ 'inject' => $tag ]);
+        $entityContext = $this->app->controller->createControllerResolvable('User\\User@resolveContext')->resolve($context_name);
+        
+        $username     = $_SESSION[ static::SESSION_USERNAME_INDEX ] ?? '~guest~';
+        $userFinder   = $this->app->controller->createControllerResolvable('User\\User@findUser');
+        $session_user = $userFinder->resolve(null, $username);
+        $userProxy    = $session_user ? $session_user->proxyInContext(new EntityContext) : null;
+        
+        $tags = [
+            $this->wrapWithScriptTag($entityContext, "context__{$context_name}--configuration"),
+            $this->wrapWithScriptTag($userProxy, "session__user"),
+        ];
+        return $this->app->representation->render(TwigView::class, $html_filename, [ 'inject' => join("\n", array_filter($tags)) ]);
     }
     /**
      * @return string

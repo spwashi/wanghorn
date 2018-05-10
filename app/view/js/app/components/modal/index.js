@@ -9,6 +9,8 @@ export default class Modal extends React.Component {
         contentLabel:            PropTypes.string,
         title:                   PropTypes.string,
         onModalButtonCloseClick: PropTypes.func,
+        
+        baseClassName: PropTypes.string
     };
     
     componentDidMount() {
@@ -17,15 +19,20 @@ export default class Modal extends React.Component {
     
     render() {
         let {title, onRequestClose, isOpen, contentLabel} = this.props;
-        let modalStatusClassNames                         = {afterOpen: 'modal__-open', beforeClose: 'modal__-closing'};
-        let modalClassNames                               = {base: 'modal--base', ...modalStatusClassNames};
-        let modalOverlayClassNames                        = {base: 'modal--overlay', ...modalStatusClassNames};
+        let modalStatusClassNames                         = {
+            afterOpen:   'modal__-open',
+            beforeClose: 'modal__-closing'
+        };
+        let baseClassname                                 = this.props.baseClassName || '';
+        let overlayClassname                              = this.props.baseClassName ? baseClassname + '--overlay' : '';
+        let modalClassNames                               = {base: `${baseClassname} modal--base`, ...modalStatusClassNames};
+        let modalOverlayClassNames                        = {base: `${overlayClassname} modal--overlay`, ...modalStatusClassNames};
         
         return (
             <ReactModal onRequestClose={onRequestClose}
                         isOpen={isOpen}
                         shouldFocusAfterRender={true}
-                        contentLabel={contentLabel}
+                        contentLabel={contentLabel || title}
                         overlayClassName={modalOverlayClassNames}
                         className={modalClassNames}>
                 <header>
@@ -37,5 +44,3 @@ export default class Modal extends React.Component {
         )
     }
 }
-
-Modal.propTypes = {};
