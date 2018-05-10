@@ -209,12 +209,13 @@ function _representation_layer(Application $app): void {
     $plainFileModule = new PlainFileViewModule;
     
     # Assume that we are going to use HTML files and they are typically going to be stored in the public directory
-    $plainFileModule->registerSearchDirectories([ APP__PUBLIC_PATH__LOCAL . '/html/' ]);
+    $HTML__PUBLIC_PATH = APP__PUBLIC_PATH__LOCAL . '/html/';
+    $plainFileModule->registerSearchDirectories([ $HTML__PUBLIC_PATH ]);
     $app->representation->registerModule($plainFileModule);
     
     
     # Register the Twig representation
-    $twig__Loader_Filesystem = new Twig_Loader_Filesystem([ APP__VIEW_TWIG_PATH, ]);
+    $twig__Loader_Filesystem = new Twig_Loader_Filesystem([ APP__VIEW_TWIG_PATH, $HTML__PUBLIC_PATH ]);
     $twig__Environment       = new Twig_Environment($twig__Loader_Filesystem);
     
     $twig__Environment->addGlobal('app_path__public', APP__PUBLIC_URL);

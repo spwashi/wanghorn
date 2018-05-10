@@ -1,13 +1,13 @@
 import React from "react";
 import * as PropTypes from "prop-types";
-import {ModelConfigurationDescription, ModelConfigurationTitle} from "./config";
+import {ConfigurationDescription, ConfigurationTitle} from "../../../../../../../components/configuration/configuration";
 import {SelectivelyActive} from "../../../../../../../components/selectivelyActive";
 import ReactTooltip from "react-tooltip";
 import bind from "bind-decorator";
 import {ActiveComponent, InactiveComponent} from "../../../../../../../components/selectivelyActive/components";
-import ModelConfigurationAttribute from "../attribute";
 import SmEntityConfigurationPropertiesAttribute from "../../../../../components/propertyOwner/attribute/properties";
 import ModelConfigurationInheritsAttribute from "../attribute/inherits";
+import {ConfigurationAttribute} from "../../../../../../../components/configuration";
 
 /**
  * Wraps the configuration of a Model to provide more specific display capabilities
@@ -22,8 +22,7 @@ class ModelConfigurationWrapper extends React.Component {
     
     render() {
         return (
-            <SelectivelyActive className={`wrapper model--configuration--wrapper`}
-                               matchTarget={ModelConfigurationWrapper.matchTarget}>
+            <SelectivelyActive className={`wrapper model--configuration--wrapper`} matchTarget={ModelConfigurationWrapper.matchTarget}>
                 <ActiveComponent component={this.ActiveComponent} />
                 <InactiveComponent component={this.InactiveComponent} />
             </SelectivelyActive>
@@ -35,9 +34,9 @@ class ModelConfigurationWrapper extends React.Component {
         let tooltipName = `about_model-${this.props.type}`;
         return (
             <div className={`wrapper title--wrapper configuration--title--wrapper model--configuration--title--wrapper`} data-tip data-for={tooltipName}>
-                <ModelConfigurationTitle>{this.title}</ModelConfigurationTitle>
+                <ConfigurationTitle>{this.title}</ConfigurationTitle>
                 <ReactTooltip id={tooltipName} class="description--tooltip" aria-haspopup="true" role="tooltip" effect="solid">
-                    <ModelConfigurationDescription>{this.props.description}</ModelConfigurationDescription>
+                    <ConfigurationDescription>{this.props.description}</ConfigurationDescription>
                 </ReactTooltip>
             </div>
         );
@@ -53,7 +52,7 @@ class ModelConfigurationWrapper extends React.Component {
                                                                  onPropertyLinkTrigger={this.props.onTogglePropertyClick}
                                                                  properties={value} />;
             default:
-                return <ModelConfigurationAttribute attribute={name} value={value} />;
+                return <ConfigurationAttribute ownerType={'model'} attribute={name} value={value} />;
         }
     };
     
@@ -64,8 +63,8 @@ class ModelConfigurationWrapper extends React.Component {
         const ModelAttribute                          = this.ModelAttribute;
         return (
             <div className="model--configuration">
-                <ModelConfigurationTitle>{this.title}</ModelConfigurationTitle>
-                <ModelConfigurationDescription>{this.props.description}</ModelConfigurationDescription>
+                <ConfigurationTitle>{this.title}</ConfigurationTitle>
+                <ConfigurationDescription>{this.props.description}</ConfigurationDescription>
                 {
                     Object.entries({smID, name, ...attributes, properties})
                           .map(([attr, value]) => <ModelAttribute key={attr} name={attr} value={value} />)

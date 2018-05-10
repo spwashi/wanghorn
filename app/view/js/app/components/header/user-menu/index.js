@@ -1,13 +1,19 @@
 import React, {Component} from "react"
-import {USER_LOGIN_PATH, USER_SIGNUP_PROCESS} from "../../../../path/paths";
+import {USER_SIGNUP_PROCESS} from "../../../../path/paths";
 import {Button} from "base-components";
 import "whatwg-fetch";
 import bind from "bind-decorator"
 import axios from "axios";
 import ReactModal from "react-modal";
 import SignupForm from "./signup";
-import {PasswordInput, UsernameInput} from "./inputs";
+import {selectActiveUser} from "../../../scenes/dev/modules/session/selector";
+import {connect} from "react-redux"
+import {bindActionCreators} from 'redux'
+import {attemptLogin} from "../../../scenes/dev/modules/session/actions";
+import {UserMenuLogin} from "./login";
+import {getURI} from "../../../../path/resolution";
 
+@connect(mapState, mapDispatch)
 class UserMenu extends Component {
     constructor() {
         super();
@@ -27,42 +33,34 @@ class UserMenu extends Component {
     @bind
     getHandleSubmit(type) {
         return data => {
-            let url;
             switch (type) {
                 case 'login':
-                    url = USER_LOGIN_PATH;
+                    this.props.attemptLogin(data);
                     break;
                 case 'signup':
-                    url                      = USER_SIGNUP_PROCESS;
+                    let url                  = USER_SIGNUP_PROCESS;
                     let {username, password} = data;
                     this.setState({username, password});
+                    axios.post(url, data)
+                         .then(response => {
+                             const responseData = response.data;
+                             alert(JSON.stringify(responseData));
+                             switch (type) {
+                                 case 'login':
+                                     this.setState({loginResponse: responseData});
+                                     break;
+                                 case 'signup':
+                                     this.setState({signupResponse: responseData});
+                                     break;
+                                 default:
+                                     return;
+                             }
+                         });
                     break;
                 default:
                     return;
             }
-            axios.post(url, data)
-                 .then(response => {
-                     const responseData = response.data;
-                     alert(JSON.stringify(responseData));
-                     switch (type) {
-                         case 'login':
-                             this.setState({loginResponse: responseData});
-                             break;
-                         case 'signup':
-                             this.setState({signupResponse: responseData});
-                             break;
-                         default:
-                             return;
-                     }
-                 });
         }
-    }
-    
-    @bind
-    handleKeydown(event) {
-        console.log(event.keyCode);
-        if (event.keyCode !== 27) return;
-        this.deactivate()
     }
     
     @bind
@@ -72,11 +70,14 @@ class UserMenu extends Component {
     }
     
     render() {
+        
         const LoginInput = ({isLoginActive}) => {
-            const LoginForm    = this.LoginForm;
             const LoginButtons = this.LoginButtons;
-            
-            return isLoginActive ? <LoginForm />
+            if (this.props.activeUser) {
+                let username = this.props.activeUser.properties.username;
+                return <div className={'user--home--link--wrapper'}><a href={getURI('home')}>{`Hello, ${username}`}</a></div>;
+            }
+            return isLoginActive ? <UserMenuLogin onSubmit={this.getHandleSubmit('login')} onDeactivateAttempt={() => this.deactivate()} />
                                  : <LoginButtons />;
         };
         
@@ -114,38 +115,17 @@ class UserMenu extends Component {
             </div>
         );
     }
-    
-    @bind
-    UsernameInput() {
-    
-    }
-    
-    @bind
-    PasswordInput() {
-        return <input type="password" name="password" value={this.state.password} onChange={this.handlePasswordChange} />
-    }
-    
-    @bind
-    LoginForm() {
-        return (
-            <div id="user-menu--login" onKeyDown={this.handleKeydown}>
-                <form action={USER_LOGIN_PATH} method="POST" onSubmit={this.getHandleSubmit('login')}>
-                    <div className="user-menu--input--container input--container text_input--container">
-                        <UsernameInput />
-                        <PasswordInput />
-                    </div>
-                    
-                    <div className="action_button--container user-menu--action_button--container input--container button--container">
-                        <Button className="action_button user-menu--action_button login-button"
-                                label="Login"
-                                type="submit" />
-                        <Button className="action_button user-menu--action_button cancel-button"
-                                label="Cancel"
-                                handleClick={this.deactivate} />
-                    </div>
-                </form>
-            </div>);
+}
+
+export default UserMenu;
+function mapState(state) {
+    return {
+        activeUser: selectActiveUser(state)
     }
 }
 
-export default UserMenu
+function mapDispatch(dispatch) {
+    return bindActionCreators({
+                                  attemptLogin
+                              }, dispatch);
+}

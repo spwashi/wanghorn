@@ -5,18 +5,28 @@ namespace WANGHORN\Controller\User;
 
 
 use Sm\Application\Controller\BaseApplicationController;
+use Sm\Data\Entity\EntityContext;
 use Sm\Data\Entity\Exception\EntityModelNotFoundException;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Controller\User\Login\ResponseStatus;
 use WANGHORN\Entity\User\User;
 
 class UserController extends BaseApplicationController {
-    public function userByID($id) {
-        $Sam = User::init($this->app->data->models)
-                   ->find([
-                              'email' => $id,
-                          ]);
-        return $Sam;
+    /**
+     * @param $context_name
+     *
+     * @throws \Sm\Core\Exception\InvalidArgumentException
+     * @throws \Sm\Core\Exception\UnimplementedError
+     */
+    public function resolveContext($context_name) {
+        /** @var \Sm\Data\Entity\EntityDataManager $entityDataManager */
+        $entityDataManager = $this->app->data->entities;
+        $entityContext     = EntityContext::init($context_name)
+                                          ->registerSchematicArray([
+                                                                       $entityDataManager->getSchematicByName('user'),
+                                                                       $entityDataManager->getSchematicByName('password'),
+                                                                   ]);
+        return $entityContext;
     }
     public function signUp() {
         $request_data = HttpRequestFromEnvironment::getRequestData();
@@ -43,23 +53,29 @@ class UserController extends BaseApplicationController {
      * @return $this|array|\WANGHORN\Entity\User\User
      * @throws \Sm\Core\Exception\UnimplementedError
      * @throws \Sm\Core\Exception\InvalidArgumentException
-     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
+     * @throws \Sm\Data\Property\Exception\ReadonlyPropertyException
      */
     public function login() {
-        $username          = $_POST['username'] ?? null;
-        $password          = $_POST['password'] ?? null;
+        $data     = HttpRequestFromEnvironment::getRequestData();
+        $username = $data['username'] ?? null;
+        $password = $data['password'] ?? null;
+        
         $entityDataManager = $this->app->data->entities;
         
         # Instantiate a Model that we'll use to find a matching object (or throw an error if it doesn't exist)
         try {
             /** @var User $userEntity */
             $userEntity = $entityDataManager->instantiate('user');
-            $userEntity->find([ 'email' => $username ]);
-            $userEntity->findUsername();
-            $userEntity->findPassword();
+            $context    = $this->resolveContext('login_process');
+            $index      = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+            $proxy      = $userEntity->find([ $index => $username ], $context)
+                                     ->proxyInContext($context);
+            
+            $_SESSION['IS_USER_AUTHENTICATED'] = true;
+            
             return [
-                'user'    => $userEntity,
+                'user'    => $proxy,
                 'success' => true,
             ];
         } catch (EntityModelNotFoundException $exception) {

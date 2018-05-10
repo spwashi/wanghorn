@@ -4,15 +4,13 @@
 namespace WANGHORN\Entity\User;
 
 
+use Sm\Core\Context\Context;
 use Sm\Core\Exception\UnimplementedError;
-use Sm\Core\Resolvable\Error\UnresolvableException;
+use Sm\Data\Entity\EntityContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
-use Sm\Data\Entity\Property\EntityAsProperty;
-use Sm\Data\Entity\Property\EntityPropertySchematic;
 use Sm\Data\Property\Property;
 use Sm\Data\Property\PropertyContainer;
 use WANGHORN\Entity\Entity;
-use WANGHORN\Model\Model;
 
 /**
  * Class User
@@ -54,6 +52,32 @@ class User extends Entity {
         $primaryModel = $this->getPrimaryModel($this->modelDataManager);
         $result       = $this->modelDataManager->persistenceManager->markDelete($primaryModel);
     }
+    /**
+     * @param array                         $attributes
+     * @param \Sm\Core\Context\Context|null $context
+     *
+     * @return $this|mixed
+     * @throws \Sm\Core\Exception\InvalidArgumentException
+     * @throws \Sm\Core\Exception\UnimplementedError
+     * @throws \Sm\Data\Entity\Exception\EntityModelNotFoundException
+     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
+     * @throws \Sm\Data\Property\Exception\ReadonlyPropertyException
+     */
+    public function find($attributes = [], Context $context = null) {
+        $this->_find($attributes, $context);
+        if ($context instanceof EntityContext) {
+            $entitySchematic = $context->getSchematic($this->getSmID());
+            if (isset($entitySchematic)) {
+                $properties     = $entitySchematic->getProperties();
+                $property_names = array_keys($properties->getAll(true));
+                foreach ($property_names as $property_name) {
+                    $this->findProperty($this->properties->{$property_name});
+                }
+            }
+        }
+        return $this;
+    }
+    
     #
     ##
     #

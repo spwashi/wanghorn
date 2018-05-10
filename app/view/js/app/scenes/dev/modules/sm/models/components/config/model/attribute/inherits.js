@@ -1,15 +1,15 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import ModelConfigurationAttribute from "./index";
 import ModelLinkContainer from "../../../nav/index";
+import {ConfigurationAttribute} from "../../../../../../../components/configuration";
 
 const ModelConfigurationInheritsAttribute     =
           ({inherits}) => {
               inherits = Array.isArray(inherits) ? inherits : [];
               return (
-                  <ModelConfigurationAttribute attribute="inherits">
+                  <ConfigurationAttribute ownerType={'model'} attribute="inherits">
                       <ModelLinkContainer allSmIDs={inherits} />
-                  </ModelConfigurationAttribute>
+                  </ConfigurationAttribute>
               );
           };
 ModelConfigurationInheritsAttribute.propTypes = {

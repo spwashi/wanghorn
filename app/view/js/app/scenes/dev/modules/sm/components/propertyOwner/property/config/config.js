@@ -2,10 +2,11 @@ import React, {Component} from "react";
 import * as PropTypes from "prop-types";
 import {PropertyConfigurationAttribute} from "../attribute/index";
 import PropertyConfigurationDatatypesAttribute from "../attribute/datatypes";
+import {ConfigurationTitle} from "../../../../../../components/configuration/configuration";
 
 export const PropertyConfigurationTitle =
                  ({children}) =>
-                     <div className="configuration--title property--configuration--title">{children}</div>;
+                     <ConfigurationTitle ownerType={'property'}>{children}</ConfigurationTitle>;
 export default class PropertyConfiguration extends Component {
     PropertyAttribute({name, value}) {
         switch (name) {
@@ -27,7 +28,7 @@ export default class PropertyConfiguration extends Component {
         const PropertyAttribute                 = this.PropertyAttribute;
         return (
             <div className={className}>
-                <PropertyConfigurationTitle>{name}</PropertyConfigurationTitle>
+                <ConfigurationTitle ownerType={'property'}>{name}</ConfigurationTitle>
                 <div className="property--configuration--attribute--container">
                     {
                         Object.entries({smID, name, datatypes, ...otherConfig})

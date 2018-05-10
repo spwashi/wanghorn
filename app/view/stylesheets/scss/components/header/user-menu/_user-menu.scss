@@ -8,16 +8,36 @@ header {
 		height          : 100%;
 		position        : relative;
 		padding         : 10px;
+		.user--home--link--wrapper {
+			a {
+				color         : white;
+				font-weight   : bold;
+				border-bottom : thin solid #fff;
+				&:hover {
+					color               : mix(#eee, $accent_color__1);
+					border-bottom-color : mix(#eee, $accent_color__1);
+				}
+			}
+		}
 		button {
 			font-size : .7em;
 		}
-		input {display : inline-block;}
-		input, .action_button {
-			font-size    : .7em;
-			margin-right : 2%;
-			width        : 48%;
-			height       : 100%;
+		#user-menu--login {
+			label {display : none;}
+			display : inline-block;
+			.input--wrapper {
+				display      : inline-block;
+				font-size    : .7em;
+				margin-right : 2%;
+				width        : 48%;
+				height       : 100%;
+				input {
+					width : 100%;
+				}
+			}
 		}
+		input {display : inline-block;}
+
 		.login_action--button--container {
 			> * {
 				&:first-child {

@@ -28,7 +28,7 @@ class CreateModelDialog extends React.Component {
         if (!modelMeta) return null;
         return (
             <Modal isOpen={this.state.isActive} onRequestClose={onRequestClose} title={`Create New ${smID}`} contentLabel="Create New">
-                <SmEntityCreationForm config={modelMeta.config} smID={smID} />
+                <SmEntityCreationForm config={modelMeta.config} url={getURI("dev--create_model--receive", {smID})} />
             </Modal>
         )
     };

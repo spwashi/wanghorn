@@ -3,12 +3,12 @@ import * as PropTypes from "prop-types"
 import {getTitleFromPropName, normalizeSmID} from "../../../utility";
 import bind from "bind-decorator";
 import axios from "axios";
-import {getURI} from "../../../../../../../../path/resolution";
+import {reduceEntriesIntoObject} from "../../../../../../../../utility";
 
 export class SmEntityCreationForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state               = {};
+        this.state               = {_status: null};
         const smEntity           = this.props.config;
         const settableProperties = this.getSettableProperties(smEntity.properties);
         Object.entries(settableProperties)
@@ -18,12 +18,20 @@ export class SmEntityCreationForm extends React.Component {
     @bind
     handleSubmit(event) {
         event.preventDefault();
-        let url = getURI("dev--create_model--receive", {smID: this.props.smID});
-        axios.post(url, this.state)
-             .then(
-                 ({data}) => {
-                     console.log(data);
-                 })
+        
+        let url = this.props.url;
+        this.setState({_status: 'loading'},
+                      () => {
+                          let post = Object.entries(this.state)
+                                           .filter(([name]) => name[0] !== '_')
+                                           .reduce(reduceEntriesIntoObject, {});
+                          axios.post(url, post)
+                               .then(({data}) => {
+                                   const status = data.success ? 'success' : 'error';
+                                   this.setState({_status: status});
+                                   console.log(data);
+                               })
+                      })
     }
     
     render() {
@@ -36,7 +44,7 @@ export class SmEntityCreationForm extends React.Component {
         
         let settableProperties = this.getSettableProperties(properties);
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} className={this.state._status ? 'status__' + this.state._status : ''}>
                 {
                     Object.entries(settableProperties)
                           .map(([propertyName, property]) => {
@@ -102,6 +110,6 @@ export class SmEntityCreationForm extends React.Component {
 }
 
 SmEntityCreationForm.propTypes = {
-    smID:   PropTypes.string.isRequired,
+    url:    PropTypes.string.isRequired,
     config: PropTypes.object.isRequired
 };
