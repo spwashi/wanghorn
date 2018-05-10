@@ -46,7 +46,7 @@ class Gallery extends React.Component {
                                          controlType={CONTROL__SELECT_MULTIPLE}
                                          name={name}
                                          title={title}
-                                         activeItems={this.props.activeItems}
+                                         activeItemIDs={this.props.activeTagIDs}
                                          onControlEvent={this.handleControlEvent}
                                          items={items} />;
             });
@@ -54,9 +54,9 @@ class Gallery extends React.Component {
     }
     
     render() {
-        const {items} = this.props;
-        const filters = this.getFilters();
-        
+        const {items, activeTagIDs} = this.props;
+        const filters               = this.getFilters();
+        console.log(activeTagIDs);
         return (
             <div className="gallery">
                 <aside className="gallery_item--container--control_component--container">
@@ -73,7 +73,7 @@ class Gallery extends React.Component {
 }
 
 Gallery.propTypes = {
-    items: PropTypes.arrayOf(
+    items:        PropTypes.arrayOf(
         PropTypes.shape({
                             tags:
                                 PropTypes.objectOf(
@@ -84,7 +84,8 @@ Gallery.propTypes = {
                                     )
                                 )
                         })
-    )
+    ),
+    activeTagIDs: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default Gallery;

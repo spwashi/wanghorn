@@ -3,20 +3,20 @@ import * as PropTypes from "prop-types"
 
 export default class SelectMultipleFilter extends React.Component {
     render() {
-        const categories = (this.props.categories || []).reduce((all, tag) => {
-                                                                    const {text, name: index} = tag;
-            
-                                                                    if (all.indexes.indexOf(index) > -1) return all;
-                                                                    all.indexes.push(index);
-                                                                    all.tags.push(tag);
-                                                                    return all;
-                                                                },
-                                                                {tags: [], indexes: []}).tags;
+        const categories  = (this.props.categories || []).reduce((all, tag) => {
+                                                                     const {name: name} = tag;
+                                                                     if (all.indexes.indexOf(name) > -1) return all;
+                                                                     all.indexes.push(name);
+                                                                     all.tags.push(tag);
+                                                                     return all;
+                                                                 },
+                                                                 {tags: [], indexes: []}).tags;
+        const activeItems = this.props.activeItems;
         return (
             <ul className="filter--manager filter--manager__select-multiple">
                 {
-                    categories.map(cats => {
-                        const {text, name}   = cats;
+                    categories.map(categoryTag => {
+                        const {text, name}   = categoryTag;
                         const cat            = text;
                         const cat_identifier = `category--${name}`;
                         const onChange       = (event: Event) => {
@@ -26,7 +26,7 @@ export default class SelectMultipleFilter extends React.Component {
                         return (
                             <li key={cat || name} className="filter_category--wrapper">
                                 <label>
-                                    <input onChange={onChange} type="checkbox" name={`${cat_identifier}`} />
+                                    <input onChange={onChange} type="checkbox" name={`${cat_identifier}`} checked={activeItems.indexOf(categoryTag) > -1} />
                                     <div className="category--name">{cat}</div>
                                 </label>
                             </li>
@@ -40,6 +40,10 @@ export default class SelectMultipleFilter extends React.Component {
 
 SelectMultipleFilter.propTypes = {
     categories:       PropTypes.arrayOf(PropTypes.shape({
+                                                            text: PropTypes.string,
+                                                            name: PropTypes.string
+                                                        })),
+    activeItems:      PropTypes.arrayOf(PropTypes.shape({
                                                             text: PropTypes.string,
                                                             name: PropTypes.string
                                                         })),

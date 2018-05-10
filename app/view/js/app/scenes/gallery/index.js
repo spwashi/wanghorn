@@ -6,7 +6,7 @@ import {PageContent} from "../../components/page";
 import {activateTag, deactivateTag, fetchGalleryItems} from "./actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux'
-import {from_gallery_selectAllTags, selectActiveGalleryItems, selectActiveTagIDs, selectNamedItemFromItemList} from "./selector";
+import {from_gallery_selectActiveTagIDs, from_gallery_selectAllTags, selectActiveGalleryItems, selectNamedItemFromItemList} from "./selector";
 import {getURI} from "../../../path/resolution";
 import Modal from "../../components/modal";
 import Item from "./components/item/item";
@@ -39,10 +39,12 @@ class GalleryPage extends React.Component {
 }
 
 const mapState         = state => {
-    const items      = selectActiveGalleryItems(state);
-    const tags       = from_gallery_selectAllTags(state);
-    const activeTags = selectActiveTagIDs(state);
-    return {items, tags, activeTags};
+    const items        = selectActiveGalleryItems(state);
+    const tags         = from_gallery_selectAllTags(state);
+    const activeTagIDs = from_gallery_selectActiveTagIDs(state);
+    return {
+        items, tags, activeTagIDs
+    };
 };
 const mapDispatch      = dispatch => bindActionCreators({activateTag, deactivateTag, fetchGalleryItems}, dispatch);
 const connectOnGallery = connect(mapState, mapDispatch);
