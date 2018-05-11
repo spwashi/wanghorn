@@ -5,7 +5,7 @@
          "password": {
             "smID": "[Property]{[Entity]password} password",
             "datatypes": [
-               "string"
+               "password"
             ],
             "length": 255,
             "derivedFrom": "[Property]{[Model]password} password",

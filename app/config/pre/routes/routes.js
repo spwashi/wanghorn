@@ -52,27 +52,27 @@ const devRoutes     = [
                   pattern:    "dev$"
               }),
     new Route({
-                  resolution: "#[Dev]::monitors",
+                  resolution: "[Dev]@monitors",
                   pattern:    "dev/monitors.json$",
                   name:       "dev--monitors"
               }),
     new Route({
-                  resolution: "#[Dev]::models",
+                  resolution: "[Dev]@models",
                   pattern:    "dev/models.json$",
                   name:       "dev--models"
               }),
     new Route({
-                  resolution: "#[Dev]::entities",
+                  resolution: "[Dev]@entities",
                   pattern:    "dev/entities.json$",
                   name:       "dev--entities"
               }),
     new Route({
-                  resolution: "#[Dev]::routes",
+                  resolution: "[Dev]@routes",
                   pattern:    "dev/routes.json$",
                   name:       "dev--routes"
               }),
     new Route({
-                  resolution: "#[Dev]::executeQuery",
+                  resolution: "[Dev]@executeQuery",
                   pattern:    `dev/models/{smID}:${smID_regex}/execute/{query}:[a-zA-Z_]+`,
                   name:       "dev--execute_query"
               }),
@@ -83,13 +83,13 @@ const devRoutes     = [
               }),
     new Route({
                   http_method: HTTP__GET,
-                  resolution:  "#[Dev]::getSchematic",
+                  resolution:  "[Dev]@getSchematic",
                   pattern:     `dev/models/{smID}:${smID_regex}/schematic$`,
                   name:        "dev--get_model_schematic"
               }),
     new Route({
                   http_method: HTTP__GET,
-                  resolution:  "#[Dev]::findAll",
+                  resolution:  "[Dev]@findAll",
                   pattern:     `dev/models/{smID}:${smID_regex}/all`,
                   name:        "dev--all_models"
               }),
@@ -104,7 +104,7 @@ const devRoutes     = [
                   name:       'dev--create_model'
               }),
     new Route({
-                  resolution:  "#[Dev]::createModel",
+                  resolution:  "[Dev]@createModel",
                   pattern:     `dev/models/{smID}:${smID_regex}/create/receive$`,
                   http_method: HTTP__POST,
                   name:        'dev--create_model--receive'

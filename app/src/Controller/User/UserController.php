@@ -57,27 +57,19 @@ class UserController extends AppController {
             return null;
         }
     }
-    
     public function signUp() {
         $request_data = HttpRequestFromEnvironment::getRequestData();
         $username     = $request_data['username'] ?? null;
+        $username     = $request_data['email'] ?? null;
         $password     = $request_data['password'] ?? null;
         $response     = [];
         
-        if (!$username) $response['username'] = new ResponseStatus(ResponseStatus::ERROR, 'Username cannot be empty');
-        if (!$password) $response['password'] = new ResponseStatus(ResponseStatus::ERROR, 'Password cannot be empty');
         
-        if (empty($response['username'] ?? []) && empty($response['password'] ?? [])) {
-            return new ResponseStatus(ResponseStatus::SUCCESS,
-                                      "Successfully signed up User {$username}",
-                                      [
-                                          'username' => $username,
-                                      ]);
-        }
-        
-        return new ResponseStatus(ResponseStatus::ERROR,
-                                  'Could not continue signup',
-                                  $response);
+        return [
+            'error'   => 'Could not complete signup request at this time',
+            'request' => $request_data,
+            'success' => false,
+        ];
     }
     public function logout() {
         $_SESSION[ static::SESSION_USERNAME_INDEX ] = null;

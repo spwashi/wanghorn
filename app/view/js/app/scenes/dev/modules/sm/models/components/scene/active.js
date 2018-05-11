@@ -8,7 +8,7 @@ import ContentSection, {ContentSectionHeader} from "../../../../../../../compone
 import {ModelContainerDescription} from "./components";
 import {Route} from "react-router-dom"
 import {getURI} from "../../../../../../../../path/resolution";
-import {SmEntityCreationForm} from "../creation/form";
+import {SmEntityCreationForm} from "../../../../../../sm/creation/form";
 import {selectModelMetaHavingSmID_fromAllModelMetas} from "../../selector";
 
 class CreateModelDialog extends React.Component {

@@ -4,7 +4,6 @@ namespace WANGHORN\Controller\Dev;
 
 use Error;
 use Sm\Application\Application;
-use Sm\Application\Controller\BaseApplicationController;
 use Sm\Controller\Controller;
 use Sm\Core\Exception\Exception;
 use Sm\Core\Exception\InvalidArgumentException;
@@ -32,9 +31,10 @@ use Sm\Modules\Query\Sql\SqlDisplayContext;
 use Sm\Modules\Query\Sql\Statements\AlterTableStatement;
 use Sm\Modules\Query\Sql\Statements\CreateTableStatement;
 use Sm\Query\Proxy\String_QueryProxy;
+use WANGHORN\Controller\AppController;
 use WANGHORN\Entity\User\User;
 
-class Dev extends BaseApplicationController {
+class DevController extends AppController {
     protected function propertyToColumn(PropertySchematic $propertySchema, TableSourceSchematic $tableSourceSchematic) {
         $datatypes      = $propertySchema->getRawDataTypes();
         $first_datatype = $datatypes[0] ?? null;
@@ -420,9 +420,7 @@ class Dev extends BaseApplicationController {
                                               CreateTableStatement $createTable): void {
         $constraint = UniqueKeyConstraintSchema::init();
         foreach ($_unique_keys as $_uniquePropertySmID) {
-            
             $column = $all_columns[ $_uniquePropertySmID ] ?? null;
-            
             if (!isset($column)) {
                 throw new Error("Could not find column {$_uniquePropertySmID}");
             }

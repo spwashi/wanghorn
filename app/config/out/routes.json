@@ -46,27 +46,27 @@
       },
       {
          "name": "dev--monitors",
-         "resolution": "#Dev\\Dev::monitors",
+         "resolution": "Dev\\Dev@monitors",
          "pattern": "wanghorn/dev/monitors.json$"
       },
       {
          "name": "dev--models",
-         "resolution": "#Dev\\Dev::models",
+         "resolution": "Dev\\Dev@models",
          "pattern": "wanghorn/dev/models.json$"
       },
       {
          "name": "dev--entities",
-         "resolution": "#Dev\\Dev::entities",
+         "resolution": "Dev\\Dev@entities",
          "pattern": "wanghorn/dev/entities.json$"
       },
       {
          "name": "dev--routes",
-         "resolution": "#Dev\\Dev::routes",
+         "resolution": "Dev\\Dev@routes",
          "pattern": "wanghorn/dev/routes.json$"
       },
       {
          "name": "dev--execute_query",
-         "resolution": "#Dev\\Dev::executeQuery",
+         "resolution": "Dev\\Dev@executeQuery",
          "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       {
@@ -76,7 +76,7 @@
       },
       {
          "name": "dev--get_model_schematic",
-         "resolution": "#Dev\\Dev::getSchematic",
+         "resolution": "Dev\\Dev@getSchematic",
          "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/schematic$",
          "http_method": [
             "get"
@@ -84,7 +84,7 @@
       },
       {
          "name": "dev--all_models",
-         "resolution": "#Dev\\Dev::findAll",
+         "resolution": "Dev\\Dev@findAll",
          "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/all",
          "http_method": [
             "get"
@@ -102,7 +102,7 @@
       },
       {
          "name": "dev--create_model--receive",
-         "resolution": "#Dev\\Dev::createModel",
+         "resolution": "Dev\\Dev@createModel",
          "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/create/receive$",
          "http_method": [
             "post"

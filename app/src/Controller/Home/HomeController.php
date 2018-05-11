@@ -21,14 +21,13 @@ class HomeController extends AppController {
     public function index() {
         $html_filename = APP__NAME . '.html';
         /** @var \Sm\Data\Entity\EntitySchematic $userSchematic */
-        $context_name  = 'login_process';
+        $context_name  = 'signup_process';
         $entityContext = $this->app->controller->createControllerResolvable('User\\User@resolveContext')->resolve($context_name);
         
         $username     = $_SESSION[ static::SESSION_USERNAME_INDEX ] ?? '~guest~';
         $userFinder   = $this->app->controller->createControllerResolvable('User\\User@findUser');
         $session_user = $userFinder->resolve(null, $username);
         $userProxy    = $session_user ? $session_user->proxyInContext(new EntityContext) : null;
-        
         $tags = [
             $this->wrapWithScriptTag($entityContext, "context__{$context_name}--configuration"),
             $this->wrapWithScriptTag($userProxy, "session__user"),

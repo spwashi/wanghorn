@@ -10,6 +10,7 @@ import {bindActionCreators} from 'redux'
 import {activeUserFound, attemptLogin} from "../../../services/session/actions";
 import {getURI} from "../../../../path/resolution";
 import {UserMenuLogin} from "./login";
+import {markContextResolved} from "../../../scenes/sm/actions";
 
 const LoggedInUserMenu = function ({activeUser}) {
     return <div className="user_menu--link--container">
@@ -24,6 +25,8 @@ const LoggedInUserMenu = function ({activeUser}) {
 
 @connect(mapState, mapDispatch)
 class UserMenu extends Component {
+    signupContext = {}
+    
     constructor() {
         super();
         this.state = {
@@ -57,12 +60,15 @@ class UserMenu extends Component {
     }
     
     componentDidMount() {
-        const userElement = document.getElementById('session__user');
+        const userElement    = document.getElementById('session__user');
+        const contextElement = document.getElementById('context__signup_process--configuration');
+        //todo don't trust?
         if (userElement) {
             let json = userElement.innerText || userElement.innerHTML;
-            //todo don't trust
             this.props.dispatchActiveUserFound(JSON.parse(json))
         }
+        let context        = contextElement.innerText || contextElement.innerHTML;
+        this.props.dispatchContextResolved(JSON.parse(context));
     }
     
     @bind
@@ -127,5 +133,6 @@ function mapDispatch(dispatch) {
     return bindActionCreators({
                                   attemptLogin,
                                   dispatchActiveUserFound: activeUserFound,
+                                  dispatchContextResolved: markContextResolved
                               }, dispatch);
 }
