@@ -34,6 +34,9 @@
       "dev--monitors": {
          "pattern": "wanghorn/dev/monitors.json$"
       },
+      "dev--status": {
+         "pattern": "wanghorn/dev/status.json$"
+      },
       "dev--models": {
          "pattern": "wanghorn/dev/models.json$"
       },

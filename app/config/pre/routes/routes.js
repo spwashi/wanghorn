@@ -57,6 +57,11 @@ const devRoutes     = [
                   name:       "dev--monitors"
               }),
     new Route({
+                  resolution: "[Dev]@status",
+                  pattern:    "dev/status.json$",
+                  name:       "dev--status"
+              }),
+    new Route({
                   resolution: "[Dev]@models",
                   pattern:    "dev/models.json$",
                   name:       "dev--models"

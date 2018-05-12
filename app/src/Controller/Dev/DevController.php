@@ -120,6 +120,21 @@ class DevController extends AppController {
         }
     }
     
+    public function status() {
+        try {
+            $std_mysql = $this->app->query->getQueryModule()->canConnect();
+        } catch (FactoryCannotBuildException $e) {
+            $std_mysql = false;
+        }
+        
+        return [
+            'database_connections' => [
+                'mysql' => [
+                    'std' => $std_mysql,
+                ],
+            ],
+        ];
+    }
     public function modelConfig() {
         $html_filename = DEFAULT_APP__CONFIG_PATH . 'out/models.json';
         $json          = file_get_contents($html_filename);

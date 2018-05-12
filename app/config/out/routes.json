@@ -50,6 +50,11 @@
          "pattern": "wanghorn/dev/monitors.json$"
       },
       {
+         "name": "dev--status",
+         "resolution": "Dev\\Dev@status",
+         "pattern": "wanghorn/dev/status.json$"
+      },
+      {
          "name": "dev--models",
          "resolution": "Dev\\Dev@models",
          "pattern": "wanghorn/dev/models.json$"
