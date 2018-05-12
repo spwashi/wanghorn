@@ -54,6 +54,8 @@ class UserController extends AppController {
         } catch (EntityModelNotFoundException $exception) {
             if ($throw) throw $exception;
             return null;
+        }catch (\Exception $exception){
+            var_dump($exception);
         }
     }
     public function signUp() {
