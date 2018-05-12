@@ -25,8 +25,6 @@ const LoggedInUserMenu = function ({activeUser}) {
 
 @connect(mapState, mapDispatch)
 class UserMenu extends Component {
-    signupContext = {}
-    
     constructor() {
         super();
         this.state = {
@@ -36,25 +34,47 @@ class UserMenu extends Component {
         }
     }
     
+    @bind
+    onUsernameChange(value) {
+        this.setState({username: value});
+    }
+    
+    @bind
+    onPasswordChange(value) {
+        this.setState({password: value});
+    }
+    
     render() {
-        let activeUser            = this.props.activeUser;
-        let isLoginActive         = this.state.isLoginActive;
-        const user_menu_classname = "user_menu " + (isLoginActive ? 'active' : '');
-        const activateLogin       = this.activateLogin;
-        const activateSignup      = this.activateSignup;
-        const onRequestClose      = () => this.deactivate();
-        const state               = this.state;
-        const onSignupKeydown     = this.handleKeydown;
-        const userSignupFormVars  = {
-            activateLogin, activateSignup, onRequestClose,
-            onSignupKeydown,
-            state
+        const activeUser = this.props.activeUser;
+        
+        const isLoginActive                   = this.state.isLoginActive;
+        const {username, password}            = this.state;
+        const state                           = this.state;
+        const {activateLogin, activateSignup} = this;
+        const onRequestClose                  = () => this.deactivate();
+        const userMenuActions                 = {activateLogin, activateSignup, onRequestClose, state};
+        const onPropertyValueChange           = (name, value) => {
+            switch (name) {
+                case '[Property]{[Entity]user}password':
+                case 'password':
+                    this.setState({password: value});
+                    break;
+                case '[Property]{[Entity]user}username':
+                case 'username':
+                    this.setState({username: value});
+            }
         };
         return (
-            <div className={user_menu_classname}>
+            <div className={"user_menu " + (isLoginActive ? 'active' : '')}>
                 {activeUser ? <LoggedInUserMenu activeUser={activeUser} />
-                            : isLoginActive ? <UserMenuLogin onSubmit={this.getHandleSubmit('login')} onDeactivateAttempt={onRequestClose} />
-                                            : <UserMenuController onSignupSubmit={this.getHandleSubmit('signup')} {...userSignupFormVars} />}
+                            : isLoginActive ? <UserMenuLogin onPropertyValueChange={onPropertyValueChange}
+                                                             username={username} password={password}
+                                                             onSubmit={this.getHandleSubmit('login')}
+                                                             onDeactivateAttempt={onRequestClose} />
+                                            : <UserMenuController onPropertyValueChange={onPropertyValueChange}
+                                                                  username={username} password={password}
+                                                                  onSignupSubmit={this.getHandleSubmit('signup')}
+                                                                  {...userMenuActions} />}
             </div>
         );
     }
@@ -67,7 +87,7 @@ class UserMenu extends Component {
             let json = userElement.innerText || userElement.innerHTML;
             this.props.dispatchActiveUserFound(JSON.parse(json))
         }
-        let context        = contextElement.innerText || contextElement.innerHTML;
+        let context = contextElement.innerText || contextElement.innerHTML;
         this.props.dispatchContextResolved(JSON.parse(context));
     }
     
@@ -79,15 +99,15 @@ class UserMenu extends Component {
     
     @bind
     getHandleSubmit(type) {
+        const {username, password} = this.state;
+        
         return data => {
             switch (type) {
                 case 'login':
                     this.props.attemptLogin(data);
                     break;
                 case 'signup':
-                    let url                  = USER_SIGNUP_PROCESS;
-                    let {username, password} = data;
-                    this.setState({username, password});
+                    let url = USER_SIGNUP_PROCESS;
                     axios.post(url, data)
                          .then(response => {
                              const responseData = response.data;

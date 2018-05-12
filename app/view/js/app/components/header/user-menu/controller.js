@@ -4,8 +4,11 @@ import Modal from "../../modal";
 import Button from "../../../../components/button";
 
 export const UserMenuController = function ({
-                                                activateLogin, activateSignup, onRequestClose,
-                                                onModalButtonCloseClick, onSignupSubmit, onSignupKeydown,
+                                                username, password,
+    
+                                                activateLogin, activateSignup,
+    
+                                                onRequestClose, onModalButtonCloseClick, onSignupSubmit, onPropertyValueChange,
                                                 state
                                             }) {
     return (
@@ -18,10 +21,10 @@ export const UserMenuController = function ({
                    title="Sign Up"
                    baseClassName={'signup--form--wrapper'}>
                 <SignupForm handleSubmit={onSignupSubmit}
-                            onKeyDown={onSignupKeydown}
+                            onPropertyValueChange={onPropertyValueChange}
                             response={state.signupResponse}
-                            username={state.username}
-                            password={state.password} />
+                            username={username}
+                            password={password} />
             </Modal>
         </div>
     );

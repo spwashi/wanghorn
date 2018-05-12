@@ -8,6 +8,12 @@ import bind from "bind-decorator"
 export class UserMenuLogin extends React.Component {
     state = {};
     
+    constructor(props) {
+        super(props);
+        this.state.username = props.username || '';
+        this.state.password = props.password || '';
+    }
+    
     @bind
     handleUsernameChange(event) {
         this.setState({username: event.target.value});
@@ -25,20 +31,20 @@ export class UserMenuLogin extends React.Component {
     }
     
     render() {
-        const {onSubmit, onDeactivateAttempt} = this.props;
-        const response                        = this.props.response || {};
-        const {username, password}            = this.state;
-        let handleSubmit                      = event => {
-            event.preventDefault();
-            (onSubmit || function () {})({username, password});
-        };
+        const {onSubmit, onDeactivateAttempt, onPropertyValueChange} = this.props;
+        const response                                               = this.props.response || {};
+        const {username, password}                                   = this.props;
         return (
             <div id="user_menu--login" onKeyDown={this.handleKeydown}>
-                <form action={USER_LOGIN_PATH} method="POST" onSubmit={handleSubmit}>
+                <form action={USER_LOGIN_PATH} method="POST" onSubmit={e => e.preventDefault() || onSubmit({username, password})}>
                     <div className="user_menu--input--container input--container text_input--container">
-                        <UsernameAndPasswordInputs username={username} handleUsernameChange={this.handleUsernameChange}
-                                                   response={(response || {})}
-                                                   password={password} handlePasswordChange={this.handlePasswordChange} />
+                        <UsernameAndPasswordInputs username={username}
+                                                   password={password}
+                        
+                                                   onPasswordChange={value => onPropertyValueChange('password', value)}
+                                                   onUsernameChange={value => onPropertyValueChange('username', value)}
+                        
+                                                   response={(response || {})} />
                     </div>
                     
                     <div className="action_button--container user_menu--action_button--container input--container button--container">

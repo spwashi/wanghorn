@@ -106,7 +106,8 @@ export default class Item extends React.Component {
                 <div className={"price gallery_item--price"}>${formatted_price.replace('.00', '')}</div>
                 <div className={"status gallery_item--status"}>{status}</div>
                 <div className={"description gallery_item--description"}>{!this.props.isExpanded ? <Teaser>{description}</Teaser> : description}</div>
-                {hasModalDialog ? <Link className={'view--link'} to={getURI('gallery--item__view', {name}) || externalLink}></Link> : null}
+                {hasModalDialog ? <Link className={'view--link'} to={getURI('gallery--item__view', {name})}></Link>
+                                : <a onClick={event => event.preventDefault()} className={'view--link'} href={externalLink}><i className="fas fa-external-link-alt"></i></a>}
                 <TagContainer tags={tags} />
             </div>
         )

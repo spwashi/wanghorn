@@ -34,14 +34,14 @@ FormMessage.propTypes                  = {
 export const UsernameAndPasswordInputs = function ({username = '', password = '', response, onUsernameChange, onPasswordChange}) {
     return [<div key={'username'} className="input--wrapper username--wrapper">
                 <label htmlFor="username">Username:</label>
-                <UsernameInput value={username} onChange={event => onUsernameChange(event.target.value)} />
+                <UsernameInput value={username || ''} onChange={event => onUsernameChange(event.target.value)} />
                 <FormMessage name={'username'}
                              message={(response.username || {}).message}
                              status={(response.username || {}).status} />
             </div>,
             <div key={'password'} className="input--wrapper password--wrapper">
                 <label htmlFor="password">Password:</label>
-                <PasswordInput value={password} onChange={event => onPasswordChange(event.target.value)} />
+                <PasswordInput value={password || ''} onChange={event => onPasswordChange(event.target.value)} />
                 <FormMessage name={'password'}
                              message={(response.password || {}).message}
                              status={(response.password || {}).status} />
