@@ -89,5 +89,13 @@
 			font-size : .95em;
 		}
 		input { width : 75%; border : thin solid #ccc;display : inline-block;}
+		> .message {
+			width       : 75%;
+			margin-left : 25%;
+			font-size   : .7em;
+		}
+		.error--message {
+			color : $close__red;
+		}
 	}
 }

@@ -15,12 +15,15 @@ class ContentSection extends React.Component {
     };
 }
 
-export const ContentSectionHeader = ({title}) => <header><h2>{title || children}</h2></header>;
-
+export const ContentSectionHeader = ({title, className}) => <header className={className}><h2>{title || children}</h2></header>;
 export default ContentSection;
-ContentSection.propTypes = {
+ContentSection.propTypes       = {
     name:       PropTypes.string,
     header:     PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
     className:  PropTypes.string,
     sectionRef: PropTypes.func
+};
+ContentSectionHeader.propTypes = {
+    title:     PropTypes.string,
+    className: PropTypes.string
 };

@@ -32,7 +32,6 @@ class Gallery extends React.Component {
                                                                                                                 : (function () {console.log(`missing prop -- ${eventName}`);}));
                     activationFunc.bind(this)({category: tagCategory, tag: selectItemName})
                 }
-                console.log(eventName, filterName, ' -- ', selectItemName);
         }
     }
     
@@ -56,7 +55,6 @@ class Gallery extends React.Component {
     render() {
         const {items, activeTagIDs} = this.props;
         const filters               = this.getFilters();
-        console.log(activeTagIDs);
         return (
             <div className="gallery">
                 <aside className="gallery_item--container--control_component--container">

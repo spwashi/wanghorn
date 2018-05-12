@@ -10,7 +10,6 @@ use Sm\Data\Entity\Exception\EntityModelNotFoundException;
 use Sm\Modules\Network\Http\Http;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Controller\AppController;
-use WANGHORN\Controller\User\Login\ResponseStatus;
 use WANGHORN\Entity\User\User;
 
 class UserController extends AppController {
@@ -67,7 +66,11 @@ class UserController extends AppController {
         
         return [
             'error'   => 'Could not complete signup request at this time',
-            'request' => $request_data,
+            'message' => [
+                'username' => [ 'success' => false, 'message' => 'Could not set Username' ],
+                'password' => [ 'success' => false, 'message' => 'Could not set password' ],
+                'email'    => [ 'success' => false, 'message' => 'Could not set Email' ],
+            ],
             'success' => false,
         ];
     }

@@ -58,6 +58,7 @@ export class ActiveRoutesScene extends React.Component {
         const numericRoutes = [];
         const publicRoutes  = {};
         const namedRoutes   = {};
+        const header        = <ContentSectionHeader className={'dev--scene--toggle'} title="Routes" />;
         Object.entries(routes)
               .forEach(
                   ([name, config]) => {
@@ -69,7 +70,7 @@ export class ActiveRoutesScene extends React.Component {
                       }
                   });
         return (
-            <ContentSection sectionRef={this.props.activeElRef} className={'dev--component routes--container'} header={<ContentSectionHeader title="Routes" />}>
+            <ContentSection sectionRef={this.props.activeElRef} className={'dev--component routes--container'} header={header}>
                 <div className="route--container--container">
                     <RouteContainer title={"Unnamed Routes"}
                                     routes={numericRoutes}

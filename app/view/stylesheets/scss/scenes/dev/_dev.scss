@@ -24,11 +24,17 @@
 		margin-right  : auto;
 		margin-bottom : 20px;
 		border-bottom : thin solid darken($body--backgroundColor, 5%);
-	}
-	p, .page--description * {
-		* {
-			font-size : inherit;
+		> ul {
+			width        : 50%;
+			margin-left  : auto;
+			margin-right : auto;
+			text-align   : left;
+			li {
+				margin-left : 40px;
+			}
 		}
+	}
+	p, .page--description {
 	}
 	dt {
 		display       : inline;

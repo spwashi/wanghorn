@@ -14,9 +14,16 @@ const Dev = ({models}) => {
                 <p>
                     This is a Developer's interface <sub>(work-in-progress)</sub> for the sites/apps that <a href={HOME} title={'William'}>I</a> help build.
                 </p>
+                <p>
+                    You can use your keyboard to navigate this page:
+                </p>
+                <ul>
+                    <li>[Tab] to advance</li>
+                    <li>[Space or Enter] to activate/deactivate</li>
+                </ul>
             </section>
             <ModelModule />
-            <RoutesModule/>
+            <RoutesModule />
         </PageContent>
     );
 };

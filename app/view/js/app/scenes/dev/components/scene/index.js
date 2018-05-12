@@ -82,7 +82,7 @@ export class InactiveDevComponent extends React.Component {
         let className = this.props.className;
         return (
             <div ref={this.props.activeElRef} className={`dev--component ${className} collapsed`}>
-                <h2 className={`title ${className}--title`}>{this.props.title}</h2>
+                <h2 className={`title dev--scene--toggle ${className}--title`}>{this.props.title}</h2>
             </div>
         )
     }
@@ -91,7 +91,7 @@ export class InactiveDevComponent extends React.Component {
 export class DevScene extends React.Component {
     render() {
         const matchActivationTarget              = (target) => {
-            return target.classList.contains("title");
+            return target.classList.contains("dev--scene--toggle") || target.parentElement.classList.contains("dev--scene--toggle");
         };
         const {title, className, childClassName} = this.props;
         const {onActivate, onDeactivate}         = this.props;

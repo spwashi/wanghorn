@@ -75,11 +75,12 @@ class ActiveModelScene extends React.Component {
               creatingModelMetaSmIDs      = this.props.creatingModelMetaSmIDs,
               allModelSmIDs               = this.props.allModelSmIDs;
         const {activeElRef}               = this.props;
+        const header                      = <ContentSectionHeader title="Models" className={'dev--scene--toggle'} />;
         let onTogglePropertyClick         = propertySmID => {
             return toggleModelPropertyActivity({smID: propertySmID});
         };
         return (
-            <ContentSection sectionRef={activeElRef} className={"dev--component model--container"} header={<ContentSectionHeader title="Models" />}>
+            <ContentSection sectionRef={activeElRef} className={"dev--component model--container"} header={header}>
                 <ModelContainerDescription />
                 <ModelLinkContainer onItemTrigger={this.handleModelLinkTrigger}
                                     activeSmIDs={activeModelSmIDs}
