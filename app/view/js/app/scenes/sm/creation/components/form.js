@@ -32,17 +32,31 @@ class SmEntityCreationForm extends React.Component {
     @bind
     handleSubmit(event) {
         event.preventDefault();
-        
-        let url = this.props.url;
+        const url              = this.props.url;
+        const properties       = this.state.properties;
+        const propertyEntries  = Object.entries(properties);
+        const submissionErrors = {};
+        let canSubmit          = true;
+        propertyEntries.forEach(([name, {value, status, message}]) => {
+            if (typeof status === 'undefined' || (!status && typeof status === 'object')) return;
+            canSubmit = canSubmit ? !!status : false;
+            console.log(message);
+            !status && (submissionErrors[name] = message || 'Invalid value');
+        });
+        console.log(canSubmit);
+        if (!canSubmit) {
+            this.setState({_messages: {...this.state._messages, ...submissionErrors}});
+            return;
+        }
         this.setState({_status: 'loading'},
                       () => {
-                          let post = Object.entries(this.state.properties)
-                                           .filter(([name]) => name[0] !== '_')
-                                           .reduce(reduceEntriesIntoObject, {});
+                          let post = propertyEntries.filter(([name]) => name[0] !== '_')
+                                                    .reduce(reduceEntriesIntoObject, {});
                           axios.post(url, post)
                                .then(({data}) => {
                                    const status    = data.success ? 'success' : 'error';
                                    const _messages = typeof data.message === 'object' ? data.message : {};
+                                   console.log(_messages);
                                    this.setState({_status: status, _messages});
                                })
                       })
@@ -88,25 +102,35 @@ class SmEntityCreationForm extends React.Component {
         return smEntity;
     }
     
-    getPropertyValue(smID) {
-        return (this.state.properties[smID] || {}).value || '';
+    getPropertyValue({smID, name}) {
+        return (this.state.properties[normalizeSmID(smID)] || this.state.properties[name] || {}).value || '';
     }
     
-    getPropertyMessage(smID) {
-        return this.state._messages[smID] || '';
+    getPropertyMessage({smID, name}) {
+        return this.state._messages[normalizeSmID(smID)] || this.state._messages[name] || '';
     }
     
-    updateValueStatus(smID, value, status = 'okay') {
+    updateValueStatus(identifier, value, status = true) {
         const propertyChangeHandler = this.propertyChangeHandler;
-        const propertyConfig        = this.getPropertyConfig(smID);
+        const propertyConfig        = this.getPropertyConfig(identifier);
         const newProperties         = this.state.properties;
-        propertyChangeHandler(smID, value, propertyConfig);
-        return this.setState({
-                                 properties: {
-                                     ...newProperties,
-                                     [smID]: {value, status}
-                                 }
-                             });
+        let message;
+        if (typeof status === 'object' && status) {
+            message = status.message || null;
+            status  = status.status || false;
+        }
+        propertyChangeHandler(normalizeSmID(identifier), value, propertyConfig);
+        const newState = {
+            properties: {
+                ...newProperties,
+                [identifier]: {value, status}
+            }
+        };
+        if (message || this.state._messages[identifier]) {
+            newState._messages             = newState._messages || {};
+            newState._messages[identifier] = message;
+        }
+        return this.setState(newState);
     }
     
     getPropertyConfig(smID) {

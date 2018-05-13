@@ -8,42 +8,51 @@ import PropertyField from "../../form/factories/property";
 export class PropertyFieldset extends React.Component {
     render() {
         const smEntity           = this.props.smEntityConfig;
+        const settableProperties = getSettablePropertiesFromSmEntity(smEntity);
+        const propertyInputs     = Object.entries(settableProperties).map(([name, config]) => this.convertToInput(config, name));
+        return <fieldset name={smEntity.name || smEntity.smID}>{propertyInputs}</fieldset>;
+    }
+    
+    convertToInput(config, name) {
         const getPropertyValue   = this.props.getPropertyValue;
         const resolveSmEntity    = this.props.resolveSmEntity || function () {};
         const getPropertyMessage = this.props.getPropertyMessage;
-        const updateValueStatus  = this.props.updateValueStatus;
+        const prefix             = this.props.prefix || '';
+        let updateValueStatus    = this.props.updateValueStatus;
         
-        const prefix = this.props.prefix || '';
+        const propertySmID  = normalizeSmID(config.smID);
+        const prefixed_name = (prefix ? (prefix + '__') : '') + propertySmID;
         
-        const settableProperties = getSettablePropertiesFromSmEntity(smEntity);
-        const propertyInputs     = Object.entries(settableProperties)
-                                         .map(([name, config]) => {
-                                             const propertySmID  = normalizeSmID(config.smID);
-                                             const prefixed_name = (prefix ? (prefix + '__') : '') + propertySmID;
-            
-                                             if (((config.datatypes || [])[0] || '').startsWith('[Entity]')) {
-                                                 return <PropertyFieldset key={propertySmID}
-
-                                                                          prefix={prefixed_name}
-
-                                                                          getPropertyValue={getPropertyValue}
-                                                                          getPropertyMessage={getPropertyMessage}
-
-                                                                          smEntityConfig={resolveSmEntity(config.datatypes[0])}
-                                                                          resolveSmEntity={resolveSmEntity}
-                                                                          updateValueStatus={updateValueStatus} />
-                                             }
-            
-                                             return <PropertyField key={propertySmID}
-            
-                                                                   name={prefixed_name}
-            
-                                                                   config={{...config, name}}
-                                                                   value={getPropertyValue(propertySmID)}
-                                                                   message={getPropertyMessage(propertySmID)}
-                                                                   updateValueStatus={updateValueStatus} />;
-                                         });
-        return <fieldset name={smEntity.name || smEntity.smID}>{propertyInputs}</fieldset>;
+        const isEntity = ((config.datatypes || [])[0] || '').startsWith('[Entity]');
+        if (isEntity) {
+            const resolvedPropertySmEntity = resolveSmEntity(config.datatypes[0]);
+            const subSettables             = getSettablePropertiesFromSmEntity(resolvedPropertySmEntity);
+            const subSettableMap           = new Map(Object.entries(subSettables || {}));
+            if (subSettableMap.size === 1) {
+                const propertyConfig = subSettableMap.values().next().value;
+                config               = {...propertyConfig, smID: propertySmID};
+            } else {
+                return <PropertyFieldset key={propertySmID}
+                
+                                         prefix={prefixed_name}
+                
+                                         getPropertyValue={getPropertyValue}
+                                         getPropertyMessage={getPropertyMessage}
+                
+                                         smEntityConfig={resolvedPropertySmEntity}
+                                         resolveSmEntity={resolveSmEntity}
+                                         updateValueStatus={updateValueStatus} />;
+            }
+        }
+        const propertyConfig = {...config, name};
+        return <PropertyField key={propertySmID}
+        
+                              name={prefixed_name}
+        
+                              config={propertyConfig}
+                              value={getPropertyValue(propertyConfig)}
+                              message={getPropertyMessage(propertyConfig)}
+                              updateValueStatus={updateValueStatus} />;
     }
 }
 

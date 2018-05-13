@@ -5,13 +5,48 @@ import {getTitleFromPropName} from "../../../dev/modules/sm/utility";
 import {Field} from "../../../../components/form/field/field";
 
 export default class PropertyField extends React.Component {
+    state = {};
+    
+    constructor(props) {
+        super(props);
+        const config = this.props.config;
+        
+        if (config.datatypes && config.datatypes[0] === 'password') {
+            this.state.verification        = '';
+            this.getPropertyValidityStatus = (smID, value) => {
+                if (this.state.verification === value) {
+                    return {message: null, status: true};
+                }
+                return {
+                    message: 'Passwords do not match',
+                    status:  this.state.verification === value
+                }
+            }
+        }
+    }
+    
     render() {
+        let input;
         const {config, value, name: fieldName} = this.props;
         const onValueChange                    = this.onValueChange.bind(this);
+        const title                            = getTitleFromPropName(config.name);
+        const message                          = this.renderMessage();
         
-        const input   = <StandardSmProperty {...{config, value, onValueChange}} />;
-        const title   = getTitleFromPropName(config.name);
-        const message = this.renderMessage();
+        if (config.datatypes && config.datatypes[0] === 'password') {
+            const verificationTitle = 'Verify ' + title;
+            const verificationName  = 'verify--' + fieldName;
+            const onVerifyChange    = e => {
+                this.setState({verification: e.target.value}, () => onValueChange(value));
+            };
+            const verificationInput = <input type="password" name={verificationName} onChange={onVerifyChange} />;
+            input                   = <StandardSmProperty {...{config, value, onValueChange}} />;
+            return [
+                <Field title={title} name={fieldName} input={input} message={message} />,
+                <Field title={verificationTitle} name={verificationName} input={verificationInput} />
+            ]
+        }
+        
+        input = <StandardSmProperty {...{config, value, onValueChange}} />;
         return <Field title={title} name={fieldName} input={input} message={message} />
         
     }
@@ -19,9 +54,8 @@ export default class PropertyField extends React.Component {
     getPropertyValidityStatus = (propertyName, value) => true;
     
     onValueChange(value) {
-        const smID      = this.props.config.smID;
-        const fieldName = this.props.name;
-        
+        const smID              = this.props.config.smID;
+        const fieldName         = this.props.name;
         const validityStatus    = this.getPropertyValidityStatus(smID, value);
         const updateValueStatus = this.props.updateValueStatus;
         

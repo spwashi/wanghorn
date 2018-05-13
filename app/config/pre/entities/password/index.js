@@ -9,7 +9,7 @@ export const persistedIdentity = password__identity;
 export const properties        = {
     password: {
         identity:  true,
-        // datatypes: 'password',
+        datatypes: 'password',
         role:      'value'
     }
 };
