@@ -52,29 +52,35 @@ const devRoutes     = [
                   pattern:    "dev$"
               }),
     new Route({
+                  name:       "dev--models",
+                  title:      "Models",
+                  renderedBy: "client",
+                  pattern:    "dev/models$"
+              }),
+    new Route({
                   resolution: "[Dev]@monitors",
                   pattern:    "dev/monitors.json$",
-                  name:       "dev--monitors"
+                  name:       "dev--monitors__json"
               }),
     new Route({
                   resolution: "[Dev]@status",
                   pattern:    "dev/status.json$",
-                  name:       "dev--status"
+                  name:       "dev--status__json"
               }),
     new Route({
                   resolution: "[Dev]@models",
                   pattern:    "dev/models.json$",
-                  name:       "dev--models"
+                  name:       "dev--models__json"
               }),
     new Route({
                   resolution: "[Dev]@entities",
                   pattern:    "dev/entities.json$",
-                  name:       "dev--entities"
+                  name:       "dev--entities__json"
               }),
     new Route({
                   resolution: "[Dev]@routes",
                   pattern:    "dev/routes.json$",
-                  name:       "dev--routes"
+                  name:       "dev--routes__json"
               }),
     new Route({
                   resolution: "[Dev]@executeQuery",

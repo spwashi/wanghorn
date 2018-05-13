@@ -4,10 +4,7 @@ use Sm\Application\Application;
 use Sm\Core\Event\GenericEvent;
 use Sm\Core\Resolvable\Error\UnresolvableException;
 use Sm\Core\Util;
-use Sm\Data\Entity\Property\EntityAsProperty;
-use Sm\Data\Entity\Property\EntityPropertySchematic;
 use Sm\Data\Model\StandardModelPersistenceManager;
-use Sm\Data\SmEntity\SmEntityDataManager;
 use Sm\Modules\Query\MySql\Authentication\MySqlAuthentication;
 use Sm\Modules\Query\MySql\MySqlQueryModule;
 use Sm\Modules\View\PlainFile\PlainFileViewModule;
@@ -131,26 +128,35 @@ function _communication_layer(Application $app): void {
  * @throws \Sm\Core\SmEntity\Exception\InvalidConfigurationException
  */
 function _data_layer(Application $app): void {
-    $model_json_path = DEFAULT_APP__CONFIG_PATH . 'out/models.json';
+    $model_json_path  = "{$app->config_path}out/models.json";
+    $entity_json_path = "{$app->config_path}out/entities.json";
+    
     if (file_exists($model_json_path)) {
         $model_json   = file_get_contents($model_json_path);
         $model_config = json_decode($model_json, 1);
         $app->data->configure($model_config);
     }
-    $entity_json_path = DEFAULT_APP__CONFIG_PATH . 'out/entities.json';
     if (file_exists($entity_json_path)) {
         $entity_json   = file_get_contents($entity_json_path);
         $entity_config = json_decode($entity_json, 1);
         $app->data->configure($entity_config);
     }
+    
     /** @var \Sm\Data\Model\ModelDataManager $modelDataManager */
-    $modelDataManager   = $app->data->models;
-    $entityDataManager  = $app->data->entities;
+    $modelDataManager    = $app->data->models;
+    $entityDataManager   = $app->data->entities;
+    $propertyDataManager = $app->data->models->getPropertyDataManager();
+    
+    $datatypeFactory = DatatypeFactory::init()->setDataLayer($app->data);
+    
     $queryModule        = $app->query->getQueryModule();
     $modelFactory       = $modelDataManager->getSmEntityFactory();
-    $persistenceManager = new StandardModelPersistenceManager($modelFactory);
-    $persistenceManager->setQueryInterpreter($queryModule);
+    $persistenceManager = (new StandardModelPersistenceManager($modelFactory))->setQueryInterpreter($queryModule);
     $modelDataManager->setPersistenceManager($persistenceManager);
+    
+    $app->data->properties->setDatatypeFactory($datatypeFactory);
+    $app->data->entityProperties->setDatatypeFactory($datatypeFactory);
+    
     $app->data->properties->registerResolver(function (string $smID, $schematic = null) use ($app) {
         $smID = str_replace(' ', '', $smID);
         switch ($smID) {
@@ -158,38 +164,15 @@ function _data_layer(Application $app): void {
                 $property = new \WANGHORN\Model\Property;
                 return $property;
         }
-        return null;
     });
-    $app->data->models->registerResolver(function (string $smID) use ($app) {
+    $app->data->models->registerResolver(function (string $smID) use ($propertyDataManager) {
         switch ($smID) {
             case '[Model]user':
-                return new \WANGHORN\Model\User($app->data->models->getPropertyDataManager());
+                return new \WANGHORN\Model\User($propertyDataManager);
             default:
-                return new \WANGHORN\Model\Model($app->data->models->getPropertyDataManager());
+                return new \WANGHORN\Model\Model($propertyDataManager);
         }
     });
-    $datatypeFactory = DatatypeFactory::init()->setDataLayer($app->data);
-    
-    $app->data->entityProperties->registerResolver(function (string $smID, $schematic = null) use ($app) {
-        $smID = str_replace(' ', '', $smID);
-        
-        if (!($schematic instanceof EntityPropertySchematic)) return null;
-        
-        $primaryDataType = $schematic->getRawDataTypes();
-        $parsed          = SmEntityDataManager::parseSmID($primaryDataType[0] ?? null);
-        if (!$parsed) return null;
-        if (($parsed['manager'] ?? null) !== 'Entity') return null;
-        $entityAsProperty = new EntityAsProperty;
-        $entity           = $app->data->entities->instantiate($primaryDataType[0]);
-        $entityAsProperty->setEntity($entity);
-        return $entityAsProperty;
-        
-        return null;
-    });
-    
-    $app->data->properties->setDatatypeFactory($datatypeFactory);
-    $app->data->entityProperties->setDatatypeFactory($datatypeFactory);
-    
     $app->data->entities->registerResolver(function (string $smID) use ($entityDataManager) {
         switch ($smID) {
             case '[Entity]user':

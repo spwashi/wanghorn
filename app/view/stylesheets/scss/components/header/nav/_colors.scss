@@ -1,6 +1,6 @@
 @import "../colors";
 
 $navLink__color : #fff;
-$navLink__backgroundColor : transparent;
+$navLink__backgroundColor : $header__backgroundColor;
 $navLink__backgroundColor--hover : darken($header__backgroundColor, 5%);
 $active-link-_-border-bottom-color : #fff;

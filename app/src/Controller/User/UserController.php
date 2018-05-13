@@ -5,7 +5,7 @@ namespace WANGHORN\Controller\User;
 
 
 use Sm\Core\Exception\InvalidArgumentException;
-use Sm\Data\Entity\EntityContext;
+use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\Exception\EntityModelNotFoundException;
 use Sm\Modules\Network\Http\Http;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
@@ -16,7 +16,7 @@ class UserController extends AppController {
     /**
      * @param $context_name
      *
-     * @return \Sm\Data\Entity\EntityContext
+     * @return \Sm\Data\Entity\Context\EntityContext
      * @throws \Sm\Core\Exception\InvalidArgumentException
      * @throws \Sm\Core\Exception\UnimplementedError
      */

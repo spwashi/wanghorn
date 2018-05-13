@@ -1,19 +1,16 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
-import {getURI} from "../../../../../../../../path/resolution";
 import {Link} from "../../../../../../../../components/navigation/components/link";
 
 export class SmID_Link extends React.Component {
     render() {
-        const {smID, isActive, onTrigger} = this.props;
-        let handleTrigger                 = onTrigger;
-        let uri                           = getURI(isActive ? 'dev--home' : 'dev--model', {smID});
-        return <Link onClick={(event: React.SyntheticEvent) => {return handleTrigger(smID);}}
-                     replace
+        const {smID, isActive, onTrigger, to} = this.props;
+        let handleTrigger                     = onTrigger;
+        const onClick                         = (event: React.SyntheticEvent) => {return handleTrigger(smID);};
+        return <Link replace to={to} onClick={onClick}
                      onKeyDown={this.handleKeyDown}
-                     data-sm_id={smID}
-                     to={uri}>{smID}</Link>;
+                     data-sm_id={smID}>{smID}</Link>;
     }
     
     @bind

@@ -1,6 +1,6 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import ModelLinkContainer from "../../../nav/index";
+import SmID_LinkContainer from "../../../nav/index";
 import {ConfigurationAttribute} from "../../../../../../../components/configuration";
 
 const ModelConfigurationInheritsAttribute     =
@@ -8,7 +8,7 @@ const ModelConfigurationInheritsAttribute     =
               inherits = Array.isArray(inherits) ? inherits : [];
               return (
                   <ConfigurationAttribute ownerType={'model'} attribute="inherits">
-                      <ModelLinkContainer allSmIDs={inherits} />
+                      <SmID_LinkContainer allSmIDs={inherits} ownerType={'model'} />
                   </ConfigurationAttribute>
               );
           };

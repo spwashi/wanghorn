@@ -45,27 +45,33 @@
          "pattern": "wanghorn/dev$"
       },
       {
-         "name": "dev--monitors",
+         "name": "dev--models",
+         "title": "Models",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/dev/models$"
+      },
+      {
+         "name": "dev--monitors__json",
          "resolution": "Dev\\Dev@monitors",
          "pattern": "wanghorn/dev/monitors.json$"
       },
       {
-         "name": "dev--status",
+         "name": "dev--status__json",
          "resolution": "Dev\\Dev@status",
          "pattern": "wanghorn/dev/status.json$"
       },
       {
-         "name": "dev--models",
+         "name": "dev--models__json",
          "resolution": "Dev\\Dev@models",
          "pattern": "wanghorn/dev/models.json$"
       },
       {
-         "name": "dev--entities",
+         "name": "dev--entities__json",
          "resolution": "Dev\\Dev@entities",
          "pattern": "wanghorn/dev/entities.json$"
       },
       {
-         "name": "dev--routes",
+         "name": "dev--routes__json",
          "resolution": "Dev\\Dev@routes",
          "pattern": "wanghorn/dev/routes.json$"
       },

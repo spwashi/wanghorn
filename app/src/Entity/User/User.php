@@ -6,7 +6,7 @@ namespace WANGHORN\Entity\User;
 
 use Sm\Core\Context\Context;
 use Sm\Core\Exception\UnimplementedError;
-use Sm\Data\Entity\EntityContext;
+use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
 use Sm\Data\Property\Property;
 use Sm\Data\Property\PropertyContainer;

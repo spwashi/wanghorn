@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
 import Modal from "../../../../../../../components/modal";
 import ModelMeta from "../../modelMeta";
-import ModelLinkContainer from "../nav";
+import SmID_LinkContainer from "../nav";
 import ContentSection, {ContentSectionHeader} from "../../../../../../../components/page/content/section";
 import {ModelContainerDescription} from "./components";
 import {Route} from "react-router-dom"
@@ -76,13 +76,20 @@ class ActiveModelScene extends React.Component {
               allModelSmIDs               = this.props.allModelSmIDs;
         const {activeElRef}               = this.props;
         const header                      = <ContentSectionHeader title="Models" className={'dev--scene--toggle'} />;
-        let onTogglePropertyClick         = propertySmID => {
+        const onTogglePropertyClick       = propertySmID => {
             return toggleModelPropertyActivity({smID: propertySmID});
+        };
+        const getSmID_LinkURI             = smID => {
+            const isActive = activeModelSmIDs.indexOf(smID);
+            return getURI(isActive > -1 ? 'dev--home'
+                                        : 'dev--model', {smID});
         };
         return (
             <ContentSection sectionRef={activeElRef} className={"dev--component model--container"} header={header}>
                 <ModelContainerDescription />
-                <ModelLinkContainer onItemTrigger={this.handleModelLinkTrigger}
+                <SmID_LinkContainer onItemTrigger={this.handleModelLinkTrigger}
+                                    ownerType={'model'}
+                                    getSmID_LinkURI={getSmID_LinkURI}
                                     activeSmIDs={activeModelSmIDs}
                                     allSmIDs={allModelSmIDs} />
                 {

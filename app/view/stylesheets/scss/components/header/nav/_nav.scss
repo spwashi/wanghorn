@@ -12,7 +12,9 @@
 	margin           : 0;
 	height           : 100%;
 	display          : inline-block;
+	transition       : background-color .3s;
 	background-color : $navLink__backgroundColor;
+	position         : relative;
 	a {
 		text-align      : center;
 		padding         : 0 10px;
@@ -31,16 +33,15 @@
 			vertical-align : middle;
 		}
 	}
-	transition       : background-color .3s;
-	&:hover {
-		transition       : background-color .3s;
+
+	&.active--link, &.has-active-descendants {
 		background-color : $navLink__backgroundColor--hover;
 	}
 	&.active--link {
 		background-color : $navLink__backgroundColor--hover;
 		font-weight      : bold;
 		//border-bottom : 6px solid $active-link-_-border-bottom-color;
-		a {
+		> a {
 			position : relative;
 			@keyframes modifyLine {
 				from {
@@ -65,6 +66,24 @@
 				width            : 100%;
 				bottom           : 0;
 			}
+		}
+	}
+	> ul {
+		display  : none;
+		position : absolute;
+		top      : 100%;
+		left     : 0;
+		padding  : 0;
+		> li {
+			margin : 0;
+		}
+	}
+	&:hover {transition : background-color .3s;}
+	&:focus {transition : background-color .2s;}
+	&:hover, &:focus, &.focused {
+		background-color : $navLink__backgroundColor--hover;
+		> ul {
+			display : block;
 		}
 	}
 }

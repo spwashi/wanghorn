@@ -3,15 +3,24 @@ import React from 'react'
 import {NavLink, Redirect} from "react-router-dom"
 
 export class Link extends React.Component {
+    state = {isFocused: false};
+    
     render() {
-        const {to, children, exact, activeClassName, className, redirect, ...props} = this.props;
+        const {to, children, exact, isActive, activeClassName, redirect, ...props} = this.props;
+        let {className}                                                            = this.props;
+        className                                                                  = `${className || ''} ${this.state.isFocused ? 'focused' : ''}`;
         if (!!redirect) {
             return <Redirect push to={to}></Redirect>
         }
+        
+        const isActiveFn = typeof isActive === 'boolean' ? () => isActive
+                                                         : isActive;
         return <NavLink to={to}
-                        exact={!!exact}
-                        isActive={this.props.isActive}
                         {...props}
+                        onFocus={() => this.setState({isFocused: true}, this.props.onFocus)}
+                        onBlur={() => this.setState({isFocused: false}, this.props.onBlur)}
+                        exact={!!exact}
+                        isActive={isActiveFn}
                         className={className || ''}
                         activeClassName={"active link_item--active " + (activeClassName || '')}>
             {children}
@@ -22,7 +31,7 @@ export class Link extends React.Component {
 Link.propTypes = {
     to:              PropTypes.string,
     exact:           PropTypes.bool,
-    isActive:        PropTypes.func,
+    isActive:        PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     activeClassName: PropTypes.string,
     className:       PropTypes.string
 };

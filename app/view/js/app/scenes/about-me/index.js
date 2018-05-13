@@ -116,7 +116,7 @@ let ToDo            = function () {
             <li>
                 Documentation
                 <ul>
-                    <li>The <Link to={DEV__PATH}>Dev Interface</Link> needs to describe <a href={getURI("dev--entities")}>Entities</a></li>
+                    <li>The <Link to={DEV__PATH}>Dev Interface</Link> needs to describe <a href={getURI("dev--entities__json")}>Entities</a></li>
                     <li><a href="#how-I-work">"How I Work" Section</a> could be improved.</li>
                 </ul>
             </li>

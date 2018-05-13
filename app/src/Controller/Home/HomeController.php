@@ -2,7 +2,7 @@
 
 namespace WANGHORN\Controller\Home;
 
-use Sm\Data\Entity\EntityContext;
+use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Model\Model;
 use Sm\Modules\View\Twig\TwigView;
 use WANGHORN\Controller\AppController;
