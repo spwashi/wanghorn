@@ -104,7 +104,7 @@ export default class Item extends React.Component {
                 <div className={`gallery_item--image--wrapper image--wrapper`}>{children}</div>
                 <div className={"name gallery_item--name"}>{title}</div>
                 <div className={"price gallery_item--price"}>${formatted_price.replace('.00', '')}</div>
-                <div className={"status gallery_item--status"}>{status}</div>
+                <div className={`status gallery_item--status status__${status ? status.toLowerCase() : 'null'}`}>{status}</div>
                 <div className={"description gallery_item--description"}>{!this.props.isExpanded ? <Teaser>{description}</Teaser> : description}</div>
                 {hasModalDialog ? <Link className={'view--link'} to={getURI('gallery--item__view', {name})}></Link>
                                 : <a onClick={event => event.preventDefault()} className={'view--link'} href={externalLink}><i className="fas fa-external-link-alt"></i></a>}
