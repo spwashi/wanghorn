@@ -83,7 +83,7 @@
       "user--signup_continue": {
          "pattern": "wanghorn/dev/email/test/{signup_nonce}"
       },
-      "user--login": {
+      "user--process_login": {
          "pattern": "wanghorn/user/login$"
       },
       "user--logout$": {

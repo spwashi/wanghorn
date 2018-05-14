@@ -137,7 +137,7 @@ const devRoutes     = [
 ];
 let userRoutes      = [
     new Route({
-                  name:       "user--login",
+                  name:       "user--process_login",
                   resolution: "[User]@login",
                   pattern:    "user/login$"
               }),

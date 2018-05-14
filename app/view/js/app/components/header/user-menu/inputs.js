@@ -2,6 +2,7 @@ import React from "react"
 import * as PropTypes from "prop-types"
 
 export const UsernameInput             = ({value, onChange}) => <input key={'username'}
+                                                                       placeholder={'Username'}
                                                                        type="text"
                                                                        autoFocus={true}
                                                                        name="username"
@@ -11,6 +12,7 @@ export const UsernameInput             = ({value, onChange}) => <input key={'use
                                                                        }}
                                                                        onChange={onChange} />;
 export const PasswordInput             = ({value, onChange}) => <input key={'password'}
+                                                                       placeholder={'Password'}
                                                                        type="password"
                                                                        name="password"
                                                                        value={value}

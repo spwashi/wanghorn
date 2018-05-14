@@ -68,7 +68,8 @@ class LinkItem extends React.Component {
     get isActive() {
         const {to, location} = this.props;
         
-        if (typeof this.props.isActive !== "undefined") {return;}
+        if (typeof this.props.isActive === 'boolean') return this.props.isActive;
+        if (typeof this.props.isActive === 'function') return this.props.isActive();
         
         return to && to[0] === '#' ? location.hash === to
                                    : location.pathname.replace(/\/$/, "") === to.replace(/\/$/, "");

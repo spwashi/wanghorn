@@ -117,9 +117,14 @@
 }
 
 .route--container--wrapper {
-	flex         : 1 1 100%;
-	width        : 100%;
-	border-right : thin solid $component--meta--bg;
+	flex  : 1 1 100%;
+	width : 100%;
+	&:hover {
+		color : white;
+		.route--configuration--title--wrapper {
+			border-bottom : thin solid white;
+		}
+	}
 	.route--configuration--title--wrapper {
 		border-bottom : thin solid #ccc;
 		position      : relative;
@@ -157,6 +162,25 @@
 		&.disabled {
 			cursor : auto;
 			color  : #ccc;
+		}
+	}
+}
+
+@media screen and (max-device-width : 700px), screen and (max-width : 700px) {
+	.route--container--wrapper {
+		border-top : thin solid #ccc;
+		.route--configuration--title--wrapper {
+			.description {
+				position   : relative;
+				display    : block;
+				right      : auto;
+				left       : auto;
+				top        : auto;
+				bottom     : 50%;
+				font-size  : .6em;
+				padding    : 10px;
+				border-top : thin solid #ccc;
+			}
 		}
 	}
 }

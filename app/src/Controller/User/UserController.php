@@ -54,7 +54,7 @@ class UserController extends AppController {
         } catch (EntityModelNotFoundException $exception) {
             if ($throw) throw $exception;
             return null;
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             var_dump($exception);
         }
     }
@@ -66,14 +66,28 @@ class UserController extends AppController {
         $response     = [];
         
         
+        $entityContext = $this->resolveContext('signup_process');
+        /** @var \Sm\Data\Entity\EntitySchema $proxiedUserSchematic */
+        $userSchematic        = $this->app->data->entities->getSchematicByName('user');
+        $proxiedUserSchematic = $userSchematic->proxyInContext($entityContext);
+        $properties           = [];
+        foreach ($request_data as $property_identifier => $value) {
+            
+            $property                           = $proxiedUserSchematic->getProperties()->{$property_identifier};
+            $properties[ $property_identifier ] = $property;
+        }
+        
+        /** @var User $user */
+        $user     = $this->app->data->entities->instantiate($userSchematic);
+        $response = $user->validate($entityContext);
+        
+        $message = [];
+        if (!$response->isSuccess()) $message[] = $response->getError();
+        
         return [
-            'error'   => 'Could not complete signup request at this time',
-            'message' => [
-                'username' => [ 'success' => false, 'message' => 'Could not set Username' ],
-                'password' => [ 'success' => false, 'message' => 'Could not set password' ],
-                'email'    => [ 'success' => false, 'message' => 'Could not set Email' ],
-            ],
-            'success' => false,
+            'entityInContext' => $properties,
+            'message'         => $message,
+            'success'         => $response->isSuccess(),
         ];
     }
     public function logout() {

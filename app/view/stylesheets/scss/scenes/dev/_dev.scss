@@ -33,6 +33,10 @@
 				margin-left : 40px;
 			}
 		}
+		.keypress--name {
+			color       : $accent_color__1;
+			font-weight : bold;
+		}
 	}
 	p, .page--description {
 	}
@@ -45,5 +49,16 @@
 		margin-left : 3px;
 		font-size   : .7em;
 		bottom      : 0px;
+	}
+}
+
+@media screen and (max-device-width : 700px), screen and (max-width : 700px) {
+	.page--__--dev {
+		.page--description {
+			text-align : left;
+			ul {
+				width : 100%;
+			}
+		}
 	}
 }

@@ -4,9 +4,11 @@
 namespace WANGHORN\Entity;
 
 
+use Sm\Core\Context\Context;
 use Sm\Core\Internal\Monitor\Monitored;
 use Sm\Data\Entity\Property\EntityAsProperty;
 use Sm\Data\Entity\Property\EntityPropertySchematic;
+use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Property\Property;
 
 abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
@@ -50,11 +52,15 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
     protected function setInternalProperty(string $property_name_or_smID, $value) {
         $property = $this->properties->$property_name_or_smID;
         if (!isset($property)) {
-            $modelSchema     = $this->getPersistedIdentity();
-            $properties      = $modelSchema->getProperties();
-            $property        = $properties->{$property_name_or_smID};
+            $modelSchema = $this->getPersistedIdentity();
+            $properties  = $modelSchema->getProperties();
+            $property    = $properties->{$property_name_or_smID};
         }
         $property->value = $value;
         return $property;
+    }
+    public function validate(Context $context = null): EntityValidationResult {
+        $result = new EntityValidationResult(false, "Can't create a new {$this->getName()} yet", []);
+        return $result;
     }
 }

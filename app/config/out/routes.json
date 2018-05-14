@@ -133,7 +133,7 @@
          "pattern": "wanghorn/dev/email/test/{signup_nonce}"
       },
       {
-         "name": "user--login",
+         "name": "user--process_login",
          "resolution": "User\\User@login",
          "pattern": "wanghorn/user/login$"
       },

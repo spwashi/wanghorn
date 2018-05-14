@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types"
 import {StandardSmProperty} from "../../creation/components/input";
 import {getTitleFromPropName} from "../../../dev/modules/sm/utility";
 import {Field} from "../../../../components/form/field/field";
+import {ApiResponseMessage} from "../response";
 
 export default class PropertyField extends React.Component {
     state = {};
@@ -63,11 +64,8 @@ export default class PropertyField extends React.Component {
     }
     
     renderMessage() {
-        const message        = this.props.message;
-        const messageType    = typeof message === 'object' ? (!message.success ? 'error' : 'success') : null;
-        const msgText        = typeof message === 'object' ? message.message : message;
-        const messageElement = <div className={"message " + (messageType ? (messageType + ' ' + messageType + '--message') : '')}>{msgText}</div>;
-        return messageElement;
+        const message = this.props.message;
+        return <ApiResponseMessage message={message} />;
     }
 };
 PropertyField.propTypes = {

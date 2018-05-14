@@ -7,12 +7,13 @@ import {connect} from "react-redux";
 import {PropertyFieldset} from "./fieldset";
 import {getSettablePropertiesFromSmEntity} from "../utility";
 import {normalizeSmID} from "../../../dev/modules/sm/utility";
+import {ApiResponseMessage} from "../../form/response";
 
 @connect(mapState)
 class SmEntityCreationForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {_status: null, properties: {}, _messages: {}};
+        this.state = {_status: null, properties: {}, messages: {}};
         this.setInitialPropertyState();
         this.propertyChangeHandler = this.props.onPropertyValueChange || function () {};
     }
@@ -40,12 +41,12 @@ class SmEntityCreationForm extends React.Component {
         propertyEntries.forEach(([name, {value, status, message}]) => {
             if (typeof status === 'undefined' || (!status && typeof status === 'object')) return;
             canSubmit = canSubmit ? !!status : false;
-            console.log(message);
+            
             !status && (submissionErrors[name] = message || 'Invalid value');
         });
-        console.log(canSubmit);
+        
         if (!canSubmit) {
-            this.setState({_messages: {...this.state._messages, ...submissionErrors}});
+            this.setState({messages: {...this.state.messages, ...submissionErrors}});
             return;
         }
         this.setState({_status: 'loading'},
@@ -54,10 +55,10 @@ class SmEntityCreationForm extends React.Component {
                                                     .reduce(reduceEntriesIntoObject, {});
                           axios.post(url, post)
                                .then(({data}) => {
-                                   const status    = data.success ? 'success' : 'error';
-                                   const _messages = typeof data.message === 'object' ? data.message : {};
-                                   console.log(_messages);
-                                   this.setState({_status: status, _messages});
+                                   const status   = data.success ? 'success' : 'error';
+                                   const messages = typeof data.message === 'object' ? data.message : {};
+                
+                                   this.setState({_status: status, messages});
                                })
                       })
     }
@@ -82,6 +83,7 @@ class SmEntityCreationForm extends React.Component {
                     
                                       updateValueStatus={this.updateValueStatus.bind(this)} />
                 }
+                <ApiResponseMessage message={this.state.messages && this.state.messages[0]} />
                 <button type="submit">Submit</button>
             </form>
         );
@@ -107,7 +109,7 @@ class SmEntityCreationForm extends React.Component {
     }
     
     getPropertyMessage({smID, name}) {
-        return this.state._messages[normalizeSmID(smID)] || this.state._messages[name] || '';
+        return this.state.messages[normalizeSmID(smID)] || this.state.messages[name] || '';
     }
     
     updateValueStatus(identifier, value, status = true) {
@@ -126,9 +128,9 @@ class SmEntityCreationForm extends React.Component {
                 [identifier]: {value, status}
             }
         };
-        if (message || this.state._messages[identifier]) {
-            newState._messages             = newState._messages || {};
-            newState._messages[identifier] = message;
+        if (message || this.state.messages[identifier]) {
+            newState.messages             = newState.messages || {};
+            newState.messages[identifier] = message;
         }
         return this.setState(newState);
     }

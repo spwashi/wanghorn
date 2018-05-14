@@ -178,9 +178,7 @@
 }
 
 @media screen and (max-device-width : 400px), screen and (max-width : 800px) {
-	main {
-		.query--wrapper, .model--configuration--wrapper {
-			flex-basis : 100%;
-		}
+	.model--meta .selectively-active.wrapper {
+		flex : 1 1 100%;
 	}
 }

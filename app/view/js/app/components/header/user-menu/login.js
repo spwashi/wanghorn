@@ -38,13 +38,13 @@ export class UserMenuLogin extends React.Component {
             <div id="user_menu--login" onKeyDown={this.handleKeydown}>
                 <form action={USER_LOGIN_PATH} method="POST" onSubmit={e => e.preventDefault() || onSubmit({username, password})}>
                     <div className="user_menu--input--container input--container text_input--container">
-                        <UsernameAndPasswordInputs username={username}
-                                                   password={password}
+                        {<UsernameAndPasswordInputs username={username}
+                                                    password={password}
                         
-                                                   onPasswordChange={value => onPropertyValueChange('password', value)}
-                                                   onUsernameChange={value => onPropertyValueChange('username', value)}
+                                                    onPasswordChange={value => onPropertyValueChange('password', value)}
+                                                    onUsernameChange={value => onPropertyValueChange('username', value)}
                         
-                                                   response={(response || {})} />
+                                                    response={(response || {})} />}
                     </div>
                     
                     <div className="action_button--container user_menu--action_button--container input--container button--container">

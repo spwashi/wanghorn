@@ -18,8 +18,8 @@ const Dev = ({models}) => {
                     You can use your keyboard to navigate this page:
                 </p>
                 <ul>
-                    <li>[Tab] to advance</li>
-                    <li>[Space or Enter] to activate/deactivate</li>
+                    <li><span className="keypress--name">Tab</span> to advance</li>
+                    <li><span className="keypress--name">Space or Enter</span> to activate/deactivate</li>
                 </ul>
             </section>
             <ModelModule />

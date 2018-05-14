@@ -25,7 +25,8 @@ header {
 				}
 			}
 		}
-		input {display : inline-block;}
+		input {display : inline-block;
+			padding    : 10px;}
 
 		.login_action--button--container {
 			> * {
@@ -45,7 +46,7 @@ header {
 			height : 100%;
 			@include clearfix();
 			> * {
-				padding   : 0;
+				padding   : 3px;
 				width     : 100%;
 				clear     : both;
 				display   : block;
@@ -96,14 +97,32 @@ header {
 	}
 }
 
-@media screen and (max-device-width : 400px) {
+@media screen and (max-device-width : 700px), screen and (max-width : 700px) {
+	header > .user_menu {
+		&.active {
+			background-color : $header__backgroundColor;
+			width            : 100%;
+			display          : block;
+			position         : absolute;
+			z-index          : 10;
+			#user_menu--login {
+				height : 100%;
+				width  : 100%;
+			}
+		}
+	}
+}
+
+@media screen and (max-device-width : 450px) {
 	header > .user_menu {
 		padding-top : 3px;
+		position    : relative;
 		&.active {
-			padding-top : 35px;
+			padding-top : 20px;
 		}
 		input, .action_button {
 			font-size : 1em;
+			padding   : 5px;
 		}
 		.input--container {
 			> * {
@@ -111,6 +130,7 @@ header {
 			}
 		}
 		.action_button--container {
+			width : 25%;
 			> * {
 				display   : inline-block;
 				float     : none;
@@ -125,6 +145,7 @@ header {
 		}
 		#user_menu--login {
 			height : 100%;
+			width  : 100%;
 		}
 	}
 }

@@ -8,6 +8,7 @@ use Sm\Core\Context\Context;
 use Sm\Core\Exception\UnimplementedError;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
+use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Property\Property;
 use Sm\Data\Property\PropertyContainer;
 use WANGHORN\Entity\Entity;
@@ -109,5 +110,9 @@ class User extends Entity {
      */
     public function findUsername(): Property {
         return $this->findProperty($this->properties->username);
+    }
+    public function validate(Context $context = null): EntityValidationResult {
+        $result = new EntityValidationResult(false, "Can't create new users yet", []);
+        return $result;
     }
 }
