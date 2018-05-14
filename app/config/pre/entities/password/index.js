@@ -9,6 +9,7 @@ export const persistedIdentity = password__identity;
 export const properties        = {
     password: {
         identity:  true,
+        minLength: 8,
         datatypes: 'password',
         role:      'value'
     }

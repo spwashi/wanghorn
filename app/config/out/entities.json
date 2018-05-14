@@ -9,7 +9,8 @@
             ],
             "length": 255,
             "derivedFrom": "[Property]{[Model]password} password",
-            "role": "value"
+            "role": "value",
+            "minLength": 8
          }
       },
       "persistedIdentity": "[Model]password",

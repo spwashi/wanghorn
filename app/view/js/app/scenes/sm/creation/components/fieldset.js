@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types"
 
 import {normalizeSmID} from "../../../dev/modules/sm/utility";
 import {getSettablePropertiesFromSmEntity} from "../utility";
-import PropertyField from "../../form/factories/property";
+import PropertyField from "../../form/propertyField";
 
 export class PropertyFieldset extends React.Component {
     render() {

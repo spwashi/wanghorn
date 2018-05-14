@@ -1,9 +1,9 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {StandardSmProperty} from "../../creation/components/input";
-import {getTitleFromPropName} from "../../../dev/modules/sm/utility";
-import {Field} from "../../../../components/form/field/field";
-import {ApiResponseMessage} from "../response";
+import {StandardSmProperty} from "../creation/components/input";
+import {getTitleFromPropName} from "../../dev/modules/sm/utility";
+import {Field} from "../../../components/form/field/field";
+import {ApiResponseMessage} from "./response";
 
 export default class PropertyField extends React.Component {
     state = {};
@@ -34,22 +34,27 @@ export default class PropertyField extends React.Component {
         const title                            = getTitleFromPropName(config.name);
         const message                          = this.renderMessage();
         
-        if (config.datatypes && config.datatypes[0] === 'password') {
-            const verificationTitle = 'Verify ' + title;
-            const verificationName  = 'verify--' + fieldName;
-            const onVerifyChange    = e => {
-                this.setState({verification: e.target.value}, () => onValueChange(value));
-            };
-            const verificationInput = <input type="password" name={verificationName} onChange={onVerifyChange} />;
-            input                   = <StandardSmProperty {...{config, value, onValueChange}} />;
-            return [
-                <Field key={'password'} title={title} name={fieldName} input={input} message={message} />,
-                <Field key={'verify--password'} title={verificationTitle} name={verificationName} input={verificationInput} />
-            ]
+        let primaryDatatype = config.datatypes && config.datatypes[0];
+        switch (primaryDatatype) {
+            case 'file':
+                input = <input type="file" onChange={e => onValueChange(e.target.files)} name={fieldName} />;
+                return <Field title={title} name={fieldName} input={input} message={message} />;
+            case 'password':
+                const verificationTitle = 'Verify ' + title;
+                const verificationName  = 'verify--' + fieldName;
+                const onVerifyChange    = e => {
+                    this.setState({verification: e.target.value}, () => onValueChange(value));
+                };
+                const verificationInput = <input placeholder={verificationTitle} type="password" name={verificationName} onChange={onVerifyChange} />;
+                input                   = <StandardSmProperty {...{config, title, value, onValueChange}} />;
+                return [
+                    <Field key={'password'} title={title} name={fieldName} input={input} message={message} />,
+                    <Field key={'verify--password'} title={verificationTitle} name={verificationName} input={verificationInput} />
+                ];
+            default:
+                input = <StandardSmProperty {...{config, title, value, onValueChange}} />;
+                return <Field title={title} name={fieldName} input={input} message={message} />
         }
-        
-        input = <StandardSmProperty {...{config, value, onValueChange}} />;
-        return <Field title={title} name={fieldName} input={input} message={message} />
         
     }
     

@@ -11,7 +11,7 @@ const getPropertyType           = function (propertyConfig, type) {
     else if (propertyIsPassword) type = 'password';
     return type;
 };
-export const StandardSmProperty = function ({config, value, onValueChange = function () {}}) {
+export const StandardSmProperty = function ({config, title, value, onValueChange = function () {}}) {
     const type       = getPropertyType(config);
     const inputProps = {
         value,
@@ -40,7 +40,7 @@ export const StandardSmProperty = function ({config, value, onValueChange = func
             inputProps.pattern = null;
             break;
     }
-    return <input name={config.name} {...inputProps} />
+    return <input name={config.name} placeholder={title} {...inputProps} />
 };
 StandardSmProperty.propTypes    = {
     config:        PropTypes.object,

@@ -25,7 +25,7 @@ class Password extends Entity implements Resolvable {
             
             if ($isSuccess) {
                 return new EntityValidationResult($isSuccess,
-                                                  'Password seems fine',
+                                                  'Password is the right length',
                                                   [ 'password' => $value_validation_result ]);
             }
             
