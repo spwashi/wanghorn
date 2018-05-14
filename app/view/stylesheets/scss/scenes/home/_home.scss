@@ -155,3 +155,11 @@
 		}
 	}
 }
+
+@media screen and (max-device-width : 400px) {
+	.page--__--home {
+		.profile--image--wrapper {
+			border-width : 10px;
+		}
+	}
+}

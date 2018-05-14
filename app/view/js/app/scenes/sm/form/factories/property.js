@@ -15,6 +15,7 @@ export default class PropertyField extends React.Component {
         if (config.datatypes && config.datatypes[0] === 'password') {
             this.state.verification        = '';
             this.getPropertyValidityStatus = (smID, value) => {
+                console.log(smID, value);
                 if (this.state.verification === value) {
                     return {message: null, status: true};
                 }
@@ -42,8 +43,8 @@ export default class PropertyField extends React.Component {
             const verificationInput = <input type="password" name={verificationName} onChange={onVerifyChange} />;
             input                   = <StandardSmProperty {...{config, value, onValueChange}} />;
             return [
-                <Field title={title} name={fieldName} input={input} message={message} />,
-                <Field title={verificationTitle} name={verificationName} input={verificationInput} />
+                <Field key={'password'} title={title} name={fieldName} input={input} message={message} />,
+                <Field key={'verify--password'} title={verificationTitle} name={verificationName} input={verificationInput} />
             ]
         }
         

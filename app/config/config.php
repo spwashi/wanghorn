@@ -2,7 +2,7 @@
 
 use Sm\Application\Application;
 use Sm\Core\Event\GenericEvent;
-use Sm\Core\Resolvable\Error\UnresolvableException;
+use Sm\Core\Resolvable\Exception\UnresolvableException;
 use Sm\Core\Util;
 use Sm\Data\Model\StandardModelPersistenceManager;
 use Sm\Modules\Query\MySql\Authentication\MySqlAuthentication;
@@ -147,8 +147,7 @@ function _data_layer(Application $app): void {
     $entityDataManager   = $app->data->entities;
     $propertyDataManager = $app->data->models->getPropertyDataManager();
     
-    $datatypeFactory = DatatypeFactory::init()->setDataLayer($app->data);
-    
+    $datatypeFactory    = DatatypeFactory::init()->setDataLayer($app->data);
     $queryModule        = $app->query->getQueryModule();
     $modelFactory       = $modelDataManager->getSmEntityFactory();
     $persistenceManager = (new StandardModelPersistenceManager($modelFactory))->setQueryInterpreter($queryModule);

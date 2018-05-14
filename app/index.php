@@ -48,40 +48,38 @@ try {
         $dispatchResult   = $communicationLayer->dispatch(Http::class, $response); # Not a redirect
     }
 } catch (\Sm\Core\Exception\Exception $exception) {
+    $exception_messages = [
+        $exception->getMessage(),
+        $exception->getFile(),
+        $exception->getLine(),
+        Sm\Core\Exception\Exception::getAbbreviatedTrace($exception->getTrace()),
+        $exception->getPrevious(),
+        $exception->getMonitorContainer(),
+        $exception,
+    ];
     if ($app->environmentIs(Application::ENV_DEV)) {
-        try{
-            $error = json_encode([
-                                 $exception->getMessage(),
-                                 $exception->getPrevious(),
-                                 $exception->getMonitorContainer(),
-                                 $exception,
-                             ]);
+        try {
+            $error = json_encode($exception_messages);
             header('Content-Type: application/json');
             echo $error;
-        }catch (Exception $e){
+        } catch (Exception $e) {
             var_dump($e);
         }
     }
-    $app->logging->log([
-                           $exception->getMessage(),
-                           $exception->getPrevious(),
-                           $exception->getMonitorContainer(),
-                           $exception,
-                       ], 'sm_exception');
+    $app->logging->log($exception_messages, 'sm_exception');
 } catch (\Throwable $exception) {
+    $exception_messages = [
+        $exception->getMessage(),
+        $exception->getFile(),
+        $exception->getLine(),
+        $exception->getPrevious(),
+        $exception,
+    ];
     if ($app->environmentIs(Application::ENV_DEV)) {
         header('Content-Type: application/json');
-        echo json_encode([
-                             $exception->getMessage(),
-                             $exception->getPrevious(),
-                             $exception,
-                         ]);
+        echo json_encode($exception_messages);
     }
-    $app->logging->log([
-                           $exception->getMessage(),
-                           $exception->getPrevious(),
-                           $exception,
-                       ], 'exception');
+    $app->logging->log($exception_messages, 'exception');
 } finally {
     if (isset($_GET['d_lm'])) {
         $app->logging->log($app->getMonitors(), 'monitors');

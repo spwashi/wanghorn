@@ -6,6 +6,7 @@ namespace WANGHORN\Controller\User;
 
 use Sm\Core\Exception\InvalidArgumentException;
 use Sm\Data\Entity\Context\EntityContext;
+use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntitySchema;
 use Sm\Data\Entity\Exception\EntityModelNotFoundException;
 use Sm\Modules\Network\Http\Http;
@@ -14,6 +15,8 @@ use WANGHORN\Controller\AppController;
 use WANGHORN\Entity\User\User;
 
 class UserController extends AppController {
+    const SESSION_USERNAME_INDEX = APP__NAME . '_LOGGED_IN_USERNAME_';
+    
     /**
      * @param $context_name
      *
@@ -24,11 +27,18 @@ class UserController extends AppController {
     public function resolveContext($context_name) {
         /** @var \Sm\Data\Entity\EntityDataManager $entityDataManager */
         $entityDataManager = $this->app->data->entities;
-        $entityContext     = EntityContext::init($context_name)
-                                          ->registerSchematicArray([
-                                                                       $entityDataManager->getSchematicByName('user'),
-                                                                       $entityDataManager->getSchematicByName('password'),
-                                                                   ]);
+        switch ($context_name) {
+            case 'signup_process':
+                $entityContext = EntityCreationContext::init('signup_process');
+                break;
+            default:
+                $entityContext = EntityContext::init($context_name);
+                break;
+        }
+        $entityContext = $entityContext->registerSchematicArray([
+                                                                    $entityDataManager->getSchematicByName('user'),
+                                                                    $entityDataManager->getSchematicByName('password'),
+                                                                ]);
         return $entityContext;
     }
     
@@ -41,7 +51,7 @@ class UserController extends AppController {
      * @return \WANGHORN\Entity\User\User
      * @throws \Sm\Data\Entity\Exception\EntityModelNotFoundException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
-     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
+     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
      */
     public function findUser($context, $identity, $throw = false): ?User {
         $context_name = $context instanceof EntityContext ? $context->getContextName() : $context;
@@ -60,46 +70,35 @@ class UserController extends AppController {
         }
     }
     public function findSessionUser(): ?EntitySchema {
-        try {
-            $username     = $_SESSION[ static::SESSION_USERNAME_INDEX ] ?? '~guest~';
-            $userFinder   = $this->app->controller->createControllerResolvable('User\\User@findUser');
-            $session_user = $userFinder->resolve(null, $username);
-            $userProxy    = $session_user ? $session_user->proxyInContext(new EntityContext) : null;
-            return $userProxy;
-        } catch (\Exception $e) {
-            var_dump($e->getMessage());
-        }
+        $username     = $_SESSION[ static::SESSION_USERNAME_INDEX ] ?? '~guest~';
+        $userFinder   = $this->app->controller->createControllerResolvable('User\\User@findUser');
+        $session_user = $userFinder->resolve(null, $username);
+        $userProxy    = $session_user ? $session_user->proxyInContext(new EntityContext) : null;
+        return $userProxy;
     }
     public function signUp() {
-        $request_data = HttpRequestFromEnvironment::getRequestData();
-        $username     = $request_data['username'] ?? null;
-        $username     = $request_data['email'] ?? null;
-        $password     = $request_data['password'] ?? null;
-        $response     = [];
-        
-        
+        $request_data  = HttpRequestFromEnvironment::getRequestData();
         $entityContext = $this->resolveContext('signup_process');
-        /** @var \Sm\Data\Entity\EntitySchema $proxiedUserSchematic */
-        $userSchematic        = $this->app->data->entities->getSchematicByName('user');
-        $proxiedUserSchematic = $userSchematic->proxyInContext($entityContext);
-        $properties           = [];
-        foreach ($request_data as $property_identifier => $value) {
-            
-            $property                           = $proxiedUserSchematic->getProperties()->{$property_identifier};
-            $properties[ $property_identifier ] = $property;
+        
+        /** @var \Sm\Data\Entity\Entity $user */
+        $userSchematic = $this->app->data->entities->getSchematicByName('user');
+        $user          = $this->app->data->entities->instantiate($userSchematic);
+        $messages      = [];
+        try {
+            $user->set($request_data);
+        } catch (\Exception $exception) {
+        
         }
         
         /** @var User $user */
-        $user     = $this->app->data->entities->instantiate($userSchematic);
         $response = $user->validate($entityContext);
-        
-        $message = [];
-        if (!$response->isSuccess()) $message[] = $response->getError();
-        
+        if (!$response->isSuccess()) $messages['_message'] = $response;
+        $messages = array_merge($messages, $response->getPropertyValidationResults());
         return [
-            'entityInContext' => $properties,
-            'message'         => $message,
-            'success'         => $response->isSuccess(),
+            'user'           => $response->isSuccess() ? $user : null,
+            'property_names' => array_keys($user->properties->getAll()),
+            'message'        => $messages,
+            'success'        => $response->isSuccess(),
         ];
     }
     public function logout() {
@@ -112,7 +111,7 @@ class UserController extends AppController {
      * @throws \Sm\Core\Exception\InvalidArgumentException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
      * @throws \Sm\Data\Property\Exception\ReadonlyPropertyException
-     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
+     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
      */
     public function login() {
         $data     = HttpRequestFromEnvironment::getRequestData();
@@ -144,7 +143,7 @@ class UserController extends AppController {
      * @param string $context_name
      *
      * @return \WANGHORN\Entity\User\User
-     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
+     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
      * @throws \Sm\Data\Entity\Exception\EntityModelNotFoundException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
      */

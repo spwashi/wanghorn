@@ -5,7 +5,7 @@ namespace WANGHORN\Datatype;
 
 
 use Sm\Core\Exception\UnimplementedError;
-use Sm\Core\Resolvable\Error\UnresolvableException;
+use Sm\Core\Resolvable\Exception\UnresolvableException;
 use Sm\Data\DataLayer;
 use Sm\Data\SmEntity\SmEntityDataManager;
 use WANGHORN\Entity\Password\PasswordDatatype;
@@ -31,6 +31,7 @@ class DatatypeFactory extends \Sm\Data\Type\DatatypeFactory {
                                 if (!$parsed) throw new UnimplementedError("Cannot resolve Datatype '" . $smID . "'");
                                 $manager = $dataLayer->getDataManager($parsed['manager'] ?? null);
                                 $item    = $manager->instantiate($parsed['name'] ?? null);
+    
                                 return $item;
                             },
                         ]);

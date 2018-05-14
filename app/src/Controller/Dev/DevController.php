@@ -218,7 +218,7 @@ class DevController extends AppController {
      * @return \Sm\Data\Model\Model
      * @throws \Sm\Core\Exception\InvalidArgumentException
      * @throws \Sm\Core\Exception\UnimplementedError
-     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
+     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
      */
     public function createModel($modelSmID) {
@@ -239,41 +239,13 @@ class DevController extends AppController {
         $newModel                = $modelPersistenceManager->create($model);
         return $newModel;
     }
-    public function eg() {
-        
-        try {
-            $Sam = User::init($this->app->data->models)->find([ 'user_id' => 1 ]);
-            
-            echo "<pre>";
-            echo json_encode($Sam, JSON_PRETTY_PRINT);
-            echo "</pre>";
-        } catch (ModelNotFoundException $e) {
-            $previous = $e->getPrevious();
-            var_dump($previous);
-        }
-        
-        
-        # -- rendering
-        
-        $vars = [
-            'path_to_site' => $this->app->path,
-        ];
-        try {
-            $rendered = $this->app->representation->render('hello.twig', $vars);
-        } catch (UnimplementedError $e) {
-        }
-        
-        # -- response
-        
-        return $rendered;
-    }
     /**
      * @param $smID
      *
      * @return null|\Sm\Data\Model\Model[]
      * @throws \Sm\Core\Exception\InvalidArgumentException
      * @throws \Sm\Core\Exception\UnimplementedError
-     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
+     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
      */
     public function findAll($smID) {

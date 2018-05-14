@@ -9,6 +9,7 @@ use Sm\Core\Internal\Monitor\Monitored;
 use Sm\Data\Entity\Property\EntityAsProperty;
 use Sm\Data\Entity\Property\EntityPropertySchematic;
 use Sm\Data\Entity\Validation\EntityValidationResult;
+use Sm\Data\Evaluation\Validation\ValidationResult;
 use Sm\Data\Property\Property;
 
 abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
@@ -19,13 +20,13 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
         return $this;
     }
     /**
-     * @param \Sm\Data\Property\Property $property
+     * @param $property_name
      *
      * @return \Sm\Data\Property\Property
-     * @throws \Sm\Core\Resolvable\Error\UnresolvableException
-     * @throws \Sm\Core\Exception\UnimplementedError
+     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
      */
-    public function findProperty(Property $property): Property {
+    public function findProperty($property_name): Property {
+        $property = $property_name instanceof Property ? $property_name : $this->properties->{$property_name};
         $this->fillPropertyValue($property);
         if (!($property instanceof EntityAsProperty)) return $property;
         
@@ -43,7 +44,7 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
             if (is_array($derivedFrom)) {
                 foreach ($derivedFrom as $propertyName => $smID) {
                     $property = $this->setInternalProperty($smID, $property->value);
-                    var_dump([ $propertyName, $smID, $property->raw_value ]);
+//                    var_dump([ $propertyName, $smID, $property->raw_value ]);
                 }
             }
         }
@@ -59,7 +60,7 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
         $property->value = $value;
         return $property;
     }
-    public function validate(Context $context = null): EntityValidationResult {
+    public function validate(Context $context = null): ValidationResult {
         $result = new EntityValidationResult(false, "Can't create a new {$this->getName()} yet", []);
         return $result;
     }

@@ -3,21 +3,21 @@
 @import "colors/colors";
 @import "control/control";
 
-
 .page--__--gallery {
+	height : 100%;
+	width  : 100%;
 	.gallery_item--container--control_component--container, .gallery_item {
 		font-weight : normal;
 		font-size   : .9em;
 		font-family : monospace;
 	}
-	height : 100%;
-	width  : 100%;
 	.gallery_item {
 		box-shadow : 3px 3px 3px darken($body--backgroundColor, 5%);
 	}
 	.gallery_item--container {
-		width : 80%;
-		right : 0;
+		width          : 80%;
+		right          : 0;
+		padding-bottom : 10vh;
 	}
 	.gallery_item--container, .gallery_item--container--control_component--container {
 		float : left;
@@ -64,9 +64,5 @@
 		.gallery_item--container {
 			width : 100%;
 		}
-	}
-	.gallery_item {
-		width         : 48%;
-		margin-bottom : 15px;
 	}
 }

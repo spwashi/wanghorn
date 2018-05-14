@@ -1,5 +1,6 @@
 @import "colors/colors";
 
+$backToTopRight : -15vh;
 .page {
 	width        : 80%;
 	margin-left  : auto;
@@ -98,21 +99,22 @@
 	border-radius    : 50%;
 	bottom           : 25px;
 	right            : 3%;
-	height           : 50px;
-	width            : 50px;
+	z-index          : 10;
+	height           : 10vh;
+	width            : 10vh;
 	box-shadow       : 4px 4px 8px 0px darken($body--backgroundColor, 25%);
 	background-color : darken(mix($body--backgroundColor, $palette_color_1), 10%);
 	@keyframes appear {
-		0% {right : -10%;}
+		0% {right : $backToTopRight;}
 		100% {right : 3%;}
 	}
 	@keyframes disappear {
 		0% {right : 3%;}
-		100% {right : -10%;}
+		100% {right : $backToTopRight;}
 	}
 	animation        : appear .2s;
 	&.inactive {
-		right     : -10%;
+		right     : $backToTopRight;
 		animation : disappear .2s;
 	}
 	&:hover {
@@ -120,12 +122,12 @@
 		background-color : saturate(mix($body--backgroundColor, $palette_color_1), 10%);
 	}
 	&::before {
-		font-size   : 20px;
+		font-size   : 3vh;
 		color       : #fff;
 		word-wrap   : unset;
 		font-weight : lighter;
 		position    : relative;
-		top         : 20%;
+		top         : 3vh;
 		height      : 33%;
 		text-align  : center;
 		content     : 'top';
@@ -148,7 +150,7 @@
 	}
 	#back-to-top {
 		&::before {
-			top : 15%;
+			//top : 15%;
 		}
 	}
 }

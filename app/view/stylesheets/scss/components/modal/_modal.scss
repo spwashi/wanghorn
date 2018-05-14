@@ -85,7 +85,7 @@
 		font-size : .7em;
 		margin    : 2px 0 2px 20%;
 	}
-	.input--wrapper {
+	.input--wrapper, form > .message--wrapper {
 		margin-bottom : 10px;
 		label {
 			width     : 25%;
@@ -93,13 +93,13 @@
 			font-size : .95em;
 		}
 		input { width : 75%; border : thin solid #ccc;display : inline-block;}
+		.error--message {
+			color : $close__red;
+		}
 		> .message {
 			width       : 75%;
 			margin-left : 25%;
 			font-size   : .7em;
-		}
-		.error--message {
-			color : $close__red;
 		}
 	}
 }

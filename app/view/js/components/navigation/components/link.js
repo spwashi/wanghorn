@@ -31,7 +31,7 @@ export class Link extends React.Component {
 Link.propTypes = {
     to:              PropTypes.string,
     exact:           PropTypes.bool,
-    isActive:        PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+    isActive:        PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     activeClassName: PropTypes.string,
     className:       PropTypes.string
 };

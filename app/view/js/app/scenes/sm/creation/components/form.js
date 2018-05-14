@@ -41,7 +41,7 @@ class SmEntityCreationForm extends React.Component {
         propertyEntries.forEach(([name, {value, status, message}]) => {
             if (typeof status === 'undefined' || (!status && typeof status === 'object')) return;
             canSubmit = canSubmit ? !!status : false;
-            
+            console.log(value, status, message);
             !status && (submissionErrors[name] = message || 'Invalid value');
         });
         
@@ -52,6 +52,7 @@ class SmEntityCreationForm extends React.Component {
         this.setState({_status: 'loading'},
                       () => {
                           let post = propertyEntries.filter(([name]) => name[0] !== '_')
+                                                    .map(([name, valueStatus]) => [name, valueStatus.value])
                                                     .reduce(reduceEntriesIntoObject, {});
                           axios.post(url, post)
                                .then(({data}) => {
@@ -83,7 +84,9 @@ class SmEntityCreationForm extends React.Component {
                     
                                       updateValueStatus={this.updateValueStatus.bind(this)} />
                 }
-                <ApiResponseMessage message={this.state.messages && this.state.messages[0]} />
+                <div className="message--wrapper">
+                    <ApiResponseMessage message={this.state.messages && (this.state.messages._message || this.state.messages[0])} />
+                </div>
                 <button type="submit">Submit</button>
             </form>
         );
@@ -125,7 +128,7 @@ class SmEntityCreationForm extends React.Component {
         const newState = {
             properties: {
                 ...newProperties,
-                [identifier]: {value, status}
+                [identifier]: {value, status, message}
             }
         };
         if (message || this.state.messages[identifier]) {

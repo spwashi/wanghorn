@@ -25,3 +25,16 @@
 		text-decoration : underline;
 	}
 }
+
+@media screen and (max-width : 600px) {
+	.gallery_item--tag {
+		font-size : .7em;
+	}
+}
+
+@media screen and (max-device-width : 400px) {
+	.gallery_item--tag {
+		font-size : 1em;
+		padding   : 10px;
+	}
+}
