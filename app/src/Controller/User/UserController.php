@@ -6,6 +6,7 @@ namespace WANGHORN\Controller\User;
 
 use Sm\Core\Exception\InvalidArgumentException;
 use Sm\Data\Entity\Context\EntityContext;
+use Sm\Data\Entity\EntitySchema;
 use Sm\Data\Entity\Exception\EntityModelNotFoundException;
 use Sm\Modules\Network\Http\Http;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
@@ -56,6 +57,17 @@ class UserController extends AppController {
             return null;
         } catch (\Exception $exception) {
             var_dump($exception);
+        }
+    }
+    public function findSessionUser(): ?EntitySchema {
+        try {
+            $username     = $_SESSION[ static::SESSION_USERNAME_INDEX ] ?? '~guest~';
+            $userFinder   = $this->app->controller->createControllerResolvable('User\\User@findUser');
+            $session_user = $userFinder->resolve(null, $username);
+            $userProxy    = $session_user ? $session_user->proxyInContext(new EntityContext) : null;
+            return $userProxy;
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
         }
     }
     public function signUp() {

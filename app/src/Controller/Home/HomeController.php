@@ -3,6 +3,7 @@
 namespace WANGHORN\Controller\Home;
 
 use Sm\Data\Entity\Context\EntityContext;
+use Sm\Data\Entity\EntitySchema;
 use Sm\Data\Model\Model;
 use Sm\Modules\View\Twig\TwigView;
 use WANGHORN\Controller\AppController;
@@ -23,12 +24,8 @@ class HomeController extends AppController {
         /** @var \Sm\Data\Entity\EntitySchematic $userSchematic */
         $context_name  = 'signup_process';
         $entityContext = $this->app->controller->createControllerResolvable('User\\User@resolveContext')->resolve($context_name);
-        
-        $username     = $_SESSION[ static::SESSION_USERNAME_INDEX ] ?? '~guest~';
-        $userFinder   = $this->app->controller->createControllerResolvable('User\\User@findUser');
-        $session_user = $userFinder->resolve(null, $username);
-        $userProxy    = $session_user ? $session_user->proxyInContext(new EntityContext) : null;
-        $tags = [
+        $userProxy     = $this->app->controller->createControllerResolvable('User\\User@findSessionUser')->resolve();
+        $tags          = [
             $this->wrapWithScriptTag($entityContext, "context__{$context_name}--configuration"),
             $this->wrapWithScriptTag($userProxy, "session__user"),
         ];
