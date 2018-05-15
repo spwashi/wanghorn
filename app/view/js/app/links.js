@@ -13,6 +13,7 @@ let linkNames = [
             {name: 'dev--models'}
         ]
     },
+    {name: "events"},
 ];
 
 export const links = linkNames.map((item, i) => <NavLinkItem key={item.name || i} item={item} />);

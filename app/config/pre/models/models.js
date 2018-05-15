@@ -4,6 +4,7 @@ import * as file from './file';
 import * as password from './password';
 import * as person from './person';
 import * as email from './email';
+import * as event from './event';
 import * as project from './project';
 
 export const models = {
@@ -12,6 +13,7 @@ export const models = {
     password,
     project,
     person,
+    event,
     user,
     email,
 };

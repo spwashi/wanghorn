@@ -12,6 +12,10 @@
          "pattern": "wanghorn/$",
          "title": "Home"
       },
+      "events": {
+         "pattern": "wanghorn/events$",
+         "title": "Events"
+      },
       "about_me": {
          "pattern": "wanghorn/about-me$",
          "title": "About Me"

@@ -106,6 +106,84 @@
          }
       }
    },
+   "event": {
+      "smID": "[Model]event",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]event} id"
+         ],
+         "unique": {
+            "unique_key": [
+               "[Property]{[Model]event} title"
+            ]
+         }
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]event} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]event} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]event} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]event} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "title": {
+            "smID": "[Property]{[Model]event} title",
+            "datatypes": [
+               "string"
+            ],
+            "length": 40,
+            "unique": true
+         },
+         "start_dt": {
+            "smID": "[Property]{[Model]event} start_dt",
+            "datatypes": [
+               "datetime"
+            ]
+         },
+         "end_dt": {
+            "smID": "[Property]{[Model]event} end_dt",
+            "datatypes": [
+               "datetime"
+            ]
+         },
+         "hr_duration": {
+            "smID": "[Property]{[Model]event} hr_duration",
+            "datatypes": [
+               "string"
+            ]
+         }
+      }
+   },
    "project": {
       "smID": "[Model]project",
       "inherits": [

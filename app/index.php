@@ -49,10 +49,14 @@ try {
     }
 } catch (\Sm\Core\Exception\Exception $exception) {
     $exception_messages = [
+        get_class($exception),
+        
         $exception->getMessage(),
         $exception->getFile(),
         $exception->getLine(),
+        
         Sm\Core\Exception\Exception::getAbbreviatedTrace($exception->getTrace()),
+        
         $exception->getPrevious(),
         $exception->getMonitorContainer(),
         $exception,
@@ -69,9 +73,13 @@ try {
     $app->logging->log($exception_messages, 'sm_exception');
 } catch (\Throwable $exception) {
     $exception_messages = [
+        get_class($exception),
+        
         $exception->getMessage(),
         $exception->getFile(),
-        $exception->getLine(),
+        
+        Sm\Core\Exception\Exception::getAbbreviatedTrace($exception->getTrace()),
+        
         $exception->getPrevious(),
         $exception,
     ];

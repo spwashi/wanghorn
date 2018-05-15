@@ -12,6 +12,12 @@
          "pattern": "wanghorn/$"
       },
       {
+         "name": "events",
+         "title": "Events",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/events$"
+      },
+      {
          "name": "test",
          "resolution": "Home\\Home@test"
       },

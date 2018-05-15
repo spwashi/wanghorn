@@ -16,6 +16,12 @@ const homeRoutes    = [
                   title:      "Home"
               }),
     new Route({
+                  name:       "events",
+                  renderedBy: "client",
+                  pattern:    "events$",
+                  title:      "Events"
+              }),
+    new Route({
                   resolution: "[Home]@test",
                   pattern:    null,
                   name:       'test'
@@ -135,7 +141,7 @@ const devRoutes     = [
                   name:       'user--signup_continue'
               }),
 ];
-let userRoutes      = [
+const userRoutes    = [
     new Route({
                   name:       "user--process_login",
                   resolution: "[User]@login",

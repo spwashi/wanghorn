@@ -6,9 +6,11 @@ const getPropertyType           = function (propertyConfig, type) {
     const propertyIsEmail       = name.toLowerCase().substr(name.length - "email".length) === "email";
     const propertyIsProbablyInt = name.indexOf('_id') > 0 || name === 'id' || (propertyConfig.datatypes || []).indexOf('int') > -1;
     const propertyIsPassword    = (propertyConfig.datatypes || []).indexOf('password') > -1;
+    const propertyIsDatetime    = (propertyConfig.datatypes || []).indexOf('datetime') > -1;
     if (propertyIsEmail) type = 'email';
     else if (propertyIsProbablyInt) type = 'number';
     else if (propertyIsPassword) type = 'password';
+    else if (propertyIsDatetime) type = 'datetime-local';
     return type;
 };
 export const StandardSmProperty = function ({config, title, value, onValueChange = function () {}}) {

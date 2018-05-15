@@ -10,7 +10,6 @@ use Sm\Core\Exception\InvalidArgumentException;
 use Sm\Core\Exception\UnimplementedError;
 use Sm\Core\Factory\Exception\FactoryCannotBuildException;
 use Sm\Core\Query\Module\Exception\UnfoundQueryModuleException;
-use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Model\ModelPersistenceManager;
 use Sm\Data\Model\ModelPropertyMetaSchematic;
 use Sm\Data\Model\ModelSchematic;
@@ -32,7 +31,6 @@ use Sm\Modules\Query\Sql\Statements\AlterTableStatement;
 use Sm\Modules\Query\Sql\Statements\CreateTableStatement;
 use Sm\Query\Proxy\String_QueryProxy;
 use WANGHORN\Controller\AppController;
-use WANGHORN\Entity\User\User;
 
 class DevController extends AppController {
     protected function propertyToColumn(PropertySchematic $propertySchema, TableSourceSchematic $tableSourceSchematic) {
@@ -212,27 +210,25 @@ class DevController extends AppController {
     public function monitors() {
         return json_decode(json_encode($this->app->getMonitors()), 1);
     }
-    /**
-     * @param $modelSmID
-     *
-     * @return \Sm\Data\Model\Model
-     * @throws \Sm\Core\Exception\InvalidArgumentException
-     * @throws \Sm\Core\Exception\UnimplementedError
-     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
-     */
     public function createModel($modelSmID) {
+        $is_dev = $this->app->environmentIs(Application::ENV_DEV);
+        
+        if (!$is_dev) {
+            return [
+                'error'   => 'Cannot create models like this in production',
+                'success' => false,
+            ];
+        }
+        
         $data = HttpRequestFromEnvironment::getRequestData();
         /** @var \WANGHORN\Model\Model $model */
         $model      = $this->app->data->models->instantiate($modelSmID);
         $properties = [];
+        
         foreach ($data as $key => $value) {
             $property           = $model->getProperties()->{$key};
             $properties[ $key ] = $property;
-            
-            if ($this->app->environmentIs(Application::ENV_DEV)) {
-                $model->set($key, $value);
-            }
+            $model->set($key, $value);
         }
         $model->validate();
         $modelPersistenceManager = $this->app->data->models->persistenceManager;
