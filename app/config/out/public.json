@@ -12,10 +12,6 @@
          "pattern": "wanghorn/$",
          "title": "Home"
       },
-      "events": {
-         "pattern": "wanghorn/events$",
-         "title": "Events"
-      },
       "about_me": {
          "pattern": "wanghorn/about-me$",
          "title": "About Me"
@@ -31,6 +27,14 @@
       "gallery--items": {
          "pattern": "wanghorn/gallery/items.json$"
       },
+      "events--home": {
+         "pattern": "wanghorn/events$",
+         "title": "Events"
+      },
+      "events--item__view": {
+         "pattern": "wanghorn/events/{id}:.+/view",
+         "title": "Event View"
+      },
       "dev--home": {
          "pattern": "wanghorn/dev$",
          "title": "Dev"
@@ -38,6 +42,14 @@
       "dev--models": {
          "pattern": "wanghorn/dev/models$",
          "title": "Models"
+      },
+      "dev--model--property": {
+         "pattern": "wanghorn/dev/models/{model_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
+         "title": "Model Property"
+      },
+      "dev--entity--property": {
+         "pattern": "wanghorn/dev/entities/{entity_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
+         "title": "Entity Property"
       },
       "dev--monitors__json": {
          "pattern": "wanghorn/dev/monitors.json$"

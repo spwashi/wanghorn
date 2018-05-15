@@ -2,7 +2,7 @@ import React from "react";
 import {NavLinkItem} from "./components/header/navigation/navLinkItem";
 
 // remember to add the appropriate route in ./routes
-let linkNames = [
+let linkNames      = [
     {name: "home", exact: true},
     {name: "about_me"},
     {name: "gallery--home"},
@@ -13,7 +13,6 @@ let linkNames = [
             {name: 'dev--models'}
         ]
     },
-    {name: "events"},
+    {name: "events--home"},
 ];
-
 export const links = linkNames.map((item, i) => <NavLinkItem key={item.name || i} item={item} />);

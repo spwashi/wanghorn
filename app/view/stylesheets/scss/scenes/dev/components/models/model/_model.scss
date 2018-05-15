@@ -95,11 +95,30 @@
 	.configuration--title {
 		font-weight      : bold;
 		padding          : 10px;
-		background-color : $configuration--attribute__properties--title-_-background;
+		background-color : $component--meta__active--bg;
 	}
 	a {
 		text-decoration : none;
 		font-weight     : bold;
+	}
+}
+
+.configuration--attribute.propertyMeta {
+	.attribute--value {
+		padding : 0;
+	}
+	.propertyMeta--index {
+		.title {
+			background-color : $component--meta--title--bg;
+		}
+		.value {
+			border  : thin solid darken($component--meta--title--bg, 20%);
+			padding : 0 10px 10px;
+			ul {
+				padding    : 0 0 0 10px;
+				list-style : none;
+			}
+		}
 	}
 }
 
@@ -122,13 +141,16 @@
 	margin-right     : 5px;
 	font-weight      : bold;
 	margin-top       : 5px;
+	transition       : background-color .5s;
 	font-size        : .7em;
 	padding          : 10px;
 	border           : thin solid $configuration--attribute__properties--link-_-border-color;
 	color            : $configuration--attribute__properties--link-_-txt-color;
-	transition       : background-color .5s;
 	&.active {
 		background-color : darken($configuration--attribute__properties--link-_-background, 10%);
+	}
+	&:hover {
+		background-color : darken($configuration--attribute__properties--link-_-background, 20%);
 	}
 	.page & {
 		border-bottom : thin solid $configuration--attribute__properties--link-_-border-color;
@@ -140,15 +162,15 @@
 }
 
 .model--configuration--description {
-	padding       : 2px 30px 15px;
+	border-bottom : thin solid $configuration--title-_-border-bottom-color;
 	position      : relative;
 	display       : block;
-	border-bottom : thin solid $configuration--title-_-border-bottom-color;
+	padding       : 2px 30px 15px;
 	&::before {
-		content  : '--';
 		position : absolute;
-		top      : 0;
+		content  : '--';
 		left     : 10px;
+		top      : 0;
 	}
 }
 
@@ -177,8 +199,9 @@
 	}
 }
 
+.model--meta .selectively-active.wrapper {
+	flex : 1 1 100%;
+}
+
 @media screen and (max-device-width : 400px), screen and (max-width : 800px) {
-	.model--meta .selectively-active.wrapper {
-		flex : 1 1 100%;
-	}
 }

@@ -1,21 +1,25 @@
 @import "../../colors";
 
 .configuration--attribute {
-	border-top    : thin solid $dev--configuration--attribute-_-border-color;
-	border-bottom : thin solid $dev--configuration--attribute-_-border-color;
+	font-size     : 15px;
+	border-top    : thin solid $configuration--attribute-_-border-color;
+	border-bottom : thin solid $configuration--attribute-_-border-color;
+	&:last-child {
+		border-bottom : none;
+	}
 	display       : flex;
 	flex-flow     : row nowrap;
 	align-items   : stretch;
 	.attribute--title {
 		font-weight    : bold;
 		text-transform : capitalize;
-		flex           : 1 1 25%;
+		flex           : 1 1 15%;
 	}
 	.attribute--value {
-		border-left : thin solid $component--meta-_-text-color;
+		border-left : thin solid $configuration--attribute--value-_-border-color;
 		overflow    : hidden;
 		padding     : 10px;
-		flex        : 1 1 75%;
+		flex        : 1 1 85%;
 	}
 }
 
@@ -31,7 +35,6 @@
 	> .attribute--title {
 		background-color : $configuration--attribute--title-_-background;
 		padding          : 10px;
-		width            : 20%;
 		display          : block;
 		color            : $configuration--attribute--title-_-txt-color;
 	}

@@ -4,9 +4,6 @@ import {PropertyConfigurationAttribute} from "../attribute/index";
 import PropertyConfigurationDatatypesAttribute from "../attribute/datatypes";
 import {ConfigurationTitle} from "../../../../../../components/configuration/configuration";
 
-export const PropertyConfigurationTitle =
-                 ({children}) =>
-                     <ConfigurationTitle ownerType={'property'}>{children}</ConfigurationTitle>;
 export default class PropertyConfiguration extends Component {
     PropertyAttribute({name, value}) {
         switch (name) {

@@ -5,12 +5,14 @@ import {Link} from "../../../../../../../../components/navigation/components/lin
 
 export class SmID_Link extends React.Component {
     render() {
-        const {smID, isActive, onTrigger, to} = this.props;
-        let handleTrigger                     = onTrigger;
-        const onClick                         = (event: React.SyntheticEvent) => {return handleTrigger(smID);};
-        return <Link replace to={to} onClick={onClick}
+        const {smID, isActive, onTrigger, to, className, children} = this.props;
+        let handleTrigger                                          = onTrigger;
+        const onClick                                              = (event: React.SyntheticEvent) => {return handleTrigger(smID);};
+        return <Link replace to={to}
+                     onClick={onClick}
+                     className={'smID--link ' + (className || {})}
                      onKeyDown={this.handleKeyDown}
-                     data-sm_id={smID}>{smID}</Link>;
+                     data-sm_id={smID}>{children || smID}</Link>;
     }
     
     @bind
@@ -29,7 +31,8 @@ export class SmID_Link extends React.Component {
 }
 
 SmID_Link.propTypes = {
-    smID:      PropTypes.string,
+    smID:      PropTypes.string.isRequired,
     isActive:  PropTypes.bool,
+    to:        PropTypes.string.isRequired,
     onTrigger: PropTypes.func
 };

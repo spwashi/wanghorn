@@ -1,27 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {normalizeSmID} from "../../../../utility";
-import {getTitleFromPropName} from "../../../../utility";
-
-const PropertySmIDLink     = ({smID, children, onTrigger, isActive}) => {
-    onTrigger             = onTrigger || (() => {});
-    let handleClick       = (event) => {
-        onTrigger(smID, event);
-        event.stopPropagation();
-    };
-    const activeClassName = isActive ? 'active' : 'inactive';
-    return (
-        <a className={`attribute__properties--link ${activeClassName}`} href={`#${smID.replace(' ', '')}`} onClick={handleClick}>
-            {children}
-        </a>
-    );
-};
-PropertySmIDLink.propTypes = {
-    smID:      PropTypes.string,
-    isActive:  PropTypes.bool,
-    children:  PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-    onTrigger: PropTypes.func
-};
+import {getTitleFromPropName, normalizeSmID} from "../../../../utility";
+import {PropertySmIDLink} from "./smID_Link";
 
 class PropertiesAttrMetaList extends React.Component {
     render() {
@@ -36,8 +16,6 @@ class PropertiesAttrMetaList extends React.Component {
                               let smID       = normalizeSmID(config.smID);
                               const isActive = (activeProperties).indexOf(smID) >= 0;
                               let title      = getTitleFromPropName(name);
-                              title          = title.charAt(0).toUpperCase() + title.substr(1);
-                        
                               return (
                                   <PropertySmIDLink isActive={isActive} onTrigger={onPropertyLinkTrigger} key={name} smID={smID}>
                                       {title}

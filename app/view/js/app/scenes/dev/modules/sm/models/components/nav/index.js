@@ -4,10 +4,19 @@ import {SmID_Link} from "./link";
 
 class SmID_LinkItem extends React.Component {
     render() {
-        const {smID, to, isActive, onItemTrigger, ownerType} = this.props;
+        let {smID, to, isActive, onItemTrigger: onTrigger, ownerType} = this.props;
+        ownerType                                                     = ownerType ? ownerType.toLowerCase()
+                                                                                  : null;
+        
+        let ownerTypeClassName = `${ownerType}--container--link ${ownerType}--smID--link`;
+        ownerTypeClassName     = ownerType ? ownerTypeClassName : '';
+        let smID_LinkClassName = `smID--link--item`;
+        let activeClassName    = !(isActive) ? '' : 'active';
+        let className          = `${activeClassName} ${smID_LinkClassName} ${ownerTypeClassName}`;
+        
         return (
-            <li className={`${!(isActive) ? '' : 'active'} ${ownerType}--container--link ${ownerType}--smID--link`}>
-                <SmID_Link to={to} onTrigger={onItemTrigger} smID={smID} isActive={isActive} />
+            <li className={className}>
+                <SmID_Link {...{to, onTrigger, isActive, smID}} />
             </li>
         )
     }

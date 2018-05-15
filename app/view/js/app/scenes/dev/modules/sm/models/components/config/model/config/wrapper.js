@@ -5,9 +5,7 @@ import {SelectivelyActive} from "../../../../../../../components/selectivelyActi
 import ReactTooltip from "react-tooltip";
 import bind from "bind-decorator";
 import {ActiveComponent, InactiveComponent} from "../../../../../../../components/selectivelyActive/components";
-import SmEntityConfigurationPropertiesAttribute from "../../../../../components/propertyOwner/attribute/properties";
-import ModelConfigurationInheritsAttribute from "../attribute/inherits";
-import {ConfigurationAttribute} from "../../../../../../../components/configuration";
+import {ModelAttribute} from "../attribute";
 
 /**
  * Wraps the configuration of a Model to provide more specific display capabilities
@@ -43,31 +41,23 @@ class ModelConfigurationWrapper extends React.Component {
     }
     
     @bind
-    ModelAttribute({name, value}) {
-        switch (name) {
-            case 'inherits':
-                return <ModelConfigurationInheritsAttribute inherits={value} />;
-            case 'properties':
-                return <SmEntityConfigurationPropertiesAttribute activeProperties={this.props.activeProperties}
-                                                                 onPropertyLinkTrigger={this.props.onTogglePropertyClick}
-                                                                 properties={value} />;
-            default:
-                return <ConfigurationAttribute ownerType={'model'} attribute={name} value={value} />;
-        }
-    };
-    
-    @bind
     ActiveComponent(props) {
         const {model: config}                         = this.props;
         const {smID, name, properties, ...attributes} = config;
-        const ModelAttribute                          = this.ModelAttribute;
         return (
             <div className="model--configuration">
                 <ConfigurationTitle>{this.title}</ConfigurationTitle>
                 <ConfigurationDescription>{this.props.description}</ConfigurationDescription>
                 {
                     Object.entries({smID, name, ...attributes, properties})
-                          .map(([attr, value]) => <ModelAttribute key={attr} name={attr} value={value} />)
+                          .map(([attr, value]) => {
+                              if ((!value && typeof value === 'object') || typeof value === 'undefined' || value === '') return null;
+                              return <ModelAttribute key={attr}
+                                                     activeProperties={this.props.activeProperties}
+                                                     onTogglePropertyClick={this.props.onTogglePropertyClick}
+                                                     name={attr}
+                                                     value={value} />;
+                          })
                 }
             </div>
         );

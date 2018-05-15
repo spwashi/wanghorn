@@ -59,7 +59,6 @@
 		width      : 130px;
 		&:hover, &:focus {
 			background : rgba(darken($component--meta--bg--color, 10%), .9);
-			color      : white;
 		}
 	}
 	&.active {
@@ -120,7 +119,6 @@
 	flex  : 1 1 100%;
 	width : 100%;
 	&:hover {
-		color : white;
 		.route--configuration--title--wrapper {
 			border-bottom : thin solid white;
 		}

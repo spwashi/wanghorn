@@ -1,0 +1,13 @@
+@import "../../../variables";
+@import "../../../colors/colors";
+
+$events_page-_-background-_-prop : url("#{$site_public_url_or_path}/img/base-2.png") fixed;
+$timeslot-_-borderColor : rgba($accent_color__1, .4);
+$calendar--event__dragging-_-borderColor : rgba(desaturate(lighten($accent_color__2, 10%), 10%), .8);
+$calendar--event__selected-_-backgroundColor : rgba(darken($accent_color__2, 10%), .9);
+$calendar--event-_-borderColor : rgba($accent_color__2, .8);
+$calendar--event__selected__hover-_-borderColor : rgba(darken($accent_color__2, 20%), .9);
+$calendar--event__hover-_-backgroundColor : rgba(darken($accent_color__2, 15%), .9);
+$calendar--control--button-_-backgroundColor : rgba(lighten($accent_color__1, 5%), .3);
+$calendar--date__offRange-_-backgroundColor : rgba(darken($accent_color__1, 5%), .3);
+$calendar--date__offRange--link-_-color : rgba(darken($accent_color__1, 15%), .7);

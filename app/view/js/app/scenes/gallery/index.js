@@ -13,9 +13,7 @@ import Item from "./components/item/item";
 import * as PropTypes from "prop-types"
 
 class GalleryPage extends React.Component {
-    static contextTypes = {
-        router: PropTypes.object.isRequired
-    };
+    static contextTypes = {router: PropTypes.object.isRequired};
     
     render() {
         let itemModalURI = getURI('gallery--item__view', null, {skipEmpty: true, asReactRoute: true});

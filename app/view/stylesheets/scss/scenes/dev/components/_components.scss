@@ -160,9 +160,13 @@
 				background-color : darken($component--meta--bg, 10%);
 			}
 		}
+		&.active {
+			> .title, > .title--wrapper .title {
+				background-color : $component--meta__active--bg;
+			}
+		}
 		&.inactive {
-			font-style    : italic;
-			margin-bottom : 10px;
+			font-style : italic;
 		}
 	}
 }

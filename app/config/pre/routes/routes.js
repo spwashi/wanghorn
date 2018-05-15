@@ -16,12 +16,6 @@ const homeRoutes    = [
                   title:      "Home"
               }),
     new Route({
-                  name:       "events",
-                  renderedBy: "client",
-                  pattern:    "events$",
-                  title:      "Events"
-              }),
-    new Route({
                   resolution: "[Home]@test",
                   pattern:    null,
                   name:       'test'
@@ -49,6 +43,19 @@ const homeRoutes    = [
                   resolution: "[Home]@gallery",
                   pattern:    "gallery/items.json$"
               }),
+    
+    new Route({
+                  renderedBy: "client",
+                  pattern:    'events$',
+                  name:       'events--home',
+                  title:      "Events"
+              }),
+    new Route({
+                  renderedBy: "client",
+                  pattern:    'events/{id}:.+/view',
+                  name:       'events--item__view',
+                  title:      "Event View"
+              }),
 ];
 const devRoutes     = [
     new Route({
@@ -62,6 +69,18 @@ const devRoutes     = [
                   title:      "Models",
                   renderedBy: "client",
                   pattern:    "dev/models$"
+              }),
+    new Route({
+                  name:       "dev--model--property",
+                  title:      "Model Property",
+                  pattern:    "dev/models/{model_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
+                  renderedBy: "client"
+              }),
+    new Route({
+                  name:       "dev--entity--property",
+                  title:      "Entity Property",
+                  pattern:    "dev/entities/{entity_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
+                  renderedBy: "client"
               }),
     new Route({
                   resolution: "[Dev]@monitors",

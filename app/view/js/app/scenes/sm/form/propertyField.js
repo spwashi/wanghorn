@@ -36,9 +36,6 @@ export default class PropertyField extends React.Component {
         
         let primaryDatatype = config.datatypes && config.datatypes[0];
         switch (primaryDatatype) {
-            case 'file':
-                input = <input type="file" onChange={e => onValueChange(e.target.files)} name={fieldName} />;
-                return <Field title={title} name={fieldName} input={input} message={message} />;
             case 'password':
                 const verificationTitle = 'Verify ' + title;
                 const verificationName  = 'verify--' + fieldName;

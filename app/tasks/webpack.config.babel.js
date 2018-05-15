@@ -59,6 +59,22 @@ export default {
     module:  {
         rules: [
             {
+                test: /\.css$/,
+                use:  [
+                    "style-loader",
+                    "css-loader",
+                    {
+                        loader:  "postcss-loader",
+                        options: {
+                            sourceMap:    !IS_PROD, path: './postcss.config.js',
+                            autoprefixer: {
+                                // add: IS_PROD
+                            }
+                        }
+                    },
+                ],
+            },
+            {
                 test:    /\.scss$/,
                 include: [inputPath__CSS],
                 use:     ExtractTextPlugin.extract(

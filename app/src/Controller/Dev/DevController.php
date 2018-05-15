@@ -226,11 +226,14 @@ class DevController extends AppController {
         $properties = [];
         
         foreach ($data as $key => $value) {
-            $property           = $model->getProperties()->{$key};
-            $properties[ $key ] = $property;
-            $model->set($key, $value);
+            /** @var \WANGHORN\Model\Property $property */
+            $property = $model->properties->{$key};
+            $property->setDoStrictResolve(true);
+            $property->value = $value;
         }
+        
         $model->validate();
+        return json_encode([ $properties, $model ]);
         $modelPersistenceManager = $this->app->data->models->persistenceManager;
         $newModel                = $modelPersistenceManager->create($model);
         return $newModel;
