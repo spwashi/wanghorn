@@ -106,66 +106,6 @@
          }
       }
    },
-   "email": {
-      "smID": "[Model]email",
-      "inherits": [
-         "[Model]_"
-      ],
-      "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]email} id"
-         ],
-         "unique": {
-            "unique_key": [
-               "[Property]{[Model]email} email"
-            ]
-         }
-      },
-      "properties": {
-         "id": {
-            "smID": "[Property]{[Model]email} id",
-            "datatypes": [
-               "int"
-            ],
-            "length": 11,
-            "primary": true,
-            "isGenerated": true
-         },
-         "delete_dt": {
-            "smID": "[Property]{[Model]email} delete_dt",
-            "datatypes": [
-               "datetime",
-               "null"
-            ],
-            "isGenerated": true
-         },
-         "creation_dt": {
-            "smID": "[Property]{[Model]email} creation_dt",
-            "datatypes": [
-               "datetime"
-            ],
-            "isGenerated": true,
-            "defaultValue": "now"
-         },
-         "last_update_dt": {
-            "smID": "[Property]{[Model]email} last_update_dt",
-            "datatypes": [
-               "datetime"
-            ],
-            "isGenerated": true,
-            "defaultValue": "now",
-            "updateValue": "now"
-         },
-         "email": {
-            "smID": "[Property]{[Model]email} email",
-            "datatypes": [
-               "string"
-            ],
-            "length": 255,
-            "unique": true
-         }
-      }
-   },
    "project": {
       "smID": "[Model]project",
       "inherits": [
@@ -446,6 +386,77 @@
          },
          "user_id": {
             "smID": "[Property]{[Model]password} user_id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "reference": {
+               "identity": "[Model]user",
+               "hydrationMethod": "[Property]{[Model]user} id"
+            }
+         }
+      }
+   },
+   "email": {
+      "smID": "[Model]email",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]email} id"
+         ],
+         "unique": {
+            "unique_key": [
+               "[Property]{[Model]email} email"
+            ]
+         }
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]email} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]email} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]email} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]email} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "email": {
+            "smID": "[Property]{[Model]email} email",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255,
+            "unique": true
+         },
+         "user_id": {
+            "smID": "[Property]{[Model]email} user_id",
             "datatypes": [
                "int"
             ],

@@ -48,7 +48,7 @@ SmID_LinkContainer.propTypes    = {
     allSmIDs:        PropTypes.arrayOf(PropTypes.string),
     ownerType:       PropTypes.string,
     onItemTrigger:   PropTypes.func,
-    getSmID_LinkURI: PropTypes.func,
+    getSmID_LinkURI: PropTypes.func.isRequired,
 };
 SmID_LinkContainer.defaultProps = {
     activeSmIDs: [],

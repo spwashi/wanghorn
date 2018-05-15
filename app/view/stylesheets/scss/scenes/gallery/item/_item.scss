@@ -78,7 +78,7 @@
 		left      : 0;
 		padding   : 15px;
 		&:not(:empty) { background-color : #ccc;}
-		&.status__active { background-color : rgba(55, 130, 63, 0.75); color : white;}
+		&.status__active { background-color : rgba($accent_color__1, .5); color : white;}
 	}
 	.description {
 		font-size : .5em;
