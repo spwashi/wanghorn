@@ -21,7 +21,7 @@
 		height           : 100%;
 		position         : fixed;
 		top              : 0;
-		background-color : desaturate(darken($accent_color__1, 0%), 10%);
+		background-color : desaturate(lighten($accent_color__1, 30%), 10%);
 		opacity          : .5;
 		content          : '';
 		z-index          : -1;
@@ -41,14 +41,13 @@
 			height           : 100%;
 			position         : absolute;
 			top              : 0;
-			background-color : desaturate(darken($accent_color__1, 10%), 5%);
-			opacity          : .5;
+			background-color : desaturate(lighten($accent_color__1, 10%), 5%);
+			opacity          : .3;
 			content          : '';
 			z-index          : -1;
 			left             : 0;
 		}
 	}
-
 	.rbc-header {
 		color : rgba(white, .7);
 	}
@@ -74,15 +73,14 @@
 	.rbc-off-range {
 		color : $calendar--date__offRange--link-_-color;
 	}
-	.rbc-toolbar button:active, .rbc-toolbar button.rbc-active {
-	}
 	.rbc-toolbar button {
-		background  : $calendar--control--button-_-backgroundColor;
 		font-weight : bold;
-		color       : rgba(white, .5);
+		font-size   : .7em;
+		background  : $calendar--control--button-_-backgroundColor;
+		color       : white;
 		&:active, &.rbc-active {
 			background : darken($calendar--date__offRange-_-backgroundColor, 10%);
-			color      : rgba(white, .5);
+			color      : rgba(white, .7);
 			&:hover {
 				background : darken($calendar--date__offRange-_-backgroundColor, 20%);
 			}
@@ -96,20 +94,20 @@
 		a {
 			display : inline-block;
 			width   : 100%;
-			color   : rgba(white, .4);
+			color   : rgba(white, .7);
 		}
 		&:hover {
 			a {color : rgba(white, .9);}
 		}
 	}
 	.rbc-event {
-		background-color : $calendar--event-_-borderColor;
+		background-color : $calendar--event-_-backgroundColor;
 		&:hover {
 			background-color : $calendar--event__hover-_-backgroundColor;
 		}
 		&.rbc-addons-dnd-dragging {
 			background-color : $calendar--event__dragging-_-borderColor;
-			border           : thin solid $calendar--event-_-borderColor;
+			border           : thin solid $calendar--event-_-backgroundColor;
 		}
 		&.rbc-selected {
 			background-color : $calendar--event__selected-_-backgroundColor;

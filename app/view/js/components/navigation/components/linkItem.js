@@ -8,15 +8,17 @@ const DefaultWrapper         = p => <div {...p} />;
 export const ListLinkWrapper = p => <li {...p} />;
 
 class LinkItem extends React.Component {
-    state = {isFocused: false};
+    static contextTypes = {router: PropTypes.object.isRequired};
+           state        = {isFocused: false};
     
     @bind
     handleKeyboard(event) {
-        if (event.keyCode !== 32) return;
         const {onTrigger} = this.props;
-        onTrigger && onTrigger(...args);
-        if (event.isPropagationStopped()) return;
-        this.setState({redirect: true});
+        onTrigger && onTrigger(event);
+        
+        if (event.keyCode !== 32) return;
+        
+        this.context.router.history.push(this.props.to);
         event.preventDefault();
     }
     
@@ -27,19 +29,20 @@ class LinkItem extends React.Component {
     
     render() {
         let {className, activeClassName}                      = this.props;
-        let {to, location, exact}                             = this.props;
+        let {to, exact}                                       = this.props;
         let {children, descendants, wrapper = DefaultWrapper} = this.props;
-        let {onTrigger, onIsActive}                           = this.props;
+        let {onTrigger, whenFocused, whenBlurred}             = this.props;
         const Wrapper                                         = wrapper;
         const onKeyDown                                       = this.onKeyDownHandler.bind(this);
-        const onLinkFocus                                     = () => {this.setState({isFocused: true})};
-        const onLinkBlur                                      = () => {this.setState({isFocused: false})};
+        const onLinkFocus                                     = () => {
+            this.setState({isFocused: true}, () => whenFocused && whenFocused())
+        };
+        const onLinkBlur                                      = () => {
+            this.setState({isFocused: false}, () => whenBlurred && whenBlurred())
+        };
         const isActive                                        = this.isActive;
         const isFocused                                       = this.state.isFocused;
         const activeClassname                                 = isActive ? ' active active--link' : '';
-        className                                             = className ? ' ' + className : '';
-        className                                             = `link_item navigation--link_item${className}${activeClassname}`;
-        className                                             = `${className}${isFocused ? ' focused' : ''}`;
         const redirect                                        = this.state.redirect;
         const linkProps                                       = {
             to,
@@ -50,11 +53,12 @@ class LinkItem extends React.Component {
             onBlur:   onLinkBlur,
             isActive: !!isActive
         };
+        className                                             = className ? ' ' + className : '';
+        className                                             = `link_item navigation--link_item${className}${activeClassname}`;
+        className                                             = `${className}${isFocused ? ' focused' : ''}`;
         return (
             <Wrapper className={className} onKeyDown={onKeyDown} onClick={onTrigger || (() => {})}>
-                <Link {...linkProps} >
-                    {children}
-                </Link>
+                <Link {...linkProps}>{children}</Link>
                 {descendants}
             </Wrapper>);
     }
@@ -79,13 +83,15 @@ class LinkItem extends React.Component {
 LinkItem.propTypes = {
     onTrigger:       PropTypes.func,
     wrapper:         PropTypes.func,
+    whenFocused:     PropTypes.func,
+    whenBlurred:     PropTypes.func,
     exact:           PropTypes.bool,
-    isActive:        PropTypes.bool,
-    onIsActive:      PropTypes.func,
+    redirect:        PropTypes.bool,
     activeClassName: PropTypes.string,
-    to:              PropTypes.string,
     className:       PropTypes.string,
-    children:        PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.array]).isRequired
+    children:        PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.array]).isRequired,
+    isActive:        PropTypes.bool,
+    to:              PropTypes.string
 };
 LinkItem           = withRouter(LinkItem);
 export {LinkItem};

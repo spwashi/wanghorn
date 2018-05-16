@@ -35,7 +35,8 @@ export class ContentSectionLink extends React.Component {
                                         this.onTrigger(event);
                                     })
                          }}
-                         to={`#${anchor}`} {...attrs}>{children}</LinkItem>
+                         to={`#${anchor}`}
+                         {...attrs}>{children}</LinkItem>
     };
 }
 
@@ -44,5 +45,5 @@ ContentSectionLink.propTypes = {
     anchor:          PropTypes.string,
     doScroll:        PropTypes.bool,
     isActive:        PropTypes.bool,
-    onRequestFollow: PropTypes.func
+    onRequestFollow: PropTypes.func,
 };

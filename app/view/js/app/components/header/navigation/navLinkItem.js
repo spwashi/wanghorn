@@ -14,13 +14,26 @@ export class NavLinkItem extends React.Component {
         this.setState({hasActiveDescendants: true});
     };
     
+    @bind
+    onFocusedDescendant(item) {
+        if (this.state.focusedDescendant === item) return;
+        this.setState({focusedDescendant: item});
+    };
+    
+    @bind
+    onBlurredDescendant(item) {
+        if (this.state.focusedDescendant !== item) return;
+        this.setState({focusedDescendant: null});
+    };
+    
     renderDescendants(children) {
         if (!children) {return null;}
         
-        const renderedChildren = children.map((child, i) => {
-            return <NavLinkItem key={child.name || i} onIsActive={this.onActiveDescendant} item={child} />;
-        });
-        
+        const renderedChildren = children.map((child, i) => <NavLinkItem key={child.name || i}
+                                                                         whenFocused={() => this.onFocusedDescendant(this.props.item)}
+                                                                         whenBlurred={() => this.onBlurredDescendant(this.props.item)}
+                                                                         onIsActive={this.onActiveDescendant}
+                                                                         item={child} />);
         return <ul>{renderedChildren}</ul>;
     };
     
@@ -28,14 +41,26 @@ export class NavLinkItem extends React.Component {
         const {name, exact, children} = this.props.item;
         const title                   = getTitle(name);
         const descendants             = this.renderDescendants(children);
-        const descendantClassname     = this.state.hasActiveDescendants ? 'has-active-descendants' : '';
+        
+        const descendantClassname = `${this.state.hasActiveDescendants ? 'has-active-descendants'
+                                                                       : ''} ${this.state.focusedDescendant ? 'has-focused-descendants'
+                                                                                                            : ''}`;
         
         const uri        = getURI(name, null, {root: ''});
-        const onIsActive = this.props.onIsActive || function () {};
+        const onIsActive = () => {
+            let onIsActive = this.props.onIsActive || function () {};
+            return onIsActive(this.props.item);
+        };
+        
         return (
-            <LinkItem exact={!!exact} to={uri}
-                      wrapper={NavLinkWrapper} className={`${descendantClassname}`}
-                      onIsActive={() => onIsActive(this.props.item)} descendants={descendants}>
+            <LinkItem to={uri}
+                      exact={!!exact}
+                      whenFocused={this.props.whenFocused}
+                      whenBlurred={this.props.whenBlurred}
+                      wrapper={NavLinkWrapper}
+                      className={`${descendantClassname}`}
+                      onIsActive={onIsActive}
+                      descendants={descendants}>
                 {title}
             </LinkItem>
         );
@@ -43,10 +68,12 @@ export class NavLinkItem extends React.Component {
 }
 
 NavLinkItem.propTypes = {
-    onIsActive: PropTypes.func,
-    item:       PropTypes.shape({
-                                    exact:    PropTypes.bool,
-                                    name:     PropTypes.string,
-                                    children: PropTypes.arrayOf(PropTypes.object)
-                                }),
+    onIsActive:  PropTypes.func,
+    whenBlurred: PropTypes.func,
+    whenFocused: PropTypes.func,
+    item:        PropTypes.shape({
+                                     exact:    PropTypes.bool,
+                                     name:     PropTypes.string,
+                                     children: PropTypes.arrayOf(PropTypes.object)
+                                 }),
 };

@@ -149,6 +149,16 @@ let ToDo            = function () {
     </ContentSection>;
 };
 
+let PageNavLink = function ({name, linkProps, activeAnchor, title}) {
+    return (
+        <li >
+            <ContentSectionLink {...linkProps} redirect={false} isActive={activeAnchor === name} anchor={name}>
+                {title}
+            </ContentSectionLink>
+        </li>
+    );
+};
+
 class AboutMeScene extends React.Component {
     componentDidMount() {
         const aScript = document.createElement('script');
@@ -164,24 +174,26 @@ class AboutMeScene extends React.Component {
     }
     
     render() {
-        const onRequestFollow = (anchor) => {
-            return new Promise((resolve, reject) => {
-                setTimeout(() => resolve(), 1000)
-            })
-        };
-        let WHAT_I_DO__NAME   = "what-I-do";
-        let HOW_I_WORK__NAME  = "how-I-work";
-        let TO_DO__NAME       = "to-do";
-        let activeAnchor      = (this.props.location.hash || '').replace('#', '') || WHAT_I_DO__NAME;
-        let linkProps         = {doScroll: false, onRequestFollow};
+        const WHAT_I_DO__NAME  = "what-I-do";
+        const HOW_I_WORK__NAME = "how-I-work";
+        const TO_DO__NAME      = "to-do";
+        
+        const activeAnchor = (this.props.location.hash || '').replace('#', '') || WHAT_I_DO__NAME;
+        const links        = [
+            {name: 'what-I-do', title: `What I Do `},
+            {name: 'how-I-work', title: `How I Work`},
+            {name: 'to-do', title: `Sam's todo list`},
+        ];
         return (
             <PageContent pageTitle="About Me" pageClass={`.page--__--${pageClassName}`}>
                 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" />
                 <nav>
                     <ul>
-                        <li><ContentSectionLink {...linkProps} isActive={activeAnchor === WHAT_I_DO__NAME} anchor={WHAT_I_DO__NAME}>What I Do </ContentSectionLink></li>
-                        <li><ContentSectionLink {...linkProps} isActive={activeAnchor === HOW_I_WORK__NAME} anchor={HOW_I_WORK__NAME}>How I Work</ContentSectionLink></li>
-                        <li><ContentSectionLink {...linkProps} isActive={activeAnchor === TO_DO__NAME} anchor={TO_DO__NAME}>Sam's todo list</ContentSectionLink></li>
+                        {links.map(({name, title}) => <PageNavLink name={name}
+                                                                   key={name}
+                                                                   title={title}
+                                                                   activeAnchor={activeAnchor}
+                                                                   linkProps={{doScroll: false}} />)}
                     </ul>
                 </nav>
                 <Stateful activeStates={activeAnchor}>
