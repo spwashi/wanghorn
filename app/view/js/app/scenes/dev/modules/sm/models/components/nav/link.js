@@ -8,9 +8,9 @@ export class SmID_Link extends React.Component {
         const {smID, isActive, onTrigger, to, className, children} = this.props;
         let handleTrigger                                          = onTrigger;
         const onClick                                              = (event: React.SyntheticEvent) => {return handleTrigger(smID);};
-        return <Link replace to={to}
+        return <Link to={to}
                      onClick={onClick}
-                     className={'smID--link ' + (className || {})}
+                     className={'smID--link ' + (className || '')}
                      onKeyDown={this.handleKeyDown}
                      data-sm_id={smID}>{children || smID}</Link>;
     }

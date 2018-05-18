@@ -1,3 +1,3 @@
-import ModelConfigurationWrapper from "./config/wrapper";
+import ModelConfigurationWrapper from "./config/config";
 
 export {ModelConfigurationWrapper};

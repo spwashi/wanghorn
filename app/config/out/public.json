@@ -39,47 +39,28 @@
          "pattern": "wanghorn/dev$",
          "title": "Dev"
       },
+      "dev--model": {
+         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+$"
+      },
       "dev--models": {
          "pattern": "wanghorn/dev/models$",
          "title": "Models"
+      },
+      "dev--models__json": {
+         "pattern": "wanghorn/dev/models.json$"
       },
       "dev--model--property": {
          "pattern": "wanghorn/dev/models/{model_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
          "title": "Model Property"
       },
-      "dev--entity--property": {
-         "pattern": "wanghorn/dev/entities/{entity_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
-         "title": "Entity Property"
-      },
-      "dev--monitors__json": {
-         "pattern": "wanghorn/dev/monitors.json$"
-      },
-      "dev--status__json": {
-         "pattern": "wanghorn/dev/status.json$"
-      },
-      "dev--models__json": {
-         "pattern": "wanghorn/dev/models.json$"
-      },
-      "dev--entities__json": {
-         "pattern": "wanghorn/dev/entities.json$"
-      },
-      "dev--routes__json": {
-         "pattern": "wanghorn/dev/routes.json$"
-      },
-      "dev--execute_query": {
-         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
-      },
-      "dev--model": {
-         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+$"
-      },
-      "dev--get_model_schematic": {
-         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/schematic$",
+      "dev--all_models": {
+         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/all",
          "http_method": [
             "get"
          ]
       },
-      "dev--all_models": {
-         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/all",
+      "dev--get_model_schematic": {
+         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/schematic$",
          "http_method": [
             "get"
          ]
@@ -88,13 +69,32 @@
          "pattern": "wanghorn/dev/models$"
       },
       "dev--create_model": {
-         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/create$"
+         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/create$"
       },
       "dev--create_model--receive": {
-         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/create/receive$",
+         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/create/receive$",
          "http_method": [
             "post"
          ]
+      },
+      "dev--entity--property": {
+         "pattern": "wanghorn/dev/entities/{entity_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
+         "title": "Entity Property"
+      },
+      "dev--entities__json": {
+         "pattern": "wanghorn/dev/entities.json$"
+      },
+      "dev--monitors__json": {
+         "pattern": "wanghorn/dev/monitors.json$"
+      },
+      "dev--status__json": {
+         "pattern": "wanghorn/dev/status.json$"
+      },
+      "dev--routes__json": {
+         "pattern": "wanghorn/dev/routes.json$"
+      },
+      "dev--execute_query": {
+         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       "user--signup_continue": {
          "pattern": "wanghorn/dev/email/test/{signup_nonce}"

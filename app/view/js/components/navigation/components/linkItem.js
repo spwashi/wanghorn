@@ -83,6 +83,7 @@ class LinkItem extends React.Component {
         };
         const isActive                                        = this.isActive;
         const isFocused                                       = this.state.isFocused;
+        const isButton                                        = this.props.isButton;
         const activeClassname                                 = isActive ? ' active active--link' : '';
         const redirect                                        = this.state.redirect;
         const linkProps                                       = {
@@ -94,7 +95,8 @@ class LinkItem extends React.Component {
             onBlur:   onLinkBlur,
             isActive: !!isActive
         };
-        className                                             = className ? ' ' + className : '';
+        className                                             = className ? ` ${className}` : '';
+        className                                             = isButton ? `${className} button ` : className;
         className                                             = `link_item navigation--link_item${className}${activeClassname}`;
         className                                             = `${className}${isFocused ? ' focused' : ''}`;
         const isTabAccessible                                 = typeof this.props.isTabAccessible !== "undefined" ? this.props.isTabAccessible

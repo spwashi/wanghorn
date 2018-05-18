@@ -1,5 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
+import {Route} from "react-router";
 import ModelModule from "./modules/sm/models/modelScene";
 import {RoutesScene as RoutesModule} from "./modules/routes/routesScene";
 import reducer from "./reducer"
@@ -22,8 +23,8 @@ const Dev = ({models}) => {
                     <li><span className="keypress--name">Space or Enter</span> to activate/deactivate</li>
                 </ul>
             </section>
-            <ModelModule />
-            <RoutesModule />
+            <Route component={ModelModule} />
+            <Route component={RoutesModule} />
         </PageContent>
     );
 };

@@ -46,8 +46,8 @@ class ModelConfigurationWrapper extends React.Component {
         const {smID, name, properties, ...attributes} = config;
         return (
             <div className="model--configuration">
-                <ConfigurationTitle>{this.title}</ConfigurationTitle>
-                <ConfigurationDescription>{this.props.description}</ConfigurationDescription>
+                <ConfigurationTitle ownerType={'model'}>{this.title}</ConfigurationTitle>
+                <ConfigurationDescription ownerType={'model'}>{this.props.description}</ConfigurationDescription>
                 {
                     Object.entries({smID, name, ...attributes, properties})
                           .map(([attr, value]) => {

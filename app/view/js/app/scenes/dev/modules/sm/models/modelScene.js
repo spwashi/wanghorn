@@ -12,11 +12,11 @@ import {
     toggleModelScene
 } from "./actions";
 import {connect} from "react-redux";
-import {DevScene} from "../../../components/scene";
-import {withRouter} from "react-router"
+import {InactiveDevComponent} from "../../../components/scene";
+import {Route, Switch} from "react-router"
 import ActiveModelScene from "./components/scene/active";
-import {ActiveComponent} from "../../../components/selectivelyActive/components";
-import {selectActiveModelSmIDs, selectAllModelMetaObjects, selectCreatingModelMetaSmIDs, selectModelDevInterface, selectModelSceneActivity} from "./selector";
+import {selectAllModelMetaObjects, selectModelDevInterface, selectModelSceneActivity} from "./selector";
+import {getURI} from "../../../../../../path/resolution";
 
 @connect(mapState, mapDispatch)
 class ModelScene extends Component {
@@ -29,41 +29,38 @@ class ModelScene extends Component {
     }
     
     render() {
-        const pathname = this.props.location.pathname;
-        const hash     = this.props.location.hash;
-        let isActive   = this.props.isActive;
-        if (pathname.indexOf('models') > -1) isActive = true;
-        if (hash.indexOf('[Model]') > -1) isActive = true;
-        
         return (
-            <DevScene className={"model"}
-                      isActive={isActive}
-                      onActivate={this.props.toggleModelScene}
-                      onDeactivate={this.props.toggleModelScene}
-                      childClassName={"model--container"}
-                      title={"Models"}>
-                <ActiveComponent component={ActiveModelScene} {...this.props} />
-            </DevScene>
-        )
+            <div className={`scene--wrapper dev--scene--wrapper model--scene--wrapper`}>
+                <Switch>
+                    <Route path={getURI('dev--models')}>
+                        {({match}) => {
+                            const {pathname}     = match;
+                            let modelSmID_regex  = /models\/[_a-zA-Z]+/;
+                            const pathname_smIDs = modelSmID_regex.exec(pathname) || [];
+                            const activeSmID     = pathname_smIDs[0];
+                            console.log(match);
+                            return (
+                                <div className={`scene dev--scene model--scene dev--component--wrapper`}>
+                                    <ActiveModelScene {...this.props} />
+                                </div>
+                            )
+                        }}
+                    </Route>
+                    <Route><InactiveDevComponent title={'Models'} className={'model--container'} /> </Route>
+                </Switch>
+            </div>
+        );
     }
 }
 
-export default withRouter(ModelScene);
+export default ModelScene;
 
 function mapState(state) {
-    const models                 = selectAllModelMetaObjects(state) || {};
-    const isActive               = selectModelSceneActivity(state);
-    const modelState             = selectModelDevInterface(state);
-    const activeModelSmIDs       = selectActiveModelSmIDs(state) || [];
-    const creatingModelMetaSmIDs = selectCreatingModelMetaSmIDs(state) || [];
-    const allModelSmIDs          = modelState.list || [];
-    return {
-        models,
-        isActive,
-        allModelSmIDs,
-        activeModelSmIDs,
-        creatingModelMetaSmIDs
-    };
+    const models        = selectAllModelMetaObjects(state) || {};
+    const isActive      = selectModelSceneActivity(state);
+    const modelState    = selectModelDevInterface(state);
+    const allModelSmIDs = modelState.list || [];
+    return {models, isActive, allModelSmIDs};
 }
 function mapDispatch(dispatch) {
     return bindActionCreators({

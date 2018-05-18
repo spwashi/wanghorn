@@ -17,13 +17,6 @@
 		flex      : 0 0 10%;
 		margin    : .5em;
 	}
-	.active {
-		a {
-			background-color : darken($component--meta--bg, 23%);
-			transition       : background-color .1s;
-			color            : white;
-		}
-	}
 	a {
 		width            : 100%;
 		margin-right     : auto;
@@ -35,6 +28,11 @@
 		font-weight      : bold;
 		transition       : background-color .1s;
 		padding          : 10px;
+		&.active {
+			background-color : darken($component--meta--bg, 23%);
+			transition       : background-color .1s;
+			color            : white;
+		}
 	}
 }
 

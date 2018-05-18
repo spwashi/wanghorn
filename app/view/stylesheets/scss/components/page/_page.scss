@@ -8,6 +8,10 @@ $backToTopRight : -15vh;
 	.button {
 		background-color : #eee;
 		border           : thin solid darken(#ccc, 20%);
+		&:hover {
+			background-color : #bbb;
+			border           : thin solid darken(#ccc, 40%);
+		}
 	}
 	nav {
 		padding       : 0 0 15px 0;

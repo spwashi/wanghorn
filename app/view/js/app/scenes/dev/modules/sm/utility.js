@@ -1,4 +1,5 @@
 export const normalizeSmID        = smID => (smID || '').replace(' ', '');
+export const getNameFromSmID      = smID => /\[[a-zA-Z_]+]}?\s?([a-zA-Z_]+)/.exec(normalizeSmID(smID)||[])[1] || false;
 export const getTitleFromPropName = name => {
     name = name.replace(/_([a-z])/g, ([str, match]) => ` ${match}`.toUpperCase())
                .replace('Dt', 'Date')
