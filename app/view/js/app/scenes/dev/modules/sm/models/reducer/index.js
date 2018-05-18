@@ -16,16 +16,26 @@ function editingSmID_reducer(state, action) {
     }
 }
 function activeSmID_reducer(state, action) {
-    const {type, models} = action;
-    const {smID}         = action;
+    const {type, models}      = action;
+    const {smID}              = action;
+    const doUseToggleNotRoute = false;
+    
     switch (type) {
-        // case FETCH_MODELS_RECEIVED:
-        //     return Object.keys(models);
         case TOGGLE_ACTIVATE_MODEL:
-            return state.indexOf(smID) > -1 ? activeSmID_reducer(state, {...action, type: DEACTIVATE_MODEL})
-                                            : activeSmID_reducer(state, {...action, type: ACTIVATE_MODEL});
+            if (doUseToggleNotRoute) {
+                return state.indexOf(smID) > -1 ? activeSmID_reducer(state, {...action, type: DEACTIVATE_MODEL})
+                                                : activeSmID_reducer(state, {...action, type: ACTIVATE_MODEL});
+            } else {
+                console.log('need to remove this toggling');
+                break;
+            }
         case DEACTIVATE_MODEL:
-            return state.filter(item => item !== smID);
+            if (doUseToggleNotRoute) {
+                return state.filter(item => item !== smID);
+            } else {
+                console.log('need to remove this toggling');
+                break;
+            }
         case ACTIVATE_MODEL:
             return [...new Set([...state, smID])];
         default :

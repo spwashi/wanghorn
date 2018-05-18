@@ -112,3 +112,14 @@
 		}
 	}
 }
+
+@media screen and (max-device-width : 700px) {
+	.modal__-open {
+		&.modal--base {
+			.input--wrapper {
+				padding-top    : 20px;
+				padding-bottom : 20px;
+			}
+		}
+	}
+}

@@ -59,8 +59,8 @@ $backToTopRight : -15vh;
 		}
 	}
 	> .content--section, .scene > .content--section {
-		font-size        : .8em;
 		margin-bottom    : 15px;
+		line-height      : 1.5em;
 		background-color : $pageContent--color;
 		border           : $pageContent--border-_-style;
 		box-shadow       : 1px 1px 8px $pageContent--shadow-_-color;
