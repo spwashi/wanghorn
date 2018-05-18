@@ -61,20 +61,27 @@
 				margin-left      : auto;
 				display          : block;
 				background-color : $active-link-_-border-bottom-color;
-				animation        : modifyLine .25s;
 				position         : absolute;
 				width            : 100%;
 				bottom           : 0;
+				animation        : modifyLine .25s;
+			}
+			.has-loaded-before & {
+				&::before {
+					animation : none;
+				}
 			}
 		}
 	}
 	> ul {
-		opacity  : 0;
-		z-index  : -10;
-		position : absolute;
-		top      : 100%;
-		left     : 0;
-		padding  : 0;
+		opacity    : 0;
+		z-index    : -10;
+		visibility : hidden;
+		position   : absolute;
+		top        : 100%;
+		left       : 0;
+		padding    : 0;
+		border     : 2px solid white;
 		.navigation--link_item {
 			background-color : $accent_color__2;
 			box-shadow       : inset 0 5px 10px rgba(darken($accent_color__2, 20%), .5);
@@ -88,11 +95,35 @@
 	}
 	&:hover {transition : background-color .3s;}
 	&:focus {transition : background-color .2s;}
-	&:hover, &:focus, &.focused, &.has-focused-descendants {
+	&.has-descendants {
+		&:before {
+			content     : '\f107';
+			color       : #fff;
+			font-family : FontAwesome, monospace;
+			position    : absolute;
+			bottom      : 0;
+			width       : 100%;
+			font-size   : .7em;
+			text-align  : center;
+			cursor      : pointer;
+			transition  : bottom .3s;
+		}
+		&:hover, &:focus, &.focused {
+			&::before {
+				transition  : bottom .3s;
+				bottom      : -5px;
+				font-weight : bold;
+			}
+		}
+	}
+	&:hover, &.dropdown-active, &.has-active-descendants {
 		background-color : $navLink__backgroundColor--hover;
 		> ul {
-			opacity : 1;
-			z-index : 1;
+			visibility : visible;
+			z-index    : -1;
+			opacity    : 1;
+			height     : auto;
+			transition : height .5s;
 		}
 	}
 }

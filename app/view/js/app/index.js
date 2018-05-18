@@ -9,11 +9,13 @@ import Content from "./components/content";
 import {anchorate} from 'anchorate';
 
 class Application extends React.Component {
+    state = {};
+    
     render() {
         return (
             <Router onUpdate={() => anchorate()} history={browserHistory}>
-                <div id={"app--wrapper"} className="content--wrapper application--content--wrapper">
-                    <Header links={links} />
+                <div id={"app--wrapper"} className={`content--wrapper application--content--wrapper`}>
+                    <Header  links={links} />
                     <Content>{routes}</Content>
                 </div>
             </Router>

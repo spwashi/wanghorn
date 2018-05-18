@@ -102,17 +102,17 @@
       {
          "name": "dev--execute_query",
          "resolution": "Dev\\Dev@executeQuery",
-         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
+         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       {
          "name": "dev--model",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+$"
+         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+$"
       },
       {
          "name": "dev--get_model_schematic",
          "resolution": "Dev\\Dev@getSchematic",
-         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/schematic$",
+         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/schematic$",
          "http_method": [
             "get"
          ]
@@ -120,7 +120,7 @@
       {
          "name": "dev--all_models",
          "resolution": "Dev\\Dev@findAll",
-         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/all",
+         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/all",
          "http_method": [
             "get"
          ]
@@ -133,12 +133,12 @@
       {
          "name": "dev--create_model",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/create$"
+         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/create$"
       },
       {
          "name": "dev--create_model--receive",
          "resolution": "Dev\\Dev@createModel",
-         "pattern": "wanghorn/dev/models/{smID}:[\\[a-zA-Z\\]\\s]+/create/receive$",
+         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/create/receive$",
          "http_method": [
             "post"
          ]

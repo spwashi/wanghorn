@@ -1,18 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import * as PropTypes from "prop-types"
 import LogoContainer from "./components/logoContainer";
 
-export const StdHeader = ({Logo, Navigation, UserMenu}) =>
-    <header className="header-standard">
-        <Logo />
-        <Navigation />
-        <UserMenu />
-    </header>;
+export class StdHeader extends React.Component {
+    static propTypes = {
+        Logo:       PropTypes.func,
+        UserMenu:   PropTypes.func,
+        Navigation: PropTypes.func.isRequired,
+        className:  PropTypes.string
+    };
+    
+    render() {
+        const {style, Logo, Navigation, UserMenu, className} = this.props;
+        return (
+            <header className={"header-standard " + (className ? className : '')} style={style}>
+                <Logo />
+                <Navigation history={this.props.history} />
+                <UserMenu />
+            </header>
+        );
+        
+    }
+}
 
 export {LogoContainer}
-
-StdHeader.propTypes = {
-    Logo:       PropTypes.func,
-    Navigation: PropTypes.func.isRequired,
-    UserMenu:   PropTypes.func
-};

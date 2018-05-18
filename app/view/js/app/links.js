@@ -9,9 +9,7 @@ let linkNames      = [
     {
         name:     "dev--home",
         exact:    false,
-        children: [
-            {name: 'dev--models'}
-        ]
+        children: [{name: 'dev--models'}]
     },
     {name: "events--home"},
 ];

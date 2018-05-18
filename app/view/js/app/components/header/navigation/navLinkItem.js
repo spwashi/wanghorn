@@ -6,7 +6,10 @@ import {ListLinkWrapper as NavLinkWrapper} from "base-components/navigation/comp
 import bind from "bind-decorator";
 
 export class NavLinkItem extends React.Component {
-    state = {hasActiveDescendants: false};
+    state = {
+        hasActiveDescendants: false,
+        isDropdownActive:     false
+    };
     
     @bind
     onActiveDescendant(item) {
@@ -23,7 +26,9 @@ export class NavLinkItem extends React.Component {
     @bind
     onBlurredDescendant(item) {
         if (this.state.focusedDescendant !== item) return;
-        this.setState({focusedDescendant: null});
+        this.setState({focusedDescendant: null}, () => {
+            setTimeout(() => this.setState({isDropdownActive: !!this.state.focusedDescendant}), 10);
+        });
     };
     
     renderDescendants(children) {
@@ -32,35 +37,52 @@ export class NavLinkItem extends React.Component {
         const renderedChildren = children.map((child, i) => <NavLinkItem key={child.name || i}
                                                                          whenFocused={() => this.onFocusedDescendant(this.props.item)}
                                                                          whenBlurred={() => this.onBlurredDescendant(this.props.item)}
+                                                                         isTabAccessible={this.state.isDropdownActive}
                                                                          onIsActive={this.onActiveDescendant}
                                                                          item={child} />);
         return <ul>{renderedChildren}</ul>;
     };
     
     render() {
-        const {name, exact, children} = this.props.item;
-        const title                   = getTitle(name);
-        const descendants             = this.renderDescendants(children);
-        
-        const descendantClassname = `${this.state.hasActiveDescendants ? 'has-active-descendants'
-                                                                       : ''} ${this.state.focusedDescendant ? 'has-focused-descendants'
-                                                                                                            : ''}`;
-        
-        const uri        = getURI(name, null, {root: ''});
-        const onIsActive = () => {
+        const {name, exact, children: descendants} = this.props.item;
+        const title                                = getTitle(name);
+        const renderedDescendants                  = this.renderDescendants(descendants);
+        const activeDescendantClassname            = this.state.hasActiveDescendants ? 'has-active-descendants' : '';
+        const focusedDescendantClassname           = this.state.focusedDescendant ? 'has-focused-descendants' : '';
+        const hasDescendantClassname               = descendants ? 'has-descendants' : '';
+        const descendantClassname                  = `${activeDescendantClassname} ${hasDescendantClassname} ${focusedDescendantClassname}`;
+        const uri                                  = getURI(name, null, {root: ''});
+        const onIsActive                           = () => {
             let onIsActive = this.props.onIsActive || function () {};
             return onIsActive(this.props.item);
         };
-        
+        const onSpaceBar                           = event => {
+            event.preventDefault();
+            if (!this.state.focusedDescendant) {
+                this.setState({isDropdownActive: !this.state.isDropdownActive});
+            }
+        };
+        const isDropdownActiveClassname            = this.state.isDropdownActive ? 'dropdown-active' : '';
+        const whenBlurred                          = () => {
+            this.props.whenBlurred && this.props.whenBlurred();
+            if (descendants) {
+                setTimeout(() => {
+                    this.setState({isDropdownActive: this.state.hasActiveDescendants || !!this.state.focusedDescendant});
+                }, 10)
+            }
+        };
+        const isTabAccessible                      = this.props.isTabAccessible;
         return (
             <LinkItem to={uri}
                       exact={!!exact}
+                      isTabAccessible={isTabAccessible}
                       whenFocused={this.props.whenFocused}
-                      whenBlurred={this.props.whenBlurred}
+                      whenBlurred={whenBlurred}
                       wrapper={NavLinkWrapper}
-                      className={`${descendantClassname}`}
+                      onSpaceBar={onSpaceBar}
+                      className={`${descendantClassname} ${isDropdownActiveClassname}`}
                       onIsActive={onIsActive}
-                      descendants={descendants}>
+                      descendants={renderedDescendants}>
                 {title}
             </LinkItem>
         );
@@ -68,12 +90,13 @@ export class NavLinkItem extends React.Component {
 }
 
 NavLinkItem.propTypes = {
-    onIsActive:  PropTypes.func,
-    whenBlurred: PropTypes.func,
-    whenFocused: PropTypes.func,
-    item:        PropTypes.shape({
-                                     exact:    PropTypes.bool,
-                                     name:     PropTypes.string,
-                                     children: PropTypes.arrayOf(PropTypes.object)
-                                 }),
+    onIsActive:      PropTypes.func,
+    whenBlurred:     PropTypes.func,
+    whenFocused:     PropTypes.func,
+    isTabAccessible: PropTypes.bool,
+    item:            PropTypes.shape({
+                                         exact:    PropTypes.bool,
+                                         name:     PropTypes.string,
+                                         children: PropTypes.arrayOf(PropTypes.object)
+                                     }),
 };

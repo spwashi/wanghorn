@@ -5,7 +5,7 @@ const HTTP__GET  = 'get';
 const HTTP__POST = 'post';
 
 //
-const smID_regex = `[\\[a-zA-Z\\]\\s]+`;
+const smID_regex = `[\\[_a-zA-Z\\]\\s]+`;
 
 //
 const homeRoutes    = [
