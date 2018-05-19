@@ -1,18 +1,21 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
-import {Link} from "../../../../../../../../components/navigation/components/link";
+import {LinkItem} from "../../../../../../../../components/navigation";
 
 export class SmID_Link extends React.Component {
     render() {
         const {smID, isActive, onTrigger, to, className, children} = this.props;
+        let maintainHash                                           = this.props.maintainHash;
         let handleTrigger                                          = onTrigger;
         const onClick                                              = (event: React.SyntheticEvent) => {return handleTrigger(smID);};
-        return <Link to={to}
-                     onClick={onClick}
-                     className={'smID--link ' + (className || '')}
-                     onKeyDown={this.handleKeyDown}
-                     data-sm_id={smID}>{children || smID}</Link>;
+        return <LinkItem to={to}
+                         wrapper={p => <span {...p} />}
+                         maintainHash={maintainHash}
+                         onClick={onClick}
+                         className={'smID--link ' + (className || '')}
+                         onKeyDown={this.handleKeyDown}
+                         data-sm_id={smID}>{children || smID}</LinkItem>;
     }
     
     @bind
@@ -31,8 +34,9 @@ export class SmID_Link extends React.Component {
 }
 
 SmID_Link.propTypes = {
-    smID:      PropTypes.string.isRequired,
-    isActive:  PropTypes.bool,
-    to:        PropTypes.string.isRequired,
-    onTrigger: PropTypes.func
+    smID:         PropTypes.string.isRequired,
+    isActive:     PropTypes.bool,
+    to:           PropTypes.string.isRequired,
+    onTrigger:    PropTypes.func,
+    maintainHash: PropTypes.bool
 };

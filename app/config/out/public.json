@@ -77,6 +77,10 @@
             "post"
          ]
       },
+      "dev--entities": {
+         "pattern": "wanghorn/dev/entities$",
+         "title": "Entities"
+      },
       "dev--entity--property": {
          "pattern": "wanghorn/dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
          "title": "Entity Property"

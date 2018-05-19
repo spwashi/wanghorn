@@ -113,6 +113,12 @@
          ]
       },
       {
+         "name": "dev--entities",
+         "title": "Entities",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/dev/entities$"
+      },
+      {
          "name": "dev--entity--property",
          "title": "Entity Property",
          "resolution": "Home\\Home@index",

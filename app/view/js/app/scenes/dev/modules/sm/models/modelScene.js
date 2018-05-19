@@ -42,7 +42,7 @@ class ModelScene extends Component {
                            } />
                     <Route>
                         <LinkItem to={getURI('dev--models')} isButton={true}>
-                            <InactiveDevComponent title={'Models'} className={'model--container'} />
+                            <InactiveDevComponent title={'Models'} className={'dev--scene inactive model--container'} />
                         </LinkItem>
                     </Route>
                 </Switch>

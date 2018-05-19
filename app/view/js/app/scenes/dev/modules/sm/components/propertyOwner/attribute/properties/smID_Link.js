@@ -27,7 +27,7 @@ export const PropertySmIDLink = ({smID, children, onTrigger, isActive}) => {
             break;
     }
     return (
-        <SmID_Link to={uri} smID={smID} onTrigger={onTrigger} className={`attribute__properties--link ${activeClassName}`}>
+        <SmID_Link to={uri} maintainHash={true} smID={smID} onTrigger={onTrigger} className={`attribute__properties--link--wrapper ${activeClassName}`}>
             {children || smID}
         </SmID_Link>
     );

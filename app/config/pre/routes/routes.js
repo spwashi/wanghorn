@@ -114,6 +114,12 @@ const dev       = {
     ],
     entities: [
         new Route({
+                      name:       "dev--entities",
+                      title:      "Entities",
+                      renderedBy: "client",
+                      pattern:    "dev/entities$"
+                  }),
+        new Route({
                       name:       "dev--entity--property",
                       title:      "Entity Property",
                       pattern:    "dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",

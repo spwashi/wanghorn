@@ -22,6 +22,8 @@ class LinkItem extends React.Component {
         onSpaceBar:      PropTypes.func,
         // Should this link match the route exactly?
         exact:           PropTypes.bool,
+        // Should we keep the hash in the URL
+        maintainHash:    PropTypes.bool,
         // Should we redirect the component to this route?
         redirect:        PropTypes.bool,
         // Can we use the "tab" key to access this element?
@@ -41,6 +43,14 @@ class LinkItem extends React.Component {
     };
            state        = {isFocused: false};
     
+    getLinkLocation() {
+        let {location, to} = this.props;
+        if (location && location.hash && this.props.maintainHash) {
+            to += location.hash;
+        }
+        return to;
+    }
+    
     @bind
     handleKeyboard(event) {
         const onSpaceBar = this.props.onSpaceBar;
@@ -59,7 +69,7 @@ class LinkItem extends React.Component {
         
         if (!canNavigate) return;
         
-        this.context.router.history.push(this.props.to);
+        this.context.router.history.push(this.getLinkLocation());
         event.preventDefault();
     }
     
@@ -70,7 +80,7 @@ class LinkItem extends React.Component {
     
     render() {
         let {className, activeClassName}                      = this.props;
-        let {to, exact}                                       = this.props;
+        let {exact}                                           = this.props;
         let {children, descendants, wrapper = DefaultWrapper} = this.props;
         let {onTrigger, whenFocused, whenBlurred}             = this.props;
         const Wrapper                                         = wrapper;
@@ -86,8 +96,9 @@ class LinkItem extends React.Component {
         const isButton                                        = this.props.isButton;
         const activeClassname                                 = isActive ? ' active active--link' : '';
         const redirect                                        = this.state.redirect;
-        const linkProps                                       = {
-            to,
+        
+        const linkProps       = {
+            to:       this.getLinkLocation(),
             exact,
             redirect,
             activeClassName,
@@ -95,12 +106,12 @@ class LinkItem extends React.Component {
             onBlur:   onLinkBlur,
             isActive: !!isActive
         };
-        className                                             = className ? ` ${className}` : '';
-        className                                             = isButton ? `${className} button-acting ` : className;
-        className                                             = `link_item navigation--link_item${className}${activeClassname}`;
-        className                                             = `${className}${isFocused ? ' focused' : ''}`;
-        const isTabAccessible                                 = typeof this.props.isTabAccessible !== "undefined" ? this.props.isTabAccessible
-                                                                                                                  : true;
+        className             = className ? ` ${className}` : '';
+        className             = isButton ? `${className} button-acting ` : className;
+        className             = `link_item navigation--link_item${className}${activeClassname}`;
+        className             = `${className}${isFocused ? ' focused' : ''}`;
+        const isTabAccessible = typeof this.props.isTabAccessible !== "undefined" ? this.props.isTabAccessible
+                                                                                  : true;
         return (
             <Wrapper className={className} onKeyDown={onKeyDown} onClick={onTrigger || (() => {})}>
                 <Link {...linkProps} tabIndex={isTabAccessible ? 0 : -1}>{children}</Link>

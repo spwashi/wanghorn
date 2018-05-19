@@ -5,7 +5,7 @@ import ContentSection, {ContentSectionHeader} from "../../../../../../../compone
 import {ModelContainerDescription} from "./components";
 import {Route} from "react-router-dom"
 import {getURI} from "../../../../../../../../path/resolution";
-import ModelMeta from "../../modelMeta";
+import ModelMeta from "../modelMeta/index";
 import {getNameFromSmID} from "../../../utility";
 import {DEV} from "../../../../../../../../path/paths";
 import {LinkItem} from "../../../../../../../../components/navigation";

@@ -120,7 +120,14 @@ let ToDo            = function () {
                     <li><a href="#how-I-work">"How I Work" Section</a> could be improved.</li>
                 </ul>
             </li>
-            
+            <li>
+                Bugs
+                <ul>
+                    <li>Sometimes (need to test for when) the link to the Model dev scene remains visible in the dropdown menu despite the Dev tab
+                        not having focus.
+                    </li>
+                </ul>
+            </li>
             <li>
                 Styling
                 <ul>
@@ -133,25 +140,31 @@ let ToDo            = function () {
                     <li>
                         Accessibility
                         <ul>
+                            <li><a href={"https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA"}>ARIA</a></li>
                             <li>
                                 URL Friendliness
                                 <ul>
-                                    <li>The <Link to={DEV__PATH}>Dev Interface</Link> (update URL for active Models and Properties?)</li>
+                                    <li>
+                                        The <Link to={DEV__PATH}>Dev Interface</Link> should update the hash for viewing the configuration of SmJS or SmPHP
+                                    </li>
+                                    <li>
+                                        <del>The <Link to={DEV__PATH}>Dev Interface</Link>&nbsp;
+                                             needs to update the URL when we navigate/expand to model/model-property configurations
+                                        </del>
+                                    </li>
                                 </ul>
                             </li>
-                            <li><a href={"https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA"}>ARIA</a></li>
                         </ul>
                     </li>
                 </ul>
             </li>
-        
         </ul>
     </ContentSection>;
 };
 
 let PageNavLink = function ({name, linkProps, activeAnchor, title}) {
     return (
-        <li >
+        <li>
             <ContentSectionLink {...linkProps} redirect={false} isActive={activeAnchor === name} anchor={name}>
                 {title}
             </ContentSectionLink>
