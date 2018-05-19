@@ -38,7 +38,7 @@ $logo--backgroundColor : ($palette_color_3);
 	}
 }
 
-@media screen and (max-device-width : 400px), screen and (max-width : 800px) {
+@media screen and (max-device-width : 450px), screen and (max-width : 800px) {
 	.logo--item {
 		&::after {
 			background : url("#{$site_public_url_or_path}/img/sprites.png") 69.5% 98%/400%;

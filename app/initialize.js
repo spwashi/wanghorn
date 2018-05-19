@@ -1,6 +1,6 @@
 import {models} from "./config/pre/models";
 import {entities} from "./config/pre/entities";
-import defaultConnection from "./config/pre/connection";
+import connection from "./config/pre/connection";
 import {routes} from "./config/pre/routes/routes"
 import {APP_BASE_URL_PATH, APP_NAME, APP_NAMESPACE, APP_PATH__APP_DIR, APP_PATH__CONFIG_DIR, APP_PATH__PUBLIC_DIR, APP_ROOT_URL, APP_URL__PUBLIC, ENVIRONMENT} from "./config/config";
 import fs from "fs";
@@ -84,7 +84,7 @@ function createConfigOutput(app: Application) {
           });
     
     saveJSON(config, 'config');
-    saveJSON({std: normalizeConnection(defaultConnection)}, 'connect');
+    saveJSON(connection, 'connect');
     saveJSON(configPublic, 'public');
     saveJSON(models, 'models');
     saveJSON(entities, 'entities');

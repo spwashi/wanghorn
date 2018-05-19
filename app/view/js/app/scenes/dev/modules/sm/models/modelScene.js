@@ -17,6 +17,7 @@ import {Route, Switch} from "react-router"
 import ActiveModelScene from "./components/scene/active";
 import {selectAllModelMetaObjects, selectModelDevInterface, selectModelSceneActivity} from "./selector";
 import {getURI} from "../../../../../../path/resolution";
+import {LinkItem} from "../../../../../../components/navigation";
 
 @connect(mapState, mapDispatch)
 class ModelScene extends Component {
@@ -32,21 +33,18 @@ class ModelScene extends Component {
         return (
             <div className={`scene--wrapper dev--scene--wrapper model--scene--wrapper`}>
                 <Switch>
-                    <Route path={getURI('dev--models')}>
-                        {({match}) => {
-                            const {pathname}     = match;
-                            let modelSmID_regex  = /models\/[_a-zA-Z]+/;
-                            const pathname_smIDs = modelSmID_regex.exec(pathname) || [];
-                            const activeSmID     = pathname_smIDs[0];
-                            console.log(match);
-                            return (
-                                <div className={`scene dev--scene model--scene dev--component--wrapper`}>
-                                    <ActiveModelScene {...this.props} />
-                                </div>
-                            )
-                        }}
+                    <Route path={getURI('dev--models')}
+                           component={
+                               props =>
+                                   <div className={`scene dev--scene model--scene dev--component--wrapper`}>
+                                       <ActiveModelScene {...this.props} />
+                                   </div>
+                           } />
+                    <Route>
+                        <LinkItem to={getURI('dev--models')} isButton={true}>
+                            <InactiveDevComponent title={'Models'} className={'model--container'} />
+                        </LinkItem>
                     </Route>
-                    <Route><InactiveDevComponent title={'Models'} className={'model--container'} /> </Route>
                 </Switch>
             </div>
         );

@@ -5,6 +5,8 @@ import {ConfigurationAttribute} from "../../../../../../../components/configurat
 import ModelConfigurationPropertyMetaAttribute from "./propertyMeta";
 
 export const ModelAttribute = ({name, value, activeProperties, onTogglePropertyClick}) => {
+    console.log(name, value);
+    
     switch (name) {
         case 'inherits':
             return <ModelConfigurationInheritsAttribute inherits={value} />;

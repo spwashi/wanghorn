@@ -76,7 +76,7 @@ $backToTopRight : -15vh;
 		> .content {
 			margin : 10px;
 		}
-		> header {
+		.content--section--header {
 			background-color : $pageContent--header--color;
 			color            : $pageContent--header--txt-color;
 			margin           : 0;
@@ -139,7 +139,7 @@ $backToTopRight : -15vh;
 	}
 }
 
-@media screen and (max-width : 800px), screen and (max-device-width : 400px) {
+@media screen and (max-width : 800px), screen and (max-device-width : 450px) {
 	.page {
 		width : 90%;
 		nav {

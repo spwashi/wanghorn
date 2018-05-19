@@ -6,7 +6,9 @@ import {RoutesScene as RoutesModule} from "./modules/routes/routesScene";
 import reducer from "./reducer"
 import {selectDev} from "./selector";
 import {PageContent} from "../../components/page";
-import {HOME} from "../../../path/paths";
+import {DEV, HOME} from "../../../path/paths";
+import {getURI} from "../../../path/resolution";
+import {LinkItem} from "../../../components/navigation";
 
 const Dev = ({models}) => {
     return (
@@ -16,14 +18,15 @@ const Dev = ({models}) => {
                     This is a Developer's interface <sub>(work-in-progress)</sub> for the sites/apps that <a href={HOME} title={'William'}>I</a> help build.
                 </p>
                 <p>
-                    You can use your keyboard to navigate this page:
+                    You can use your keyboard to navigate this page, but the only component that's animated now is the Route component
+                    because the <LinkItem to={getURI('dev--models')} wrapper={props => <span {...props} />}>Model</LinkItem> component was refactored constructor be URL-friendly.
                 </p>
                 <ul>
                     <li><span className="keypress--name">Tab</span> to advance</li>
                     <li><span className="keypress--name">Space or Enter</span> to activate/deactivate</li>
                 </ul>
             </section>
-            <Route component={ModelModule} />
+            <Route path={DEV} component={ModelModule} />
             <Route component={RoutesModule} />
         </PageContent>
     );

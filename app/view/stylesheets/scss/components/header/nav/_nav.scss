@@ -137,7 +137,7 @@
 	justify-content : flex-start;
 }
 
-@media screen and (max-width : 800px), screen and (max-device-width : 400px) {
+@media screen and (max-width : 800px), screen and (max-device-width : 450px) {
 	.header-standard {
 		> nav {
 			.navigation--link_item {
@@ -152,5 +152,5 @@
 	}
 }
 
-@media screen and (max-device-width : 400px) {
+@media screen and (max-device-width : 450px) {
 }

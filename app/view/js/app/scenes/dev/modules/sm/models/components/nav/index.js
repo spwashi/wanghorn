@@ -31,16 +31,17 @@ SmID_LinkItem.propTypes = {
 class SmID_LinkContainer extends React.Component {
     render() {
         const {onItemTrigger, allSmIDs, ownerType} = this.props;
-        
         return (
             <ul className={`link--container dev_component--link--container ${ownerType}--container--link--container`}>
                 {
-                    allSmIDs.map(smID => <SmID_LinkItem key={smID}
-                                                        ownerType={/\[([a-zA-Z_]+)]/.exec(smID)[1]}
-                                                        smID={smID}
-                                                        to={this.props.getSmID_LinkURI(smID)}
-                                                        onItemTrigger={onItemTrigger}
-                                                        isActive={smID === this.props.activeSmID} />)
+                    allSmIDs.map(smID => {
+                        return <SmID_LinkItem key={smID}
+                                              ownerType={/\[([a-zA-Z_]+)]/.exec(smID)[1]}
+                                              smID={smID}
+                                              to={this.props.getSmID_LinkURI(smID)}
+                                              onItemTrigger={onItemTrigger}
+                                              isActive={smID === this.props.activeSmID} />;
+                    })
                 }
             </ul>
         );

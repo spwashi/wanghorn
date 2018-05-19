@@ -233,7 +233,7 @@
 	flex-flow       : wrap row;
 }
 
-@media screen and (max-width : 600px), screen and (max-device-width : 400px) {
+@media screen and (max-width : 600px), screen and (max-device-width : 450px) {
 	.gallery_item {
 		width         : 85vw;
 		height        : 75vw;
@@ -248,7 +248,7 @@
 	}
 }
 
-@media screen and (max-device-width : 400px), screen and (max-device-width : 800px) {
+@media screen and (max-device-width : 450px), screen and (max-device-width : 800px) {
 	.gallery_item {
 		.name {
 			font-size : 1.5em;

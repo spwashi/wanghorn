@@ -44,7 +44,9 @@ let ModelActions = function ({tableExists, createModelURI, canCreateTable, execu
     if (tableExists) {
         createModelButton = (
             <div className="model--meta--action--wrapper">
-                <LinkItem to={createModelURI} isButton={true}>Create New Model</LinkItem>
+                <LinkItem to={createModelURI}
+                          className={'button'}
+                          isButton={true}>Create New Model</LinkItem>
             </div>
         );
     }
@@ -60,7 +62,7 @@ let ModelActions = function ({tableExists, createModelURI, canCreateTable, execu
 
 class ModelMeta extends React.Component {
     render() {
-        const {smID, config, model} = this.props;
+        const {smID, config, model}                                     = this.props;
         const {activeProperties}                                        = this.props;
         const {executeModelQuery, onTogglePropertyClick}                = this.props;
         const {createTableStatement, alterTableStatements, tableExists} = this.props;

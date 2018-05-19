@@ -96,7 +96,7 @@ class LinkItem extends React.Component {
             isActive: !!isActive
         };
         className                                             = className ? ` ${className}` : '';
-        className                                             = isButton ? `${className} button ` : className;
+        className                                             = isButton ? `${className} button-acting ` : className;
         className                                             = `link_item navigation--link_item${className}${activeClassname}`;
         className                                             = `${className}${isFocused ? ' focused' : ''}`;
         const isTabAccessible                                 = typeof this.props.isTabAccessible !== "undefined" ? this.props.isTabAccessible

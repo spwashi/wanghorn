@@ -7,6 +7,8 @@ import {Route} from "react-router-dom"
 import {getURI} from "../../../../../../../../path/resolution";
 import ModelMeta from "../../modelMeta";
 import {getNameFromSmID} from "../../../utility";
+import {DEV} from "../../../../../../../../path/paths";
+import {LinkItem} from "../../../../../../../../components/navigation";
 
 class ActiveModelScene extends React.Component {
     static propTypes    = {
@@ -30,7 +32,10 @@ class ActiveModelScene extends React.Component {
         const {allModelSmIDs, models, activeSmID}                                                             = this.props;
         const {activeElRef}                                                                                   = this.props;
         
-        const header                = <ContentSectionHeader title="Models" className={'dev--scene--toggle'} />;
+        const header                =
+                  <LinkItem to={DEV} isButton={true}>
+                      <ContentSectionHeader title="Models" className={'dev--scene--toggle'} />
+                  </LinkItem>;
         const onTogglePropertyClick = propertySmID => toggleModelPropertyActivity({smID: propertySmID});
         const getSmID_LinkURI       = smID => getURI('dev--model', {name: getNameFromSmID(smID)});
         return (

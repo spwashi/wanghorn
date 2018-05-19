@@ -73,24 +73,18 @@ _representation_layer($app);
 ####################################################################################
 
 
-function _getAuth() {
-    
-}
-
-function _logging_layer(Application $app): void {
-}
-
 function _query_layer(Application $app): void {
     $queryModule = new MySqlQueryModule;
     $app->registerDefaultQueryModule($queryModule);
     if (file_exists(CONNECTION_INFO_FILE)) {
         $json_string = file_get_contents(CONNECTION_INFO_FILE);
         $config      = json_decode($json_string, true);
+        $database    = $config['database']['std'];
         $queryModule->registerAuthentication(MySqlAuthentication::init()
-                                                                ->setCredentials($config['std']['username'] ?? null,
-                                                                                 $config['std']['password'] ?? null,
-                                                                                 $config['std']['host'] ?? null,
-                                                                                 $config['std']['database'] ?? null));
+                                                                ->setCredentials($database['username'] ?? null,
+                                                                                 $database['password'] ?? null,
+                                                                                 $database['host'] ?? null,
+                                                                                 $database['database'] ?? null));
     }
 }
 
