@@ -111,55 +111,63 @@ let HowIWork        = function () {
         </ContentSection>);
 };
 let ToDo            = function () {
-    return <ContentSection name={'to-do'} header={<ContentSectionHeader title={"To Do"} />}>
-        <ul>
-            <li>
-                Documentation
-                <ul>
-                    <li>The <Link to={DEV__PATH}>Dev Interface</Link> needs to describe <a href={getURI("dev--entities__json")}>Entities</a></li>
-                    <li><a href="#how-I-work">"How I Work" Section</a> could be improved.</li>
-                </ul>
-            </li>
-            <li>
-                Bugs
-                <ul>
-                    <li>Sometimes (need to test for when) the link to the Model dev scene remains visible in the dropdown menu despite the Dev tab
-                        not having focus.
-                    </li>
-                </ul>
-            </li>
-            <li>
-                Styling
-                <ul>
-                    <li>Mobile responsiveness and retina-displays</li>
-                </ul>
-            </li>
-            <li>
-                Enhancements
-                <ul>
-                    <li>
-                        Accessibility
-                        <ul>
-                            <li><a href={"https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA"}>ARIA</a></li>
-                            <li>
-                                URL Friendliness
-                                <ul>
-                                    <li>
-                                        The <Link to={DEV__PATH}>Dev Interface</Link> should update the hash for viewing the configuration of SmJS or SmPHP
-                                    </li>
-                                    <li>
-                                        <del>The <Link to={DEV__PATH}>Dev Interface</Link>&nbsp;
-                                             needs to update the URL when we navigate/expand to model/model-property configurations
-                                        </del>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </ContentSection>;
+    return (
+        <ContentSection name={'to-do'} header={<ContentSectionHeader title={"To Do"} />}>
+            <ul>
+                <li>
+                    Documentation
+                    <ul>
+                        <li>The <Link to={DEV__PATH}>Dev Interface</Link> needs to describe <a href={getURI("dev--entities__json")}>Entities</a></li>
+                        <li><a href="#how-I-work">"How I Work" Section</a> could be improved.</li>
+                    </ul>
+                </li>
+                <li>
+                    Bugs
+                    <ul>
+                        <li>Sometimes (need to test for when) the link to the Model dev scene remains visible in the dropdown menu despite the Dev tab
+                            not having focus.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Styling
+                    <ul>
+                        <li>Mobile responsiveness and retina-displays</li>
+                    </ul>
+                </li>
+                <li>
+                    Features
+                    <ul>
+                        <li>{"Connect this list to a database"}</li>
+                    </ul>
+                </li>
+                <li>
+                    Accessibility
+                    <ul>
+                        <li><a href={"https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA"}>ARIA</a></li>
+                        <li>
+                            URL Friendliness
+                            <ul>
+                                <li>
+                                    The <Link to={DEV__PATH}>Dev Interface</Link> should update the hash for viewing the configuration of SmJS or SmPHP
+                                </li>
+                                <li>
+                                    <del>The <Link to={DEV__PATH}>Dev Interface</Link>&nbsp;
+                                         needs to update the URL when we navigate/expand to model/model-property configurations
+                                    </del>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Code-cleanliness
+                    <ul>
+                        <li>{"Sam made a bunch of changes to my source code recently that could definitely be cleaned up. Necessary changes, definitely, but now it's pretty important to refactor my code to make it easier for future-Sam."}</li>
+                    </ul>
+                </li>
+            </ul>
+        </ContentSection>);
 };
 
 let PageNavLink = function ({name, linkProps, activeAnchor, title}) {

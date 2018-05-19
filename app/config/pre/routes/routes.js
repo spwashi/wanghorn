@@ -59,7 +59,7 @@ const homeRoutes = [
 ];
 
 // DEV ROUTES
-const dev       = {
+const dev           = {
     models:   [
         new Route({
                       renderedBy: 'client',
@@ -132,7 +132,7 @@ const dev       = {
                   })
     ]
 };
-const devRoutes = [
+const devRoutes     = [
     new Route({
                   name:       "dev--home",
                   title:      "Dev",
@@ -182,7 +182,6 @@ const devRoutes = [
                   name:       'user--signup_continue'
               }),
 ];
-
 const userRoutes    = [
     new Route({
                   name:       "user--process_login",
@@ -195,15 +194,16 @@ const userRoutes    = [
                   pattern:    "user/logout$"
               }),
     new Route({
-                  name:       "user--profile__json",
-                  resolution: "[User]@userByID",
-                  pattern:    "user/{id}:[a-zA-Z@\.]+$"
-              }),
-    new Route({
                   resolution: "[User]@signUp",
                   pattern:    "user/signup/receive",
                   name:       "user--process_signup"
-              }),];
+              }),
+    new Route({
+                  renderedBy: "client",
+                  pattern:    "user/signup$",
+                  name:       "user--signup"
+              })
+];
 export const routes = normalizeRoutes(
     {
         frontend_renderer: '[Home]@index',

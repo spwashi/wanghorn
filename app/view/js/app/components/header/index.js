@@ -1,11 +1,11 @@
 import React from "react";
 import * as PropTypes from "prop-types"
-
 import Logo from './logo';
+import {withRouter} from "react-router"
 import UserMenu from "./user-menu";
 import Navigation from './navigation';
 
-export class Header extends React.Component {
+class Header extends React.Component {
     static propTypes = {
         links: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
         style: PropTypes.object,
@@ -13,12 +13,16 @@ export class Header extends React.Component {
     
     render() {
         const {links, style, className} = this.props;
+        const {location, history}       = this.props;
         return (
             <header className={"header-standard " + (className ? className : '')} style={style}>
                 <Logo />
                 <Navigation links={links} />
-                <UserMenu />
+                <UserMenu {...{history, location}} />
             </header>
         )
     }
 }
+
+Header = withRouter(Header);
+export {Header}

@@ -13,6 +13,7 @@ export class SmID_Link extends React.Component {
                          wrapper={p => <span {...p} />}
                          maintainHash={maintainHash}
                          onClick={onClick}
+                         exact={false}
                          className={'smID--link ' + (className || '')}
                          onKeyDown={this.handleKeyDown}
                          data-sm_id={smID}>{children || smID}</LinkItem>;

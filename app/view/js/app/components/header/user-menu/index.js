@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React from "react"
 import {USER_SIGNUP_PROCESS} from "../../../../path/paths";
 import "whatwg-fetch";
 import bind from "bind-decorator"
@@ -24,13 +24,28 @@ const LoggedInUserMenu = function ({activeUser}) {
 };
 
 @connect(mapState, mapDispatch)
-class UserMenu extends Component {
+class UserMenu extends React.Component {
     constructor() {
         super();
         this.state = {
             isLoginActive:  false, isSignupActive: false,
             username:       null, password: null,
             signupResponse: null, loginResponse: null
+        }
+    }
+    
+    componentWillReceiveProps(nextProps, nextContext) {
+        console.log(nextProps.location.pathname, this.props.location.pathname);
+        if (this.state.isSignupActive && nextProps.location.pathname !== this.props.location.pathname) {
+            this.setState({isSignupActive: false})
+        }
+    }
+    
+    componentWillMount() {
+        let isExactlySignup     = this.props.location.pathname === getURI('user--signup');
+        let signupInQueryString = this.props.location.search.indexOf('?signup') === 0;
+        if (!this.state.isSignupActive && (isExactlySignup || signupInQueryString)) {
+            this.setState({isSignupActive: true})
         }
     }
     
@@ -45,15 +60,13 @@ class UserMenu extends Component {
     }
     
     render() {
-        const activeUser = this.props.activeUser;
-        
-        const isLoginActive                   = this.state.isLoginActive;
-        const {username, password}            = this.state;
-        const state                           = this.state;
-        const {activateLogin, activateSignup} = this;
-        const onRequestClose                  = () => this.deactivate();
-        const userMenuActions                 = {activateLogin, activateSignup, onRequestClose, state};
-        const onPropertyValueChange           = (name, value) => {
+        const activeUser                                      = this.props.activeUser;
+        const isLoginActive                                   = this.state.isLoginActive;
+        const {username, password}                            = this.state;
+        const state                                           = this.state;
+        const {activateLogin, activateSignup, onRequestClose} = this;
+        const userMenuActions                                 = {activateLogin, activateSignup, onRequestClose, state};
+        const onPropertyValueChange                           = (name, value) => {
             switch (name) {
                 case '[Property]{[Entity]user}password':
                 case 'password':
@@ -72,7 +85,10 @@ class UserMenu extends Component {
                                                              onSubmit={this.getHandleSubmit('login')}
                                                              onDeactivateAttempt={onRequestClose} />
                                             : <UserMenuController onPropertyValueChange={onPropertyValueChange}
-                                                                  username={username} password={password}
+                                                                  isSignupActive={this.state.isSignupActive}
+                                                                  signupResponse={this.state.signupResponse}
+                                                                  username={username}
+                                                                  password={password}
                                                                   onSignupSubmit={this.getHandleSubmit('signup')}
                                                                   {...userMenuActions} />}
             </div>
@@ -92,10 +108,26 @@ class UserMenu extends Component {
     }
     
     @bind
-    activateLogin() {this.setState({isLoginActive: true});}
+    activateLogin() {
+        this.setState({isLoginActive: true});
+    }
     
     @bind
-    deactivate() {this.setState({isLoginActive: false, isSignupActive: false});}
+    deactivate() {
+        const wasSignupActive = this.state.isSignupActive;
+        this.setState({isLoginActive: false, isSignupActive: false},
+                      () => {
+                          if (wasSignupActive) {
+                              let accessedIndirectly = this.props.history.action === 'PUSH' || this.props.location !== getURI('user--signup');
+                              (accessedIndirectly) ? this.props.history.goBack() : this.props.history.push(getURI('home'))
+                          }
+                      });
+    }
+    
+    @bind
+    onRequestClose() {
+        this.deactivate();
+    }
     
     @bind
     getHandleSubmit(type) {
@@ -132,8 +164,8 @@ class UserMenu extends Component {
     
     @bind
     activateSignup() {
-        this.setState({isSignupActive: true})
-        
+        this.setState({isSignupActive: true});
+        this.props.history.push('?signup');
     }
     
     @bind

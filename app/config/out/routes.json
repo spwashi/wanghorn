@@ -173,14 +173,14 @@
          "pattern": "wanghorn/user/logout$"
       },
       {
-         "name": "user--profile__json",
-         "resolution": "User\\User@userByID",
-         "pattern": "wanghorn/user/{id}:[a-zA-Z@.]+$"
-      },
-      {
          "name": "user--process_signup",
          "resolution": "User\\User@signUp",
          "pattern": "wanghorn/user/signup/receive"
+      },
+      {
+         "name": "user--signup",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/user/signup$"
       }
    ]
 }

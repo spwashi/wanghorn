@@ -7,9 +7,9 @@ export const UserMenuController = function ({
                                                 username, password,
     
                                                 activateLogin, activateSignup,
-    
+                                                isSignupActive = false,
                                                 onRequestClose, onModalButtonCloseClick, onSignupSubmit, onPropertyValueChange,
-                                                state
+                                                signupResponse
                                             }) {
     return (
         <div key={'user_menu--button--container'} className={'button--container login_action--button--container '}>
@@ -17,12 +17,12 @@ export const UserMenuController = function ({
             <Button label="Signup" handleClick={activateSignup} />
             <Modal key={'signup--form--modal'}
                    onRequestClose={onRequestClose}
-                   isOpen={state.isSignupActive}
+                   isOpen={isSignupActive}
                    title="Sign Up"
                    baseClassName={'signup--form--wrapper'}>
                 <SignupForm handleSubmit={onSignupSubmit}
                             onPropertyValueChange={onPropertyValueChange}
-                            response={state.signupResponse}
+                            response={signupResponse}
                             username={username}
                             password={password} />
             </Modal>

@@ -109,11 +109,11 @@
       "user--logout$": {
          "pattern": "wanghorn/user/logout$"
       },
-      "user--profile__json": {
-         "pattern": "wanghorn/user/{id}:[a-zA-Z@.]+$"
-      },
       "user--process_signup": {
          "pattern": "wanghorn/user/signup/receive"
+      },
+      "user--signup": {
+         "pattern": "wanghorn/user/signup$"
       }
    }
 }

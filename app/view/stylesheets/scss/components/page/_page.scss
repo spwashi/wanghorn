@@ -21,6 +21,8 @@ $backToTopRight : -15vh;
 		a {
 			border-bottom : none;
 			color         : $page--nav-_-color;
+			transition    : font-weight .3s;
+
 		}
 		ul, ol {
 			display         : flex;
