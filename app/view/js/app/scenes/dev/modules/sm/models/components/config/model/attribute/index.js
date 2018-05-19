@@ -5,8 +5,6 @@ import {ConfigurationAttribute} from "../../../../../../../components/configurat
 import ModelConfigurationPropertyMetaAttribute from "./propertyMeta";
 
 export const ModelAttribute = ({name, value, activeProperties, onTogglePropertyClick}) => {
-    console.log(name, value);
-    
     switch (name) {
         case 'inherits':
             return <ModelConfigurationInheritsAttribute inherits={value} />;
@@ -14,8 +12,13 @@ export const ModelAttribute = ({name, value, activeProperties, onTogglePropertyC
             return <ModelConfigurationPropertyMetaAttribute propertyMeta={value}
                                                             onPropertyLinkTrigger={onTogglePropertyClick} />;
         case 'properties':
-            return <SmEntityConfigurationPropertiesAttribute activeProperties={activeProperties} onPropertyLinkTrigger={onTogglePropertyClick} properties={value} />;
+            return <SmEntityConfigurationPropertiesAttribute activeProperties={activeProperties}
+                                                             ownerType={'model'}
+                                                             onPropertyLinkTrigger={onTogglePropertyClick}
+                                                             properties={value} />;
         default:
-            return <ConfigurationAttribute ownerType={'model'} attribute={name} value={value} />;
+            return <ConfigurationAttribute ownerType={'model'}
+                                           attribute={name}
+                                           value={value} />;
     }
 };

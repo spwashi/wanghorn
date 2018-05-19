@@ -42,9 +42,8 @@ export const addArgsToPath =
                      }
                      return location;
                  };
-
-export const getURI   =
-                 (name, routeArguments = {}, {root, skipEmpty, asReactRoute} = {}) => {
+export const getURI        =
+                 function (name, routeArguments = {}, {root, skipEmpty, asReactRoute} = {}) {
                      let pattern = (routes[name] || {}).pattern;
                      if (!pattern) return false;
         
@@ -56,7 +55,8 @@ export const getURI   =
                      path = `${root !== false ? (root || '') + '/' : ''}${path}`;
                      return path;
                  };
-export const getTitle = name => {
+export const getReactPath  = (name, routeArguments) => getURI(name, routeArguments, {asReactRoute: true, skipEmpty: true});
+export const getTitle      = name => {
     let route = routes[name];
     if (!route) return false;
     return route.title || false;

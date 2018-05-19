@@ -19,7 +19,7 @@ const Dev = ({models}) => {
                 </p>
                 <p>
                     You can use your keyboard to navigate this page, but the only component that's animated now is the Route component
-                    because the <LinkItem to={getURI('dev--models')} wrapper={props => <span {...props} />}>Model</LinkItem> component was refactored constructor be URL-friendly.
+                    because the <LinkItem to={getURI('dev--models')} wrapper={props => <span {...props} />}>Model</LinkItem> component was refactored recently be URL-friendly.
                 </p>
                 <ul>
                     <li><span className="keypress--name">Tab</span> to advance</li>

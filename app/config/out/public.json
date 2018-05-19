@@ -50,7 +50,7 @@
          "pattern": "wanghorn/dev/models.json$"
       },
       "dev--model--property": {
-         "pattern": "wanghorn/dev/models/{model_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
+         "pattern": "wanghorn/dev/models/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
          "title": "Model Property"
       },
       "dev--all_models": {
@@ -78,7 +78,7 @@
          ]
       },
       "dev--entity--property": {
-         "pattern": "wanghorn/dev/entities/{entity_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
+         "pattern": "wanghorn/dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
          "title": "Entity Property"
       },
       "dev--entities__json": {

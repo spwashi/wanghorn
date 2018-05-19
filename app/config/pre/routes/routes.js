@@ -80,7 +80,7 @@ const dev       = {
         new Route({
                       name:       "dev--model--property",
                       title:      "Model Property",
-                      pattern:    "dev/models/{model_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
+                      pattern:    "dev/models/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
                       renderedBy: "client"
                   }),
         new Route({
@@ -116,7 +116,7 @@ const dev       = {
         new Route({
                       name:       "dev--entity--property",
                       title:      "Entity Property",
-                      pattern:    "dev/entities/{entity_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$",
+                      pattern:    "dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
                       renderedBy: "client"
                   }),
         new Route({

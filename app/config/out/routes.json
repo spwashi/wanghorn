@@ -76,7 +76,7 @@
          "name": "dev--model--property",
          "title": "Model Property",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/models/{model_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$"
+         "pattern": "wanghorn/dev/models/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$"
       },
       {
          "name": "dev--all_models",
@@ -116,7 +116,7 @@
          "name": "dev--entity--property",
          "title": "Entity Property",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/entities/{entity_name}:[a-zA-Z_]+/property/{property_name}:[a-zA-Z_]+$"
+         "pattern": "wanghorn/dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$"
       },
       {
          "name": "dev--entities__json",

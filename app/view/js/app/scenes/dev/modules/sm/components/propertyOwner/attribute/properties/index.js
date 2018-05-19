@@ -1,9 +1,10 @@
 import React from "react";
+import {Route} from "react-router-dom"
 import * as PropTypes from "prop-types"
 import PropertiesAttrMetaList from "./metaList";
-import PropertyConfigurationWrapper from "../../property/config/wrapper";
-import {normalizeSmID} from "../../../../utility";
 import {ConfigurationAttribute} from "../../../../../../components/configuration/index";
+import {getReactPath} from "../../../../../../../../../path/resolution";
+import PropertyConfiguration from "../../property/config/config";
 
 class SmEntityConfigurationPropertiesAttribute extends React.Component {
     get meta() {
@@ -12,14 +13,20 @@ class SmEntityConfigurationPropertiesAttribute extends React.Component {
     }
     
     render() {
+        const properties  = this.props.properties;
+        const propertyURI = getReactPath(`dev--${this.props.ownerType}--property`);
         return (
             <ConfigurationAttribute valueMeta={this.meta} ownerType={this.props.ownerType} attribute="properties">
                 <div className="attribute__properties--container">
-                    {
-                        Object.entries(this.props.properties)
-                              .filter(([name, {smID: propertySmID}]) => this.props.activeProperties.indexOf(normalizeSmID(propertySmID)) > -1)
-                              .map(([name, config]) => <PropertyConfigurationWrapper key={name} {...{name, config}} />)
-                    }
+                    <Route path={propertyURI}
+                           component={props => {
+                               let params   = (props.match || {}).params || {};
+                               const name   = params.property;
+                               const config = properties[name];
+                               return <PropertyConfiguration className={"active"}
+                                                             name={name}
+                                                             config={{name, ...config}} />;
+                           }} />
                 </div>
             </ConfigurationAttribute>
         );
@@ -29,7 +36,7 @@ class SmEntityConfigurationPropertiesAttribute extends React.Component {
 
 SmEntityConfigurationPropertiesAttribute.propTypes    = {
     properties:            PropTypes.object,
-    ownerType:             PropTypes.string,
+    ownerType:             PropTypes.string.isRequired,
     activeProperties:      PropTypes.arrayOf(PropTypes.string),
     onPropertyLinkTrigger: PropTypes.func
 };
