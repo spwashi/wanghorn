@@ -1,47 +1,8 @@
-import {ACTIVATE_MODEL, CLOSE_MODEL_EDIT, DEACTIVATE_MODEL, FETCH_MODELS_RECEIVED, OPEN_MODEL_EDIT, TOGGLE_ACTIVATE_MODEL, TOGGLE_MODEL_SCENE_ACTIVITY} from "../actions";
+import {FETCH_MODELS_RECEIVED, TOGGLE_MODEL_SCENE_ACTIVITY} from "../actions";
 import {combineReducers} from "redux";
 import {reduceEntriesIntoObject} from "../../../../../../../utility";
 import modelMetaReducer from "./modelMeta";
 
-function editingSmID_reducer(state, action) {
-    const {type, models} = action;
-    const {smID}         = action;
-    switch (type) {
-        case CLOSE_MODEL_EDIT:
-            return state.filter(item => item !== smID);
-        case OPEN_MODEL_EDIT:
-            return [...new Set([...state, smID])];
-        default :
-            return state || [];
-    }
-}
-function activeSmID_reducer(state, action) {
-    const {type, models}      = action;
-    const {smID}              = action;
-    const doUseToggleNotRoute = false;
-    
-    switch (type) {
-        case TOGGLE_ACTIVATE_MODEL:
-            if (doUseToggleNotRoute) {
-                return state.indexOf(smID) > -1 ? activeSmID_reducer(state, {...action, type: DEACTIVATE_MODEL})
-                                                : activeSmID_reducer(state, {...action, type: ACTIVATE_MODEL});
-            } else {
-                console.log('need to remove this toggling');
-                break;
-            }
-        case DEACTIVATE_MODEL:
-            if (doUseToggleNotRoute) {
-                return state.filter(item => item !== smID);
-            } else {
-                console.log('need to remove this toggling');
-                break;
-            }
-        case ACTIVATE_MODEL:
-            return [...new Set([...state, smID])];
-        default :
-            return state || [];
-    }
-}
 let modelSmIDList_reducer       = (state, {type, models}) => {
     switch (type) {
         case FETCH_MODELS_RECEIVED:
@@ -65,7 +26,7 @@ let modelObject_reducer         = (state, action) => {
     }
 };
 export const modelModuleReducer = combineReducers({
-                                                      isActive:               (state, action) => {
+                                                      isActive: (state, action) => {
                                                           switch (action.type) {
                                                               case TOGGLE_MODEL_SCENE_ACTIVITY:
                                                                   return !state;
@@ -73,8 +34,6 @@ export const modelModuleReducer = combineReducers({
                                                                   return state || false;
                                                           }
                                                       },
-                                                      activeSmIDs:            activeSmID_reducer,
-                                                      creatingModelMetaSmIDs: editingSmID_reducer,
-                                                      list:                   modelSmIDList_reducer,
-                                                      models:                 modelObject_reducer
+                                                      list:     modelSmIDList_reducer,
+                                                      models:   modelObject_reducer
                                                   });

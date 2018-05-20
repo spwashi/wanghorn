@@ -1,6 +1,6 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {SmID_Link} from "../../../../models/components/nav/link";
+import {SmID_Link} from "../../../link/index";
 import {getURI} from "../../../../../../../../../path/resolution";
 
 export const PropertySmIDLink = ({smID, children, onTrigger, isActive}) => {

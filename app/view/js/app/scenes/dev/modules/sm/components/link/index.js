@@ -1,11 +1,11 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
-import {LinkItem} from "../../../../../../../../components/navigation";
+import {LinkItem} from "../../../../../../../components/navigation/index";
 
 export class SmID_Link extends React.Component {
     render() {
-        const {smID, isActive, onTrigger, to, className, children} = this.props;
+        const {smID, onTrigger, to, className, children} = this.props;
         let maintainHash                                           = this.props.maintainHash;
         let handleTrigger                                          = onTrigger;
         const onClick                                              = (event: React.SyntheticEvent) => {return handleTrigger(smID);};

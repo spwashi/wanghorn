@@ -28,9 +28,9 @@ class ActiveModelScene extends React.Component {
     };
     
     render() {
-        const {executeModelQuery, openModelCreateDialog, toggleModelPropertyActivity, closeModelCreateDialog} = this.props;
-        const {allModelSmIDs, models, activeSmID}                                                             = this.props;
-        const {activeElRef}                                                                                   = this.props;
+        const {executeModelQuery, toggleModelPropertyActivity} = this.props;
+        const {allModelSmIDs, models, activeSmID}              = this.props;
+        const {activeElRef}                                    = this.props;
         
         const header                =
                   <LinkItem to={DEV} isButton={true}>
@@ -51,9 +51,7 @@ class ActiveModelScene extends React.Component {
                                              {...modelMeta}
                                              smID={smID}
                                              onTogglePropertyClick={onTogglePropertyClick}
-                                             executeModelQuery={executeModelQuery}
-                                             openModelCreateDialog={openModelCreateDialog}
-                                             closeModelCreateDialog={closeModelCreateDialog} />;
+                                             executeModelQuery={executeModelQuery} />;
                        }} />
             </ContentSection>
         );

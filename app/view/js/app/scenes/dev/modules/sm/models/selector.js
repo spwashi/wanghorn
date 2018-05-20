@@ -1,24 +1,9 @@
 import {selectDev} from "../../../selector";
 import {normalizeSmID} from "../../sm/utility";
 
-export const selectActiveModelSmIDs                      = state => (selectModelDevInterface(state) || {}).activeSmIDs;
-export const selectActiveModelMetas                      = state => {
-    const models              = selectAllModelMetaObjects(state);
-    const activeSmIDs         = selectActiveModelSmIDs(state);
-    const filterActiveIntoAll = (all, [index, model]) => {
-        if (activeSmIDs.indexOf(index) >= 0) {
-            all[index] = model;
-        }
-        return all;
-    };
-    return Object.entries(models)
-                 .reduce(filterActiveIntoAll, {});
-};
 export const selectModelDevInterface                     = state => (selectDev(state) || {}).models;
 export const selectModelSceneActivity                    = state => (selectModelDevInterface(state) || {}).isActive;
-export const selectCreatingModelMetaSmIDs                = state => (selectModelDevInterface(state) || {}).creatingModelMetaSmIDs;
 export const selectAllModelMetaObjects                   = state => (selectModelDevInterface(state) || {}).models;
 export const selectProperties_fromModel                  = state => (state || {}).properties;
 export const selectPropertySmIDs_fromModel               = state => Object.entries(selectProperties_fromModel(state) || {}).map(([name, property]) => normalizeSmID((property).smID));
 export const selectActiveProperties_fromModelMetaObject  = state => (state || {}).activeProperties;
-export const selectModelMetaHavingSmID_fromAllModelMetas = (state, smID) => (state || {})[smID];

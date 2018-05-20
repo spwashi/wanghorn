@@ -1,16 +1,6 @@
 import React, {Component} from "react";
 import {bindActionCreators} from 'redux'
-import {
-    activateModel,
-    closeModelCreateDialog,
-    deactivateModel,
-    executeModelQuery,
-    fetchModels,
-    openModelCreateDialog,
-    toggleModelActivity,
-    toggleModelPropertyActivity,
-    toggleModelScene
-} from "./actions";
+import {executeModelQuery, fetchModels, toggleModelScene} from "./actions";
 import {connect} from "react-redux";
 import {InactiveDevComponent} from "../../../components/scene";
 import {Route, Switch} from "react-router"
@@ -62,14 +52,8 @@ function mapState(state) {
 }
 function mapDispatch(dispatch) {
     return bindActionCreators({
-                                  toggleModelPropertyActivity,
                                   toggleModelScene,
-                                  toggleModelActivity,
-                                  activateModel,
-                                  deactivateModel,
                                   fetchModels,
-                                  openModelCreateDialog,
-                                  closeModelCreateDialog,
                                   executeModelQuery
                               }, dispatch);
 }
