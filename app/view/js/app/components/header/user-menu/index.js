@@ -35,7 +35,6 @@ class UserMenu extends React.Component {
     }
     
     componentWillReceiveProps(nextProps, nextContext) {
-        console.log(nextProps.location.pathname, this.props.location.pathname);
         if (this.state.isSignupActive && nextProps.location.pathname !== this.props.location.pathname) {
             this.setState({isSignupActive: false})
         }
