@@ -8,10 +8,6 @@ use Sm\Core\Context\Context;
 use Sm\Core\Exception\UnimplementedError;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
-use Sm\Data\Entity\Property\Validation\EntityPropertyValidationResult;
-use Sm\Data\Entity\Validation\EntityValidationResult;
-use Sm\Data\Evaluation\Validation\ValidationResult;
-use Sm\Data\Property\Exception\NonexistentPropertyException;
 use Sm\Data\Property\Property;
 use Sm\Data\Property\PropertyContainer;
 use WANGHORN\Entity\Entity;
@@ -30,9 +26,6 @@ class User extends Entity {
     #
     ##
     #
-    public function create($attributes = []) {
-        throw new UnimplementedError("Cannot yet create Users");
-    }
     public function save($attributes = []) {
         throw new UnimplementedError("Cannot save User");
     }
@@ -48,6 +41,7 @@ class User extends Entity {
      * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
      * @throws \Sm\Data\Entity\Exception\EntityModelNotFoundException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
+     * @throws \Sm\Data\Entity\Exception\EntityNotFoundException
      */
     public function find($attributes = [], Context $context = null) {
         $this->_find($attributes, $context);
@@ -97,25 +91,5 @@ class User extends Entity {
      */
     public function findUsername(): Property {
         return $this->findProperty($this->properties->username);
-    }
-    
-    public function validate(Context $context = null): ValidationResult {
-        $propertyValidationResults = $this->validateProperties($context);
-        return new EntityValidationResult(false, "Can't create new users yet", $propertyValidationResults);
-    }
-    public function validateProperties(Context $context): array {
-        $propertyValidationResults = [];
-        /** @var \Sm\Data\Entity\Property\EntityProperty $property */
-        foreach ($this->properties as $property_identifier => $property) {
-            try {
-                if (!$property) throw new NonexistentPropertyException('Cannot set ' . $property_identifier . ' on User');
-                $result                                            = $property->validate($context);
-                $propertyValidationResults[ $property_identifier ] = $result;
-            } catch (NonexistentPropertyException $exception) {
-                $exception_msg                                     = $exception->getMessage();
-                $propertyValidationResults[ $property_identifier ] = new EntityPropertyValidationResult(false, $exception_msg);
-            }
-        }
-        return $propertyValidationResults;
     }
 }

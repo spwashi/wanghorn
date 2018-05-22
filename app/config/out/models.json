@@ -44,20 +44,25 @@
          }
       }
    },
-   "person": {
-      "smID": "[Model]person",
+   "tag": {
+      "smID": "[Model]tag",
       "inherits": [
          "[Model]_"
       ],
       "propertyMeta": {
          "primary": [
-            "[Property]{[Model]person} id"
+            "[Property]{[Model]tag} id"
          ],
-         "unique": {}
+         "unique": {
+            "unique_key": [
+               "[Property]{[Model]tag} text",
+               "[Property]{[Model]tag} tag_category"
+            ]
+         }
       },
       "properties": {
          "id": {
-            "smID": "[Property]{[Model]person} id",
+            "smID": "[Property]{[Model]tag} id",
             "datatypes": [
                "int"
             ],
@@ -66,7 +71,7 @@
             "isGenerated": true
          },
          "delete_dt": {
-            "smID": "[Property]{[Model]person} delete_dt",
+            "smID": "[Property]{[Model]tag} delete_dt",
             "datatypes": [
                "datetime",
                "null"
@@ -74,7 +79,7 @@
             "isGenerated": true
          },
          "creation_dt": {
-            "smID": "[Property]{[Model]person} creation_dt",
+            "smID": "[Property]{[Model]tag} creation_dt",
             "datatypes": [
                "datetime"
             ],
@@ -82,7 +87,7 @@
             "defaultValue": "now"
          },
          "last_update_dt": {
-            "smID": "[Property]{[Model]person} last_update_dt",
+            "smID": "[Property]{[Model]tag} last_update_dt",
             "datatypes": [
                "datetime"
             ],
@@ -90,19 +95,106 @@
             "defaultValue": "now",
             "updateValue": "now"
          },
-         "first_name": {
-            "smID": "[Property]{[Model]person} first_name",
+         "url": {
+            "smID": "[Property]{[Model]tag} url",
             "datatypes": [
-               "string"
+               "string",
+               "null"
             ],
             "length": 255
          },
-         "last_name": {
-            "smID": "[Property]{[Model]person} last_name",
+         "text": {
+            "smID": "[Property]{[Model]tag} text",
             "datatypes": [
                "string"
             ],
-            "length": 255
+            "length": 255,
+            "unique": true
+         },
+         "tag_category": {
+            "smID": "[Property]{[Model]tag} tag_category",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255,
+            "unique": true
+         }
+      }
+   },
+   "user": {
+      "smID": "[Model]user",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]user} id"
+         ],
+         "unique": {
+            "unique_key": [
+               "[Property]{[Model]user} username",
+               "[Property]{[Model]user} email"
+            ]
+         }
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]user} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]user} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]user} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]user} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "username": {
+            "smID": "[Property]{[Model]user} username",
+            "datatypes": [
+               "string"
+            ],
+            "length": 40,
+            "unique": true
+         },
+         "email": {
+            "smID": "[Property]{[Model]user} email",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255,
+            "unique": true
+         },
+         "verification_dt": {
+            "smID": "[Property]{[Model]user} verification_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
          }
       }
    },
@@ -181,6 +273,264 @@
             "datatypes": [
                "string"
             ]
+         }
+      }
+   },
+   "person": {
+      "smID": "[Model]person",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]person} id"
+         ],
+         "unique": {}
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]person} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]person} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]person} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]person} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "first_name": {
+            "smID": "[Property]{[Model]person} first_name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255
+         },
+         "last_name": {
+            "smID": "[Property]{[Model]person} last_name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255
+         }
+      }
+   },
+   "file": {
+      "smID": "[Model]file",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]file} id"
+         ],
+         "unique": {}
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]file} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]file} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]file} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]file} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "user_id": {
+            "smID": "[Property]{[Model]file} user_id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "reference": {
+               "identity": "[Model]user",
+               "hydrationMethod": "[Property]{[Model]user} id"
+            }
+         }
+      }
+   },
+   "email": {
+      "smID": "[Model]email",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]email} id"
+         ],
+         "unique": {
+            "unique_key": [
+               "[Property]{[Model]email} email"
+            ]
+         }
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]email} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]email} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]email} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]email} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "email": {
+            "smID": "[Property]{[Model]email} email",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255,
+            "unique": true
+         },
+         "user_id": {
+            "smID": "[Property]{[Model]email} user_id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "reference": {
+               "identity": "[Model]user",
+               "hydrationMethod": "[Property]{[Model]user} id"
+            }
+         }
+      }
+   },
+   "password": {
+      "smID": "[Model]password",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]password} id"
+         ],
+         "unique": {}
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]password} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]password} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]password} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]password} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "password": {
+            "smID": "[Property]{[Model]password} password",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255
+         },
+         "user_id": {
+            "smID": "[Property]{[Model]password} user_id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "reference": {
+               "identity": "[Model]user",
+               "hydrationMethod": "[Property]{[Model]user} id"
+            }
          }
       }
    },
@@ -274,100 +624,20 @@
          }
       }
    },
-   "user": {
-      "smID": "[Model]user",
+   "project_tag_map": {
+      "smID": "[Model]project_tag_map",
       "inherits": [
          "[Model]_"
       ],
       "propertyMeta": {
          "primary": [
-            "[Property]{[Model]user} id"
-         ],
-         "unique": {
-            "unique_key": [
-               "[Property]{[Model]user} username",
-               "[Property]{[Model]user} email"
-            ]
-         }
-      },
-      "properties": {
-         "id": {
-            "smID": "[Property]{[Model]user} id",
-            "datatypes": [
-               "int"
-            ],
-            "length": 11,
-            "primary": true,
-            "isGenerated": true
-         },
-         "delete_dt": {
-            "smID": "[Property]{[Model]user} delete_dt",
-            "datatypes": [
-               "datetime",
-               "null"
-            ],
-            "isGenerated": true
-         },
-         "creation_dt": {
-            "smID": "[Property]{[Model]user} creation_dt",
-            "datatypes": [
-               "datetime"
-            ],
-            "isGenerated": true,
-            "defaultValue": "now"
-         },
-         "last_update_dt": {
-            "smID": "[Property]{[Model]user} last_update_dt",
-            "datatypes": [
-               "datetime"
-            ],
-            "isGenerated": true,
-            "defaultValue": "now",
-            "updateValue": "now"
-         },
-         "username": {
-            "smID": "[Property]{[Model]user} username",
-            "datatypes": [
-               "string"
-            ],
-            "length": 40,
-            "unique": true
-         },
-         "email": {
-            "smID": "[Property]{[Model]user} email",
-            "datatypes": [
-               "string"
-            ],
-            "length": 255,
-            "unique": true
-         },
-         "person_id": {
-            "smID": "[Property]{[Model]user} person_id",
-            "datatypes": [
-               "int"
-            ],
-            "length": 11,
-            "reference": {
-               "identity": "[Model]person",
-               "hydrationMethod": "[Property]{[Model]person} id"
-            }
-         }
-      }
-   },
-   "file": {
-      "smID": "[Model]file",
-      "inherits": [
-         "[Model]_"
-      ],
-      "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]file} id"
+            "[Property]{[Model]project_tag_map} id"
          ],
          "unique": {}
       },
       "properties": {
          "id": {
-            "smID": "[Property]{[Model]file} id",
+            "smID": "[Property]{[Model]project_tag_map} id",
             "datatypes": [
                "int"
             ],
@@ -376,7 +646,7 @@
             "isGenerated": true
          },
          "delete_dt": {
-            "smID": "[Property]{[Model]file} delete_dt",
+            "smID": "[Property]{[Model]project_tag_map} delete_dt",
             "datatypes": [
                "datetime",
                "null"
@@ -384,7 +654,7 @@
             "isGenerated": true
          },
          "creation_dt": {
-            "smID": "[Property]{[Model]file} creation_dt",
+            "smID": "[Property]{[Model]project_tag_map} creation_dt",
             "datatypes": [
                "datetime"
             ],
@@ -392,7 +662,7 @@
             "defaultValue": "now"
          },
          "last_update_dt": {
-            "smID": "[Property]{[Model]file} last_update_dt",
+            "smID": "[Property]{[Model]project_tag_map} last_update_dt",
             "datatypes": [
                "datetime"
             ],
@@ -400,148 +670,26 @@
             "defaultValue": "now",
             "updateValue": "now"
          },
-         "user_id": {
-            "smID": "[Property]{[Model]file} user_id",
+         "tag_id": {
+            "smID": "[Property]{[Model]project_tag_map} tag_id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
             "reference": {
-               "identity": "[Model]user",
-               "hydrationMethod": "[Property]{[Model]user} id"
+               "identity": "[Model]tag",
+               "hydrationMethod": "[Property]{[Model]tag} id"
             }
-         }
-      }
-   },
-   "password": {
-      "smID": "[Model]password",
-      "inherits": [
-         "[Model]_"
-      ],
-      "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]password} id"
-         ],
-         "unique": {}
-      },
-      "properties": {
-         "id": {
-            "smID": "[Property]{[Model]password} id",
-            "datatypes": [
-               "int"
-            ],
-            "length": 11,
-            "primary": true,
-            "isGenerated": true
          },
-         "delete_dt": {
-            "smID": "[Property]{[Model]password} delete_dt",
-            "datatypes": [
-               "datetime",
-               "null"
-            ],
-            "isGenerated": true
-         },
-         "creation_dt": {
-            "smID": "[Property]{[Model]password} creation_dt",
-            "datatypes": [
-               "datetime"
-            ],
-            "isGenerated": true,
-            "defaultValue": "now"
-         },
-         "last_update_dt": {
-            "smID": "[Property]{[Model]password} last_update_dt",
-            "datatypes": [
-               "datetime"
-            ],
-            "isGenerated": true,
-            "defaultValue": "now",
-            "updateValue": "now"
-         },
-         "password": {
-            "smID": "[Property]{[Model]password} password",
-            "datatypes": [
-               "string"
-            ],
-            "length": 255
-         },
-         "user_id": {
-            "smID": "[Property]{[Model]password} user_id",
+         "project_id": {
+            "smID": "[Property]{[Model]project_tag_map} project_id",
             "datatypes": [
                "int"
             ],
             "length": 11,
             "reference": {
-               "identity": "[Model]user",
-               "hydrationMethod": "[Property]{[Model]user} id"
-            }
-         }
-      }
-   },
-   "email": {
-      "smID": "[Model]email",
-      "inherits": [
-         "[Model]_"
-      ],
-      "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]email} id"
-         ],
-         "unique": {
-            "unique_key": [
-               "[Property]{[Model]email} email"
-            ]
-         }
-      },
-      "properties": {
-         "id": {
-            "smID": "[Property]{[Model]email} id",
-            "datatypes": [
-               "int"
-            ],
-            "length": 11,
-            "primary": true,
-            "isGenerated": true
-         },
-         "delete_dt": {
-            "smID": "[Property]{[Model]email} delete_dt",
-            "datatypes": [
-               "datetime",
-               "null"
-            ],
-            "isGenerated": true
-         },
-         "creation_dt": {
-            "smID": "[Property]{[Model]email} creation_dt",
-            "datatypes": [
-               "datetime"
-            ],
-            "isGenerated": true,
-            "defaultValue": "now"
-         },
-         "last_update_dt": {
-            "smID": "[Property]{[Model]email} last_update_dt",
-            "datatypes": [
-               "datetime"
-            ],
-            "isGenerated": true,
-            "defaultValue": "now",
-            "updateValue": "now"
-         },
-         "email": {
-            "smID": "[Property]{[Model]email} email",
-            "datatypes": [
-               "string"
-            ],
-            "length": 255,
-            "unique": true
-         },
-         "user_id": {
-            "smID": "[Property]{[Model]email} user_id",
-            "datatypes": [
-               "int"
-            ],
-            "length": 11,
-            "reference": {
-               "identity": "[Model]user",
-               "hydrationMethod": "[Property]{[Model]user} id"
+               "identity": "[Model]project",
+               "hydrationMethod": "[Property]{[Model]project} id"
             }
          }
       }

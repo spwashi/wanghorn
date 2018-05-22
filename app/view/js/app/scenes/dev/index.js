@@ -9,6 +9,7 @@ import {PageContent} from "../../components/page";
 import {DEV, HOME} from "../../../path/paths";
 import {getURI} from "../../../path/resolution";
 import {LinkItem} from "../../../components/navigation";
+import {ModelSceneLink} from "./modules/sm/models/components/scene/sceneLink";
 
 const Dev = ({models}) => {
     return (
@@ -18,8 +19,11 @@ const Dev = ({models}) => {
                     This is a Developer's interface <sub>(work-in-progress)</sub> for the sites/apps that <a href={HOME} title={'William'}>I</a> help build.
                 </p>
                 <p>
-                    You can use your keyboard to navigate this page, but the only component that's animated now is the Route component
-                    because the <LinkItem to={getURI('dev--models')} wrapper={props => <span {...props} />}>Model</LinkItem> component was refactored recently to be URL-friendly.
+                    You can use your keyboard to navigate this page, but the only component that's animated now is my <LinkItem to={getURI('dev--home')} wrapper={props =>
+                    <span {...props} />}>Route</LinkItem> component
+                    You can use your keyboard to navigate this page, but the only component that's animated now is my <LinkItem to={getURI('dev--home')} wrapper={props =>
+                    <span {...props} />}>Route</LinkItem> component
+                    because Sam recently refactored my {<ModelSceneLink title={"Model"} />} component to make it more URL-friendly.
                 </p>
                 <ul>
                     <li><span className="keypress--name">Tab</span> to advance</li>

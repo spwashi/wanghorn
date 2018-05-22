@@ -4,14 +4,18 @@
 namespace WANGHORN\Controller\User;
 
 
+use Modules\Query\Sql\Exception\CannotDuplicateEntryException;
 use Sm\Core\Exception\InvalidArgumentException;
+use Sm\Core\Util;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntitySchema;
-use Sm\Data\Entity\Exception\EntityModelNotFoundException;
+use Sm\Data\Entity\Exception\EntityNotFoundException;
+use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
 use Sm\Modules\Network\Http\Http;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Controller\AppController;
+use WANGHORN\Entity\Password\Password;
 use WANGHORN\Entity\User\User;
 
 class UserController extends AppController {
@@ -49,7 +53,7 @@ class UserController extends AppController {
      * @param bool $throw
      *
      * @return \WANGHORN\Entity\User\User
-     * @throws \Sm\Data\Entity\Exception\EntityModelNotFoundException
+     * @throws \Sm\Data\Entity\Exception\EntityNotFoundException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
      * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
      */
@@ -62,11 +66,9 @@ class UserController extends AppController {
         if (!is_string($identity)) throw new InvalidArgumentException("Can only search for users by ID or Email");
         try {
             return $this->findInContext($identity, $context_name);
-        } catch (EntityModelNotFoundException $exception) {
+        } catch (EntityNotFoundException|\Exception $exception) {
             if ($throw) throw $exception;
             return null;
-        } catch (\Exception $exception) {
-            var_dump($exception);
         }
     }
     public function findSessionUser(): ?EntitySchema {
@@ -76,29 +78,45 @@ class UserController extends AppController {
         $userProxy    = $session_user ? $session_user->proxyInContext(new EntityContext) : null;
         return $userProxy;
     }
+    /**
+     * @return array
+     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
+     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
+     */
     public function signUp() {
         $request_data  = HttpRequestFromEnvironment::getRequestData();
         $entityContext = $this->resolveContext('signup_process');
         
-        /** @var \Sm\Data\Entity\Entity $user */
+        /** @var User $user */
         $userSchematic = $this->app->data->entities->getSchematicByName('user');
         $user          = $this->app->data->entities->instantiate($userSchematic);
         $messages      = [];
-        try {
-            $user->set($request_data);
-        } catch (\Exception $exception) {
         
+        $user->set($request_data);
+        
+        try {
+            $user->find([ 'username' => $user->properties->username ]);
+            return $this->getUserAlreadyExistsStatusResponse();
+        } catch (EntityNotFoundException $exception) {
         }
         
-        /** @var User $user */
-        $response = $user->validate($entityContext);
-        if (!$response->isSuccess()) $messages['_message'] = $response;
-        $messages = array_merge($messages, $response->getPropertyValidationResults());
+        /** @var \Sm\Data\Entity\Validation\EntityValidationResult $response */
+        try {
+            $response = $user->create($entityContext);
+        } catch (CannotDuplicateEntryException $error) {
+            return $this->getUserAlreadyExistsStatusResponse();
+        } catch (CannotCreateEntityException $exception) {
+            $failedProperties             = $exception->getFailedProperties();
+            $messages                     = $failedProperties;
+            $messages        ['_message'] = [ 'Cannot create new users at this time', ];
+        }
+        
         return [
-            'user'           => $response->isSuccess() ? $user : null,
+            'user_id'        => $passwordEntity,
+            'user'           => $user,
             'property_names' => array_keys($user->properties->getAll()),
             'message'        => $messages,
-            'success'        => $response->isSuccess(),
+            'success'        => true,
         ];
     }
     public function logout() {
@@ -129,7 +147,7 @@ class UserController extends AppController {
                 'user'    => $proxy,
                 'success' => true,
             ];
-        } catch (EntityModelNotFoundException $exception) {
+        } catch (EntityNotFoundException $exception) {
             return [
                 'error'   => 'Could not find User with the provided username and password',
                 'success' => false,
@@ -144,7 +162,7 @@ class UserController extends AppController {
      *
      * @return \WANGHORN\Entity\User\User
      * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     * @throws \Sm\Data\Entity\Exception\EntityModelNotFoundException
+     * @throws \Sm\Data\Entity\Exception\EntityNotFoundException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
      */
     protected function findInContext($username, string $context_name = null): User {
@@ -154,5 +172,34 @@ class UserController extends AppController {
         $index      = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         $userEntity->find([ $index => $username ], $context);
         return $userEntity;
+    }
+    /**
+     * @return array
+     */
+    public function getUserAlreadyExistsStatusResponse(): array {
+        return [
+            'success' => false,
+            'message' => [ '_message' => 'User already exists' ],
+        ];
+    }
+    /**
+     * @param                                    $entityContext
+     * @param                                    $user_id
+     *
+     * @param \WANGHORN\Entity\Password\Password $password
+     *
+     * @return array
+     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
+     */
+    public function createPasswordForUser($entityContext, $user_id, Password $password): array {
+        $messages = [];
+        try {
+            $password->create($entityContext, [ 'user_id' => $user_id, ]);
+        } catch (CannotCreateEntityException $exception) {
+            $failedProperties             = $exception->getFailedProperties();
+            $messages                     = $failedProperties;
+            $messages        ['_message'] = [ 'Could not create password for user', ];
+        }
+        return $messages;
     }
 }

@@ -3,13 +3,13 @@
 namespace WANGHORN\Controller\Dev;
 
 use Error;
-use Sm\Application\Application;
 use Sm\Controller\Controller;
 use Sm\Core\Exception\Exception;
 use Sm\Core\Exception\InvalidArgumentException;
 use Sm\Core\Exception\UnimplementedError;
 use Sm\Core\Factory\Exception\FactoryCannotBuildException;
 use Sm\Core\Query\Module\Exception\UnfoundQueryModuleException;
+use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Model\ModelPersistenceManager;
 use Sm\Data\Model\ModelPropertyMetaSchematic;
 use Sm\Data\Model\ModelSchematic;
@@ -31,6 +31,7 @@ use Sm\Modules\Query\Sql\Statements\AlterTableStatement;
 use Sm\Modules\Query\Sql\Statements\CreateTableStatement;
 use Sm\Query\Proxy\String_QueryProxy;
 use WANGHORN\Controller\AppController;
+use WANGHORN\Model\Model;
 
 class DevController extends AppController {
     protected function propertyToColumn(PropertySchematic $propertySchema, TableSourceSchematic $tableSourceSchematic) {
@@ -143,6 +144,9 @@ class DevController extends AppController {
         }
         return $config_arr;
     }
+    public function getSchematic($smID) {
+        return $this->app->data->models->getSchematicByName($smID);
+    }
     public function entities() {
         return $this->app->data->entities->getRegisteredSchematics();
     }
@@ -211,19 +215,9 @@ class DevController extends AppController {
         return json_decode(json_encode($this->app->getMonitors()), 1);
     }
     public function createModel($modelSmID) {
-        $is_dev = $this->app->environmentIs(Application::ENV_DEV);
-        
-        if (!$is_dev) {
-            return [
-                'error'   => 'Cannot create models like this in production',
-                'success' => false,
-            ];
-        }
-        
         $data = HttpRequestFromEnvironment::getRequestData();
         /** @var \WANGHORN\Model\Model $model */
-        $model      = $this->app->data->models->instantiate($modelSmID);
-        $properties = [];
+        $model = $this->app->data->models->instantiate($modelSmID);
         
         foreach ($data as $key => $value) {
             /** @var \WANGHORN\Model\Property $property */
@@ -232,11 +226,23 @@ class DevController extends AppController {
             $property->value = $value;
         }
         
-        $model->validate();
-        return json_encode([ $properties, $model ]);
         $modelPersistenceManager = $this->app->data->models->persistenceManager;
-        $newModel                = $modelPersistenceManager->create($model);
-        return $newModel;
+        $modelPersistenceManager->create($model);
+        /** @var Model $newModel */
+        $newModel      = $modelPersistenceManager->find($model);
+        $id            = $newModel->properties->id->value;
+        $wasSuccessful = isset($id);
+        
+        $all = [];
+        foreach ($newModel->properties as $resolution) {
+            $all[] = $resolution;
+        }
+        
+        return [
+            'success' => $wasSuccessful,
+            'message' => $wasSuccessful ? 'Successfully Created Model' : 'Could not create Model',
+            'model'   => $wasSuccessful ? $newModel : $model,
+        ];
     }
     /**
      * @param $smID
@@ -246,12 +252,17 @@ class DevController extends AppController {
      * @throws \Sm\Core\Exception\UnimplementedError
      * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
      * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
+     * @throws \Sm\Data\Model\Exception\ModelNotSoughtException
      */
     public function findAll($smID) {
         $modelPersistenceManager = $this->app->data->models->persistenceManager;
         if ($modelPersistenceManager instanceof StandardModelPersistenceManager) {
             $model = $this->app->data->models->instantiate($smID);
-            $all   = $modelPersistenceManager->setFindSafety(false)->findAll($model);
+            try {
+                $all = $modelPersistenceManager->setFindSafety(false)->findAll($model);
+            } catch (ModelNotFoundException $exception) {
+                return [];
+            }
             return $all;
         }
         return null;
@@ -262,6 +273,7 @@ class DevController extends AppController {
         $proxy->setCanAccess(true);
         return $proxy;
     }
+    
     /**
      * @param  \Sm\Data\Model\ModelSchematic[] $models
      *

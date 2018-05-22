@@ -41,6 +41,7 @@ class Password extends Entity implements Resolvable {
     public function jsonSerialize() {
         return false;
     }
+    
     public function destroy() {
         throw new UnimplementedError("Cannot yet delete passwords");
     }
@@ -50,7 +51,9 @@ class Password extends Entity implements Resolvable {
      * @return mixed
      */
     public function resolve() {
-        return $this->properties->password->resolve();
+        /** @var \Sm\Data\Entity\Property\EntityProperty $password */
+        $password = $this->properties->password;
+        return $password->resolve();
     }
     /**
      * Save the Entity

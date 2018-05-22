@@ -1,4 +1,23 @@
 {
+   "person": {
+      "smID": "[Entity]person",
+      "properties": {},
+      "persistedIdentity": "[Model]person",
+      "contexts": {
+         "login_process": {
+            "self": {
+               "title": "Person",
+               "name": "person"
+            }
+         },
+         "signup_process": {
+            "self": {
+               "title": "Person",
+               "name": "person"
+            }
+         }
+      }
+   },
    "password": {
       "smID": "[Entity]password",
       "properties": {
@@ -69,35 +88,6 @@
             "self": {
                "title": "User",
                "name": "user"
-            }
-         }
-      }
-   },
-   "person": {
-      "smID": "[Entity]person",
-      "properties": {
-         "user": {
-            "smID": "[Property]{[Entity]person} user",
-            "datatypes": [
-               "[Entity]user"
-            ],
-            "derivedFrom": {
-               "person_id": "[Property]{[Model]person} id"
-            }
-         }
-      },
-      "persistedIdentity": "[Model]person",
-      "contexts": {
-         "login_process": {
-            "self": {
-               "title": "Person",
-               "name": "person"
-            }
-         },
-         "signup_process": {
-            "self": {
-               "title": "Person",
-               "name": "person"
             }
          }
       }

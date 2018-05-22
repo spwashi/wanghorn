@@ -23,7 +23,6 @@ class SelectivelyActive extends Component {
     matchTarget(target) {
         if (target === this.active || target === this.inactive) return true;
         const {active, inactive} = this.getChildren();
-        console.log(active, inactive);
         return !this.active && !this.inactive;
     }
     

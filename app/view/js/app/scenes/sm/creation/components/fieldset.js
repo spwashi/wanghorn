@@ -33,22 +33,18 @@ export class PropertyFieldset extends React.Component {
                 config               = {...propertyConfig, smID: propertySmID};
             } else {
                 return <PropertyFieldset key={propertySmID}
-                
                                          prefix={prefixed_name}
-                
                                          getPropertyValue={getPropertyValue}
                                          getPropertyMessage={getPropertyMessage}
-                
                                          smEntityConfig={resolvedPropertySmEntity}
                                          resolveSmEntity={resolveSmEntity}
                                          updateValueStatus={updateValueStatus} />;
             }
         }
+        
         const propertyConfig = {...config, name};
         return <PropertyField key={propertySmID}
-        
                               name={prefixed_name}
-        
                               config={propertyConfig}
                               value={getPropertyValue(propertyConfig)}
                               message={getPropertyMessage(propertyConfig)}

@@ -13,18 +13,16 @@ use Sm\Data\Evaluation\Validation\ValidationResult;
 use Sm\Data\Property\Property;
 
 abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
-    public function jsonSerialize() {
-        return parent::jsonSerialize();
+    public function validate(Context $context = null): ?ValidationResult {
+        $property_errors = $this->getPropertyValidationErrors($context);
+        
+        return new EntityValidationResult(count($property_errors) < 1,
+                                         'entity properties checked',
+                                         $property_errors);
     }
     public function initialize() {
         return $this;
     }
-    /**
-     * @param $property_name
-     *
-     * @return \Sm\Data\Property\Property
-     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     */
     public function findProperty($property_name): Property {
         $property = $property_name instanceof Property ? $property_name : $this->properties->{$property_name};
         $this->fillPropertyValue($property);
@@ -33,6 +31,7 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
         $property->find();
         return $property;
     }
+    
     public function updateComponentProperties() {
         /**
          * @var Property $property
@@ -50,6 +49,8 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
         }
     }
     
+    #
+    ##
     protected function setInternalProperty(string $property_name_or_smID, $value) {
         $property = $this->properties->$property_name_or_smID;
         if (!isset($property)) {
@@ -60,8 +61,10 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
         $property->value = $value;
         return $property;
     }
-    public function validate(Context $context = null): ValidationResult {
-        $result = new EntityValidationResult(false, "Can't create a new {$this->getName()} yet", []);
-        return $result;
+    
+    #
+    ##
+    public function jsonSerialize() {
+        return parent::jsonSerialize();
     }
 }

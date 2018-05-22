@@ -20,19 +20,19 @@ class Property extends \Sm\Data\Property\Property {
      * @return $this
      * @throws \Sm\Data\Type\Exception\CannotCastException
      */
-    public function setSubject($subject = null) {
-        if ($this->getPrimaryDatatype() instanceof DateTime_) {
+    public function setSubject($subject = null): \Sm\Data\Property\Property {
+        
+        if ($this->getPrimaryDatatype() instanceof DateTime_ && isset($subject)) {
             $new_subject = \DateTime::createFromFormat(static::DATETIME_FORMAT, $subject);
-            if ($new_subject) $subject = $new_subject;
-            else throw new CannotCastException("Cannot resolve datetime format -- use " . static::DATETIME_FORMAT);
+            
+            if ($new_subject) {
+                $subject = $new_subject;
+            } else {
+                throw new CannotCastException("Cannot resolve datetime format -- use " . static::DATETIME_FORMAT . " , not " . json_encode($subject));
+            }
         }
+        
         return parent::setSubject($subject);
-    }
-    /**
-     * @throws \Sm\Core\Exception\UnimplementedError
-     */
-    public function validate() {
-        $this->resolve();
     }
     /**
      * @return array|mixed|null|\Sm\Core\Resolvable\Resolvable|string

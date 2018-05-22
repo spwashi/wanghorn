@@ -36,7 +36,7 @@ class UserMenu extends React.Component {
     
     componentWillReceiveProps(nextProps, nextContext) {
         if (this.state.isSignupActive && nextProps.location.pathname !== this.props.location.pathname) {
-            this.setState({isSignupActive: false})
+            this.setState({isSignupActive: false});
         }
     }
     
@@ -44,7 +44,7 @@ class UserMenu extends React.Component {
         let isExactlySignup     = this.props.location.pathname === getURI('user--signup');
         let signupInQueryString = this.props.location.search.indexOf('?signup') === 0;
         if (!this.state.isSignupActive && (isExactlySignup || signupInQueryString)) {
-            this.setState({isSignupActive: true})
+            this.setState({isSignupActive: true});
         }
     }
     

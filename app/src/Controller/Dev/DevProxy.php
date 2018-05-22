@@ -10,8 +10,12 @@ class DevProxy extends ControllerProxy {
     protected $can_access;
     
     public function __call($name, $args = []) {
-        if (!$this->can_access) return null;
+        //todo should throw error
+        if (!$this->canAccess()) return null;
         return parent::__call($name, $args);
+    }
+    public function canAccess() {
+        return $this->can_access;
     }
     /**
      * @param mixed $can_access
@@ -21,5 +25,5 @@ class DevProxy extends ControllerProxy {
     public function setCanAccess($can_access) {
         $this->can_access = $can_access;
         return $this;
-}
+    }
 }

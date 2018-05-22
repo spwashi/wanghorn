@@ -74,16 +74,11 @@ class SmEntityCreationForm extends React.Component {
         
         return (
             <form onSubmit={this.handleSubmit} className={status ? 'status__' + status : ''}>
-                {
-                    <PropertyFieldset smEntityConfig={this.smEntityConfig}
-                    
-                                      resolveSmEntity={this.resolveSmEntity.bind(this)}
-                    
-                                      getPropertyMessage={this.getPropertyMessage.bind(this)}
-                                      getPropertyValue={this.getPropertyValue.bind(this)}
-                    
-                                      updateValueStatus={this.updateValueStatus.bind(this)} />
-                }
+                <PropertyFieldset smEntityConfig={this.smEntityConfig}
+                                  resolveSmEntity={this.resolveSmEntity.bind(this)}
+                                  getPropertyMessage={this.getPropertyMessage.bind(this)}
+                                  getPropertyValue={this.getPropertyValue.bind(this)}
+                                  updateValueStatus={this.updateValueStatus.bind(this)} />
                 <div className="message--wrapper">
                     <ApiResponseMessage message={this.state.messages && (this.state.messages._message || this.state.messages[0])} />
                 </div>

@@ -18,8 +18,3 @@ export const properties      = {
         }
     },
 };
-export const contexts        = {
-    "*_email_map": {
-        roleName: 'email'
-    }
-};
