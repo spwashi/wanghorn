@@ -21,8 +21,6 @@ const Dev = ({models}) => {
                 <p>
                     You can use your keyboard to navigate this page, but the only component that's animated now is my <LinkItem to={getURI('dev--home')} wrapper={props =>
                     <span {...props} />}>Route</LinkItem> component
-                    You can use your keyboard to navigate this page, but the only component that's animated now is my <LinkItem to={getURI('dev--home')} wrapper={props =>
-                    <span {...props} />}>Route</LinkItem> component
                     because Sam recently refactored my {<ModelSceneLink title={"Model"} />} component to make it more URL-friendly.
                 </p>
                 <ul>
@@ -32,7 +30,7 @@ const Dev = ({models}) => {
                 <p>
                     The <LinkItem to={getURI('dev--models')} wrapper={props => <span {...props} />}>Model</LinkItem> component describes the structures
                     used by this application to <em>store</em> data, and the <LinkItem to={getURI('dev--entities')} wrapper={props => <span {...props} />}>Entities</LinkItem>
-                    &nbsp; component (todo) describes the structures used by this application to <em>interact with or manipulate</em> data.
+                    &nbsp;component (todo) describes the structures used by this application to <em>interact with or manipulate</em> data.
                 </p>
             </section>
             <Route path={DEV} component={ModelModule} />
