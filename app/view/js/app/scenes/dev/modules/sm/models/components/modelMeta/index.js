@@ -30,7 +30,8 @@ class ModelMeta extends React.Component {
                 <ModelActions canCreateTable={canCreateTable} createModelURI={createModelURI}
                               tableExists={tableExists} executeCreateTableStatement={executeCreateTableStatement} />
                 <div className="wrapper component--wrapper model--component--wrapper">
-                    <ModelConfigurationContainer model={model} config={config}
+                    <ModelConfigurationContainer model={model}
+                                                 config={config || {}}
                                                  onTogglePropertyClick={onTogglePropertyClick}
                                                  activeProperties={activeProperties} />
                 </div>
@@ -44,7 +45,7 @@ class ModelMeta extends React.Component {
                     <AlterTableStatementList statements={alterTableStatements || []} executeQuery={executeAllAlterTableStatements} />
                 </div>
                 <Route path={getURI('dev--create_model', null, {skipEmpty: true, asReactRoute: true})}
-                       component={({history}) => <CreateModelDialog smID={smID} config={config} history={history} />} />
+                       component={({history}) => <CreateModelDialog smID={smID} schematic={model} history={history} />} />
             </div>
         );
     }

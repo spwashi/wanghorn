@@ -217,11 +217,20 @@ class DevController extends AppController {
     public function createModel($modelSmID) {
         $data = HttpRequestFromEnvironment::getRequestData();
         /** @var \WANGHORN\Model\Model $model */
-        $model = $this->app->data->models->instantiate($modelSmID);
-        
-        foreach ($data as $key => $value) {
+        $model      = $this->app->data->models->instantiate($modelSmID);
+        $properties = $data['properties'] ?? [];
+        foreach ($properties as $key => $value) {
             /** @var \WANGHORN\Model\Property $property */
             $property = $model->properties->{$key};
+            if (!$property) {
+                return [
+                    'success' => false,
+                    'message' => [
+                        '_message' => 'Could not save model',
+                        $key       => 'Property does not exist',
+                    ],
+                ];
+            }
             $property->setDoStrictResolve(true);
             $property->value = $value;
         }
@@ -240,7 +249,7 @@ class DevController extends AppController {
         
         return [
             'success' => $wasSuccessful,
-            'message' => $wasSuccessful ? 'Successfully Created Model' : 'Could not create Model',
+            'message' => [ '_message' => $wasSuccessful ? 'Successfully Created Model' : 'Could not create Model' ],
             'model'   => $wasSuccessful ? $newModel : $model,
         ];
     }

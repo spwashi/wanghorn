@@ -1,4 +1,4 @@
-import {EXECUTE_MODEL_QUERY__END, FETCH_MODELS_RECEIVED} from "../actions";
+import {EXECUTE_MODEL_QUERY__END, FETCH_MODEL_METAS_RECEIVED} from "../actions";
 
 type modelMeta = {
     smID: string,
@@ -13,7 +13,7 @@ export default (modelMeta: modelMeta, action) => {
     let smID = (modelMeta || {}).smID;
     
     switch (action.type) {
-        case FETCH_MODELS_RECEIVED:
+        case FETCH_MODEL_METAS_RECEIVED:
             smID = (modelMeta.model || {}).smID;
             return {...modelMeta, smID};
         case EXECUTE_MODEL_QUERY__END:

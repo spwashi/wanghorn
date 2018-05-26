@@ -1,11 +1,12 @@
-import {FETCH_MODELS_RECEIVED, TOGGLE_MODEL_SCENE_ACTIVITY} from "../actions";
+import {FETCH_MODEL_METAS_RECEIVED, TOGGLE_MODEL_SCENE_ACTIVITY} from "../actions";
 import {combineReducers} from "redux";
 import {reduceEntriesIntoObject} from "../../../../../../../utility";
 import modelMetaReducer from "./modelMeta";
 
 let modelSmIDList_reducer       = (state, {type, models}) => {
     switch (type) {
-        case FETCH_MODELS_RECEIVED:
+        case FETCH_MODEL_METAS_RECEIVED:
+            console.log(models);
             return Object.keys(models);
         default:
             return state || [];
@@ -14,7 +15,7 @@ let modelSmIDList_reducer       = (state, {type, models}) => {
 let modelObject_reducer         = (state, action) => {
     const {type} = action;
     switch (type) {
-        case FETCH_MODELS_RECEIVED:
+        case FETCH_MODEL_METAS_RECEIVED:
             let fetched_models = Object.entries(action.models)
                                        .map(([smID, model]) => [smID, modelMetaReducer(model, action)])
                                        .reduce(reduceEntriesIntoObject, {});

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {bindActionCreators} from 'redux'
-import {executeModelQuery, fetchModels, toggleModelScene} from "./actions";
+import {executeModelQuery, fetchModelMetas, toggleModelScene} from "./actions";
 import {connect} from "react-redux";
 import {InactiveDevComponent} from "../../../components/scene";
 import {Route, Switch} from "react-router"
@@ -16,7 +16,7 @@ class ModelScene extends Component {
     }
     
     componentDidMount() {
-        this.props.fetchModels()
+        this.props.fetchModelMetas()
     }
     
     render() {
@@ -53,7 +53,7 @@ function mapState(state) {
 function mapDispatch(dispatch) {
     return bindActionCreators({
                                   toggleModelScene,
-                                  fetchModels,
+                                  fetchModelMetas,
                                   executeModelQuery
                               }, dispatch);
 }

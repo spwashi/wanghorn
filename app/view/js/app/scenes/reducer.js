@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage';
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
 
 let reducer = combineReducers({
-                                  dev: persistReducer({key: 'dev', storage, stateReconciler: hardSet}, dev),
+                                  dev: persistReducer({key: 'dev', storage, stateReconciler: hardSet, blacklist: ['models']}, dev),
                                   gallery,
                                   sm:  persistReducer({key: 'sm', storage, stateReconciler: hardSet, blacklist: ['contexts']}, sm),
                               });

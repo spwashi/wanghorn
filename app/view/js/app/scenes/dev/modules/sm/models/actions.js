@@ -1,16 +1,31 @@
 import {MODELS} from "../../../paths";
 import axios from "axios"
 import {getURI} from "../../../../../../path/resolution";
+import {parseSmID} from "../utility";
 
 // FETCHING ITEMS
+export const FETCH_MODEL_METAS_RECEIVED = "FETCH_MODEL_METAS_RECEIVED";
+export const fetchModelMetasBegin       = () => ({type: "FETCH_MODEL_METAS_BEGIN",});
+export const fetchModelMetasCompleted   = models => ({type: FETCH_MODEL_METAS_RECEIVED, models});
+export const fetchModelMetas            = () =>
+    dispatch => {
+        dispatch(fetchModelMetasBegin());
+        
+        return axios.get(MODELS)
+                    .then(response => dispatch(fetchModelMetasCompleted(response && response.data && response.data)));
+    };
+
 export const FETCH_MODELS_RECEIVED = "FETCH_MODELS_RECEIVED";
 export const fetchModelsBegin      = () => ({type: "FETCH_MODELS_BEGIN",});
 export const fetchModelsCompleted  = models => ({type: FETCH_MODELS_RECEIVED, models});
-export const fetchModels           = () =>
+export const fetchModels           = ({smID}) =>
     dispatch => {
         dispatch(fetchModelsBegin());
+        let {manager, name, owner} = parseSmID(smID);
         
-        return axios.get(MODELS)
+        if (!manager === 'Model') throw new Error("Can only fetch Models");
+        
+        return axios.get(getURI('dev--all_models', {name}))
                     .then(response => dispatch(fetchModelsCompleted(response && response.data && response.data)));
     };
 

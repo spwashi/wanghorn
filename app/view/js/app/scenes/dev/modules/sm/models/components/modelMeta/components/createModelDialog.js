@@ -9,17 +9,18 @@ export class CreateModelDialog extends React.Component {
     state = {isActive: true};
     
     render() {
-        const {history}      = this.props;
-        const {smID, config} = this.props;
-        const modelName      = getNameFromSmID(this.props.smID);
-        let onRequestClose   = () => {
+        const {history}         = this.props;
+        const {smID, schematic} = this.props;
+        const modelName         = getNameFromSmID(this.props.smID);
+        let onRequestClose      = () => {
             let devURI = getURI('dev--model', {name: modelName}, {skipEmpty: true, asReactRoute: true});
             this.setState({isActive: false});
             return history.action === 'PUSH' ? history.goBack() : history.push(devURI);
         };
+        let formUrl             = getURI("dev--create_model--receive", {name: modelName});
         return (
             <Modal isOpen={this.state.isActive} onRequestClose={onRequestClose} title={`Create New ${smID}`} contentLabel="Create New">
-                <SmEntityCreationForm config={config} url={getURI("dev--create_model--receive", {name: modelName})} />
+                <SmEntityCreationForm key={smID} smID={smID} schematic={schematic} url={formUrl} />
             </Modal>
         )
     };

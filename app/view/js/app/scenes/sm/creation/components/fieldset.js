@@ -1,63 +1,94 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-
-import {normalizeSmID} from "../../../dev/modules/sm/utility";
+import {normalizeSmID, parseSmID} from "../../../dev/modules/sm/utility";
 import {getSettablePropertiesFromSmEntity} from "../utility";
-import PropertyField from "../../form/propertyField";
+import {PromisedComponent} from "./promisedSchematic";
+import {PropertySchematicAsField} from "./propertySchematicAsField";
+import {PropertyOwnerFieldset} from "./propertyOwnerFieldset";
 
-export class PropertyFieldset extends React.Component {
-    render() {
-        const smEntity           = this.props.smEntityConfig;
-        const settableProperties = getSettablePropertiesFromSmEntity(smEntity);
-        const propertyInputs     = Object.entries(settableProperties).map(([name, config]) => this.convertToInput(config, name));
-        return <fieldset name={smEntity.name || smEntity.smID}>{propertyInputs}</fieldset>;
+const SchematicAsField = function ({...props}) {
+    let schematic   = props.schematic;
+    const name      = schematic.name;
+    const {manager} = parseSmID(schematic.smID);
+    props.key       = name || schematic.smID;
+    
+    switch (manager) {
+        case 'Model':
+        case 'Entity':
+            const propertySettables = PropertyFieldset.getSettablePropertyMapFromEntity(schematic);
+            
+            if (propertySettables.size === 1) {
+                schematic = propertySettables.values().next().value;
+                schematic = {...schematic || {}, name};
+                return <PropertySchematicAsField {...props} />
+            }
+            
+            return <PropertyOwnerFieldset {...props} />;
+        
+        default:
+            return <PropertySchematicAsField {...props} />;
     }
     
-    convertToInput(config, name) {
-        const getPropertyValue   = this.props.getPropertyValue;
-        const resolveSmEntity    = this.props.resolveSmEntity || function () {};
-        const getPropertyMessage = this.props.getPropertyMessage;
-        const prefix             = this.props.prefix || '';
-        let updateValueStatus    = this.props.updateValueStatus;
-        
-        const propertySmID  = normalizeSmID(config.smID);
-        const prefixed_name = (prefix ? (prefix + '__') : '') + propertySmID;
-        
-        const isEntity = ((config.datatypes || [])[0] || '').startsWith('[Entity]');
-        if (isEntity) {
-            const resolvedPropertySmEntity = resolveSmEntity(config.datatypes[0]);
-            const subSettables             = getSettablePropertiesFromSmEntity(resolvedPropertySmEntity);
-            const subSettableMap           = new Map(Object.entries(subSettables || {}));
-            if (subSettableMap.size === 1) {
-                const propertyConfig = subSettableMap.values().next().value;
-                config               = {...propertyConfig, smID: propertySmID};
-            } else {
-                return <PropertyFieldset key={propertySmID}
-                                         prefix={prefixed_name}
-                                         getPropertyValue={getPropertyValue}
-                                         getPropertyMessage={getPropertyMessage}
-                                         smEntityConfig={resolvedPropertySmEntity}
-                                         resolveSmEntity={resolveSmEntity}
-                                         updateValueStatus={updateValueStatus} />;
-            }
-        }
-        
-        const propertyConfig = {...config, name};
-        return <PropertyField key={propertySmID}
-                              name={prefixed_name}
-                              config={propertyConfig}
-                              value={getPropertyValue(propertyConfig)}
-                              message={getPropertyMessage(propertyConfig)}
-                              updateValueStatus={updateValueStatus} />;
+};
+
+export class PropertyFieldset extends React.Component {
+    getPrefixedSmID(propertySmID) {
+        const prefix = this.props.prefix;
+        return (prefix ? (prefix + '__') : '') + normalizeSmID(propertySmID);
+    }
+    
+    render() {
+        const schematic          = this.props.schematic;
+        const settableProperties = getSettablePropertiesFromSmEntity(schematic);
+        const propertyInputs     = Object.entries(settableProperties)
+                                         .map(([name, schematic]) => {
+            
+                                             schematic.name = schematic.name || name;
+            
+                                             if (typeof schematic === "object") {
+                                                 const datatypes       = schematic.datatypes || [];
+                                                 const primaryDatatype = datatypes[0];
+                                                 const parsed          = parseSmID(primaryDatatype) || {};
+                                                 if (parsed.manager === 'Entity' || parsed.manager === 'Model') {
+                                                     schematic = this.props.resolveSmEntitySchematic(primaryDatatype);
+                                                 }
+                                             }
+                                             let prefix = this.getPrefixedSmID(schematic ? schematic.smID : name);
+                                             return <PromisedComponent key={name}
+                                                                       promised={{schematic}}
+                                                                       {...this.props}
+                                                                       prefix={prefix}
+                                                                       children={SchematicAsField} />
+                                         });
+        const fieldName          = schematic.name || schematic.smID;
+        return <fieldset name={fieldName}>{propertyInputs}</fieldset>;
+    }
+    
+    static getSettablePropertyMapFromEntity(resolvedPropertySmEntity) {
+        const propertySmEntitySettableProperties = getSettablePropertiesFromSmEntity(resolvedPropertySmEntity);
+        const subSettableMap                     = new Map(Object.entries(propertySmEntitySettableProperties || {}));
+        return subSettableMap;
     }
 }
 
 PropertyFieldset.propTypes = {
-    prefix:         PropTypes.string,
-    smEntityConfig: PropTypes.object,
+    // We might want to prefix the names of the properties of this SmEntity to identify where they are from
+    prefix:    PropTypes.string,
+    // The configuration of the PropertyFieldset's SmEntity
+    schematic: PropTypes.object,
+    // The value of the SmEntity referenced by this PropertyFieldset
+    smEntity:  PropTypes.object,
     
+    // A function to retrieve the value of a property in this fieldset
     getPropertyValue:   PropTypes.func,
+    // A function to get the message that accompanies a property in this fieldset
     getPropertyMessage: PropTypes.func,
-    resolveSmEntity:    PropTypes.func,
-    updateValueStatus:  PropTypes.func
+    
+    // If we need to reference an SmEntitySchematic, this is a function that will return it or a promise that resolves to it
+    resolveSmEntitySchematic: PropTypes.func,
+    // A function that will return a Promise which resolves upon the completion of a fetch
+    resolveSmEntities:        PropTypes.func,
+    
+    // A function that allows us to update the value of this SmEntity
+    updateValueStatus: PropTypes.func
 };

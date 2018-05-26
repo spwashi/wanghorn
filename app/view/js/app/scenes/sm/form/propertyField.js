@@ -4,18 +4,17 @@ import {StandardSmProperty} from "../creation/components/input";
 import {getTitleFromPropName} from "../../dev/modules/sm/utility";
 import {Field} from "../../../components/form/field/field";
 import {ApiResponseMessage} from "./response";
+import {SmEntityPropertyAsSelect} from "../creation/components/select";
 
 export default class PropertyField extends React.Component {
     state = {};
     
     constructor(props) {
         super(props);
-        const config = this.props.config;
-        
-        if (config.datatypes && config.datatypes[0] === 'password') {
+        const schematic = this.props.schematic;
+        if (schematic && schematic.datatypes && schematic.datatypes[0] === 'password') {
             this.state.verification        = '';
-            this.getPropertyValidityStatus = (smID, value) => {
-                console.log(smID, value);
+            this.getPropertyValidityStatus = ({smID}, value) => {
                 if (this.state.verification === value) {
                     return {message: null, status: true};
                 }
@@ -29,12 +28,15 @@ export default class PropertyField extends React.Component {
     
     render() {
         let input;
-        const {config, value, name: fieldName} = this.props;
-        const onValueChange                    = this.onValueChange.bind(this);
-        const title                            = getTitleFromPropName(config.name);
-        const message                          = this.renderMessage();
+        const {schematic, value, name: fieldName} = this.props;
         
-        let primaryDatatype = config.datatypes && config.datatypes[0];
+        const onValueChange          = this.onValueChange.bind(this);
+        const title                  = getTitleFromPropName(schematic && schematic.name ? schematic.name : fieldName);
+        const message                = this.renderMessage();
+        let resolveSmEntitySchematic = this.props.resolveSmEntitySchematic;
+        let resolveSmEntities        = this.props.resolveSmEntities;
+        let primaryDatatype          = schematic.datatypes && schematic.datatypes[0];
+        
         switch (primaryDatatype) {
             case 'password':
                 const verificationTitle = 'Verify ' + title;
@@ -43,27 +45,44 @@ export default class PropertyField extends React.Component {
                     this.setState({verification: e.target.value}, () => onValueChange(value));
                 };
                 const verificationInput = <input placeholder={verificationTitle} type="password" name={verificationName} onChange={onVerifyChange} />;
-                input                   = <StandardSmProperty {...{config, title, value, onValueChange}} />;
+                input                   = <StandardSmProperty title={title}
+                                                              value={value}
+                                                              onValueChange={onValueChange}
+                                                              config={schematic} />;
                 return [
                     <Field key={'password'} title={title} name={fieldName} input={input} message={message} />,
                     <Field key={'verify--password'} title={verificationTitle} name={verificationName} input={verificationInput} />
                 ];
             default:
-                input = <StandardSmProperty {...{config, title, value, onValueChange}} />;
-                return <Field title={title} name={fieldName} input={input} message={message} />
+                input = schematic.reference ? <SmEntityPropertyAsSelect name={fieldName}
+                                                                        value={value}
+                                                                        key={'select'}
+                                                                        onValueChange={onValueChange}
+                                                                        schematic={schematic}
+                                                                        resolveSmEntitySchematic={resolveSmEntitySchematic}
+                                                                        resolveSmEntities={resolveSmEntities} />
+                                            : <StandardSmProperty title={title}
+                                                                  key={'property'}
+                                                                  name={fieldName}
+                                                                  value={value}
+                                                                  onValueChange={onValueChange}
+                                                                  config={schematic} />;
+                return <Field key={fieldName} title={title} name={fieldName} input={input} message={message} />
         }
         
     }
     
-    getPropertyValidityStatus = (propertyName, value) => true;
+    getPropertyValidityStatus = (identity, value) => true;
     
     onValueChange(value) {
-        const smID              = this.props.config.smID;
-        const fieldName         = this.props.name;
-        const validityStatus    = this.getPropertyValidityStatus(smID, value);
-        const updateValueStatus = this.props.updateValueStatus;
+        const schematic          = this.props.schematic;
+        const fieldName          = this.props.name;
+        const smID               = schematic.smID;
+        const effectiveSchematic = {smID, fieldName, ...schematic};
+        const validityStatus     = this.getPropertyValidityStatus(effectiveSchematic, value);
+        const updateValueStatus  = this.props.updateValueStatus;
         
-        return updateValueStatus(fieldName, value, validityStatus) || true;
+        return updateValueStatus(effectiveSchematic, value, validityStatus) || true;
     }
     
     renderMessage() {
@@ -74,6 +93,10 @@ export default class PropertyField extends React.Component {
 PropertyField.propTypes = {
     config:            PropTypes.object,
     updateValueStatus: PropTypes.func,
-    value:             PropTypes.any,
-    message:           PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    
+    resolveSmEntitySchematic: PropTypes.func.isRequired,
+    resolveSmEntities:        PropTypes.func.isRequired,
+    
+    value:   PropTypes.any,
+    message: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 };

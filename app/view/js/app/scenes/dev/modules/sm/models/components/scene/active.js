@@ -46,7 +46,7 @@ class ActiveModelScene extends React.Component {
                        component={({match}) => {
                            const modelName = match.params.name;
                            const smID      = '[Model]' + modelName;
-                           const modelMeta = models[smID];
+                           const modelMeta = models[smID] || {};
                            return <ModelMeta key={smID}
                                              {...modelMeta}
                                              smID={smID}
