@@ -7,7 +7,7 @@ import Navigation from './navigation';
 
 class Header extends React.Component {
     static propTypes = {
-        links: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
+        links: PropTypes.arrayOf(PropTypes.object),
         style: PropTypes.object,
     };
     

@@ -97,6 +97,10 @@
       "dev--routes__json": {
          "pattern": "wanghorn/dev/routes.json$"
       },
+      "dev--routes": {
+         "pattern": "wanghorn/dev/routes$",
+         "title": "Routes"
+      },
       "dev--execute_query": {
          "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },

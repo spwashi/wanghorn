@@ -4,6 +4,8 @@ import {ActiveComponent, InactiveComponent} from "../../../components/selectivel
 import ContentSection, {ContentSectionHeader} from "../../../../../components/page/content/section";
 import RouteConfiguration from "./route/configuration";
 import {routes as availableRoutes} from "../../../../../../path/resolution";
+import {DEV} from "../../../../../../path/paths";
+import {LinkItem} from "../../../../../../components/navigation";
 
 let RouteContainerTitle = ({title, description, typeClassname}) =>
     <div className={"title--wrapper configuration--title--wrapper route--configuration--title--wrapper"}>
@@ -58,7 +60,11 @@ export class ActiveRoutesScene extends React.Component {
         const numericRoutes = [];
         const publicRoutes  = {};
         const namedRoutes   = {};
-        const header        = <ContentSectionHeader className={'dev--scene--toggle'} title="Routes" />;
+        const header        =
+                  <LinkItem to={DEV} isButton={true}>
+                      <ContentSectionHeader title="Routes" className={'dev--scene--toggle'} />
+                  </LinkItem>;
+        
         Object.entries(routes)
               .forEach(
                   ([name, config]) => {

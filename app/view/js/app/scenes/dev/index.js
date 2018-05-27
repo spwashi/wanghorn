@@ -19,9 +19,8 @@ const Dev = ({models}) => {
                     This is a Developer's interface <sub>(work-in-progress)</sub> for the sites/apps that <a href={HOME} title={'William'}>I</a> help build.
                 </p>
                 <p>
-                    You can use your keyboard to navigate this page, but the only component that's animated now is my <LinkItem to={getURI('dev--home')} wrapper={props =>
-                    <span {...props} />}>Route</LinkItem> component
-                    because Sam recently refactored my {<ModelSceneLink title={"Model"} />} component to make it more URL-friendly.
+                    You can use your keyboard to navigate this page, but none of the components are animated
+                    because Sam recently refactored my code to make me more URL-friendly.
                 </p>
                 <ul>
                     <li><span className="keypress--name">Tab</span> to advance</li>
@@ -34,7 +33,7 @@ const Dev = ({models}) => {
                 </p>
             </section>
             <Route path={DEV} component={ModelModule} />
-            <Route component={RoutesModule} />
+            <Route path={DEV} component={RoutesModule} />
         </PageContent>
     );
 };

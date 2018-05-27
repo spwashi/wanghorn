@@ -1,9 +1,9 @@
 import Button from "./button";
-import {LogoContainer, StdHeader} from "./header";
+import {LogoContainer} from "./header";
 import {LinkContainer, LinkItem} from "./navigation";
 
 export {Button};
 
-export {StdHeader, LogoContainer};
+export {LogoContainer};
 
 export {LinkContainer, LinkItem};

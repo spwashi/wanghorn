@@ -1,84 +1,69 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {StandardSmProperty} from "../creation/components/input";
 import {getTitleFromPropName} from "../../dev/modules/sm/utility";
-import {Field} from "../../../components/form/field/field";
 import {ApiResponseMessage} from "./response";
-import {PropertyReferenceSelect} from "../creation/components/select/index";
+import {Factory} from "../../../../modules/factory";
+import {PasswordField, PropertyReferenceField} from "../../../components/sm/modify/fields";
+import {StandardSmProperty} from "../creation/components/input";
+import {Field} from "base-components/form/field/field";
+
+export class DefaultPropertyField extends React.Component {
+    render() {
+        let input = <StandardSmProperty title={this.props.title}
+                                        key={'property'}
+                                        name={this.props.name}
+                                        value={this.props.value}
+                                        onValueChange={this.props.onValueChange}
+                                        config={this.props.schematic} />;
+        return <Field title={this.props.title}
+                      name={this.props.name}
+                      message={this.props.message}
+                      input={input} />
+    }
+}
 
 export default class PropertyField extends React.Component {
     state = {};
     
-    constructor(props) {
-        super(props);
-        const schematic = this.props.schematic;
-        if (schematic && schematic.datatypes && schematic.datatypes[0] === 'password') {
-            this.state.verification        = '';
-            this.getPropertyValidityStatus = ({smID}, value) => {
-                if (this.state.verification === value) {
-                    return {message: null, status: true};
-                }
-                return {
-                    message: 'Passwords do not match',
-                    status:  this.state.verification === value
-                }
-            }
-        }
-    }
+    static fieldFactory = new Factory([
+                                          props => DefaultPropertyField,
+                                          ({schematic}) => schematic && schematic.reference ? PropertyReferenceField
+                                                                                            : null,
+                                          ({primaryDatatype}) => primaryDatatype === 'password' ? PasswordField
+                                                                                                : null
+                                      ]);
     
     render() {
-        let input;
-        const {schematic, value, name: fieldName} = this.props;
-        const onValueChange          = this.onValueChange.bind(this);
-        const title                  = getTitleFromPropName(schematic && schematic.name ? schematic.name : fieldName);
-        const message                = this.renderMessage();
-        let resolveSmEntitySchematic = this.props.resolveSmEntitySchematic;
-        let resolveSmEntities        = this.props.resolveSmEntities;
-        let primaryDatatype          = schematic.datatypes && schematic.datatypes[0];
+        const {schematic, value, name}                      = this.props;
+        const {resolveSmEntitySchematic, resolveSmEntities} = this.props;
+        const title                                         = getTitleFromPropName(schematic && schematic.name ? schematic.name : name);
+        const onValueChange                                 = this.onValueChange.bind(this);
+        const message                                       = this.renderMessage();
+        const primaryDatatype                               = schematic.datatypes && schematic.datatypes[0];
+        const newProps                                      = {
+            schematic,
+            value,
+            name,
+            resolveSmEntities,
+            resolveSmEntitySchematic,
+            title,
+            onValueChange,
+            message,
+            primaryDatatype
+        };
         
-        switch (primaryDatatype) {
-            case 'password':
-                const verificationTitle = 'Verify ' + title;
-                const verificationName  = 'verify--' + fieldName;
-                const onVerifyChange    = e => {
-                    this.setState({verification: e.target.value}, () => onValueChange(value));
-                };
-                const verificationInput = <input placeholder={verificationTitle} type="password" name={verificationName} onChange={onVerifyChange} />;
-                input                   = <StandardSmProperty title={title}
-                                                              value={value}
-                                                              onValueChange={onValueChange}
-                                                              config={schematic} />;
-                return [
-                    <Field key={'password'} title={title} name={fieldName} input={input} message={message} />,
-                    <Field key={'verify--password'} title={verificationTitle} name={verificationName} input={verificationInput} />
-                ];
-            default:
-                input = schematic.reference ? <PropertyReferenceSelect name={fieldName}
-                                                                       value={value}
-                                                                       key={'select'}
-                                                                       onValueChange={onValueChange}
-                                                                       schematic={schematic}
-                                                                       resolveSmEntitySchematic={resolveSmEntitySchematic}
-                                                                       resolveSmEntities={resolveSmEntities} />
-                                            : <StandardSmProperty title={title}
-                                                                  key={'property'}
-                                                                  name={fieldName}
-                                                                  value={value}
-                                                                  onValueChange={onValueChange}
-                                                                  config={schematic} />;
-                return <Field key={fieldName} title={title} name={fieldName} input={input} message={message} />
-        }
-        
+        const Component = PropertyField.fieldFactory.Component;
+        return <Component {...newProps} />
     }
     
     getPropertyValidityStatus = (identity, value) => true;
     
-    onValueChange(value) {
+    onValueChange(value, checkPropertyValidity = (schematic, value) => true) {
         const schematic          = this.props.schematic;
         const fieldName          = this.props.name;
         const smID               = schematic.smID;
         const effectiveSchematic = {smID, fieldName, ...schematic};
-        const validityStatus     = this.getPropertyValidityStatus(effectiveSchematic, value);
+        const validityStatus     = checkPropertyValidity(effectiveSchematic, value);
         const updateValueStatus  = this.props.updateValueStatus;
         
         return updateValueStatus(effectiveSchematic, value, validityStatus) || true;

@@ -3,20 +3,21 @@ import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HtmlPlugin from "html-webpack-plugin";
 import path from "path";
 import CleanWebpackPlugin from "clean-webpack-plugin";
-import {APP_NAME, APP_PATH__PUBLIC_DIR, APP_PATH__VIEW_DIR, APP_URL, ENVIRONMENT} from "../config/config";
+import {APP_NAME, APP_PATH__CONFIG_DIR, APP_PATH__PUBLIC_DIR, APP_PATH__VIEW_DIR, APP_URL, ENVIRONMENT} from "../config/config";
 
 export const outputPath            = `${APP_PATH__PUBLIC_DIR}`;
 export const outputPath__JS        = path.resolve(outputPath, 'js');
 export const outputPath__HTML      = path.resolve(outputPath, 'html');
 export const outputPath__CSS       = path.resolve(outputPath, 'css');
 export const inputPath__CSS        = path.resolve(APP_PATH__VIEW_DIR, 'stylesheets', 'scss');
+export const inputPath__config     = path.resolve(APP_PATH__CONFIG_DIR, 'pre');
 const IS_PROD                      = ENVIRONMENT === 'production';
 const htmlTemplatePath             = path.resolve(__dirname, '../view/html/react.html');
 const relativeCSS_output_filename  = `../css/style${IS_PROD ? '-[hash:6]' : ''}.css`;
-const publicPath__JS               = `${APP_URL}/public/js`;
-const publicPath__HTML             = `${APP_URL}/public/html`;
-const publicPath__IMG              = `${APP_URL}/public/img`;
-const publicPath__CSS              = `${APP_URL}/public/css`;
+const publicURL__JS                = `${APP_URL}/public/js`;
+const publicURL__HTML              = `${APP_URL}/public/html`;
+const publicURL__IMG               = `${APP_URL}/public/img`;
+const publicURL__CSS               = `${APP_URL}/public/css`;
 const outputJS_Filename            = `${APP_NAME}-[hash:6].js`;
 const indexHTML_name               = `${APP_NAME}.html`;
 const relativeHTML_output_filename = `../html/${indexHTML_name}`;
@@ -26,9 +27,9 @@ const plugins                      = [new ExtractTextPlugin({filename: relativeC
                                                          template: htmlTemplatePath,
                                                          filename: relativeHTML_output_filename,
                                                          public:   {
-                                                             publicPath__IMG,
-                                                             publicPath__HTML,
-                                                             publicPath__JS,
+                                                             publicURL__IMG,
+                                                             publicURL__HTML,
+                                                             publicURL__JS,
                                                          }
                                                      }),
                                       new CleanWebpackPlugin([`${outputPath__JS}/*`, `${outputPath__CSS}/*`],
@@ -48,7 +49,7 @@ export default {
              },
     output:  {
         filename:   outputJS_Filename,
-        publicPath: publicPath__JS,
+        publicPath: publicURL__JS,
         path:       outputPath__JS
     },
     devtool: !IS_PROD ? 'source-map' : false,

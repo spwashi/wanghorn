@@ -1,11 +1,13 @@
 import React from "react"
-import {DevScene} from "../../components/scene";
-import {ActiveComponent} from "../../components/selectivelyActive/components";
+import {InactiveDevComponent} from "../../components/scene";
 import {selectRoutes, selectRouteSceneActivity} from "./selector";
 import {fetchRoutes, toggleRouteScene} from "./actions";
 import {bindActionCreators} from 'redux'
 import {connect} from "react-redux";
+import {Route, Switch} from "react-router"
 import {ActiveRoutesScene} from "./components/active";
+import {getURI} from "../../../../../path/resolution";
+import {LinkItem} from "../../../../../components/navigation";
 
 function mapState(state) {
     const routes = selectRoutes(state);
@@ -29,13 +31,21 @@ export class RoutesScene extends React.Component {
     }
     
     render() {
-        return <DevScene className={"routes"}
-                         title={"Routes"}
-                         isActive={this.props.isActive}
-                         onActivate={this.props.toggleRouteScene}
-                         onDeactivate={this.props.toggleRouteScene}
-                         childClassName={"dev--component route--container"}>
-            <ActiveComponent component={ActiveRoutesScene} {...this.props} />
-        </DevScene>
+        return <div className={`scene--wrapper dev--scene--wrapper route--scene--wrapper`}>
+            <Switch>
+                <Route path={getURI('dev--routes')}
+                       component={
+                           props =>
+                               <div className={`scene dev--scene route--scene dev--component--wrapper`}>
+                                   <ActiveRoutesScene {...this.props} />
+                               </div>
+                       } />
+                <Route>
+                    <LinkItem to={getURI('dev--routes')} isButton={true}>
+                        <InactiveDevComponent title={'Routes'} className={'dev--scene inactive route--container'} />
+                    </LinkItem>
+                </Route>
+            </Switch>
+        </div>
     }
 }

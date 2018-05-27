@@ -162,6 +162,12 @@ const devRoutes     = [
                   name:       "dev--routes__json"
               }),
     new Route({
+                  renderedBy: 'client',
+                  title:      'Routes',
+                  pattern:    "dev/routes$",
+                  name:       "dev--routes"
+              }),
+    new Route({
                   resolution: "[Dev]@executeQuery",
                   pattern:    `dev/models/{smID}:${smID_regex}/execute/{query}:[a-zA-Z_]+`,
                   name:       "dev--execute_query"

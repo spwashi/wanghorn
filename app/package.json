@@ -81,6 +81,7 @@
         "moment": "^2.22.1",
         "react": "latest",
         "react-big-calendar": "^0.19.1",
+        "react-datepicker": "^1.5.0",
         "react-dom": "^16.2.0",
         "react-lorem-component": "^0.13.0",
         "react-modal": "^3.4.2",

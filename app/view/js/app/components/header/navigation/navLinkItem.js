@@ -46,6 +46,7 @@ export class NavLinkItem extends React.Component {
     render() {
         const {name, exact, children: descendants} = this.props.item;
         const title                                = getTitle(name);
+        !title && console.log(name);
         const renderedDescendants                  = this.renderDescendants(descendants);
         const activeDescendantClassname            = this.state.hasActiveDescendants ? 'has-active-descendants' : '';
         const focusedDescendantClassname           = this.state.focusedDescendant ? 'has-focused-descendants' : '';

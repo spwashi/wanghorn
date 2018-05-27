@@ -145,6 +145,12 @@
          "pattern": "wanghorn/dev/routes.json$"
       },
       {
+         "name": "dev--routes",
+         "title": "Routes",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/dev/routes$"
+      },
+      {
          "name": "dev--execute_query",
          "resolution": "Dev\\Dev@executeQuery",
          "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"

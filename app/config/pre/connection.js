@@ -1,4 +1,4 @@
-export default {
+export const connection =  {
     database: {
         std:  {
             dbms:     'mysql',
