@@ -7,7 +7,7 @@ export class PropertySchematicAsField extends React.Component {
     
     render() {
         return <PropertyField name={this.props.prefix}
-                              value={this.props.smEntity}
+                              value={this.props.value}
                               schematic={this.props.schematic}
         
                               resolveSmEntitySchematic={this.props.resolveSmEntitySchematic}

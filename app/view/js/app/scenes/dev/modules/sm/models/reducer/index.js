@@ -6,7 +6,6 @@ import modelMetaReducer from "./modelMeta";
 let modelSmIDList_reducer       = (state, {type, models}) => {
     switch (type) {
         case FETCH_MODEL_METAS_RECEIVED:
-            console.log(models);
             return Object.keys(models);
         default:
             return state || [];

@@ -38,29 +38,35 @@ export class PropertyFieldset extends React.Component {
     }
     
     render() {
-        const schematic          = this.props.schematic;
-        const settableProperties = getSettablePropertiesFromSmEntity(schematic);
-        const propertyInputs     = Object.entries(settableProperties)
-                                         .map(([name, schematic]) => {
-            
-                                             schematic.name = schematic.name || name;
-            
-                                             if (typeof schematic === "object") {
-                                                 const datatypes       = schematic.datatypes || [];
-                                                 const primaryDatatype = datatypes[0];
-                                                 const parsed          = parseSmID(primaryDatatype) || {};
-                                                 if (parsed.manager === 'Entity' || parsed.manager === 'Model') {
-                                                     schematic = this.props.resolveSmEntitySchematic(primaryDatatype);
-                                                 }
-                                             }
-                                             let prefix = this.getPrefixedSmID(schematic ? schematic.smID : name);
-                                             return <PromisedComponent key={name}
-                                                                       promised={{schematic}}
-                                                                       {...this.props}
-                                                                       prefix={prefix}
-                                                                       children={SchematicAsField} />
-                                         });
-        const fieldName          = schematic.name || schematic.smID;
+        const schematic                  = this.props.schematic;
+        const smEntity                   = this.props.smEntity || {};
+        const properties                 = smEntity ? smEntity.properties || {} : {};
+        const settablePropertySchematics = getSettablePropertiesFromSmEntity(schematic);
+        const propertyInputs             =
+                  Object.entries(settablePropertySchematics)
+                        .map(([name, schematic]) => {
+                            schematic.name = schematic.name || name;
+                            const props    = this.props;
+                            const value    = properties[name] || null;
+                
+                            if (typeof schematic === "object") {
+                                const datatypes       = schematic.datatypes || [];
+                                const primaryDatatype = datatypes[0];
+                                const parsed          = parseSmID(primaryDatatype) || {};
+                                if (parsed.manager === 'Entity' || parsed.manager === 'Model') {
+                                    schematic = props.resolveSmEntitySchematic(primaryDatatype);
+                                }
+                            }
+                
+                            const prefix = this.getPrefixedSmID(schematic ? schematic.smID
+                                                                          : name);
+                            return <PromisedComponent key={name}
+                                                      {...{...props, value}}
+                                                      promised={{schematic}}
+                                                      prefix={prefix}
+                                                      children={SchematicAsField} />
+                        });
+        const fieldName                  = schematic.name || schematic.smID;
         return <fieldset name={fieldName}>{propertyInputs}</fieldset>;
     }
     

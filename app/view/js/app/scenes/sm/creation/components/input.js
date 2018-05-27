@@ -49,7 +49,7 @@ export class StandardSmProperty extends React.Component {
                 inputProps.pattern = null;
                 break;
         }
-        return <input name={name} placeholder={title} {...inputProps} />
+        return <input name={name} placeholder={title} {...inputProps} value={value || ''} />
     }
 }
 

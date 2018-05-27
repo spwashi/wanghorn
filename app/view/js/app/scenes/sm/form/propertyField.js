@@ -4,7 +4,7 @@ import {StandardSmProperty} from "../creation/components/input";
 import {getTitleFromPropName} from "../../dev/modules/sm/utility";
 import {Field} from "../../../components/form/field/field";
 import {ApiResponseMessage} from "./response";
-import {SmEntityPropertyAsSelect} from "../creation/components/select";
+import {PropertyReferenceSelect} from "../creation/components/select/index";
 
 export default class PropertyField extends React.Component {
     state = {};
@@ -29,7 +29,6 @@ export default class PropertyField extends React.Component {
     render() {
         let input;
         const {schematic, value, name: fieldName} = this.props;
-        
         const onValueChange          = this.onValueChange.bind(this);
         const title                  = getTitleFromPropName(schematic && schematic.name ? schematic.name : fieldName);
         const message                = this.renderMessage();
@@ -54,13 +53,13 @@ export default class PropertyField extends React.Component {
                     <Field key={'verify--password'} title={verificationTitle} name={verificationName} input={verificationInput} />
                 ];
             default:
-                input = schematic.reference ? <SmEntityPropertyAsSelect name={fieldName}
-                                                                        value={value}
-                                                                        key={'select'}
-                                                                        onValueChange={onValueChange}
-                                                                        schematic={schematic}
-                                                                        resolveSmEntitySchematic={resolveSmEntitySchematic}
-                                                                        resolveSmEntities={resolveSmEntities} />
+                input = schematic.reference ? <PropertyReferenceSelect name={fieldName}
+                                                                       value={value}
+                                                                       key={'select'}
+                                                                       onValueChange={onValueChange}
+                                                                       schematic={schematic}
+                                                                       resolveSmEntitySchematic={resolveSmEntitySchematic}
+                                                                       resolveSmEntities={resolveSmEntities} />
                                             : <StandardSmProperty title={title}
                                                                   key={'property'}
                                                                   name={fieldName}

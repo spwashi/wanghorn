@@ -87,12 +87,21 @@
 	}
 	.input--wrapper, form > .message--wrapper {
 		margin-bottom : 10px;
+		display       : flex;
+		width         : 100%;
+		align-items   : center;
 		label {
-			width     : 25%;
+			flex      : 1 0 25%;
 			display   : inline-block;
 			font-size : .7em;
 		}
-		input { width : 75%; border : thin solid #ccc;display : inline-block;}
+		> input {
+			border : thin solid #ccc;
+		}
+		> input, > .Select {
+			flex    : 1 0 75%;
+			display : inline-block;
+		}
 		.error--message {
 			color : $close__red;
 		}

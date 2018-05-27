@@ -65,7 +65,7 @@ class SmEntityCreationForm extends React.Component {
             <form onSubmit={this.handleSubmit} className={status ? 'status__' + status : ''}>
                 <PromisedComponent key={'fields'}
                                    promised={{schematic}}
-                                   value={this.props.smEntity || null}
+                                   smEntity={this.state.smEntity || null}
                                    resolveSmEntitySchematic={this.resolveSmEntitySchematic.bind(this)}
                                    resolveSmEntities={this.fetchSmEntities.bind(this)}
                                    getPropertyMessage={this.getPropertyMessage.bind(this)}

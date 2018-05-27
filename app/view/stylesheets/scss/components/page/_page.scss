@@ -22,7 +22,6 @@ $backToTopRight : -15vh;
 			border-bottom : none;
 			color         : $page--nav-_-color;
 			transition    : font-weight .3s;
-
 		}
 		ul, ol {
 			display         : flex;
@@ -107,6 +106,8 @@ $backToTopRight : -15vh;
 	right            : 3%;
 	z-index          : 10;
 	height           : 10vh;
+	min-height       : 30px;
+	min-width        : 30px;
 	width            : 10vh;
 	box-shadow       : 4px 4px 8px 0px darken($body--backgroundColor, 25%);
 	background-color : darken(mix($body--backgroundColor, $palette_color_1), 10%);
