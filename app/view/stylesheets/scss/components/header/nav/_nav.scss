@@ -81,6 +81,8 @@
 		top        : 100%;
 		left       : 0;
 		padding    : 0;
+		display    : flex;
+		flex-flow  : column nowrap;
 		.navigation--link_item {
 			width            : 100%;
 			border           : 2px solid white;
@@ -130,8 +132,7 @@
 			opacity    : 1;
 			height     : auto;
 			transition : height .5s;
-			display    : flex;
-			flex-flow  : column nowrap;
+
 		}
 	}
 }
