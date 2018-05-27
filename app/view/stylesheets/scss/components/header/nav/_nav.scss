@@ -130,6 +130,8 @@
 			opacity    : 1;
 			height     : auto;
 			transition : height .5s;
+			display    : flex;
+			flex-flow  : column nowrap;
 		}
 	}
 }
