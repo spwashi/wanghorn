@@ -2,15 +2,26 @@ import {INTEGER_, NULL_, STRING_} from "../datatypes";
 import * as _ from "../_";
 import {person__identity} from "../person";
 import {Model} from "../helpers";
+import {image__identity} from "../file/image";
 
 export const name              = 'project';
 export const project__identity = Model.identify(name);
 export const inherits          = _.name;
 export const properties        = {
-    name:          {
+    name:     {
         length:    255,
         datatypes: [STRING_],
     },
+    image_id: {
+        datatypes: [INTEGER_, NULL_],
+        reference: {
+            identity:        image__identity,
+            hydrationMethod: {
+                property: 'id'
+            }
+        }
+    },
+    
     external_link: {
         length:    255,
         datatypes: [STRING_, NULL_],
