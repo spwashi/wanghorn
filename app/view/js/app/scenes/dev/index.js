@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {Route} from "react-router";
 import ModelModule from "./modules/sm/models/modelScene";
+import EntityModule from "./modules/sm/entities/entitiesScene";
 import {RoutesScene as RoutesModule} from "./modules/routes/routesScene";
 import reducer from "./reducer"
 import {selectDev} from "./selector";
@@ -9,7 +10,6 @@ import {PageContent} from "../../components/page";
 import {DEV, HOME} from "../../../path/paths";
 import {getURI} from "../../../path/resolution";
 import {LinkItem} from "../../../components/navigation";
-import {ModelSceneLink} from "./modules/sm/models/components/scene/sceneLink";
 
 const Dev = ({models}) => {
     return (
@@ -32,6 +32,7 @@ const Dev = ({models}) => {
                     &nbsp;component (todo) describes the structures used by this application to <em>interact with or manipulate</em> data.
                 </p>
             </section>
+            <Route path={DEV} component={EntityModule} />
             <Route path={DEV} component={ModelModule} />
             <Route path={DEV} component={RoutesModule} />
         </PageContent>

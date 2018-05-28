@@ -120,15 +120,32 @@ const dev           = {
                       pattern:    "dev/entities$"
                   }),
         new Route({
+                      renderedBy: 'client',
+                      pattern:    `dev/entities/{name}:[a-zA-Z_]+$`,
+                      name:       "dev--entity"
+                  }),
+        new Route({
                       name:       "dev--entity--property",
                       title:      "Entity Property",
                       pattern:    "dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
                       renderedBy: "client"
                   }),
         new Route({
+            
                       resolution: "[Dev]@entities",
                       pattern:    "dev/entities.json$",
                       name:       "dev--entities__json"
+                  }),
+        new Route({
+                      renderedBy: 'client',
+                      pattern:    "dev/entities/{name}:[a-zA-Z]+/create$",
+                      name:       "dev--create_entity"
+                  }),
+        new Route({
+                      resolution:  "[Dev]@createEntity",
+                      pattern:     `dev/entities/{name}:[a-zA-Z_]+/create/receive$`,
+                      http_method: HTTP__POST,
+                      name:        'dev--create_entity--receive'
                   })
     ]
 };

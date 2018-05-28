@@ -144,11 +144,31 @@ class DevController extends AppController {
         }
         return $config_arr;
     }
+    public function entityConfig() {
+        $html_filename = DEFAULT_APP__CONFIG_PATH . 'out/entities.json';
+        $json          = file_get_contents($html_filename);
+        $config        = json_decode($json, 1);
+        $config_arr    = [];
+        foreach ($config as $id => $item) {
+            $config_arr[ $item['smID'] ?? $id ] = $item;
+        }
+        return $config_arr;
+    }
     public function getSchematic($smID) {
         return $this->app->data->models->getSchematicByName($smID);
     }
     public function entities() {
-        return $this->app->data->entities->getRegisteredSchematics();
+        /** @var \Sm\Data\Entity\EntitySchematic[] $entitySchematics */
+        $entitySchematics = $this->app->data->entities->getRegisteredSchematics();
+        $entity_configs   = $this->entityConfig();
+        $all              = [];
+        foreach ($entitySchematics as $entitySchematic) {
+            $all[ $entitySchematic->getSmID() ] = [
+                'entity' => $entitySchematic,
+                'config' => $entity_configs[ $entitySchematic->getSmID() ?? '' ] ?? [],
+            ];
+        }
+        return $all;
     }
     public function models() {
         $fetch = $_GET['fetch'] ?? (isset($_GET['models']) ? 'models' : null);

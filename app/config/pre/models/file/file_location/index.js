@@ -16,12 +16,4 @@ export const properties              = {
         datatypes: [STRING_],
         unique:    'path'
     },
-    file_location_id: {
-        length:    11,
-        datatypes: [INTEGER_],
-        reference: {
-            identity:        file_location__identity,
-            hydrationMethod: {property: 'id'}
-        }
-    },
 };

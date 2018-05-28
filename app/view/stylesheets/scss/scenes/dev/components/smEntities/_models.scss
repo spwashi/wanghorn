@@ -1,11 +1,11 @@
-@import "model/model";
+@import "smEntity/smEntity";
 
-.model--container > .model--container--link--container {
+.smEntity--container > .smEntity--container--link--container {
 	margin  : 10px 0 10px 0;
 	padding : 10px 0;
 }
 
-.model--container--link--container {
+.smEntity--container--link--container {
 	list-style      : none;
 	margin          : 0;
 	padding         : 0;
@@ -37,7 +37,7 @@
 }
 
 @media screen and (max-device-width : 450px), screen and (max-width : 800px) {
-	.model--container--link--container {
+	.smEntity--container--link--container {
 		justify-content : space-evenly;
 		font-size       : .7em;
 	}

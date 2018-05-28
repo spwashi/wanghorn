@@ -164,8 +164,8 @@ class SmEntityCreationForm extends React.Component {
             return null;
         }
         
-        let contextName        = this.props.context;
-        let {contexts, models} = this.props;
+        let contextName                  = this.props.context;
+        let {contexts, models, entities} = this.props;
         
         let smID = smEntity;
         let schematic;
@@ -178,6 +178,9 @@ class SmEntityCreationForm extends React.Component {
         switch (manager) {
             case 'Model':
                 schematic = models[smID] || models[normalizeSmID(smID)];
+                break;
+            case 'Entity':
+                schematic = entities[smID] || entities[normalizeSmID(smID)];
                 break;
         }
         
@@ -247,8 +250,7 @@ SmEntityCreationForm.propTypes = {
 };
 export {SmEntityCreationForm};
 function mapState(state) {
-    let sm                 = state.scenes.sm;
-    let {contexts, models} = sm;
-    return {contexts, models}
+    let sm                           = state.scenes.sm;
+    let {contexts, models, entities} = sm;
+    return {contexts, models, entities}
 }
-

@@ -119,6 +119,11 @@
          "pattern": "wanghorn/dev/entities$"
       },
       {
+         "name": "dev--entity",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+$"
+      },
+      {
          "name": "dev--entity--property",
          "title": "Entity Property",
          "resolution": "Home\\Home@index",
@@ -128,6 +133,19 @@
          "name": "dev--entities__json",
          "resolution": "Dev\\Dev@entities",
          "pattern": "wanghorn/dev/entities.json$"
+      },
+      {
+         "name": "dev--create_entity",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z]+/create$"
+      },
+      {
+         "name": "dev--create_entity--receive",
+         "resolution": "Dev\\Dev@createEntity",
+         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
       },
       {
          "name": "dev--monitors__json",

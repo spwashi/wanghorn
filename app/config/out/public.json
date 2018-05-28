@@ -81,12 +81,24 @@
          "pattern": "wanghorn/dev/entities$",
          "title": "Entities"
       },
+      "dev--entity": {
+         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+$"
+      },
       "dev--entity--property": {
          "pattern": "wanghorn/dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
          "title": "Entity Property"
       },
       "dev--entities__json": {
          "pattern": "wanghorn/dev/entities.json$"
+      },
+      "dev--create_entity": {
+         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z]+/create$"
+      },
+      "dev--create_entity--receive": {
+         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
       },
       "dev--monitors__json": {
          "pattern": "wanghorn/dev/monitors.json$"

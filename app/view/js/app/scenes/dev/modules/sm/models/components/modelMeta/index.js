@@ -22,26 +22,26 @@ class ModelMeta extends React.Component {
         const createModelURI                 = getURI('dev--create_model', {name: getNameFromSmID(smID)});
         
         return (
-            <div key={smID} className={"model--meta"}>
+            <div key={smID} className={"smEntity--meta"}>
                 <header>
-                    <h3 id={smID} className={"title model--smID"}>{smID}</h3>
-                    <div className={`model--source--existence ${!canCreateTable ? 'existent' : 'non-existent'}`}></div>
+                    <h3 id={smID} className={"title smEntity--smID"}>{smID}</h3>
+                    <div className={`smEntity--source--existence ${!canCreateTable ? 'existent' : 'non-existent'}`}></div>
                 </header>
                 <ModelActions canCreateTable={canCreateTable} createModelURI={createModelURI}
                               tableExists={tableExists} executeCreateTableStatement={executeCreateTableStatement} />
-                <div className="wrapper component--wrapper model--component--wrapper">
+                <div className="wrapper component--wrapper smEntity--component--wrapper">
                     <ModelConfigurationContainer model={model}
                                                  config={config || {}}
                                                  onTogglePropertyClick={onTogglePropertyClick}
                                                  activeProperties={activeProperties} />
                 </div>
-                <div className="wrapper component--wrapper model--component--wrapper">
+                <div className="wrapper component--wrapper smEntity--component--wrapper">
                     <Query type={'CreateTable'}
                            query={createTableStatement}
                            canExecute={!tableExists}
                            executeQuery={executeCreateTableStatement} />
                 </div>
-                <div className="wrapper component--wrapper model--component--wrapper">
+                <div className="wrapper component--wrapper smEntity--component--wrapper">
                     <AlterTableStatementList statements={alterTableStatements || []} executeQuery={executeAllAlterTableStatements} />
                 </div>
                 <Route path={getURI('dev--create_model', null, {skipEmpty: true, asReactRoute: true})}

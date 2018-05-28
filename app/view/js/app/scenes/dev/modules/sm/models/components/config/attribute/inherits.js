@@ -1,9 +1,9 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import SmID_LinkContainer from "../../../nav/index";
-import {ConfigurationAttribute} from "../../../../../../../components/configuration";
-import {getURI} from "../../../../../../../../../../path/resolution";
-import {getNameFromSmID} from "../../../../../utility";
+import SmID_LinkContainer from "../../nav/index";
+import {ConfigurationAttribute} from "../../../../../../components/configuration/index";
+import {getURI} from "../../../../../../../../../path/resolution";
+import {getNameFromSmID} from "../../../../utility";
 
 const ModelConfigurationInheritsAttribute     =
           ({inherits}) => {

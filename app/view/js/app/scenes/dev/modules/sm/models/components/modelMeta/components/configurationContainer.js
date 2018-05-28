@@ -1,7 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import {withRouter} from "react-router"
-import ModelConfigurationWrapper from "../../config/model/config/config";
+import ModelConfigurationWrapper from "../../config/config/config";
 import {ModelSceneLink} from "../../scene/sceneLink";
 import {LinkItem} from "../../../../../../../../../components/navigation";
 

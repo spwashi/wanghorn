@@ -1,7 +1,7 @@
 @import "header";
 @import "../../../colors";
 
-.model--meta {
+.smEntity--meta {
 	background-color : $component--meta--bg;
 	color            : $component--meta-_-text-color;
 	padding          : 0;
@@ -16,18 +16,18 @@
 		h3 {
 			border-bottom : none;
 		}
-		.model--source--existence {
+		.smEntity--source--existence {
 			display  : block;
 			position : absolute;
 			right    : 1%;
 			top      : 20%;
 			color    : darken($configuration--attribute--title-_-background, 60%);
 			&.existent::before {
-				content   : 'Model Source has been instantiated';
+				content   : 'SmEntity Source has been instantiated';
 				font-size : .5em
 			}
 			&.non-existent::before {
-				content         : 'Model Source has NOT been instantiated';
+				content         : 'SmEntity Source has NOT been instantiated';
 				font-size       : .7em;
 				text-decoration : underline;
 				font-weight     : bold;
@@ -39,11 +39,11 @@
 	}
 }
 
-.model--meta--action--container {
+.smEntity--meta--action--container {
 	width         : 100%;
 	padding       : 5px;
 	border-bottom : thin solid darken($component--meta--bg--color, 10%);
-	.model--meta--action--wrapper {
+	.smEntity--meta--action--wrapper {
 		padding : 2px 0;
 	}
 	.button, button {
@@ -83,7 +83,7 @@
 	}
 }
 
-.model--configuration--wrapper {
+.smEntity--configuration--wrapper {
 	&:first-child {
 		border-right : thin solid $configuration--component-_-bg;
 	}
@@ -98,7 +98,7 @@
 	}
 }
 
-.model--configuration {
+.smEntity--configuration {
 	.configuration--title {
 		font-weight      : bold;
 		padding          : 10px;
@@ -140,7 +140,7 @@
 	}
 }
 
-.model--smID {
+.smEntity--smID {
 	display : block;
 	width   : 100%;
 }
@@ -183,7 +183,7 @@
 	width : 100%;
 }
 
-.model--configuration--description {
+.smEntity--configuration--description {
 	border-bottom : thin solid $configuration--title-_-border-bottom-color;
 	position      : relative;
 	display       : block;
@@ -196,7 +196,7 @@
 	}
 }
 
-.model--component--wrapper {
+.smEntity--component--wrapper {
 	justify-content : space-between;
 	align-items     : stretch;
 	flex-wrap       : wrap;
@@ -221,7 +221,7 @@
 	}
 }
 
-.model--meta .selectively-active.wrapper {
+.smEntity--meta .selectively-active.wrapper {
 	flex : 1 1 100%;
 }
 

@@ -39,7 +39,7 @@ class ActiveModelScene extends React.Component {
         const onTogglePropertyClick = propertySmID => toggleModelPropertyActivity({smID: propertySmID});
         const getSmID_LinkURI       = smID => getURI('dev--model', {name: getNameFromSmID(smID)});
         return (
-            <ContentSection sectionRef={activeElRef} className={"dev--component model--container"} header={header}>
+            <ContentSection sectionRef={activeElRef} className={"dev--component smEntity--container"} header={header}>
                 <ModelContainerDescription />
                 <SmID_LinkContainer ownerType={'model'} allSmIDs={allModelSmIDs} getSmID_LinkURI={getSmID_LinkURI} activeSmID={activeSmID} />
                 <Route path={getURI('dev--model', null, {skipEmpty: true, asReactRoute: true})}

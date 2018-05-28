@@ -1,38 +1,38 @@
 import React, {Component} from "react";
 import {bindActionCreators} from 'redux'
-import {executeModelQuery, fetchModelMetas, toggleModelScene} from "./actions";
+import {executeEntityQuery, fetchEntityMetas, toggleEntityScene} from "./actions";
 import {connect} from "react-redux";
 import {InactiveDevComponent} from "../../../components/scene";
 import {Route, Switch} from "react-router"
-import ActiveModelScene from "./components/scene/active";
-import {selectAllModelMetaObjects, selectModelDevInterface, selectModelSceneActivity} from "./selector";
+import ActiveEntityScene from "./components/scene/active";
+import {selectAllEntityMetaObjects, selectEntityDevInterface, selectEntitySceneActivity} from "./selector";
 import {getURI} from "../../../../../../path/resolution";
 import {LinkItem} from "../../../../../../components/navigation";
 
 @connect(mapState, mapDispatch)
-class ModelScene extends Component {
+class EntitiesScene extends Component {
     constructor(props) {
         super(props);
     }
     
     componentDidMount() {
-        this.props.fetchModelMetas()
+        this.props.fetchEntityMetas()
     }
     
     render() {
         return (
             <div className={`scene--wrapper dev--scene--wrapper smEntity--scene--wrapper`}>
                 <Switch>
-                    <Route path={getURI('dev--models')}
+                    <Route path={getURI('dev--entities')}
                            component={
                                props =>
                                    <div className={`scene dev--scene smEntity--scene dev--component--wrapper`}>
-                                       <ActiveModelScene {...this.props} />
+                                       <ActiveEntityScene {...this.props} />
                                    </div>
                            } />
                     <Route>
-                        <LinkItem to={getURI('dev--models')} isButton={true}>
-                            <InactiveDevComponent title={'Models'} className={'dev--scene inactive smEntity--container'} />
+                        <LinkItem to={getURI('dev--entities')} isButton={true}>
+                            <InactiveDevComponent title={'Entities'} className={'dev--scene inactive smEntity--container'} />
                         </LinkItem>
                     </Route>
                 </Switch>
@@ -41,19 +41,19 @@ class ModelScene extends Component {
     }
 }
 
-export default ModelScene;
+export default EntitiesScene;
 
 function mapState(state) {
-    const models        = selectAllModelMetaObjects(state) || {};
-    const isActive      = selectModelSceneActivity(state);
-    const modelState    = selectModelDevInterface(state);
-    const allModelSmIDs = modelState.list || [];
-    return {models, isActive, allModelSmIDs};
+    const entities       = selectAllEntityMetaObjects(state) || {};
+    const isActive       = selectEntitySceneActivity(state);
+    const entityState    = selectEntityDevInterface(state);
+    const allEntitySmIDs = entityState.list || [];
+    return {entities, isActive, allEntitySmIDs};
 }
 function mapDispatch(dispatch) {
     return bindActionCreators({
-                                  toggleModelScene,
-                                  fetchModelMetas,
-                                  executeModelQuery
+                                  toggleEntityScene,
+                                  fetchEntityMetas,
+                                  executeEntityQuery
                               }, dispatch);
 }

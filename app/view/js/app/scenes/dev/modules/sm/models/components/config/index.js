@@ -1,4 +1,4 @@
 import React from "react";
-import ModelConfigurationWrapper from "./model/config/config";
+import ModelConfigurationWrapper from "./config/config";
 
 export default ModelConfigurationWrapper;

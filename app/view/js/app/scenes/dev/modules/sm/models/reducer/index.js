@@ -25,7 +25,7 @@ let modelObject_reducer         = (state, action) => {
                          .reduce(reduceEntriesIntoObject, {});
     }
 };
-export const modelModuleReducer = combineReducers({
+export default combineReducers({
                                                       isActive: (state, action) => {
                                                           switch (action.type) {
                                                               case TOGGLE_MODEL_SCENE_ACTIVITY:

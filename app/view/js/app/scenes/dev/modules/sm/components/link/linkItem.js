@@ -8,11 +8,12 @@ export class SmID_LinkItem extends React.Component {
         ownerType                                                     = ownerType ? ownerType.toLowerCase()
                                                                                   : null;
         
-        let ownerTypeClassName = `${ownerType}--container--link ${ownerType}--smID--link`;
-        ownerTypeClassName     = ownerType ? ownerTypeClassName : '';
-        let smID_LinkClassName = `smID--link--item`;
-        let activeClassName    = !(isActive) ? '' : 'active';
-        let className          = `${activeClassName} ${smID_LinkClassName} ${ownerTypeClassName}`;
+        let ownerTypeClassName    = `${ownerType}--container--link ${ownerType}--smID--link`;
+        let smEntityClassName = `smEntity--container--link smEntity--smID--link`;
+        ownerTypeClassName        = ownerType ? ownerTypeClassName : '';
+        let smID_LinkClassName    = `smID--link--item`;
+        let activeClassName       = !(isActive) ? '' : 'active';
+        let className             = `${activeClassName} ${smID_LinkClassName} ${smEntityClassName} ${ownerTypeClassName}`;
         
         return (
             <li className={className}>

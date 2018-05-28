@@ -1,11 +1,11 @@
 import React from "react";
 import * as PropTypes from "prop-types";
-import {ConfigurationDescription, ConfigurationTitle} from "../../../../../../../components/configuration/configuration";
+import {ConfigurationDescription, ConfigurationTitle} from "../../../../../../components/configuration/configuration";
 import ReactTooltip from "react-tooltip";
 import bind from "bind-decorator";
-import {ActiveComponent, InactiveComponent} from "../../../../../../../components/selectivelyActive/components";
+import {ActiveComponent, InactiveComponent} from "../../../../../../components/selectivelyActive/components/index";
 import {ModelAttribute} from "../attribute";
-import {LinkItem} from "../../../../../../../../../../components/navigation";
+import {LinkItem} from "../../../../../../../../../components/navigation/index";
 
 /**
  * Wraps the configuration of a Model to provide more specific display capabilities
@@ -23,7 +23,7 @@ class ModelConfigurationWrapper extends React.Component {
         let ActiveComponent   = this.ActiveComponent;
         let InactiveComponent = this.InactiveComponent;
         return (
-            <div className={`wrapper model--configuration--wrapper`}>
+            <div className={`wrapper smEntity--configuration--wrapper`}>
                 {this.props.isActive ? <ActiveComponent />
                                      : <InactiveComponent />}
             </div>
@@ -34,7 +34,7 @@ class ModelConfigurationWrapper extends React.Component {
     InactiveComponent(props) {
         let tooltipName = `about_model-${this.props.type}`;
         return (
-            <div className={`wrapper title--wrapper configuration--title--wrapper model--configuration--title--wrapper`} data-tip data-for={tooltipName}>
+            <div className={`wrapper title--wrapper configuration--title--wrapper smEntity--configuration--title--wrapper`} data-tip data-for={tooltipName}>
                 <LinkItem to={`#${this.props.type}`} isButton={true}>
                     <ConfigurationTitle ownerType={'model'}>{this.title}</ConfigurationTitle>
                 </LinkItem>
@@ -50,7 +50,7 @@ class ModelConfigurationWrapper extends React.Component {
         const {model: config}                         = this.props;
         const {smID, name, properties, ...attributes} = config;
         return (
-            <div className="model--configuration">
+            <div className="smEntity--configuration">
                 <LinkItem to={`#`} isButton={true}>
                     <ConfigurationTitle ownerType={'model'}>{this.title}</ConfigurationTitle>
                 </LinkItem>

@@ -7,7 +7,7 @@ export const ModelActions = function ({tableExists, createModelURI, canCreateTab
     let createTableButton = null;
     if (tableExists) {
         createModelButton = (
-            <div className="model--meta--action--wrapper">
+            <div className="smEntity--meta--action--wrapper">
                 <LinkItem to={createModelURI}
                           className={'button'}
                           isButton={true}>Create New Model</LinkItem>
@@ -16,12 +16,12 @@ export const ModelActions = function ({tableExists, createModelURI, canCreateTab
     }
     if (canCreateTable) {
         createTableButton = (
-            <div className="model--meta--action--wrapper">
+            <div className="smEntity--meta--action--wrapper">
                 <button onClick={executeCreateTableStatement}>Create Table</button>
             </div>
         );
     }
-    return <div className="model--meta--action--container">{createModelButton}{createTableButton}</div>;
+    return <div className="smEntity--meta--action--container">{createModelButton}{createTableButton}</div>;
 };
 ModelActions.propTypes    = {
     tableExists:                 PropTypes.bool,
