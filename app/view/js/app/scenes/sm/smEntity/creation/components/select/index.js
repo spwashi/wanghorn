@@ -1,76 +1,68 @@
 import React from "react"
-import {PromisedComponent} from "../../../../../../../components/promised/index";
-import {normalizeSmID, parseSmID} from "../../../../../dev/modules/sm/utility";
-import 'react-select/dist/react-select.css';
-import {SmEntitySelect} from "../../modules/smEntity/select";
+import * as PropTypes from "prop-types"
+import {SmEntitySelectOption} from "./option/index";
+import ReactSelect from "react-select";
 
 /**
- * Class intended to represent an SmEntity as a <select> input (or something equivalent)
+ * Using an SmEntity, convert a property into a Select dialog
  */
-export class PropertyReferenceSelect extends React.Component {
-    render() {
-        const {onValueChange, resolveSmEntitySchematic} = this.props;
-        const propertySchematic                         = this.props.schematic;
-        let resolveSmEntities                           = this.props.resolveSmEntities;
-        
-        const required  = propertySchematic.isRequired;
-        const reference = propertySchematic.reference;
-        
-        let referenceIdentity    = reference.identity;
-        let identityPropertySmID = reference.hydrationMethod; // assume that the "hydration method" (what connects these models) is a property
-        
-        // throw an error of something doesn't loo right
-        PropertyReferenceSelect.checkValuePropertySmID(identityPropertySmID);
-        
-        // If this property is a reference, we want to resolve the schematic of the SmEntity that drives this property's identity
-        const inputProps                 = {required};
-        const getSmEntityFieldAttributes =
-                  (otherSmEntity, schematic) =>
-                      PropertyReferenceSelect.getSmEntityFieldAttributes(otherSmEntity,
-                                                                         schematic,
-                                                                         {valuePropertySmID: identityPropertySmID});
-        
-        let getResolvedSmEntities        = i => resolveSmEntities({smID: referenceIdentity});
-        let getResolvedSmEntitySchematic = i => resolveSmEntitySchematic(referenceIdentity);
-        let promised                     = {
-            schematic: getResolvedSmEntitySchematic,
-            data:      getResolvedSmEntities
-        };
-        return <PromisedComponent promised={promised}
-                                  name={this.props.name}
-                                  value={this.props.value}
-                                  onValueChange={onValueChange}
-                                  inputProps={inputProps}
-                                  getSmEntityFieldAttributes={getSmEntityFieldAttributes}
-                                  resolveSmEntities={getResolvedSmEntities}>{SmEntitySelect}</PromisedComponent>;
-    }
+export class SmEntitySelect extends React.Component {
+    static propTypes = {
+        schematic:                  PropTypes.object,
+        data:                       PropTypes.array,
+        inputProps:                 PropTypes.object,
+        resolveSmEntities:          PropTypes.func.isRequired,
+        getSmEntityFieldAttributes: PropTypes.func.isRequired,
+    };
+           state     = {data: null, referencedSchematic: null};
     
-    static getSmEntityFieldAttributes(smEntity, schematic, {valuePropertySmID}) {
-        let value = null,
-            title = null;
+    onHasData(data) {
+        if (!Array.isArray(data)) { return; }
         
-        Object.entries(smEntity.properties)
-              .forEach(
-                  ([name, val]) => {
-                      let propertySchematic = schematic.properties[name];
-                      // if the name of the property contains something that indicates that the name would be the value
-                      if (/(name|title|text|[a-zA-Z_]+name)/.exec(name)) title = val;
-                
-                      // If the property matches the property that we are trying to reference
-                      if (normalizeSmID(propertySchematic.smID) === normalizeSmID(valuePropertySmID)) {
-                          value = val;
-                          title = title || val;
-                      }
-                  }
-              );
-        return {value, title};
-    }
-    
-    static checkValuePropertySmID(valuePropertySmID) {
-        let {manager: hydrationMethodManager} = parseSmID(valuePropertySmID) || {};
-        if (hydrationMethodManager !== 'Property') {
-            console.error(valuePropertySmID);
-            throw new Error("Can only link SmEntities via Properties");
+        const isRequired = this.props.inputProps.required;
+        if (data.length >= 1 && isRequired) {
+            let {value} = this.smEntityOptionAttributes(data[0]);
+            this.props.onValueChange(value);
         }
+    };
+    
+    componentDidMount() {
+        this.props.data ? this.onHasData(this.props.data)
+                        : Promise.resolve(this.props.resolveSmEntities())
+                                 .then(data => this.onHasData(data));
+    }
+    
+    render() {
+        const {required} = this.props.inputProps || {};
+        const name       = this.props.name;
+        const value      = this.props.value;
+        const data       = this.props.data || [];
+        const options    =
+                  data.map(smEntity => this.smEntityOptionAttributes(smEntity));
+        
+        return <ReactSelect ref={ref => { this.select = ref; }}
+
+                            rtl={false} searchable={true} simpleValue
+
+                            onBlurResetsInput={false} onSelectResetsInput={false}
+
+                            name={name}
+                            value={value}
+                            options={options}
+                            onChange={this.props.onValueChange}
+
+                            valueComponent={SmEntitySelectOption} optionComponent={SmEntitySelectOption} />;
+    }
+    
+    smEntityOptionAttributes(smEntity) {
+        const schematic       = this.props.schematic;
+        const fieldAttributes = this.props.getSmEntityFieldAttributes(smEntity, schematic);
+        const {value, title}  = fieldAttributes;
+        return {
+            value,
+            label: title,
+            schematic,
+            smEntity
+        };
     }
 }

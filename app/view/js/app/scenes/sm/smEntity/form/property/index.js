@@ -6,16 +6,24 @@ import {Factory} from "../../../../../../modules/factory/index";
 import {PasswordField, PropertyReferenceField} from "../../../../../components/sm/modify/fields";
 import {DefaultPropertyField} from "./field";
 
-const prefixName = function ({prefix, name}) {
-    return prefix ? (prefix + '--' + name) : name;
-};
-export default class PropertyField extends React.Component {
-    state = {};
+export default class SchematicField extends React.Component {
+    static propTypes = {
+        name:                     PropTypes.string.isRequired,
+        fieldName:                PropTypes.string.isRequired,
+        schematic:                PropTypes.object.isRequired,
+        value:                    PropTypes.any,
+        message:                  PropTypes.any,
+        resolveSmEntitySchematic: PropTypes.func.isRequired,
+        resolveSmEntities:        PropTypes.func.isRequired,
+        updateValueStatus:        PropTypes.func.isRequired
+    };
+           state     = {};
     
     render() {
         const componentProps = {
             schematic:                this.props.schematic,
             name:                     this.props.name,
+            fieldName:                this.props.fieldName,
             value:                    this.props.value,
             title:                    getTitleFromPropName(this.props.name),
             message:                  this.props.message,
@@ -24,19 +32,14 @@ export default class PropertyField extends React.Component {
             resolveSmEntities:        this.props.resolveSmEntities,
             resolveSmEntitySchematic: this.props.resolveSmEntitySchematic
         };
-        const Component      = PropertyField.fieldFactory.Component;
+        const Component      = SchematicField.fieldFactory.Component;
         return <Component {...componentProps} />
     }
-    
-    getPropertyValidityStatus = (identity, value) => true;
     
     @bind
     onValueChange(value, checkPropertyValidity = (schematic, value) => true) {
         const schematic          = this.props.schematic;
-        const fieldName          = prefixName({
-                                                  prefix: this.props.prefix,
-                                                  name:   this.props.name
-                                              });
+        const fieldName          = this.props.fieldName;
         const smID               = schematic.smID;
         const effectiveSchematic = {smID, fieldName, ...schematic};
         const validityStatus     = checkPropertyValidity(effectiveSchematic, value);
@@ -44,19 +47,9 @@ export default class PropertyField extends React.Component {
         return updateValueStatus(effectiveSchematic, value, validityStatus) || true;
     }
 };
-PropertyField.fieldFactory =
+SchematicField.fieldFactory =
     new Factory([
                     props => DefaultPropertyField,
                     ({schematic}) => schematic && schematic.reference ? PropertyReferenceField : null,
                     ({primaryDatatype}) => primaryDatatype === 'password' ? PasswordField : null
                 ]);
-PropertyField.propTypes    = {
-    config:            PropTypes.object,
-    updateValueStatus: PropTypes.func,
-    
-    resolveSmEntitySchematic: PropTypes.func.isRequired,
-    resolveSmEntities:        PropTypes.func.isRequired,
-    
-    value:   PropTypes.any,
-    message: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.bool]),
-};

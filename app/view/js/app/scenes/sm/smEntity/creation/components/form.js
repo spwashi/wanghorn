@@ -5,14 +5,35 @@ import {bindActionCreators} from "redux"
 import axios from "axios";
 import {reduceEntriesIntoObject} from "../../../../../../utility";
 import {connect} from "react-redux";
-import {PropertyFieldset} from "./field/fieldset";
+import {SmEntityFieldset} from "./field/fieldset";
 import {normalizeSmID, parseSmID} from "../../../../dev/modules/sm/utility";
 import {ApiResponseMessage} from "../../form/response";
 import {fetchModels} from "../../../../dev/modules/sm/models/actions";
 import {PromisedComponent} from "../../../../../../components/promised/index";
 
-let mapDispatch = dispatch => bindActionCreators({fetchModels,}, dispatch);
-let attempts    = {};
+const mapDispatch             = dispatch => bindActionCreators({fetchModels,}, dispatch);
+let attempts                  = {};
+const getFormSubmissionStatus = function (smEntity) {
+    let canSubmit                = true;
+    const submissionErrors       = {};
+    const {properties, messages} = smEntity;
+    const messageEntries         = Object.entries(messages || {});
+    console.log(messages);
+    // Check the properties to make sure they are valid
+    messageEntries.map(entry => {
+        const [name, message] = entry;
+        console.log(entry);
+        if (typeof message === "undefined") return;
+        const {status, message: text} = message;
+        if (typeof status === 'undefined' || (!status && typeof status === 'object')) {
+            return;
+        }
+        canSubmit = canSubmit ? !!status : false;
+        !status && (submissionErrors[name] = text || 'Invalid value');
+    });
+    
+    return {canSubmit, submissionErrors};
+};
 
 @connect(mapState, mapDispatch)
 class SmEntityCreationForm extends React.Component {
@@ -69,7 +90,7 @@ class SmEntityCreationForm extends React.Component {
                                    resolveSmEntitySchematic={this.resolveSmEntitySchematic.bind(this)}
                                    resolveSmEntities={this.fetchSmEntities.bind(this)}
                                    updateValueStatus={this.updateValueStatus.bind(this)}>
-                    {PropertyFieldset}
+                    {SmEntityFieldset}
                 </PromisedComponent>
                 <div className="message--wrapper">
                     <ApiResponseMessage message={this.state.messages && (this.state.messages._message || this.state.messages[0])} />
@@ -86,28 +107,18 @@ class SmEntityCreationForm extends React.Component {
     @bind
     handleSubmit(event) {
         event.preventDefault();
-        const url              = this.props.url;
-        const properties       = this.state.properties;
-        const propertyEntries  = Object.entries(properties);
-        const submissionErrors = {};
-        let canSubmit          = true;
+        const url      = this.props.url;
+        const smEntity = this.state.smEntity || {};
         
-        // Check the properties to make sure they are valid
-        propertyEntries.forEach(([name, {value, status, message}]) => {
-            
-            if (typeof status === 'undefined' || (!status && typeof status === 'object')) return;
-            
-            canSubmit = canSubmit ? !!status : false;
-            
-            !status && (submissionErrors[name] = message || 'Invalid value');
-        });
+        let {canSubmit, submissionErrors} = getFormSubmissionStatus(smEntity);
         
         // Set the error messages on fail
         if (!canSubmit) {
             this.setState({
                               messages: {
                                   ...this.state.messages,
-                                  ...submissionErrors
+                                  ...submissionErrors,
+                                  _message: 'Could not submit form',
                               }
                           });
             return;
@@ -181,15 +192,16 @@ class SmEntityCreationForm extends React.Component {
         return schematic ? schematic : null;
     }
     
-    updateValueStatus(effectiveSchematic, value, status = true) {
+    updateValueStatus(effectiveSchematic, value, message = true) {
         const {smID, fieldName, name} = effectiveSchematic;
+        
+        if (typeof message !== 'boolean' && typeof  message !== "object") {
+            throw new Error("Expected an object or boolean for message");
+        }
         
         const propertyChangeHandler = this.propertyChangeHandler;
         const schematic             = this.getPropertySchematic(smID);
         let smEntity;
-        let message;
-        
-        if (typeof status === 'object' && status) message = status.message || null;
         
         propertyChangeHandler(normalizeSmID(smID),
                               value,

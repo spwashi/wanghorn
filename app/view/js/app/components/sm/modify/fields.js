@@ -1,7 +1,7 @@
 import React from "react"
 import {Field} from "base-components/form/field/field";
 import {StandardSmProperty} from "../../../scenes/sm/smEntity/creation/components/field/smProperty";
-import {PropertyReferenceSelect} from "../../../scenes/sm/smEntity/creation/components/select";
+import {PropertyReferenceSelect} from "../../../scenes/sm/smEntity/creation/components/select/propertyReference";
 
 export class PasswordField extends React.Component {
     state = {verification: ''};
@@ -10,33 +10,28 @@ export class PasswordField extends React.Component {
         const onValueChange         = this.props.onValueChange;
         const schematic             = this.props.schematic;
         const name                  = schematic.name;
-        const value                 = this.props.value;
+        const password              = this.props.value;
         const title                 = this.props.title;
         const message               = this.props.message;
         const verificationTitle     = 'Verify ' + title;
         const verificationName      = 'verify--' + name;
-        const checkPropertyValidity = ({smID}, value) => {
-            if (this.state.verification === value) {
-                return {message: null, status: true};
-            }
-            return {
-                message: 'Passwords do not match',
-                status:  this.state.verification === value
-            }
+        const checkPropertyValidity = (schematic, password) => {
+            const status  = this.state.verification === password;
+            const message = !status ? 'Passwords do not match' : null;
+            return {message, status};
         };
         const onVerifyChange        = e => {
-            this.setState({verification: e.target.value},
-                          () => onValueChange(value, checkPropertyValidity));
+            const onStateSet = () => onValueChange(password, checkPropertyValidity);
+            this.setState({verification: e.target.value}, onStateSet);
         };
         const verification          = <input placeholder={verificationTitle}
                                              type="password"
                                              name={verificationName}
                                              onChange={onVerifyChange} />;
         const input                 = <StandardSmProperty title={title}
-                                                          value={value}
-                                                          onValueChange={onValueChange}
+                                                          value={password}
+                                                          onValueChange={value => onValueChange(value, checkPropertyValidity)}
                                                           schematic={schematic} />;
-        console.log(message);
         return [
             <Field key={'password'}
                    title={title}
