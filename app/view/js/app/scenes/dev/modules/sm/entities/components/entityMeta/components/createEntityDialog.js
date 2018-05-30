@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types"
 import {getNameFromSmID} from "../../../../utility";
 import {getURI} from "../../../../../../../../../path/resolution";
 import Modal from "../../../../../../../../components/modal";
-import {SmEntityCreationForm} from "../../../../../../../sm/creation/components/form";
+import {SmEntityCreationForm} from "../../../../../../../sm/smEntity/creation/components/form";
 
 export class CreateEntityDialog extends React.Component {
     state = {isActive: true};

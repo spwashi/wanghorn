@@ -85,10 +85,11 @@
 		font-size : .7em;
 		margin    : 2px 0 2px 20%;
 	}
-	.input--wrapper, form > .message--wrapper {
+	.input--wrapper, .message--wrapper {
 		margin-bottom : 10px;
 		display       : flex;
-		width         : 100%;
+		flex-wrap     : wrap;
+		flex          : 0 1 100%;
 		align-items   : center;
 		label {
 			flex      : 1 0 25%;

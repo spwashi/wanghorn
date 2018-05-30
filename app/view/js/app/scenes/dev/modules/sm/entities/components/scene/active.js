@@ -1,6 +1,6 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import SmID_LinkContainer from "../nav";
+import SmID_LinkContainer from "../../../../../../sm/smEntity/meta/nav";
 import ContentSection, {ContentSectionHeader} from "../../../../../../../components/page/content/section";
 import {EntityContainerDescription} from "./components";
 import {Route} from "react-router-dom"

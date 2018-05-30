@@ -1,7 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import {ConfigurationAttribute} from "../../../../../../components/configuration/index";
-import {PropertySmIDLink} from "../../../../components/propertyOwner/attribute/properties/smID_Link";
+import {PropertySmIDLink} from "../../../../../../../sm/smEntity/meta/attributes/properties/smID_Link";
 
 const NamedIndexList = ({indexList: index, onTrigger}) => {
     return (

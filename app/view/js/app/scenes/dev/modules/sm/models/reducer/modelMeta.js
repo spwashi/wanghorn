@@ -4,17 +4,16 @@ type modelMeta = {
     smID: string,
     alterTableStatements: [],
     createTableStatement: string,
-    model: {},
+    schematic: {},
     tableExists: boolean,
     activeProperties: []
 };
 
 export default (modelMeta: modelMeta, action) => {
     let smID = (modelMeta || {}).smID;
-    
     switch (action.type) {
         case FETCH_MODEL_METAS_RECEIVED:
-            smID = (modelMeta.model || {}).smID;
+            smID = (modelMeta.schematic || {}).smID;
             return {...modelMeta, smID};
         case EXECUTE_MODEL_QUERY__END:
             const {query, result} = action;

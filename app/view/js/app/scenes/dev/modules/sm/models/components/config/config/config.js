@@ -24,8 +24,7 @@ class ModelConfigurationWrapper extends React.Component {
         let InactiveComponent = this.InactiveComponent;
         return (
             <div className={`wrapper smEntity--configuration--wrapper`}>
-                {this.props.isActive ? <ActiveComponent />
-                                     : <InactiveComponent />}
+                {this.props.isActive ? <ActiveComponent /> : <InactiveComponent />}
             </div>
         );
     };
@@ -34,7 +33,9 @@ class ModelConfigurationWrapper extends React.Component {
     InactiveComponent(props) {
         let tooltipName = `about_model-${this.props.type}`;
         return (
-            <div className={`wrapper title--wrapper configuration--title--wrapper smEntity--configuration--title--wrapper`} data-tip data-for={tooltipName}>
+            <div className={`wrapper title--wrapper configuration--title--wrapper smEntity--configuration--title--wrapper`}
+                 data-tip
+                 data-for={tooltipName}>
                 <LinkItem to={`#${this.props.type}`} isButton={true}>
                     <ConfigurationTitle ownerType={'model'}>{this.title}</ConfigurationTitle>
                 </LinkItem>
@@ -47,8 +48,8 @@ class ModelConfigurationWrapper extends React.Component {
     
     @bind
     ActiveComponent(props) {
-        const {model: config}                         = this.props;
-        const {smID, name, properties, ...attributes} = config;
+        const {schematic}                             = this.props;
+        const {smID, name, properties, ...attributes} = schematic;
         return (
             <div className="smEntity--configuration">
                 <LinkItem to={`#`} isButton={true}>
@@ -59,6 +60,7 @@ class ModelConfigurationWrapper extends React.Component {
                     Object.entries({smID, name, ...attributes, properties})
                           .map(([attr, value]) => {
                               if ((!value && typeof value === 'object') || typeof value === 'undefined' || value === '') return null;
+                        
                               return <ModelAttribute key={attr}
                                                      activeProperties={this.props.activeProperties}
                                                      onTogglePropertyClick={this.props.onTogglePropertyClick}

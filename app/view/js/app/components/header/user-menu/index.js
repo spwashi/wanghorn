@@ -94,6 +94,7 @@ class UserMenu extends React.Component {
         );
     }
     
+    
     componentDidMount() {
         const userElement    = document.getElementById('session__user');
         const contextElement = document.getElementById('context__signup_process--configuration');
@@ -102,8 +103,10 @@ class UserMenu extends React.Component {
             let json = userElement.innerText || userElement.innerHTML;
             this.props.dispatchActiveUserFound(JSON.parse(json))
         }
-        let context = contextElement.innerText || contextElement.innerHTML;
-        this.props.dispatchContextResolved(JSON.parse(context));
+        if (contextElement) {
+            let context = contextElement.innerText || contextElement.innerHTML;
+            this.props.dispatchContextResolved(JSON.parse(context));
+        }
     }
     
     @bind

@@ -16,12 +16,12 @@ let modelObject_reducer         = (state, action) => {
     switch (type) {
         case FETCH_MODEL_METAS_RECEIVED:
             let fetched_models = Object.entries(action.models)
-                                       .map(([smID, model]) => [smID, modelMetaReducer(model, action)])
+                                       .map(([smID, modelMeta]) => [smID, modelMetaReducer(modelMeta, action)])
                                        .reduce(reduceEntriesIntoObject, {});
             return {...state, ...fetched_models};
         default:
             return Object.entries(state || {})
-                         .map(([smID, model]) => [smID, modelMetaReducer(model, action)])
+                         .map(([smID, modelMeta]) => [smID, modelMetaReducer(modelMeta, action)])
                          .reduce(reduceEntriesIntoObject, {});
     }
 };

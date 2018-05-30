@@ -1,6 +1,6 @@
 import React from "react"
 import ModelConfigurationInheritsAttribute from "./inherits";
-import SmEntityConfigurationPropertiesAttribute from "../../../../components/propertyOwner/attribute/properties/index";
+import SmEntityConfigurationPropertiesAttribute from "../../../../../../../sm/smEntity/meta/attributes/properties/index";
 import {ConfigurationAttribute} from "../../../../../../components/configuration/index";
 import ModelConfigurationPropertyMetaAttribute from "./propertyMeta";
 
@@ -17,8 +17,6 @@ export const ModelAttribute = ({name, value, activeProperties, onTogglePropertyC
                                                              onPropertyLinkTrigger={onTogglePropertyClick}
                                                              properties={value} />;
         default:
-            return <ConfigurationAttribute ownerType={'model'}
-                                           attribute={name}
-                                           value={value} />;
+            return <ConfigurationAttribute ownerType={'model'} attribute={name} value={value} />;
     }
 };

@@ -1,17 +1,15 @@
 import React from "react";
-import {Route} from "react-router-dom";
 import * as PropTypes from "prop-types"
 import {Query} from "../query/index";
 import {getURI} from "../../../../../../../../path/resolution";
 import {getNameFromSmID} from "../../../utility";
-import {ModelActions} from "./components/modelActions";
 import {ModelConfigurationContainer} from "./components/configurationContainer";
-import {CreateModelDialog} from "./components/createModelDialog";
 import {AlterTableStatementList} from "./components/alterTableStatementList";
+import SmEntityMeta from "../../../../../../sm/smEntity/meta";
 
 class ModelMeta extends React.Component {
     render() {
-        const {smID, config, model}                                     = this.props;
+        const {smID, config, schematic}                                 = this.props;
         const {activeProperties}                                        = this.props;
         const {executeModelQuery, onTogglePropertyClick}                = this.props;
         const {createTableStatement, alterTableStatements, tableExists} = this.props;
@@ -22,31 +20,29 @@ class ModelMeta extends React.Component {
         const createModelURI                 = getURI('dev--create_model', {name: getNameFromSmID(smID)});
         
         return (
-            <div key={smID} className={"smEntity--meta"}>
-                <header>
-                    <h3 id={smID} className={"title smEntity--smID"}>{smID}</h3>
-                    <div className={`smEntity--source--existence ${!canCreateTable ? 'existent' : 'non-existent'}`}></div>
-                </header>
-                <ModelActions canCreateTable={canCreateTable} createModelURI={createModelURI}
-                              tableExists={tableExists} executeCreateTableStatement={executeCreateTableStatement} />
-                <div className="wrapper component--wrapper smEntity--component--wrapper">
-                    <ModelConfigurationContainer model={model}
-                                                 config={config || {}}
-                                                 onTogglePropertyClick={onTogglePropertyClick}
-                                                 activeProperties={activeProperties} />
-                </div>
-                <div className="wrapper component--wrapper smEntity--component--wrapper">
-                    <Query type={'CreateTable'}
-                           query={createTableStatement}
-                           canExecute={!tableExists}
-                           executeQuery={executeCreateTableStatement} />
-                </div>
-                <div className="wrapper component--wrapper smEntity--component--wrapper">
-                    <AlterTableStatementList statements={alterTableStatements || []} executeQuery={executeAllAlterTableStatements} />
-                </div>
-                <Route path={getURI('dev--create_model', null, {skipEmpty: true, asReactRoute: true})}
-                       component={({history}) => <CreateModelDialog smID={smID} schematic={model} history={history} />} />
-            </div>
+            <SmEntityMeta config={config} schematic={schematic} actions={{
+                createModel: {
+                    uri:        createModelURI,
+                    canExecute: tableExists,
+                    title:      'Create New Model'
+                },
+                createTable: {
+                    callback:   executeCreateTableStatement,
+                    canExecute: canCreateTable,
+                    title:      'Create Table'
+                }
+            }}>
+                <div className={`smEntity--source--existence ${!canCreateTable ? 'existent' : 'non-existent'}`} />
+                <ModelConfigurationContainer schematic={schematic}
+                                             config={config || {}}
+                                             onTogglePropertyClick={onTogglePropertyClick}
+                                             activeProperties={activeProperties} />
+                <Query type={'CreateTable'}
+                       query={createTableStatement}
+                       canExecute={!tableExists}
+                       executeQuery={executeCreateTableStatement} />
+                <AlterTableStatementList statements={alterTableStatements || []} executeQuery={executeAllAlterTableStatements} />
+            </SmEntityMeta>
         );
     }
 }
@@ -54,7 +50,7 @@ class ModelMeta extends React.Component {
 ModelMeta.propTypes = {
     smID:                  PropTypes.string,
     config:                PropTypes.object,
-    model:                 PropTypes.object,
+    schematic:             PropTypes.object,
     tableExists:           PropTypes.bool,
     activeProperties:      PropTypes.arrayOf(PropTypes.string),
     createTableStatement:  PropTypes.string,

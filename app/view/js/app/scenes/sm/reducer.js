@@ -5,7 +5,7 @@ import {FETCH_ENTITY_METAS_RECEIVED} from "../dev/modules/sm/entities/actions";
 
 export default combineReducers({
                                    // Configurations for the Models used in this SmEntity
-                                   models: (state, action) => {
+                                   models:   (state, action) => {
                                        switch (action.type) {
                                            case FETCH_MODEL_METAS_RECEIVED:
                                                let models     = action.models;
@@ -15,7 +15,7 @@ export default combineReducers({
                                                          let [name, modelMeta] = entry;
                     
                                                          // Configuration from SmPHP
-                                                         let schematic              = modelMeta.model;
+                                                         let {schematic}            = modelMeta;
                                                          schematics[schematic.smID] = schematic;
                                                      });
                 
@@ -27,14 +27,13 @@ export default combineReducers({
                                    entities: (state, action) => {
                                        switch (action.type) {
                                            case FETCH_ENTITY_METAS_RECEIVED:
-                                               let entities     = action.entities;
+                                               let entities   = action.entities;
                                                let schematics = {};
                                                Object.entries(entities)
                                                      .forEach(entry => {
-                                                         let [name, entityMeta] = entry;
-                    
+                                                         let [name, entityMeta]     = entry;
                                                          // Configuration from SmPHP
-                                                         let schematic              = entityMeta.entity;
+                                                         let {schematic}            = entityMeta;
                                                          schematics[schematic.smID] = schematic;
                                                      });
                 

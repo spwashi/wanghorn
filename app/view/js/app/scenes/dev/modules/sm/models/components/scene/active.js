@@ -1,6 +1,5 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import SmID_LinkContainer from "../nav";
 import ContentSection, {ContentSectionHeader} from "../../../../../../../components/page/content/section";
 import {ModelContainerDescription} from "./components";
 import {Route} from "react-router-dom"
@@ -9,6 +8,7 @@ import ModelMeta from "../modelMeta/index";
 import {getNameFromSmID} from "../../../utility";
 import {DEV} from "../../../../../../../../path/paths";
 import {LinkItem} from "../../../../../../../../components/navigation";
+import SmID_LinkContainer from "../../../../../../sm/smEntity/meta/nav";
 
 class ActiveModelScene extends React.Component {
     static propTypes    = {
@@ -46,12 +46,13 @@ class ActiveModelScene extends React.Component {
                        component={({match}) => {
                            const modelName = match.params.name;
                            const smID      = '[Model]' + modelName;
-                           const modelMeta = models[smID] || {};
-                           return <ModelMeta key={smID}
-                                             {...modelMeta}
-                                             smID={smID}
-                                             onTogglePropertyClick={onTogglePropertyClick}
-                                             executeModelQuery={executeModelQuery} />;
+                           const modelMeta = models[smID];
+                           return !modelMeta ? 'loading...'
+                                             : <ModelMeta key={smID}
+                                                          {...modelMeta}
+                                                          smID={smID}
+                                                          onTogglePropertyClick={onTogglePropertyClick}
+                                                          executeModelQuery={executeModelQuery} />;
                        }} />
             </ContentSection>
         );

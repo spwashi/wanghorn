@@ -3,6 +3,10 @@ import XRegExp from 'xregexp';
 export const normalizeSmID        = smID => (smID || '').replace(' ', '');
 export const getNameFromSmID      = smID => /\[[a-zA-Z_]+]}?\s?([a-zA-Z_]+)/.exec(normalizeSmID(smID) || [])[1] || false;
 export const parseSmID            = smID => {
+    if (typeof smID === "object" && smID) smID = smID.smID;
+    
+    if (!smID) throw new Error("Cannot resolve SmID from provided argument");
+    
     let managerRegexp          = '^\\[(?<manager>[a-zA-Z_]+)]';
     let ownerRegexp            = '(?:\\{(?<owner>\\[[a-zA-Z_]+][a-zA-Z_]+)})';
     let nameRegexp             = '(?<name>[a-zA-Z_]+)';

@@ -164,8 +164,8 @@ class DevController extends AppController {
         $all              = [];
         foreach ($entitySchematics as $entitySchematic) {
             $all[ $entitySchematic->getSmID() ] = [
-                'entity' => $entitySchematic,
-                'config' => $entity_configs[ $entitySchematic->getSmID() ?? '' ] ?? [],
+                'schematic' => $entitySchematic,
+                'config'    => $entity_configs[ $entitySchematic->getSmID() ?? '' ] ?? [],
             ];
         }
         return $all;
@@ -194,7 +194,7 @@ class DevController extends AppController {
                 }
                 
                 $indices = [
-                    'model'                => $models,
+                    'schematic'            => $models,
                     'config'               => $model_configs,
                     'createTableStatement' => $createTableStatement_strings,
                     'alterTableStatements' => $alterTableStatement_strings,

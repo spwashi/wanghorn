@@ -9,6 +9,7 @@ export const links = [
         name:     "dev--home",
         exact:    false,
         children: [
+            {name: 'dev--entities', exact: false},
             {name: 'dev--models', exact: false},
             {name: 'dev--routes', exact: false}
         ]

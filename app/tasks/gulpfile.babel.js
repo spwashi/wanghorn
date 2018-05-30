@@ -9,13 +9,16 @@ import postcss from "gulp-postcss";
 import autoprefixer from "autoprefixer";
 import plumber from "gulp-plumber";
 import {exec} from "child_process";
-import {inputPath__config} from "./webpack.config.babel";
+import {inputPath__config} from "./webpack/paths";
+import WebpackDevServer from "webpack-dev-server";
 
 const _app_path_       = path.resolve(__dirname, '..');
 const _root_path_      = path.resolve(_app_path_, '..');
 const _webpack_config  = {};
 const getWebpackConfig = () => {
-    return _webpack_config.config = _webpack_config.config || require("./webpack.config.babel.js").default;
+    if (_webpack_config.config) return _webpack_config.config;
+    
+    return _webpack_config.config = require("./webpack.config.babel.js").default;
 };
 const directories      = {
     src:  {
@@ -52,8 +55,8 @@ function requireUncached(moduleName) {
         
         // Remove cached paths to the module.
         // Thanks to @bentael for pointing this out.
-        Object.keys(module.constructor._pathCache).forEach(function(cacheKey) {
-            if (cacheKey.indexOf(moduleName)>0) {
+        Object.keys(module.constructor._pathCache).forEach(function (cacheKey) {
+            if (cacheKey.indexOf(moduleName) > 0) {
                 delete module.constructor._pathCache[cacheKey];
             }
         });
@@ -120,6 +123,15 @@ const webpackTask     = () => {
                .pipe(gulp.dest(directories.dist.js + '/'))
                .on('end', beep);
 };
+const webpackDevTask  = () => {
+    let webpack_config = getWebpackConfig();
+    webpack_config     = {...webpack_config, devtool: 'source-map'};
+    const compiler     = webpack(webpack_config);
+    new WebpackDevServer(compiler, webpack_config.devServer)
+        .listen(8080, 'localhost', function (err) {
+            if (err) throw new Error('webpack-dev-server', err);
+        });
+};
 const watchConfigTask = () => {
     configTask();
     return gulp.watch([
@@ -146,6 +158,7 @@ const watchJS_Task    = () => {
 };
 
 gulp.task('webpack', webpackTask);
+gulp.task('webpack:dev-server', webpackDevTask);
 gulp.task('sass', sassTask);
 
 gulp.task('config', configTask);

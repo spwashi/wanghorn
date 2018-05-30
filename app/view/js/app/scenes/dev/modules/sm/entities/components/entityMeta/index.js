@@ -9,10 +9,10 @@ import {CreateEntityDialog} from "./components/createEntityDialog";
 
 class EntityMeta extends React.Component {
     render() {
-        const {smID, config, entity}  = this.props;
-        const {activeProperties}      = this.props;
-        const {onTogglePropertyClick} = this.props;
-        const createEntityURI         = getURI('dev--create_entity', {name: getNameFromSmID(smID)});
+        const {smID, config, schematic} = this.props;
+        const {activeProperties}        = this.props;
+        const {onTogglePropertyClick}   = this.props;
+        const createEntityURI           = getURI('dev--create_entity', {name: getNameFromSmID(smID)});
         
         return (
             <div key={smID} className={"smEntity--meta"}>
@@ -21,13 +21,13 @@ class EntityMeta extends React.Component {
                 </header>
                 <EntityActions createEntityURI={createEntityURI} />
                 <div className="wrapper component--wrapper smEntity--component--wrapper">
-                    <EntityConfigurationContainer entity={entity}
+                    <EntityConfigurationContainer schematic={schematic}
                                                   config={config || {}}
                                                   onTogglePropertyClick={onTogglePropertyClick}
                                                   activeProperties={activeProperties} />
                 </div>
                 <Route path={getURI('dev--create_entity', null, {skipEmpty: true, asReactRoute: true})}
-                       component={({history}) => <CreateEntityDialog smID={smID} schematic={entity} history={history} />} />
+                       component={({history}) => <CreateEntityDialog smID={smID} schematic={schematic} history={history} />} />
             </div>
         );
     }

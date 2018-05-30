@@ -1,0 +1,235 @@
+@import "header";
+@import "../../../colors";
+
+.smEntity--meta {
+	background-color : $component--meta--bg;
+	color            : $component--meta-_-text-color;
+	padding          : 0;
+	margin-bottom    : 20px;
+	overflow         : hidden;
+	border           : thin solid $body--backgroundColor-shadowNear;
+	> header {
+		color            : #fff;
+		background-color : $configuration--attribute--title-_-background;
+		border-bottom    : thin solid darken($component--meta--bg--color, 20%);
+		position         : relative;
+		h3 {
+			border-bottom : none;
+		}
+		.smEntity--source--existence {
+			display  : block;
+			position : absolute;
+			right    : 1%;
+			top      : 20%;
+			color    : darken($configuration--attribute--title-_-background, 60%);
+			&.existent::before {
+				content   : 'SmEntity Source has been instantiated';
+				font-size : .5em
+			}
+			&.non-existent::before {
+				content         : 'SmEntity Source has NOT been instantiated';
+				font-size       : .7em;
+				text-decoration : underline;
+				font-weight     : bold;
+			}
+		}
+	}
+	.wrapper {
+		flex : 1 0 100%;
+	}
+}
+
+.smEntity--meta--action--container {
+	width         : 100%;
+	padding       : 5px;
+	border-bottom : thin solid darken($component--meta--bg--color, 10%);
+	.smEntity--meta--action--wrapper {
+		padding     : 2px 0;
+		display     : inline-block;
+		margin      : 4px;
+		line-height : 1.2em;
+	}
+	button {
+		padding : 10px;
+	}
+	.button {
+		display : inline-block;
+		a {
+			padding : 10px;
+			display : inline-block;
+			height  : 100%;
+		}
+	}
+}
+
+.property--configuration {
+	&.inactive {font-style : italic;}
+}
+
+.property--configuration--title {
+	padding       : 10px 7px;
+	border-bottom : thin solid $property--configuration--title-_-color;
+	background    : $configuration--attribute__properties--title-_-background;
+	color         : $configuration--attribute__properties--title-_-txt-color;
+	font-weight   : bold;
+}
+
+.property--configuration--attribute {
+	> * { margin : 0; }
+	.attribute--title {
+		flex       : 1 1 30%;
+		padding    : 10px 0 10px 20px;
+		background : $configuration--attribute__properties--title-_-background;
+		color      : $configuration--attribute__properties--title-_-txt-color;
+	}
+	.attribute--value {
+		padding   : 1em 10px;
+		flex      : 1 1 70%;
+		font-size : .9em;
+	}
+}
+
+.smEntity--configuration--wrapper {
+	&:first-child {
+		border-right : thin solid $configuration--component-_-bg;
+	}
+	.description--tooltip {
+		&:hover {
+			visibility : visible !important;
+			opacity    : 1 !important;
+		}
+		a {
+			color : #fff;
+		}
+	}
+}
+
+.smEntity--configuration {
+	.configuration--title {
+		font-weight      : bold;
+		padding          : 10px;
+		color            : #fff;
+		background-color : $component--meta__active--bg;
+		border-bottom    : thin solid $configuration--title-_-border-bottom-color;
+	}
+	a {
+		text-decoration : none;
+		font-weight     : bold;
+	}
+}
+
+.configuration--attribute.propertyMeta {
+	.attribute--value {
+		padding : 0;
+	}
+	.propertyMeta--index {
+		.index--title {
+			margin-top : 10px;
+		}
+		.title {
+			background-color : $component--meta--title--bg;
+		}
+		.value {
+			border  : thin solid darken($component--meta--title--bg, 20%);
+			padding : 0 10px 10px;
+			ul {
+				padding    : 0 0 0 10px;
+				list-style : none;
+				li {
+					margin-bottom : 10px;
+					&:last-child {
+						margin-bottom : 0;
+					}
+				}
+			}
+		}
+	}
+}
+
+.smEntity--smID {
+	display : block;
+	width   : 100%;
+}
+
+.attribute__properties--link--container {
+	flex-wrap : wrap;
+	display   : flex;
+	padding   : 0;
+	margin    : 5px;
+}
+
+.attribute__properties--link--wrapper {
+	background-color : $configuration--attribute__properties--link-_-background;
+	text-decoration  : none;
+	margin-bottom    : 5px;
+	margin-right     : 5px;
+	font-weight      : bold;
+	margin-top       : 5px;
+	display          : inline-block;
+	transition       : background-color .5s;
+	font-size        : .7em;
+	border           : thin solid $configuration--attribute__properties--link-_-border-color;
+	color            : $configuration--attribute__properties--link-_-txt-color;
+	a {
+		padding : 10px;
+		display : inline-block;
+	}
+	&.active {
+		background-color : darken($configuration--attribute__properties--link-_-background, 10%);
+	}
+	&:hover {
+		background-color : darken($configuration--attribute__properties--link-_-background, 20%);
+	}
+	.page & {
+		border-bottom : thin solid $configuration--attribute__properties--link-_-border-color;
+	}
+}
+
+.alter_table_statement--container {
+	width : 100%;
+}
+
+.smEntity--configuration--description {
+	border-bottom : thin solid $configuration--title-_-border-bottom-color;
+	position      : relative;
+	display       : block;
+	padding       : 2px 30px 15px;
+	&::before {
+		position : absolute;
+		content  : '--';
+		left     : 10px;
+		top      : 0;
+	}
+}
+
+.smEntity--component--wrapper {
+	justify-content : space-between;
+	align-items     : stretch;
+	flex-wrap       : wrap;
+	display         : flex;
+}
+
+.query--wrapper {
+	cursor : pointer;
+	pre {
+		margin : 0;
+	}
+	.query--control--container {
+		position         : absolute;
+		right            : 0;
+		top              : 0;
+		height           : 100%;
+		background-color : darken($component--meta--bg, 10%);
+	}
+	&.active {
+		padding          : 10px;
+		background-color : darken($component--meta--bg, 10%);
+	}
+}
+
+.smEntity--meta .selectively-active.wrapper {
+	flex : 1 1 100%;
+}
+
+@media screen and (max-device-width : 450px), screen and (max-width : 800px) {
+}

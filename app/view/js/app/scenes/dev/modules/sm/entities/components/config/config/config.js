@@ -47,8 +47,8 @@ class EntityConfigurationWrapper extends React.Component {
     
     @bind
     ActiveComponent(props) {
-        const {entity: config}                         = this.props;
-        const {smID, name, properties, ...attributes} = config;
+        const {schematic}                         = this.props;
+        const {smID, name, properties, ...attributes} = schematic;
         return (
             <div className="smEntity--configuration">
                 <LinkItem to={`#`} isButton={true}>
