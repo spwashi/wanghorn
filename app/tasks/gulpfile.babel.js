@@ -1,3 +1,4 @@
+require('babel-register')({ignore: /node_modules\/(?!spwashi-sm)/});
 import gulp from "gulp";
 import path from "path";
 import sourcemaps from "gulp-sourcemaps";

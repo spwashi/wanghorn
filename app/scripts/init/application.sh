@@ -39,7 +39,7 @@ function initApplication {
     printf "\n...... Done Installing Node Packages......\n"
 
     printf "\n......Initializing app variables......\n"
-    node --require babel-register initialize.js ${APPLICATION_PATH}
+    node initialize.js ${APPLICATION_PATH}
     printf "\n\n... Done Initializing app variables\n"
 
 

@@ -6,17 +6,17 @@
 		width            : 100%;
 		height           : 100%;
 		z-index          : 10;
+		overflow-y       : scroll;
 		position         : fixed;
 		background-color : rgba(#555, .5);
 	}
 	&.modal--base {
-		top              : 20%;
-		width            : 65%;
+		top              : 10%;
+		left             : 15%;
+		width            : 70%;
 		z-index          : 11;
-		position         : relative;
+		position         : absolute;
 		box-shadow       : 1px 1px 8px #333;
-		margin-left      : auto;
-		margin-right     : auto;
 		background-color : #fff;
 		> form {
 			display : block;
@@ -96,10 +96,10 @@
 			display   : inline-block;
 			font-size : .7em;
 		}
-		> input {
+		> input, > textarea {
 			border : thin solid #ccc;
 		}
-		> input, > .Select {
+		> input, > .Select, > textarea, > select {
 			flex    : 1 0 75%;
 			display : inline-block;
 		}

@@ -99,7 +99,7 @@
         "redux-promise-middleware": "^5.0.0",
         "redux-thunk": "^2.2.0",
         "replace-in-file": "^3.1.1",
-        "spwashi-sm": "^0.0.51-b",
+        "spwashi-sm": "^0.0.55-b",
         "whatwg-fetch": "^2.0.3",
         "xregexp": "^4.1.1"
     }

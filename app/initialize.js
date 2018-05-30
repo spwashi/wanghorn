@@ -1,3 +1,2 @@
-import {configureApplication} from "./tasks/initialize/configure";
-
-configureApplication();
+require('babel-register')({ignore: /node_modules\/(?!spwashi-sm)/});
+require('./tasks/initialize/configure').configureApplication();

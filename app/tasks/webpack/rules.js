@@ -43,7 +43,7 @@ export const rules = [
     },
     {
         test:    /\.js$/,
-        exclude: /node_modules/,
+        exclude: /node_modules\/(?!spwashi-sm)/,
         use:     [{
             loader:  'babel-loader',
             options: {

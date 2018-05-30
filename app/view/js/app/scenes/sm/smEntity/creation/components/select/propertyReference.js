@@ -11,7 +11,7 @@ export class PropertyReferenceSelect extends React.Component {
     render() {
         const {onValueChange, resolveSmEntitySchematic} = this.props;
         const propertySchematic                         = this.props.schematic;
-        let resolveSmEntities                           = this.props.resolveSmEntities;
+        const resolveSmEntities                         = this.props.resolveSmEntities;
         
         const required  = propertySchematic.isRequired;
         const reference = propertySchematic.reference;
@@ -26,9 +26,7 @@ export class PropertyReferenceSelect extends React.Component {
         const inputProps                 = {required};
         const getSmEntityFieldAttributes =
                   (otherSmEntity, schematic) =>
-                      PropertyReferenceSelect.getSmEntityFieldAttributes(otherSmEntity,
-                                                                         schematic,
-                                                                         {valuePropertySmID: identityPropertySmID});
+                      PropertyReferenceSelect.getSmEntityFieldAttributes(otherSmEntity, schematic, {valuePropertySmID: identityPropertySmID});
         
         let getResolvedSmEntities        = i => resolveSmEntities({smID: referenceIdentity});
         let getResolvedSmEntitySchematic = i => resolveSmEntitySchematic(referenceIdentity);

@@ -49,10 +49,13 @@ export class StandardSmProperty extends React.Component {
                 inputProps.pattern = null;
                 break;
         }
-        return <input name={name}
-                      placeholder={title}
-                      {...inputProps}
-                      value={value || ''} />
+        
+        inputProps.name        = name;
+        inputProps.placeholder = title;
+        inputProps.value       = value;
+        
+        return parseInt(schematic.length) >= 750 ? <textarea {...inputProps} />
+                                                 : <input {...inputProps} />
     }
 }
 

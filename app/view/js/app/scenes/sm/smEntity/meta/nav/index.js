@@ -8,7 +8,7 @@ class SmID_LinkContainer extends React.Component {
         return (
             <ul className={`link--container dev_component--link--container ${ownerType}--container--link--container smEntity--container--link--container`}>
                 {
-                    allSmIDs.map(smID => {
+                    allSmIDs.sort().map(smID => {
                         return <SmID_LinkItem key={smID}
                                               ownerType={/\[([a-zA-Z_]+)]/.exec(smID)[1]}
                                               smID={smID}

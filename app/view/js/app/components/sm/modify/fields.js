@@ -15,9 +15,10 @@ export class PasswordField extends React.Component {
         const message               = this.props.message;
         const verificationTitle     = 'Verify ' + title;
         const verificationName      = 'verify--' + name;
+        const PASSWORD_NO_MATCH     = 'Passwords do not match';
         const checkPropertyValidity = (schematic, password) => {
             const status  = this.state.verification === password;
-            const message = !status ? 'Passwords do not match' : null;
+            const message = !status ? PASSWORD_NO_MATCH : null;
             return {message, status};
         };
         const onVerifyChange        = e => {
@@ -37,9 +38,10 @@ export class PasswordField extends React.Component {
                    title={title}
                    name={name}
                    input={input}
-                   message={message} />,
+                   message={message && message.message !== PASSWORD_NO_MATCH ? message : null} />,
             <Field key={'verify--password'}
                    title={verificationTitle}
+                   message={message && message.message === PASSWORD_NO_MATCH ? message : null}
                    name={verificationName}
                    input={verification} />
         ];

@@ -37,6 +37,7 @@ export class SmEntitySelect extends React.Component {
         const name       = this.props.name;
         const value      = this.props.value;
         const data       = this.props.data || [];
+        console.log(data);
         const options    =
                   data.map(smEntity => this.smEntityOptionAttributes(smEntity));
         

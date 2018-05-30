@@ -1,4 +1,5 @@
 import * as _ from './_';
+import * as _uploaded from './_/_uploaded';
 import * as user from './user';
 import * as file from './file';
 import * as tag from './tag';
@@ -13,6 +14,7 @@ import * as password from './password';
 
 export const models = {
     _,
+    _uploaded,
     
     tag,
     file,
