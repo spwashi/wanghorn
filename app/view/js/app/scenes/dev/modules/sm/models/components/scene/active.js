@@ -8,36 +8,33 @@ import ModelMeta from "../modelMeta/index";
 import {getNameFromSmID} from "../../../utility";
 import {DEV} from "../../../../../../../../path/paths";
 import {LinkItem} from "../../../../../../../../components/navigation";
-import SmID_LinkContainer from "../../../../../../sm/smEntity/meta/nav";
+import SmID_LinkContainer from "../../../../../../sm/components/meta/nav";
 
 class ActiveModelScene extends React.Component {
     static propTypes    = {
-        models:                      PropTypes.object,
-        allModelSmIDs:               PropTypes.array,
-        toggleModelPropertyActivity: PropTypes.func,
-        toggleModelActivity:         PropTypes.func,
-        activateModel:               PropTypes.func,
-        deactivateModel:             PropTypes.func,
-        fetchModels:                 PropTypes.func,
-        openModelCreateDialog:       PropTypes.func,
-        closeModelCreateDialog:      PropTypes.func,
-        executeModelQuery:           PropTypes.func,
+        models:                 PropTypes.object,
+        allModelSmIDs:          PropTypes.array,
+        toggleModelActivity:    PropTypes.func,
+        activateModel:          PropTypes.func,
+        deactivateModel:        PropTypes.func,
+        fetchModels:            PropTypes.func,
+        openModelCreateDialog:  PropTypes.func,
+        closeModelCreateDialog: PropTypes.func,
+        executeModelQuery:      PropTypes.func,
     };
     static contextTypes = {
         router: PropTypes.object.isRequired
     };
     
     render() {
-        const {executeModelQuery, toggleModelPropertyActivity} = this.props;
-        const {allModelSmIDs, models, activeSmID}              = this.props;
-        const {activeElRef}                                    = this.props;
+        const {allModelSmIDs, models, activeSmID} = this.props;
+        const {activeElRef}                       = this.props;
         
-        const header                =
+        const header          =
                   <LinkItem to={DEV} isButton={true}>
                       <ContentSectionHeader title="Models" className={'dev--scene--toggle'} />
                   </LinkItem>;
-        const onTogglePropertyClick = propertySmID => toggleModelPropertyActivity({smID: propertySmID});
-        const getSmID_LinkURI       = smID => getURI('dev--model', {name: getNameFromSmID(smID)});
+        const getSmID_LinkURI = smID => getURI('dev--model', {name: getNameFromSmID(smID)});
         return (
             <ContentSection sectionRef={activeElRef} className={"dev--component smEntity--container"} header={header}>
                 <ModelContainerDescription />
@@ -47,12 +44,7 @@ class ActiveModelScene extends React.Component {
                            const modelName = match.params.name;
                            const smID      = '[Model]' + modelName;
                            const modelMeta = models[smID];
-                           return !modelMeta ? 'loading...'
-                                             : <ModelMeta key={smID}
-                                                          {...modelMeta}
-                                                          smID={smID}
-                                                          onTogglePropertyClick={onTogglePropertyClick}
-                                                          executeModelQuery={executeModelQuery} />;
+                           return !modelMeta ? 'loading...' : <ModelMeta key={smID} smID={smID} />;
                        }} />
             </ContentSection>
         );

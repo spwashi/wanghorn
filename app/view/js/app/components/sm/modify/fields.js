@@ -1,7 +1,7 @@
 import React from "react"
 import {Field} from "base-components/form/field/field";
-import {StandardSmProperty} from "../../../scenes/sm/smEntity/creation/components/field/smProperty";
-import {PropertyReferenceSelect} from "../../../scenes/sm/smEntity/creation/components/select/propertyReference";
+import {PropertyInput} from "../../../scenes/sm/components/form/creation/components/field/propertyInput";
+import {PropertyReferenceSelect} from "../../../scenes/sm/components/form/creation/components/select/propertyReference";
 
 export class PasswordField extends React.Component {
     state = {verification: ''};
@@ -29,10 +29,10 @@ export class PasswordField extends React.Component {
                                              type="password"
                                              name={verificationName}
                                              onChange={onVerifyChange} />;
-        const input                 = <StandardSmProperty title={title}
-                                                          value={password}
-                                                          onValueChange={value => onValueChange(value, checkPropertyValidity)}
-                                                          schematic={schematic} />;
+        const input                 = <PropertyInput title={title}
+                                                     value={password}
+                                                     onValueChange={value => onValueChange(value, checkPropertyValidity)}
+                                                     schematic={schematic} />;
         return [
             <Field key={'password'}
                    title={title}

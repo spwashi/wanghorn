@@ -1,9 +1,9 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
-import {getNameFromSmID} from "../../../../dev/modules/sm/utility";
-import {getURI} from "../../../../../../path/resolution";
-import Modal from "../../../../../components/modal/index";
+import {getNameFromSmID} from "../../../../../dev/modules/sm/utility";
+import {getURI} from "../../../../../../../path/resolution";
+import Modal from "../../../../../../components/modal/index";
 import {SmEntityCreationForm} from "./form";
 
 export class CreateSmEntityDialog extends React.Component {

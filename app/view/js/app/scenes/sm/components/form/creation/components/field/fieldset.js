@@ -1,9 +1,9 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {parseSmID} from "../../../../../dev/modules/sm/utility";
+import {parseSmID} from "../../../../../../dev/modules/sm/utility";
 import {getSettablePropertiesFromSmEntity} from "../../utility";
-import {PromisedComponent} from "../../../../../../../components/promised/index";
-import {SmEntityField} from "./field";
+import {PromisedComponent} from "../../../../../../../../components/promised/index";
+import {SmEntityField} from "./smEntity/index";
 
 export class SmEntityFieldset extends React.Component {
     render() {

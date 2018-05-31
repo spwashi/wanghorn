@@ -6,7 +6,7 @@ import {ModelSceneLink} from "../../scene/sceneLink";
 import {LinkItem} from "../../../../../../../../../components/navigation";
 import {getURI} from "../../../../../../../../../path/resolution";
 
-let ModelConfigurationContainer       = function ({onTogglePropertyClick, activeProperties, config, schematic, location}) {
+let ModelConfigurationContainer       = function ({activeProperties, config, schematic, location}) {
     const jsConfigDescription  = <div>
         <a href={"https://github.com/spwashi/SmJS"}>SmJS (a.k.a Jessica) </a> is a configuration library used to configure the&nbsp;
         <ModelSceneLink title={'Models'} /> I use to <em>store</em> data and the <LinkItem to={getURI('dev--entities')} wrapper={props => <span {...props} />}>Entities</LinkItem> you can
@@ -15,7 +15,6 @@ let ModelConfigurationContainer       = function ({onTogglePropertyClick, active
     const ConfigWrapper        = ({schematic, type, description, isActive = false}) =>
         <ModelConfigurationWrapper type={type}
                                    isActive={isActive}
-                                   onTogglePropertyClick={onTogglePropertyClick}
                                    description={description}
                                    activeProperties={activeProperties}
                                    schematic={schematic} />;
@@ -29,9 +28,8 @@ let ModelConfigurationContainer       = function ({onTogglePropertyClick, active
 };
 ModelConfigurationContainer           = withRouter(ModelConfigurationContainer);
 ModelConfigurationContainer.propTypes = {
-    onTogglePropertyClick: PropTypes.func,
-    activeProperties:      PropTypes.array,
-    config:                PropTypes.object,
-    model:                 PropTypes.object
+    activeProperties: PropTypes.array,
+    config:           PropTypes.object,
+    model:            PropTypes.object
 };
 export {ModelConfigurationContainer};

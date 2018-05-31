@@ -1,10 +1,10 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
-import {getTitleFromPropName} from "../../../../dev/modules/sm/utility";
-import {Factory} from "../../../../../../modules/factory/index";
-import {PasswordField, PropertyReferenceField} from "../../../../../components/sm/modify/fields";
-import {DefaultPropertyField} from "./field";
+import {getTitleFromPropName} from "../../../../../../dev/modules/sm/utility";
+import {Factory} from "../../../../../../../../modules/factory/index";
+import {PasswordField, PropertyReferenceField} from "../../../../../../../components/sm/modify/fields";
+import {DefaultPropertyField} from "./smEntity/default";
 
 export default class SchematicField extends React.Component {
     static propTypes = {

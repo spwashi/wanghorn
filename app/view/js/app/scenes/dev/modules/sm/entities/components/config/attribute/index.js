@@ -1,24 +1,29 @@
 import React from "react"
-import EntityConfigurationInheritsAttribute from "./inherits";
-import SmEntityConfigurationPropertiesAttribute from "../../../../../../../sm/smEntity/meta/attributes/properties/index";
+import SmEntityConfigurationPropertiesAttribute from "../../../../../../../sm/components/meta/attributes/properties/index";
 import {ConfigurationAttribute} from "../../../../../../components/configuration/index";
-import EntityConfigurationPropertyMetaAttribute from "./propertyMeta";
 
-export const EntityAttribute = ({name, value, activeProperties, onTogglePropertyClick}) => {
-    switch (name) {
-        case 'inherits':
-            return <EntityConfigurationInheritsAttribute inherits={value} />;
-        case 'propertyMeta':
-            return <EntityConfigurationPropertyMetaAttribute propertyMeta={value}
-                                                            onPropertyLinkTrigger={onTogglePropertyClick} />;
+export const EntityAttribute = ({name: attribute, value}) => {
+    switch (attribute) {
+        case 'contexts':
+            if (!value) return null;
+            return (
+                <ConfigurationAttribute attribute={attribute} ownerType={'entity'}>
+                    {
+                        Object.entries(value)
+                              .map(entry => {
+                                  const [context_name, context_values] = entry;
+                                  return (
+                                      <div key={context_name} className={`context context__${context_name}`}>
+                                          {JSON.stringify(context_values)}
+                                      </div>
+                                  )
+                              })
+                    }
+                </ConfigurationAttribute>
+            );
         case 'properties':
-            return <SmEntityConfigurationPropertiesAttribute activeProperties={activeProperties}
-                                                             ownerType={'entity'}
-                                                             onPropertyLinkTrigger={onTogglePropertyClick}
-                                                             properties={value} />;
+            return <SmEntityConfigurationPropertiesAttribute ownerType={'entity'} properties={value} />;
         default:
-            return <ConfigurationAttribute ownerType={'entity'}
-                                           attribute={name}
-                                           value={value} />;
+            return <ConfigurationAttribute ownerType={'entity'} attribute={attribute} value={value} />;
     }
 };

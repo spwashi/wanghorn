@@ -3,7 +3,7 @@ import {Route} from "react-router-dom";
 import * as PropTypes from "prop-types"
 import {getReactPath} from "../../../../../path/resolution";
 import {parseSmID} from "../../../dev/modules/sm/utility";
-import {CreateSmEntityDialog} from "../creation/components/dialog";
+import {CreateSmEntityDialog} from "../form/creation/components/dialog";
 import {LinkItem} from "../../../../../components/navigation";
 
 class SmEntityMetaComponent extends React.Component {

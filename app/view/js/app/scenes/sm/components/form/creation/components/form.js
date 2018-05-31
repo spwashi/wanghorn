@@ -3,13 +3,13 @@ import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
 import {bindActionCreators} from "redux"
 import axios from "axios";
-import {reduceEntriesIntoObject} from "../../../../../../utility";
+import {reduceEntriesIntoObject} from "../../../../../../../utility";
 import {connect} from "react-redux";
 import {SmEntityFieldset} from "./field/fieldset";
-import {normalizeSmID, parseSmID} from "../../../../dev/modules/sm/utility";
-import {ApiResponseMessage} from "../../form/response";
-import {fetchModels} from "../../../../dev/modules/sm/models/actions";
-import {PromisedComponent} from "../../../../../../components/promised/index";
+import {normalizeSmID, parseSmID} from "../../../../../dev/modules/sm/utility";
+import {ApiResponseMessage} from "../../response";
+import {fetchModels} from "../../../../../dev/modules/sm/models/actions";
+import {PromisedComponent} from "../../../../../../../components/promised/index";
 
 const mapDispatch             = dispatch => bindActionCreators({fetchModels,}, dispatch);
 let attempts                  = {};
@@ -18,11 +18,9 @@ const getFormSubmissionStatus = function (smEntity) {
     const submissionErrors       = {};
     const {properties, messages} = smEntity;
     const messageEntries         = Object.entries(messages || {});
-    console.log(messages);
     // Check the properties to make sure they are valid
     messageEntries.map(entry => {
         const [name, message] = entry;
-        console.log(entry);
         if (typeof message === "undefined") return;
         const {status, message: text} = message;
         if (typeof status === 'undefined' || (!status && typeof status === 'object')) {

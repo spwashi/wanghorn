@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types"
 import {ConfigurationAttribute} from "../../../../../../components/configuration/index";
 import {getURI} from "../../../../../../../../../path/resolution";
 import {getNameFromSmID} from "../../../../utility";
-import SmID_LinkContainer from "../../../../../../../sm/smEntity/meta/nav";
+import SmID_LinkContainer from "../../../../../../../sm/components/meta/nav";
 
 const ModelConfigurationInheritsAttribute     =
           ({inherits}) => {

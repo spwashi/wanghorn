@@ -37,21 +37,21 @@ export class SmEntitySelect extends React.Component {
         const name       = this.props.name;
         const value      = this.props.value;
         const data       = this.props.data || [];
-        console.log(data);
-        const options    =
+        
+        const options =
                   data.map(smEntity => this.smEntityOptionAttributes(smEntity));
         
         return <ReactSelect ref={ref => { this.select = ref; }}
-
+        
                             rtl={false} searchable={true} simpleValue
-
+        
                             onBlurResetsInput={false} onSelectResetsInput={false}
-
+        
                             name={name}
                             value={value}
                             options={options}
                             onChange={this.props.onValueChange}
-
+        
                             valueComponent={SmEntitySelectOption} optionComponent={SmEntitySelectOption} />;
     }
     

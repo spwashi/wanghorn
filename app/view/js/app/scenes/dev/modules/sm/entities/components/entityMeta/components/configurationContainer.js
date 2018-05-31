@@ -1,7 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import {withRouter} from "react-router"
-import EntityConfigurationWrapper from "../../config/config/config";
+import EntityConfigurationWrapper from "../../config/index";
 import {EntitySceneLink} from "../../scene/sceneLink";
 import {LinkItem} from "../../../../../../../../../components/navigation";
 

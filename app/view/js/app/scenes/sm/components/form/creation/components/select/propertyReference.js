@@ -1,6 +1,6 @@
 import React from "react"
-import {PromisedComponent} from "../../../../../../../components/promised/index";
-import {normalizeSmID, parseSmID} from "../../../../../dev/modules/sm/utility";
+import {PromisedComponent} from "../../../../../../../../components/promised/index";
+import {normalizeSmID, parseSmID} from "../../../../../../dev/modules/sm/utility";
 import 'react-select/dist/react-select.css';
 import {SmEntitySelect} from "./index";
 

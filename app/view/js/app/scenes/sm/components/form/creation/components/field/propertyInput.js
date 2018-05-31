@@ -1,6 +1,6 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {parseSmID} from "../../../../../dev/modules/sm/utility";
+import {parseSmID} from "../../../../../../dev/modules/sm/utility";
 
 const getPropertyType = function (schematic, type) {
     const {name}                = parseSmID(schematic) || {};
@@ -15,51 +15,35 @@ const getPropertyType = function (schematic, type) {
     return type;
 };
 
-export class StandardSmProperty extends React.Component {
+export class PropertyInput extends React.Component {
     render() {
         let {schematic, title, name, value, onValueChange = function () {}} = this.props;
         const type                                                          = getPropertyType(schematic);
-        const inputProps                                                    = {
-            value,
-            type,
-            required: schematic.isRequired,
-            onChange: e => {
-                let val = e.target.value;
-                return onValueChange(val);
-            }
-        };
+        const inputProps                                                    = {value, type};
+        const required                                                      = schematic.isRequired;
         
-        switch (type) {
-            case 'email':
-                inputProps.pattern   = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$";
-                inputProps.onKeyDown = event => {
-                    if (event.keyCode === 32) event.preventDefault();
-                };
-                inputProps.onChange  = e => {
-                    let val = e.target.value;
-                    if (val && !/[a-zA-Z0-9._%+-@]+$/.test(val)) {
-                        return;
-                    }
-                    onValueChange(val);
-                };
-                break;
-            case 'password':
-            case 'number':
-            default:
-                inputProps.pattern = null;
-                break;
+        Object.assign(inputProps, {required, onChange: e => onValueChange(e.target.value)});
+        
+        if (type === 'email') {
+            Object.assign(inputProps,
+                          {
+                              pattern:   "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$",
+                              onKeyDown: e => e.keyCode === 32 ? e.preventDefault() : true,
+                              onChange:  e => /[a-zA-Z0-9._%+-@]*$/.test(e.target.value) ? onValueChange(e.target.value) : null
+                          });
+            value = (value || '').toLowerCase();
         }
         
         inputProps.name        = name;
         inputProps.placeholder = title;
-        inputProps.value       = value;
+        inputProps.value       = value || '';
         
         return parseInt(schematic.length) >= 750 ? <textarea {...inputProps} />
                                                  : <input {...inputProps} />
     }
 }
 
-StandardSmProperty.propTypes = {
+PropertyInput.propTypes = {
     config:        PropTypes.object,
     value:         PropTypes.any,
     onValueChange: PropTypes.func,

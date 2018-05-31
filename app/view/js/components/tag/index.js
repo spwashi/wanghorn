@@ -22,22 +22,15 @@ class Tag extends React.Component {
     render() {
         const {className, children} = this.props;
         const clickableClass        = this.props.externalLink ? 'clickable' : '';
-        return (
-            <div className={`tag ${clickableClass} ${className}`} onClick={this.handleClick}>
-                <a href={this.props.externalLink} onClick={event => {
-                    event.preventDefault();
-                }}>
-                    {children}
-                </a>
-            </div>
-        )
+        const child                 = this.props.externalLink ? <a href={this.props.externalLink} onClick={event => {event.preventDefault();}}>{children}</a> : children;
+        return <div className={`tag ${clickableClass} ${className}`} onClick={this.handleClick}>{child}</div>;
     }
 }
 
 Tag.propTypes = {
     externalLink: PropTypes.string,
     className:    PropTypes.string,
-    children:     PropTypes.string
+    children:     PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 };
 
 export default Tag;

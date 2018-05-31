@@ -61,11 +61,8 @@ class ModelConfigurationWrapper extends React.Component {
                           .map(([attr, value]) => {
                               if ((!value && typeof value === 'object') || typeof value === 'undefined' || value === '') return null;
                         
-                              return <ModelAttribute key={attr}
-                                                     activeProperties={this.props.activeProperties}
-                                                     onTogglePropertyClick={this.props.onTogglePropertyClick}
-                                                     name={attr}
-                                                     value={value} />;
+                              return <ModelAttribute key={attr} name={attr} value={value}
+                                                     activeProperties={this.props.activeProperties} />;
                           })
                 }
             </div>

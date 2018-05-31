@@ -11,6 +11,8 @@
 	flex-flow     : row nowrap;
 	align-items   : stretch;
 	.attribute--title {
+		font-size      : .9em;
+		overflow       : hidden;
 		font-weight    : bold;
 		text-transform : capitalize;
 		flex           : 1 1 15%;
