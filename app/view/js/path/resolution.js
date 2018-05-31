@@ -45,7 +45,10 @@ export const addArgsToPath =
 export const getURI        =
                  function (name, routeArguments = {}, {root, skipEmpty, asReactRoute} = {}) {
                      let pattern = (routes[name] || {}).pattern;
-                     if (!pattern) return false;
+                     if (!pattern) {
+                         console.error(`Could not find ${name}`);
+                         return false;
+                     }
         
                      let {path, validators} = getCleanPath(pattern);
                      path                   = addArgsToPath(path, routeArguments, validators, skipEmpty);

@@ -461,13 +461,44 @@
             "defaultValue": "now",
             "updateValue": "now"
          },
+         "readable_name": {
+            "smID": "[Property]{[Model]_uploaded} readable_name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50
+         },
          "name": {
             "smID": "[Property]{[Model]_uploaded} name",
             "datatypes": [
                "string"
             ],
             "length": 50,
-            "unique": true
+            "unique": true,
+            "isGenerated": true
+         },
+         "mime": {
+            "smID": "[Property]{[Model]_uploaded} mime",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
+         },
+         "size": {
+            "smID": "[Property]{[Model]_uploaded} size",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11
+         },
+         "hash": {
+            "smID": "[Property]{[Model]_uploaded} hash",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
          },
          "file_location_id": {
             "smID": "[Property]{[Model]_uploaded} file_location_id",
@@ -484,7 +515,8 @@
          "user_id": {
             "smID": "[Property]{[Model]_uploaded} user_id",
             "datatypes": [
-               "int"
+               "int",
+               "null"
             ],
             "length": 11,
             "reference": {
@@ -684,13 +716,44 @@
             "defaultValue": "now",
             "updateValue": "now"
          },
+         "readable_name": {
+            "smID": "[Property]{[Model]file} readable_name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50
+         },
          "name": {
             "smID": "[Property]{[Model]file} name",
             "datatypes": [
                "string"
             ],
             "length": 50,
-            "unique": true
+            "unique": true,
+            "isGenerated": true
+         },
+         "mime": {
+            "smID": "[Property]{[Model]file} mime",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
+         },
+         "size": {
+            "smID": "[Property]{[Model]file} size",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11
+         },
+         "hash": {
+            "smID": "[Property]{[Model]file} hash",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
          },
          "file_location_id": {
             "smID": "[Property]{[Model]file} file_location_id",
@@ -707,7 +770,8 @@
          "user_id": {
             "smID": "[Property]{[Model]file} user_id",
             "datatypes": [
-               "int"
+               "int",
+               "null"
             ],
             "length": 11,
             "reference": {
@@ -720,7 +784,6 @@
    "image": {
       "smID": "[Model]image",
       "inherits": [
-         "[Model]_",
          "[Model]_",
          "[Model]_uploaded"
       ],
@@ -770,13 +833,44 @@
             "defaultValue": "now",
             "updateValue": "now"
          },
+         "readable_name": {
+            "smID": "[Property]{[Model]image} readable_name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50
+         },
          "name": {
             "smID": "[Property]{[Model]image} name",
             "datatypes": [
                "string"
             ],
             "length": 50,
-            "unique": true
+            "unique": true,
+            "isGenerated": true
+         },
+         "mime": {
+            "smID": "[Property]{[Model]image} mime",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
+         },
+         "size": {
+            "smID": "[Property]{[Model]image} size",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11
+         },
+         "hash": {
+            "smID": "[Property]{[Model]image} hash",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
          },
          "file_location_id": {
             "smID": "[Property]{[Model]image} file_location_id",
@@ -793,7 +887,8 @@
          "user_id": {
             "smID": "[Property]{[Model]image} user_id",
             "datatypes": [
-               "int"
+               "int",
+               "null"
             ],
             "length": 11,
             "reference": {

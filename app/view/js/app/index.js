@@ -7,6 +7,8 @@ import {routes} from "./configuration/routes";
 import {Header} from "./components/header";
 import {anchorate} from 'anchorate';
 
+import './configuration/sm/modify/fields';
+
 class Application extends React.Component {
     state = {};
     

@@ -130,6 +130,9 @@
       },
       "user--signup": {
          "pattern": "wanghorn/user/signup$"
+      },
+      "file--prime_upload": {
+         "pattern": "wanghorn/file/upload"
       }
    }
 }

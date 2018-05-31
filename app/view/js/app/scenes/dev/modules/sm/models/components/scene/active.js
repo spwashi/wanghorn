@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types"
 import ContentSection, {ContentSectionHeader} from "../../../../../../../components/page/content/section";
 import {ModelContainerDescription} from "./components";
 import {Route} from "react-router-dom"
-import {getURI} from "../../../../../../../../path/resolution";
+import {getReactPath, getURI} from "../../../../../../../../path/resolution";
 import ModelMeta from "../modelMeta/index";
 import {getNameFromSmID} from "../../../utility";
 import {DEV} from "../../../../../../../../path/paths";
@@ -38,14 +38,12 @@ class ActiveModelScene extends React.Component {
         return (
             <ContentSection sectionRef={activeElRef} className={"dev--component smEntity--container"} header={header}>
                 <ModelContainerDescription />
-                <SmID_LinkContainer ownerType={'model'} allSmIDs={allModelSmIDs} getSmID_LinkURI={getSmID_LinkURI} activeSmID={activeSmID} />
-                <Route path={getURI('dev--model', null, {skipEmpty: true, asReactRoute: true})}
-                       component={({match}) => {
-                           const modelName = match.params.name;
-                           const smID      = '[Model]' + modelName;
-                           const modelMeta = models[smID];
-                           return !modelMeta ? 'loading...' : <ModelMeta key={smID} smID={smID} />;
-                       }} />
+                <SmID_LinkContainer ownerType={'model'}
+                                    allSmIDs={allModelSmIDs}
+                                    getSmEntityStatus={smID => models[smID] ? models[smID].status : null}
+                                    getSmID_LinkURI={getSmID_LinkURI}
+                                    activeSmID={activeSmID} />
+                <Route path={getReactPath('dev--model')} component={({match}) => <ModelMeta smID={`[Model]${match.params.name}`} />} />
             </ContentSection>
         );
     }

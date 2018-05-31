@@ -1,0 +1,7 @@
+@import "../../../colors";
+
+.model--smID--link {
+	&.status--tableExists__false.status--canCreateTable__true {
+		background-color : rgba(mix($component--meta--bg, $error__red, 40%), .3);
+	}
+}

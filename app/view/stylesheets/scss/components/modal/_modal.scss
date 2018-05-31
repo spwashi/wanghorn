@@ -49,11 +49,11 @@
 			position         : absolute;
 			font-size        : .7em;
 			font-weight      : bold;
-			background-color : rgba($close__red, .5);
+			background-color : rgba($error__red, .5);
 			height           : 100%;
 			padding          : 10px;
 			&:hover {
-				background-color : darken($close__red, 10%);
+				background-color : darken($error__red, 10%);
 			}
 		}
 	}
@@ -96,15 +96,33 @@
 			display   : inline-block;
 			font-size : .7em;
 		}
-		> input, > textarea {
+		> input, > textarea, > .file-upload-input {
 			border : thin solid #ccc;
 		}
-		> input, > .Select, > textarea, > select {
+		> .file-upload-input {
+			min-height   : 50px;
+			font-size    : .7em;
+			text-align   : center;
+			border-style : dotted;
+			cursor       : pointer;
+			color        : #ccc;
+			line-height  : 50px;
+			transition   : color .3s;
+			&:hover, &.has-primed-upload {
+				border-style : solid;
+				color        : #555;
+				transition   : color .3s;
+			}
+		}
+		> input, > .Select, > textarea, > select, > .file-upload-input {
 			flex    : 1 0 75%;
 			display : inline-block;
 		}
 		.error--message {
-			color : $close__red;
+			color : $error__red;
+		}
+		.success--message {
+			color : $success__green;
 		}
 		> .message {
 			width       : 75%;

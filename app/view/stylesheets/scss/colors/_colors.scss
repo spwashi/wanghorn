@@ -5,4 +5,5 @@ $body--backgroundColor : $palette_color_5;
 $body--backgroundColor-shadowNear : darken($body--backgroundColor, 35%);
 
 // concept colors
-$close__red : #d40010;
+$error__red : #d40010;
+$success__green : #37823f;

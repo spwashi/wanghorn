@@ -205,6 +205,11 @@
          "name": "user--signup",
          "resolution": "Home\\Home@index",
          "pattern": "wanghorn/user/signup$"
+      },
+      {
+         "name": "file--prime_upload",
+         "resolution": "File\\File@prime",
+         "pattern": "wanghorn/file/upload"
       }
    ]
 }

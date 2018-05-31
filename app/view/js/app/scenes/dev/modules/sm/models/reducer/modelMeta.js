@@ -11,27 +11,33 @@ type modelMeta = {
 
 export default (modelMeta: modelMeta, action) => {
     let smID = (modelMeta || {}).smID;
+    
     switch (action.type) {
         case FETCH_MODEL_METAS_RECEIVED:
-            smID = (modelMeta.schematic || {}).smID;
-            return {...modelMeta, smID};
+            smID      = (modelMeta.schematic || {}).smID;
+            modelMeta = {...modelMeta, smID};
+            break;
         case EXECUTE_MODEL_QUERY__END:
             const {query, result} = action;
             
             if (smID !== action.smID) return modelMeta;
             
             let success = result && result.success;
-            
             console.log(`Attempted to ${query} on ${smID} -- was${success ? '' : ' NOT'} successful`);
             
             modelMeta = {...modelMeta};
-            
-            if (query === 'CREATE_TABLE') {
-                modelMeta.tableExists = !!success;
-            }
-            
-            return modelMeta;
+            if (query === 'CREATE_TABLE') modelMeta.tableExists = !!success;
+            break;
         default:
             return modelMeta || {};
     }
+    
+    const {createTableStatement, tableExists} = modelMeta || {};
+    modelMeta                                 = modelMeta || {};
+    modelMeta.status                          = {
+        canCreateTable: (!tableExists) && !!createTableStatement && !!createTableStatement.length,
+        tableExists:    !!tableExists
+    };
+    
+    return modelMeta;
 }

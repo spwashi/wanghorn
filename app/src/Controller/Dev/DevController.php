@@ -132,6 +132,7 @@ class DevController extends AppController {
                     'std' => $std_mysql,
                 ],
             ],
+            'session'              => $_SESSION,
         ];
     }
     public function modelConfig() {

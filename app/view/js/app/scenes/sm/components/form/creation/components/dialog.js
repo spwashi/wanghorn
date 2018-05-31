@@ -10,12 +10,11 @@ export class CreateSmEntityDialog extends React.Component {
     state = {isActive: true};
     
     render() {
-        const {smID, schematic} = this.props;
-        const title             = `Create New ${smID}`;
-        const name              = getNameFromSmID(this.props.smID);
-        const formUrl           = getURI("dev--create_model--receive", {name});
-        const onRequestClose    = this.onRequestClose;
-        const isOpen            = this.state.isActive;
+        const {smID, schematic, formUrl} = this.props;
+        const title                      = `Create New ${smID}`;
+        const name                       = getNameFromSmID(this.props.smID);
+        const onRequestClose             = this.onRequestClose;
+        const isOpen                     = this.state.isActive;
         return (
             <Modal isOpen={isOpen} onRequestClose={onRequestClose} title={title} contentLabel={title}>
                 <SmEntityCreationForm key={smID} smID={smID} schematic={schematic} url={formUrl} />

@@ -8,14 +8,16 @@ class SmID_LinkContainer extends React.Component {
         return (
             <ul className={`link--container dev_component--link--container ${ownerType}--container--link--container smEntity--container--link--container`}>
                 {
-                    allSmIDs.sort().map(smID => {
-                        return <SmID_LinkItem key={smID}
-                                              ownerType={/\[([a-zA-Z_]+)]/.exec(smID)[1]}
-                                              smID={smID}
-                                              to={this.props.getSmID_LinkURI(smID)}
-                                              onItemTrigger={onItemTrigger}
-                                              isActive={smID === this.props.activeSmID} />;
-                    })
+                    allSmIDs.sort()
+                            .map(smID => {
+                                return <SmID_LinkItem key={smID}
+                                                      getSmEntityStatus={this.props.getSmEntityStatus}
+                                                      ownerType={/\[([a-zA-Z_]+)]/.exec(smID)[1]}
+                                                      smID={smID}
+                                                      to={this.props.getSmID_LinkURI(smID)}
+                                                      onItemTrigger={onItemTrigger}
+                                                      isActive={smID === this.props.activeSmID} />;
+                            })
                 }
             </ul>
         );
@@ -24,11 +26,12 @@ class SmID_LinkContainer extends React.Component {
 
 export default SmID_LinkContainer;
 SmID_LinkContainer.propTypes    = {
-    activeSmID:      PropTypes.string,
-    allSmIDs:        PropTypes.arrayOf(PropTypes.string),
-    ownerType:       PropTypes.string,
-    onItemTrigger:   PropTypes.func,
-    getSmID_LinkURI: PropTypes.func.isRequired,
+    activeSmID:        PropTypes.string,
+    allSmIDs:          PropTypes.arrayOf(PropTypes.string),
+    ownerType:         PropTypes.string,
+    onItemTrigger:     PropTypes.func,
+    getSmEntityStatus: PropTypes.func,
+    getSmID_LinkURI:   PropTypes.func.isRequired,
 };
 SmID_LinkContainer.defaultProps = {
     allSmIDs: []

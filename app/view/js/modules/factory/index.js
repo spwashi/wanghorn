@@ -14,7 +14,7 @@ export class Factory {
         
         if (!Array.isArray(resolver)) throw new Error("Can only register functions or arrays of functions");
         
-        this._resolvers = [...resolver];
+        this._resolvers = [...this._resolvers, ...resolver];
         return this;
     }
     

@@ -1,10 +1,8 @@
 import React from "react";
-import {Route} from "react-router-dom";
 import * as PropTypes from "prop-types"
-import {getReactPath, getURI} from "../../../../../../../../path/resolution";
+import {getURI} from "../../../../../../../../path/resolution";
 import {getNameFromSmID, getTitleFromPropName} from "../../../utility";
 import {EntityConfigurationContainer} from "./components/configurationContainer";
-import {CreateEntityDialog} from "./components/createEntityDialog";
 import SmEntityMeta from "../../../../../../sm/components/meta";
 
 class EntityMeta extends React.Component {
@@ -13,11 +11,6 @@ class EntityMeta extends React.Component {
         return (
             <SmEntityMeta config={config} schematic={config} actions={this.actions}>
                 <EntityConfigurationContainer schematic={schematic} config={config || {}} />
-                <Route path={getReactPath('dev--create_entity')}
-                       component={({history}) =>
-                           <CreateEntityDialog smID={this.props.smID}
-                                               schematic={schematic}
-                                               history={history} />} />
             </SmEntityMeta>
         );
     }

@@ -6,7 +6,6 @@ namespace WANGHORN\Controller\User;
 
 use Modules\Query\Sql\Exception\CannotDuplicateEntryException;
 use Sm\Core\Exception\InvalidArgumentException;
-use Sm\Core\Util;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntitySchema;
@@ -112,7 +111,7 @@ class UserController extends AppController {
         }
         
         return [
-            'user_id'        => $passwordEntity,
+            'user_id'        => null,
             'user'           => $user,
             'property_names' => array_keys($user->properties->getAll()),
             'message'        => $messages,

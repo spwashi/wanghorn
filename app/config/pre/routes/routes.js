@@ -244,7 +244,12 @@ export const routes = normalizeRoutes(
             // Dev Routes (remove from production!)
             ...devRoutes,
             // User Routes
-            ...userRoutes
+            ...userRoutes,
+            new Route({
+                          name:       "file--prime_upload",
+                          resolution: "[File]@prime",
+                          pattern:    "file/upload"
+                      }),
         ]
     }
 );

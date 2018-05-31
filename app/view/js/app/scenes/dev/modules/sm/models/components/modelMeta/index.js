@@ -20,33 +20,22 @@ class ModelMeta extends React.Component {
         this.executeAllAlterTableStatements = () => { executeModelQuery({smID, query: 'ALTER_TABLE'})};
     }
     
-    get metaStatus() {
-        const createTableStatement = this.modelMeta.createTableStatement;
-        const tableExists          = this.modelMeta.tableExists;
-        return {
-            canCreateTable: (!tableExists) && createTableStatement && createTableStatement.length,
-            tableExists:    tableExists
-        };
-    }
+    get metaStatus() {return this.modelMeta.status;}
     
-    get modelMeta() {
-        const smID      = this.props.smID;
-        const modelMeta = this.props.models[smID];
-        return modelMeta;
-    }
+    get modelMeta() {return this.props.models[this.props.smID];}
     
     executeCreateTableStatement() { if (this) console.log('no-op');}
     
     executeAllAlterTableStatements() { if (this) console.log('no-op');}
     
     render() {
+        if (!this.modelMeta) return '...loading';
+        
         const config               = this.modelMeta.config;
         const schematic            = this.modelMeta.schematic;
-        const activeProperties     = this.modelMeta.activeProperties;
         const alterTableStatements = this.modelMeta.alterTableStatements;
         const createTableStatement = this.modelMeta.createTableStatement;
-        
-        const actions = this.actions;
+        const actions              = this.actions;
         return (
             <SmEntityMeta config={config} schematic={schematic} actions={actions}>
                 <div className={`smEntity--source--existence ${this.metaStatus.tableExists ? 'existent' : 'non-existent'}`} />
@@ -55,8 +44,7 @@ class ModelMeta extends React.Component {
                        query={createTableStatement}
                        canExecute={this.metaStatus.canCreateTable}
                        executeQuery={this.executeCreateTableStatement} />
-                <AlterTableStatementList statements={alterTableStatements || []}
-                                         executeQuery={this.executeAllAlterTableStatements} />
+                <AlterTableStatementList statements={alterTableStatements || []} executeQuery={this.executeAllAlterTableStatements} />
             </SmEntityMeta>
         );
     }

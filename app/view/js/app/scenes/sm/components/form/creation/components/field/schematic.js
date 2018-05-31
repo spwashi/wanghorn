@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
 import {getTitleFromPropName} from "../../../../../../dev/modules/sm/utility";
 import {Factory} from "../../../../../../../../modules/factory/index";
-import {PasswordField, PropertyReferenceField} from "../../../../../../../components/sm/modify/fields";
 import {DefaultPropertyField} from "./smEntity/default";
 
 export default class SchematicField extends React.Component {
@@ -47,9 +46,4 @@ export default class SchematicField extends React.Component {
         return updateValueStatus(effectiveSchematic, value, validityStatus) || true;
     }
 };
-SchematicField.fieldFactory =
-    new Factory([
-                    props => DefaultPropertyField,
-                    ({schematic}) => schematic && schematic.reference ? PropertyReferenceField : null,
-                    ({primaryDatatype}) => primaryDatatype === 'password' ? PasswordField : null
-                ]);
+SchematicField.fieldFactory = new Factory([props => DefaultPropertyField]);

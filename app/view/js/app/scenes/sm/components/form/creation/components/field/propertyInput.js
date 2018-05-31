@@ -6,12 +6,16 @@ const getPropertyType = function (schematic, type) {
     const {name}                = parseSmID(schematic) || {};
     const propertyIsEmail       = name.toLowerCase().substr(name.length - "email".length) === "email";
     const propertyIsProbablyInt = name.indexOf('_id') > 0 || name === 'id' || (schematic.datatypes || []).indexOf('int') > -1;
+    const propertyIsUrl         = (schematic.datatypes || []).indexOf('url') > -1;
     const propertyIsPassword    = (schematic.datatypes || []).indexOf('password') > -1;
     const propertyIsDatetime    = (schematic.datatypes || []).indexOf('datetime') > -1;
+    
     if (propertyIsEmail) type = 'email';
+    else if (propertyIsUrl) type = 'url';
     else if (propertyIsProbablyInt) type = 'number';
     else if (propertyIsPassword) type = 'password';
     else if (propertyIsDatetime) type = 'datetime-local';
+    
     return type;
 };
 

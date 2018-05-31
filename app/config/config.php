@@ -49,8 +49,9 @@ define('APP__URL', $config['urls']['base'] ?? 'http://localhost');
 define('APP__URL__ROOT', $config['urls']['root'] ?? 'http://localhost');
 define('APP__PUBLIC_URL', $config['urls']['public'] ?? (APP__URL . '/public'));
 define('APP__PUBLIC_PATH__LOCAL', $config['paths']['public'] ?? (APP__APP_PATH . '../public/'));
-const APP__VIEW_TWIG_PATH = APP__APP_PATH . 'view/twig/';
-const APP__SRC_PATH       = APP__APP_PATH . 'src/';
+const APP__VIEW_TWIG_PATH   = APP__APP_PATH . 'view/twig/';
+const APP__FILE_UPLOAD_PATH = APP__APP_PATH . '../_files_';
+const APP__SRC_PATH         = APP__APP_PATH . 'src/';
 #--sm-- boilerplate
 
 
