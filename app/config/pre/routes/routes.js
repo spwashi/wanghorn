@@ -205,28 +205,67 @@ const devRoutes     = [
                   name:       'user--signup_continue'
               }),
 ];
-const userRoutes    = [
-    new Route({
-                  name:       "user--process_login",
-                  resolution: "[User]@login",
-                  pattern:    "user/login$"
-              }),
-    new Route({
-                  name:       "user--logout$",
-                  resolution: "[User]@logout",
-                  pattern:    "user/logout$"
-              }),
-    new Route({
-                  resolution: "[User]@signUp",
-                  pattern:    "user/signup/receive",
-                  name:       "user--process_signup"
-              }),
-    new Route({
-                  renderedBy: "client",
-                  pattern:    "user/signup$",
-                  name:       "user--signup"
-              })
-];
+const entity        = {
+    all:  [
+        new Route({
+                      title:      'Create Entity',
+                      renderedBy: 'client',
+                      pattern:    "entity/{name}:[a-zA-Z_]+/create$",
+                      name:       "entity--create"
+                  }),
+        new Route({
+                      resolution:  "[Entity]@create",
+                      pattern:     "entity/{name}:[a-zA-Z_]+/create/receive$",
+                      name:        "entity--create--receive",
+                      http_method: HTTP__POST
+                  }),
+    ],
+    user: [
+        new Route({
+                      name:       "user--process_login",
+                      resolution: "[User]@login",
+                      pattern:    "user/login$"
+                  }),
+        new Route({
+                      name:       "user--logout$",
+                      resolution: "[User]@logout",
+                      pattern:    "user/logout$"
+                  }),
+        new Route({
+                      resolution: "[User]@signUp",
+                      pattern:    "user/signup/receive",
+                      name:       "user--process_signup"
+                  }),
+        new Route({
+                      renderedBy: "client",
+                      pattern:    "user/signup$",
+                      name:       "user--signup"
+                  }),
+        new Route({
+                      resolution: "[User]@signUp",
+                      pattern:    "user/signup$",
+                      name:       "entity--user--create--receive"
+                  }),
+    ]
+};
+const entityRoutes  = [...entity.all, ...entity.user];
+const model         = {
+    all: [
+        new Route({
+                      title:      'Create Model',
+                      renderedBy: 'client',
+                      pattern:    "model/{name}:[a-zA-Z_]+/create$",
+                      name:       "model--create"
+                  }),
+        new Route({
+                      resolution:  "[Model]@create",
+                      pattern:     "model/{name}:[a-zA-Z_]+/create/receive$",
+                      name:        "model--create--receive",
+                      http_method: HTTP__POST
+                  }),
+    ],
+};
+const modelRoutes   = [...model.all];
 export const routes = normalizeRoutes(
     {
         frontend_renderer: '[Home]@index',
@@ -243,8 +282,8 @@ export const routes = normalizeRoutes(
             ...homeRoutes,
             // Dev Routes (remove from production!)
             ...devRoutes,
-            // User Routes
-            ...userRoutes,
+            ...entityRoutes,
+            ...modelRoutes,
             new Route({
                           name:       "file--prime_upload",
                           resolution: "[File]@prime",

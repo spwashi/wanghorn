@@ -2,7 +2,7 @@ import React from "react";
 import {Route} from "react-router-dom";
 import * as PropTypes from "prop-types"
 import {getReactPath, getURI} from "../../../../../path/resolution";
-import {parseSmID} from "../../../dev/modules/sm/utility";
+import {parseSmID} from "../../utility";
 import {CreateSmEntityDialog} from "../form/creation/components/dialog";
 import {LinkItem} from "../../../../../components/navigation";
 
@@ -46,20 +46,15 @@ class SmEntityMeta extends React.Component {
         const {schematic, smEntity}      = this.props;
         let smID                         = this.props.smID || schematic.smID;
         const {manager: ownerType, name} = parseSmID(smID || schematic);
-        const createSmEntityRouteURI     = getReactPath(`dev--create_${ownerType.toLowerCase()}`);
-        const createSmEntityReceiveURI   = getURI(`dev--create_${ownerType.toLowerCase()}--receive`, {name});
-        const SmEntityCreationDialog     =
-                  ({history}) =>
-                      <CreateSmEntityDialog smID={smID}
-                                            formUrl={createSmEntityReceiveURI}
-                                            schematic={schematic}
-                                            history={history} />;
+        
+        
+        
         return (
             <div key={smID} className={"smEntity--meta"}>
                 <header><h3 id={smID} className={"title smEntity--smID"}>{smID}</h3></header>
                 <SmEntityMetaActionContainer actions={this.props.actions} />
                 {(Array.isArray(this.props.children) ? this.props.children : [this.props.children]).map((child, i) => <SmEntityMetaComponent key={i}>{child}</SmEntityMetaComponent>)}
-                <Route path={createSmEntityRouteURI} component={SmEntityCreationDialog} />
+                
             </div>
         );
     }
@@ -68,6 +63,7 @@ class SmEntityMeta extends React.Component {
 SmEntityMeta.propTypes = {
     smID:      PropTypes.string,
     schematic: PropTypes.object.isRequired,
+    smEntity:  PropTypes.object,
     actions:   PropTypes.object,
     config:    PropTypes.object.isRequired,
 };

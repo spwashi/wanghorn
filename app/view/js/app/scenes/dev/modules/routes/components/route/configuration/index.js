@@ -3,8 +3,8 @@ import * as PropTypes from "prop-types"
 import {SelectivelyActive} from "../../../../../components/selectivelyActive";
 import {ActiveComponent, InactiveComponent} from "../../../../../components/selectivelyActive/components";
 import Modal from "../../../../../../../components/modal";
-import AttrValue from "../../../../../components/configuration/attribute/value";
-import {ConfigurationAttribute} from "../../../../../components/configuration";
+import AttrValue from "../../../../../../sm/components/configuration/attribute/value";
+import {ConfigurationAttribute} from "../../../../../../sm/components/configuration";
 import {getCleanPath, getURI} from "../../../../../../../../path/resolution";
 
 class NavigationModal extends React.Component {

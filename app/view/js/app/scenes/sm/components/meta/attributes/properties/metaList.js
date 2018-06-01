@@ -1,6 +1,6 @@
 import React from "react"
 import * as PropTypes from "prop-types"
-import {getTitleFromPropName, normalizeSmID} from "../../../../../dev/modules/sm/utility";
+import {getTitleFromPropName, normalizeSmID} from "../../../../utility";
 import {PropertySmIDLink} from "./smID_Link";
 
 class PropertiesAttrMetaList extends React.Component {

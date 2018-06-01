@@ -18,6 +18,63 @@
          }
       }
    },
+   "image": {
+      "smID": "[Entity]image",
+      "properties": {
+         "filename": {
+            "smID": "[Property]{[Entity]image} filename",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "derivedFrom": {
+               "identity": "[Model]image",
+               "hydrationMethod": {
+                  "property": "readable_name"
+               }
+            }
+         },
+         "url": {
+            "smID": "[Property]{[Entity]image} url",
+            "datatypes": [
+               "url",
+               "string",
+               "null"
+            ]
+         },
+         "file": {
+            "smID": "[Property]{[Entity]image} file",
+            "datatypes": [
+               "file"
+            ]
+         },
+         "name": {
+            "smID": "[Property]{[Entity]image} name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "unique": true,
+            "isGenerated": true,
+            "derivedFrom": "[Property]{[Model]image} name"
+         }
+      },
+      "persistedIdentity": "[Model]image",
+      "contexts": {
+         "login_process": {
+            "self": {
+               "title": "image",
+               "name": "image"
+            }
+         },
+         "signup_process": {
+            "self": {
+               "title": "image",
+               "name": "image"
+            }
+         }
+      }
+   },
    "password": {
       "smID": "[Entity]password",
       "properties": {
@@ -88,50 +145,6 @@
             "self": {
                "title": "User",
                "name": "user"
-            }
-         }
-      }
-   },
-   "image": {
-      "smID": "[Entity]image",
-      "properties": {
-         "url": {
-            "smID": "[Property]{[Entity]image} url",
-            "datatypes": [
-               "url",
-               "string",
-               "null"
-            ]
-         },
-         "file": {
-            "smID": "[Property]{[Entity]image} file",
-            "datatypes": [
-               "file"
-            ]
-         },
-         "name": {
-            "smID": "[Property]{[Entity]image} name",
-            "datatypes": [
-               "string"
-            ],
-            "length": 50,
-            "unique": true,
-            "isGenerated": true,
-            "derivedFrom": "[Property]{[Model]image} name"
-         }
-      },
-      "persistedIdentity": "[Model]image",
-      "contexts": {
-         "login_process": {
-            "self": {
-               "title": "image",
-               "name": "image"
-            }
-         },
-         "signup_process": {
-            "self": {
-               "title": "image",
-               "name": "image"
             }
          }
       }

@@ -1,9 +1,9 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
-import {getTitleFromPropName} from "../../../../../../dev/modules/sm/utility";
 import {Factory} from "../../../../../../../../modules/factory/index";
 import {DefaultPropertyField} from "./smEntity/default";
+import {getTitleFromPropName} from "../../../../../utility";
 
 export default class SchematicField extends React.Component {
     static propTypes = {

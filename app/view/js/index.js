@@ -7,11 +7,12 @@ import promise from "redux-promise-middleware";
 import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import reducer from "./app/reducer";
+import app_middleware from "./app/middleware";
 import Application from "./app";
 
 const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
 const middleware       = [promise(), thunk];
-const enhancers        = composeEnhancers(applyMiddleware(...middleware));
+const enhancers        = composeEnhancers(applyMiddleware(...middleware, ...app_middleware));
 const store            = createStore(reducer, enhancers);
 const persistor        = persistStore(store);
 const provider         =

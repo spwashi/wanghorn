@@ -1,6 +1,5 @@
 import React from "react"
-import {PromisedComponent} from "../../../../../../../../components/promised/index";
-import {normalizeSmID, parseSmID} from "../../../../../../dev/modules/sm/utility";
+import {normalizeSmID, parseSmID} from "../../../../../utility";
 import 'react-select/dist/react-select.css';
 import {SmEntitySelect} from "./index";
 
@@ -25,22 +24,16 @@ export class PropertyReferenceSelect extends React.Component {
         // If this property is a reference, we want to resolve the schematic of the SmEntity that drives this property's identity
         const inputProps                 = {required};
         const getSmEntityFieldAttributes =
-                  (otherSmEntity, schematic) =>
-                      PropertyReferenceSelect.getSmEntityFieldAttributes(otherSmEntity, schematic, {valuePropertySmID: identityPropertySmID});
+                  (otherSmEntity, schematic) => PropertyReferenceSelect.getSmEntityFieldAttributes(otherSmEntity,
+                                                                                                   schematic,
+                                                                                                   {valuePropertySmID: identityPropertySmID});
         
-        let getResolvedSmEntities        = i => resolveSmEntities({smID: referenceIdentity});
-        let getResolvedSmEntitySchematic = i => resolveSmEntitySchematic(referenceIdentity);
-        let promised                     = {
-            schematic: getResolvedSmEntitySchematic,
-            data:      getResolvedSmEntities
-        };
-        return <PromisedComponent promised={promised}
-                                  name={this.props.name}
-                                  value={this.props.value}
-                                  onValueChange={onValueChange}
-                                  inputProps={inputProps}
-                                  getSmEntityFieldAttributes={getSmEntityFieldAttributes}
-                                  resolveSmEntities={getResolvedSmEntities}>{SmEntitySelect}</PromisedComponent>;
+        return <SmEntitySelect name={this.props.name}
+                               value={this.props.value}
+                               onValueChange={onValueChange}
+                               itemSmIDs={[referenceIdentity]}
+                               inputProps={inputProps}
+                               getSmEntityFieldAttributes={getSmEntityFieldAttributes} />;
     }
     
     static getSmEntityFieldAttributes(smEntity, schematic, {valuePropertySmID}) {

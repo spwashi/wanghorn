@@ -14,7 +14,7 @@ export default class SignupForm extends React.Component {
         return <SmEntityCreationForm context={'signup_process'} smID={'[Entity]user'}
                                      smEntity={{properties: {username, password}}}
                                      onPropertyValueChange={onPropertyValueChange}
-                                     url={getURI('user--process_signup')} />;
+                                     uri={getURI('user--process_signup')} />;
     }
 }
 

@@ -2,9 +2,9 @@ import React from "react";
 import {Route} from "react-router-dom"
 import * as PropTypes from "prop-types"
 import PropertiesAttrMetaList from "./metaList";
-import {ConfigurationAttribute} from "../../../../../dev/components/configuration/index";
+import {ConfigurationAttribute} from "../../../configuration/index";
 import {getReactPath} from "../../../../../../../path/resolution";
-import PropertyConfiguration from "../../../../../dev/modules/sm/components/property/configuration/index";
+import PropertyConfiguration from "../../../../modules/properties/components/configuration/index";
 
 class SmEntityConfigurationPropertiesAttribute extends React.Component {
     get meta() {

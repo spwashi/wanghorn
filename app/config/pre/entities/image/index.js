@@ -19,7 +19,18 @@ export const contexts          = getContexts();
 export const identity          = Entity.identify(name);
 export const persistedIdentity = image__identity;
 export const properties        = {
-    name: true,
+    name:     true,
+    filename: {
+        datatypes:   [STRING_],
+        length:      50,
+        derivedFrom: {
+            identity:        image__identity,
+            hydrationMethod: {
+                property: 'readable_name'
+            }
+        },
+    },
+    
     url:  {datatypes: ['url', STRING_, NULL_]},
     file: {datatypes: ['file']}
 };

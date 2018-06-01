@@ -43,11 +43,14 @@ export const addArgsToPath =
                      return location;
                  };
 export const getURI        =
-                 function (name, routeArguments = {}, {root, skipEmpty, asReactRoute} = {}) {
+                 function (name, routeArguments = {}, {fallback, skipEmpty, root, asReactRoute} = {}) {
                      let pattern = (routes[name] || {}).pattern;
                      if (!pattern) {
-                         console.error(`Could not find ${name}`);
-                         return false;
+                         if (fallback) {
+                             return getURI(fallback, routeArguments, {skipEmpty, asReactRoute})
+                         }
+            
+                         throw new Error(`Could not find ${name}`);
                      }
         
                      let {path, validators} = getCleanPath(pattern);
@@ -55,10 +58,11 @@ export const getURI        =
                      if (asReactRoute) {
                          path = path.replace(/{([a-zA-Z0-9]+)}/g, ':$1');
                      }
+                     // We could set the base path to anything if necessary
                      path = `${root !== false ? (root || '') + '/' : ''}${path}`;
                      return path;
                  };
-export const getReactPath  = (name, routeArguments) => getURI(name, routeArguments, {asReactRoute: true, skipEmpty: true});
+export const getReactPath  = (name, routeArguments, {fallback} = {}) => getURI(name, routeArguments, {fallback, asReactRoute: true, skipEmpty: true});
 export const getTitle      = name => {
     let route = routes[name];
     if (!route) return false;

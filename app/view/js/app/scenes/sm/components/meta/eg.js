@@ -1,10 +1,10 @@
 import React from "react"
 import SmEntityMeta from "./index";
-import {getNameFromSmID, parseSmID} from "../../../dev/modules/sm/utility";
+import {getNameFromSmID, parseSmID} from "../../utility";
 import {getURI} from "../../../../../path/resolution";
 import {LinkItem} from "../../../../../components/navigation/index";
-import {ConfigurationDescription, ConfigurationTitle} from "../../../dev/components/configuration/configuration";
-import {ConfigurationAttribute} from "../../../dev/components/configuration/index";
+import {ConfigurationDescription, ConfigurationTitle} from "../configuration/configuration";
+import {ConfigurationAttribute} from "../configuration/index";
 
 const actions                    = {
     createSmEntity: {url: ({smID}, schematic) => getURI('dev--create_model', {name: getNameFromSmID(smID)})},

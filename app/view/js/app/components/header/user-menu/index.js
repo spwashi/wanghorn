@@ -10,7 +10,7 @@ import {bindActionCreators} from 'redux'
 import {activeUserFound, attemptLogin} from "../../../services/session/actions";
 import {getURI} from "../../../../path/resolution";
 import {UserMenuLogin} from "./login";
-import {markContextResolved} from "../../../scenes/sm/actions";
+import {markContextResolved} from "../../../scenes/sm/actions/index";
 
 const LoggedInUserMenu = function ({activeUser}) {
     return <div className="user_menu--link--container">

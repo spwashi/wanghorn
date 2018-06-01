@@ -187,6 +187,20 @@
          "pattern": "wanghorn/dev/email/test/{signup_nonce}"
       },
       {
+         "name": "entity--create",
+         "title": "Create Entity",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create$"
+      },
+      {
+         "name": "entity--create--receive",
+         "resolution": "Entity\\Entity@create",
+         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
+      },
+      {
          "name": "user--process_login",
          "resolution": "User\\User@login",
          "pattern": "wanghorn/user/login$"
@@ -205,6 +219,25 @@
          "name": "user--signup",
          "resolution": "Home\\Home@index",
          "pattern": "wanghorn/user/signup$"
+      },
+      {
+         "name": "entity--user--create--receive",
+         "resolution": "User\\User@signUp",
+         "pattern": "wanghorn/user/signup$"
+      },
+      {
+         "name": "model--create",
+         "title": "Create Model",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create$"
+      },
+      {
+         "name": "model--create--receive",
+         "resolution": "Model\\Model@create",
+         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
       },
       {
          "name": "file--prime_upload",

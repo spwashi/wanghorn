@@ -6,9 +6,9 @@ import axios from "axios";
 import {reduceEntriesIntoObject} from "../../../../../../../utility";
 import {connect} from "react-redux";
 import {SmEntityFieldset} from "./field/fieldset";
-import {normalizeSmID, parseSmID} from "../../../../../dev/modules/sm/utility";
+import {normalizeSmID, parseSmID} from "../../../../utility";
 import {ApiResponseMessage} from "../../response";
-import {fetchModels} from "../../../../../dev/modules/sm/models/actions";
+import {fetchModels} from "../../../../modules/models/actions/index";
 import {PromisedComponent} from "../../../../../../../components/promised/index";
 
 const mapDispatch             = dispatch => bindActionCreators({fetchModels,}, dispatch);
@@ -85,8 +85,8 @@ class SmEntityCreationForm extends React.Component {
                 <PromisedComponent key={'fields'}
                                    promised={{schematic}}
                                    smEntity={this.state.smEntity || null}
-                                   resolveSmEntitySchematic={this.resolveSmEntitySchematic.bind(this)}
-                                   resolveSmEntities={this.fetchSmEntities.bind(this)}
+                                   resolveSmEntitySchematic={() => {}}
+                                   resolveSmEntities={() => {}}
                                    updateValueStatus={this.updateValueStatus.bind(this)}>
                     {SmEntityFieldset}
                 </PromisedComponent>
@@ -105,7 +105,7 @@ class SmEntityCreationForm extends React.Component {
     @bind
     handleSubmit(event) {
         event.preventDefault();
-        const url      = this.props.url;
+        const url      = this.props.uri;
         const smEntity = this.state.smEntity || {};
         
         let {canSubmit, submissionErrors} = getFormSubmissionStatus(smEntity);
@@ -235,7 +235,7 @@ class SmEntityCreationForm extends React.Component {
 }
 
 SmEntityCreationForm.propTypes = {
-    url:                   PropTypes.string.isRequired,
+    uri:                   PropTypes.string.isRequired,
     context:               PropTypes.string,
     smEntity:              PropTypes.object,
     onPropertyValueChange: PropTypes.func,

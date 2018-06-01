@@ -1,7 +1,7 @@
 import React from "react"
 import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
-import {getNameFromSmID} from "../../../../../dev/modules/sm/utility";
+import {getNameFromSmID} from "../../../../utility";
 import {getURI} from "../../../../../../../path/resolution";
 import Modal from "../../../../../../components/modal/index";
 import {SmEntityCreationForm} from "./form";
@@ -17,7 +17,7 @@ export class CreateSmEntityDialog extends React.Component {
         const isOpen                     = this.state.isActive;
         return (
             <Modal isOpen={isOpen} onRequestClose={onRequestClose} title={title} contentLabel={title}>
-                <SmEntityCreationForm key={smID} smID={smID} schematic={schematic} url={formUrl} />
+                <SmEntityCreationForm key={smID} smID={smID} schematic={schematic} uri={formUrl} />
             </Modal>
         )
     };

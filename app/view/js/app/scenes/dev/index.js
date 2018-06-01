@@ -1,8 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Route} from "react-router";
-import ModelModule from "./modules/sm/models/modelScene";
-import EntityModule from "./modules/sm/entities/entitiesScene";
+import ModelModule from "./modules/models/modelScene";
+import EntityModule from "./modules/entities/entitiesScene";
 import {RoutesScene as RoutesModule} from "./modules/routes/routesScene";
 import reducer from "./reducer"
 import {selectDev} from "./selector";

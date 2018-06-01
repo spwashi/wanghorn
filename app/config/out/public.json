@@ -119,6 +119,16 @@
       "user--signup_continue": {
          "pattern": "wanghorn/dev/email/test/{signup_nonce}"
       },
+      "entity--create": {
+         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create$",
+         "title": "Create Entity"
+      },
+      "entity--create--receive": {
+         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
+      },
       "user--process_login": {
          "pattern": "wanghorn/user/login$"
       },
@@ -130,6 +140,19 @@
       },
       "user--signup": {
          "pattern": "wanghorn/user/signup$"
+      },
+      "entity--user--create--receive": {
+         "pattern": "wanghorn/user/signup$"
+      },
+      "model--create": {
+         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create$",
+         "title": "Create Model"
+      },
+      "model--create--receive": {
+         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
       },
       "file--prime_upload": {
          "pattern": "wanghorn/file/upload"
