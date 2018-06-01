@@ -233,7 +233,7 @@ const entity        = {
                   }),
         new Route({
                       resolution: "[User]@signUp",
-                      pattern:    "user/signup/receive",
+                      pattern:    "user/signup/receive$",
                       name:       "user--process_signup"
                   }),
         new Route({
@@ -243,7 +243,7 @@ const entity        = {
                   }),
         new Route({
                       resolution: "[User]@signUp",
-                      pattern:    "user/signup$",
+                      pattern:    "user/signup/receive$",
                       name:       "entity--user--create--receive"
                   }),
     ]

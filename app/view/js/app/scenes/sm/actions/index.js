@@ -11,7 +11,3 @@ export const fetchSmEntitySchematic           = ({smID} = {}) => ({type: FETCH_S
 export const fetchSmEntitySchematic__received = ({smID} = {}) => ({type: FETCH_SM_ENTITY_SCHEMATIC_RECEIVED, smID});
 export const fetchSmEntities                  = ({smID} = {}) => ({type: FETCH_SM_ENTITIES, smID});
 export const fetchSmEntities__received        = ({smID} = {}) => ({type: FETCH_SM_ENTITIES_RECEIVED, smID});
-
-
-
-

@@ -8,15 +8,16 @@ import {SmEntitySelect} from "./index";
  */
 export class PropertyReferenceSelect extends React.Component {
     render() {
-        const {onValueChange, resolveSmEntitySchematic} = this.props;
+        const {onValueChange} = this.props;
         const propertySchematic                         = this.props.schematic;
-        const resolveSmEntities                         = this.props.resolveSmEntities;
         
         const required  = propertySchematic.isRequired;
         const reference = propertySchematic.reference;
         
         let referenceIdentity    = reference.identity;
         let identityPropertySmID = reference.hydrationMethod; // assume that the "hydration method" (what connects these models) is a property
+        
+        
         
         // throw an error of something doesn't loo right
         PropertyReferenceSelect.checkValuePropertySmID(identityPropertySmID);

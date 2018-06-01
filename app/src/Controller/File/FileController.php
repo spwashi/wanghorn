@@ -56,7 +56,7 @@ class FileController extends AppController {
             return [
                 'success' => true,
                 'message' => 'Successfully uploaded file',
-                'name'    => $data['name'],
+                'id'      => $data['md5'],
             ];
         } catch (\Exception $e) {
             $parsed_errors = $this->getFileErrors($file);
@@ -83,6 +83,9 @@ class FileController extends AppController {
     protected function addFileToSession($data): void {
         $_SESSION['files']                 = $_SESSION['files'] ?? [];
         $_SESSION['files'][ $data['md5'] ] = $data;
+    }
+    public function fileFromSession($md5): ?array {
+        return $_SESSION ? $_SESSION['files'][ $md5 ] ?? null : null;
     }
     protected function getFileErrors(File $file, $do_format = true): array {
         $errors        = $file->getErrors();

@@ -136,13 +136,13 @@
          "pattern": "wanghorn/user/logout$"
       },
       "user--process_signup": {
-         "pattern": "wanghorn/user/signup/receive"
+         "pattern": "wanghorn/user/signup/receive$"
       },
       "user--signup": {
          "pattern": "wanghorn/user/signup$"
       },
       "entity--user--create--receive": {
-         "pattern": "wanghorn/user/signup$"
+         "pattern": "wanghorn/user/signup/receive$"
       },
       "model--create": {
          "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create$",

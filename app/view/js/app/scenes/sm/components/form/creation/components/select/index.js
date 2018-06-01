@@ -4,12 +4,16 @@ import {SmEntitySelectOption} from "./option/index";
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import ReactSelect from "react-select";
-import {fromSm_selectItemsOfSmID, fromSm_selectSchematicOfSmID, selectSmState} from "../../../../../selector";
+import {fromSm_selectItemsOfSmID, fromSm_selectSchematicOfSmID, fromSmEntityManagersSelectType, selectSmEntityManagers, selectSmState} from "../../../../../selector";
 import {fetchSmEntities, fetchSmEntitySchematic} from "../../../../../actions";
 
-const mapState    = state => ({sm: selectSmState(state)});
+const mapState    = state => ({
+    sm:       selectSmState(state),
+    entities: fromSmEntityManagersSelectType(selectSmEntityManagers(state), 'entity'),
+    models:   fromSmEntityManagersSelectType(selectSmEntityManagers(state), 'model')
+});
 const mapDispatch = dispatch => bindActionCreators({fetchSmEntities, fetchSmEntitySchematic}, dispatch);
-let hasFetched    = false;
+const fetched     = [];
 
 /**
  * Using an SmEntity, convert a property into a Select dialog
@@ -23,11 +27,24 @@ export class SmEntitySelect extends React.Component {
         inputProps:                 PropTypes.object,
         getSmEntityFieldAttributes: PropTypes.func.isRequired,
     };
-           state     = {data: null, referencedSchematic: null};
+           state     = {data: null, referencedSchematic: null, hasFetched: false};
+    
+    constructor(props) {
+        super(props);
+        let state = {data: this.getItems(this.props.itemSmIDs)}
+    }
     
     onHasData(data) {
-        if (!Array.isArray(data)) { return; }
+        if (!Array.isArray(data)) {
+            return;
+        }
+        
+        if (this.props.value) {
+            return;
+        }
+        
         const isRequired = this.props.inputProps.required;
+        
         if (data.length >= 1 && isRequired) {
             let {value} = this.smEntityOptionAttributes(data[0]);
             this.props.onValueChange(value);
@@ -35,27 +52,32 @@ export class SmEntitySelect extends React.Component {
     };
     
     componentDidMount() {
-        const smIDs = this.props.itemSmIDs;
-        if (hasFetched) {
-            const items = [];
-            smIDs.map(smID => {
-                const fetched = fromSm_selectItemsOfSmID(this.props.sm, {smID}) || [];
-                return items.push(...fetched);
-            });
-            if (!this.state.data) {
-                this.onHasData(items);
-                this.setState({data: items})
-            }
-        } else {
-            hasFetched = !!smIDs.map(smID => this.props.fetchSmEntities({smID}))
+        const smIDs      = this.props.itemSmIDs;
+        const items      = this.getItems(smIDs);
+        const hasFetched = this.state.hasFetched;
+        
+        if (!hasFetched || (hasFetched && ((Date.now() - hasFetched) > 2000))) {
+            smIDs.map(smID => this.props.fetchSmEntities({smID}));
+            this.onHasData(items);
+            this.setState({hasFetched: true});
+            setTimeout(() => {this.setState({hasFetched: false})});
         }
+    }
+    
+    getItems(smIDs) {
+        const items = [];
+        smIDs.map(smID => {
+            const fetched = fromSm_selectItemsOfSmID(this.props.sm, {smID}) || [];
+            return items.push(...fetched);
+        });
+        return items;
     }
     
     render() {
         const {required} = this.props.inputProps || {};
         const name       = this.props.name;
         const value      = this.props.value;
-        const data       = this.state.data || [];
+        const data       = this.getItems(this.props.itemSmIDs) || [];
         
         const options = data.map(smEntity => this.smEntityOptionAttributes(smEntity));
         

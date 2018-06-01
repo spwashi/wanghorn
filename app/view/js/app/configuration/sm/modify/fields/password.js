@@ -14,6 +14,7 @@ export class PasswordField extends React.Component {
         const password              = this.props.value;
         const title                 = this.props.title;
         const message               = this.props.message;
+        
         const verificationTitle     = 'Verify ' + title;
         const verificationName      = 'verify--' + name;
         const checkPropertyValidity = (schematic, password) => {

@@ -4,7 +4,7 @@ import {PropertyReferenceSelect} from "../../../../scenes/sm/components/form/cre
 
 export class PropertyReferenceField extends React.Component {
     render() {
-        return <Field title={this.props.title}
+        return <Field title={this.props.title.replace(' Id', '')}
                       name={this.props.name}
                       message={this.props.message}
                       input={<PropertyReferenceSelect key={'select'}

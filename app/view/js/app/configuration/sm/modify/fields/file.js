@@ -70,7 +70,7 @@ export class FileUploadField extends React.Component {
                                        const status  = data.success;
                                        return {message, status};
                                    };
-                                   this.props.onValueChange(null, checkPropertyValidity);
+                                   this.props.onValueChange(data.id, checkPropertyValidity);
                                    return console.log(data);
                                });
                       })

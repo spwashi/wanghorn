@@ -17,10 +17,10 @@ const items = (state, action) => {
     switch (type) {
         case FETCH_MODELS_RECEIVED:
             let {models, smID} = action;
-            return {...state, [smID]: (models || []).map(model => modelReducer(model, action))};
+            return {...state, [smID]: (models || []).map(model => modelReducer({...model}, action))};
         
         default:
-            return state || {};
+            return {...(state || {})};
         
     }
 };

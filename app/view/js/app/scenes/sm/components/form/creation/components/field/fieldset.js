@@ -5,6 +5,8 @@ import {getSettablePropertiesFromSmEntity} from "../../utility";
 import {PromisedComponent} from "../../../../../../../../components/promised/index";
 import {SmEntityField} from "./smEntity/index";
 
+let attempted = [];
+
 export class SmEntityFieldset extends React.Component {
     render() {
         const schematic          = this.props.schematic;
@@ -26,7 +28,7 @@ export class SmEntityFieldset extends React.Component {
         schematic.name = schematic.name || name;
         
         const value   = properties[name] || null;
-        const message = messages[name] || null;
+        const message = messages[name] || (this.props.messages || {})[name];
         
         if (typeof schematic !== "object") throw new Error("Could not handle schematic");
         
@@ -37,7 +39,6 @@ export class SmEntityFieldset extends React.Component {
         if (parsedDatatype.manager === 'Entity' || parsedDatatype.manager === 'Model') {
             schematic = this.props.resolveSmEntitySchematic(primaryDatatype);
         }
-        
         return (
             <PromisedComponent key={name}
                                fieldName={name}
@@ -46,9 +47,7 @@ export class SmEntityFieldset extends React.Component {
                                resolveSmEntitySchematic={this.props.resolveSmEntitySchematic}
                                resolveSmEntities={this.props.resolveSmEntities}
                                updateValueStatus={this.props.updateValueStatus}
-                               promised={{schematic}}>
-                {SmEntityField}
-            </PromisedComponent>);
+                               promised={{schematic}}>{SmEntityField}</PromisedComponent>);
     }
 }
 

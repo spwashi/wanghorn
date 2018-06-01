@@ -8,7 +8,7 @@ import {FETCH_ENTITIES, FETCH_ENTITY_METAS} from "../modules/entities/actions/ty
 import {fetchEntities, fetchEntitiesCompleted, fetchEntityMetasCompleted} from "../modules/entities/actions/actions";
 import {fetchModelMetasCompleted, fetchModelsCompleted} from "../modules/models/actions";
 import {getURI} from "../../../../path/resolution";
-import {FETCH_MODEL_METAS_RECEIVED, FETCH_MODELS} from "../modules/models/actions/types";
+import {FETCH_MODEL_METAS, FETCH_MODELS} from "../modules/models/actions/types";
 
 export default [fetchSmEntitySchematicMiddleware, fetchSmEntitiesMiddleware];
 
@@ -29,12 +29,10 @@ const requestSmEntities = ({smID}, {state, dispatch}) => {
     
     switch (manager) {
         case 'Model':
-            const dispatchModelFetch = fetchModels({smID});
-            dispatchModelFetch(dispatch);
+            dispatch(fetchModels({smID}));
             break;
         case 'Entity':
-            const dispatchEntityFetch = fetchEntities({smID});
-            dispatchEntityFetch(dispatch);
+            dispatch(fetchEntities({smID}));
             break;
     }
 };
@@ -76,11 +74,11 @@ function fetchSmEntitySchematicMiddleware(store) {
         const state = store.getState();
         
         switch (action.type) {
-            case FETCH_MODEL_METAS_RECEIVED:
-                axios.get(getURI("dev--entities__json")).then(response => store.dispatch(fetchEntityMetasCompleted(response && response.data && response.data)));
+            case FETCH_MODEL_METAS:
+                axios.get(getURI("dev--models__json")).then(response => store.dispatch(fetchModelMetasCompleted(response && response.data && response.data)));
                 return;
             case FETCH_ENTITY_METAS:
-                axios.get(getURI("dev--entities__json")).then(response => store.dispatch(fetchModelMetasCompleted(response && response.data && response.data)));
+                axios.get(getURI("dev--entities__json")).then(response => store.dispatch(fetchEntityMetasCompleted(response && response.data && response.data)));
                 return;
             case FETCH_SM_ENTITY_SCHEMATIC:
                 store.dispatch(fetchSmEntitySchematic__received());

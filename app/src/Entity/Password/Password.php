@@ -13,9 +13,28 @@ use Sm\Data\Evaluation\Validation\ValidationResult;
 use WANGHORN\Entity\Entity;
 
 class Password extends Entity implements Resolvable {
+    protected $internal = [];
     use EntityHasPrimaryModelTrait {
         find as _find;
+        getPropertiesForModel as gProps;
     }
+    public function set($na, $value = null) {
+        return parent::set($na, $value);
+    }
+    protected function getPropertiesForModel(\Sm\Data\Entity\Entity $entity): array {
+        $properties = $this->gProps($entity);
+        $ret        = [];
+        foreach ($properties as $name => $property) {
+            if ($name === 'password') {
+                $value        = "{$property->value}";
+                $ret[ $name ] = password_hash($value, PASSWORD_BCRYPT);
+            } else {
+                $ret[ $name ] = $property;
+            }
+        }
+        return $ret;
+    }
+    
     public function validate(Context $context = null): ValidationResult {
         if ($context instanceof EntityCreationContext) {
             /** @var \Sm\Data\Entity\Property\EntityProperty $password */

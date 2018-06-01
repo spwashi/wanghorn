@@ -213,7 +213,7 @@
       {
          "name": "user--process_signup",
          "resolution": "User\\User@signUp",
-         "pattern": "wanghorn/user/signup/receive"
+         "pattern": "wanghorn/user/signup/receive$"
       },
       {
          "name": "user--signup",
@@ -223,7 +223,7 @@
       {
          "name": "entity--user--create--receive",
          "resolution": "User\\User@signUp",
-         "pattern": "wanghorn/user/signup$"
+         "pattern": "wanghorn/user/signup/receive$"
       },
       {
          "name": "model--create",

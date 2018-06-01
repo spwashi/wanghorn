@@ -77,6 +77,13 @@ class UserController extends AppController {
         $userProxy    = $session_user ? $session_user->proxyInContext(new EntityContext) : null;
         return $userProxy;
     }
+    
+    public function create() {
+        return [
+            'success' => true,
+            'message' => [ '_message' => 'boon' ],
+        ];
+    }
     /**
      * @return array
      * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
@@ -91,7 +98,7 @@ class UserController extends AppController {
         $user          = $this->app->data->entities->instantiate($userSchematic);
         $messages      = [];
         
-        $user->set($request_data);
+        $user->set($request_data['properties'] ?? null);
         
         try {
             $user->find([ 'username' => $user->properties->username ]);
@@ -101,21 +108,21 @@ class UserController extends AppController {
         
         /** @var \Sm\Data\Entity\Validation\EntityValidationResult $response */
         try {
-            $response = $user->create($entityContext);
+            $user->create($entityContext);
         } catch (CannotDuplicateEntryException $error) {
             return $this->getUserAlreadyExistsStatusResponse();
         } catch (CannotCreateEntityException $exception) {
             $failedProperties             = $exception->getFailedProperties();
             $messages                     = $failedProperties;
-            $messages        ['_message'] = [ 'Cannot create new users at this time', ];
+            $messages        ['_message'] = 'Could not continue';
         }
         
         return [
-            'user_id'        => null,
-            'user'           => $user,
-            'property_names' => array_keys($user->properties->getAll()),
-            'message'        => $messages,
-            'success'        => true,
+            'user_id'    => null,
+            'user'       => $user,
+            'properties' => $failedProperties ?? $user->getProperties(),
+            'message'    => $messages,
+            'success'    => empty($failedProperties),
         ];
     }
     public function logout() {
@@ -137,14 +144,16 @@ class UserController extends AppController {
         
         # Instantiate a Model that we'll use to find a matching object (or throw an error if it doesn't exist)
         try {
-            $context                                    = new EntityContext('login_process');
-            $userEntity                                 = $this->findInContext($username, $context->getContextName());
-            $proxy                                      = $userEntity->proxyInContext($context);
-            $_SESSION[ static::SESSION_USERNAME_INDEX ] = $userEntity->properties->username->value;
-            
+            $context      = new EntityContext('login_process');
+            $userEntity   = $this->findInContext($username, $context->getContextName());
+            $proxy        = $userEntity->proxyInContext($context);
+            $passwordProp = $userEntity->findPassword();
+            $model        = $passwordProp->value->getPersistedIdentity();
+            $success      = password_verify($password, $model->properties->password);
+            if ($success) $_SESSION[ static::SESSION_USERNAME_INDEX ] = $userEntity->properties->username->value;
             return [
-                'user'    => $proxy,
-                'success' => true,
+                'user'    => $success ? $proxy : null,
+                'success' => $success,
             ];
         } catch (EntityNotFoundException $exception) {
             return [

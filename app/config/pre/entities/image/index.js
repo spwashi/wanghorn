@@ -31,6 +31,7 @@ export const properties        = {
         },
     },
     
-    url:  {datatypes: ['url', STRING_, NULL_]},
-    file: {datatypes: ['file']}
+    url:              {length: 300, datatypes: ['url', STRING_, NULL_]},
+    file_location_id: true,
+    file:             {datatypes: ['file']}
 };

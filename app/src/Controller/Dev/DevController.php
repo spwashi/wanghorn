@@ -16,7 +16,6 @@ use Sm\Data\Model\ModelSchematic;
 use Sm\Data\Model\StandardModelPersistenceManager;
 use Sm\Data\Property\PropertySchematic;
 use Sm\Data\Source\Database\Table\TableSourceSchematic;
-use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use Sm\Modules\Query\MySql\MySqlQueryModule;
 use Sm\Modules\Query\Sql\Constraints\ForeignKeyConstraintSchema;
 use Sm\Modules\Query\Sql\Constraints\PrimaryKeyConstraintSchema;
@@ -31,7 +30,6 @@ use Sm\Modules\Query\Sql\Statements\AlterTableStatement;
 use Sm\Modules\Query\Sql\Statements\CreateTableStatement;
 use Sm\Query\Proxy\String_QueryProxy;
 use WANGHORN\Controller\AppController;
-use WANGHORN\Model\Model;
 
 class DevController extends AppController {
     protected function propertyToColumn(PropertySchematic $propertySchema, TableSourceSchematic $tableSourceSchematic) {
@@ -236,43 +234,7 @@ class DevController extends AppController {
         return json_decode(json_encode($this->app->getMonitors()), 1);
     }
     public function createModel($modelSmID) {
-        $data = HttpRequestFromEnvironment::getRequestData();
-        /** @var \WANGHORN\Model\Model $model */
-        $model      = $this->app->data->models->instantiate($modelSmID);
-        $properties = $data['properties'] ?? [];
-        foreach ($properties as $key => $value) {
-            /** @var \WANGHORN\Model\Property $property */
-            $property = $model->properties->{$key};
-            if (!$property) {
-                return [
-                    'success' => false,
-                    'message' => [
-                        '_message' => 'Could not save model',
-                        $key       => 'Property does not exist',
-                    ],
-                ];
-            }
-            $property->setDoStrictResolve(true);
-            $property->value = $value;
-        }
-        
-        $modelPersistenceManager = $this->app->data->models->persistenceManager;
-        $modelPersistenceManager->create($model);
-        /** @var Model $newModel */
-        $newModel      = $modelPersistenceManager->find($model);
-        $id            = $newModel->properties->id->value;
-        $wasSuccessful = isset($id);
-        
-        $all = [];
-        foreach ($newModel->properties as $resolution) {
-            $all[] = $resolution;
-        }
-        
-        return [
-            'success' => $wasSuccessful,
-            'message' => [ '_message' => $wasSuccessful ? 'Successfully Created Model' : 'Could not create Model' ],
-            'model'   => $wasSuccessful ? $newModel : $model,
-        ];
+    
     }
     /**
      * @param $smID

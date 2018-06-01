@@ -74,8 +74,8 @@ function mapDispatch(dispatch) {
         markContextResolved,
         fetchModelMetas,
         fetchEntityMetas,
-        resolveSmEntities:        fetchSmEntities,
-        resolveSmEntitySchematic: fetchSmEntitySchematic
+        fetchSmEntities:        fetchSmEntities,
+        fetchSmEntitySchematic: fetchSmEntitySchematic
     };
     return bindActionCreators(actions, dispatch);
 }

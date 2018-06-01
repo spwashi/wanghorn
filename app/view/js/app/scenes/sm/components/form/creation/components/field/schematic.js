@@ -3,7 +3,8 @@ import * as PropTypes from "prop-types"
 import bind from "bind-decorator";
 import {Factory} from "../../../../../../../../modules/factory/index";
 import {DefaultPropertyField} from "./smEntity/default";
-import {getTitleFromPropName} from "../../../../../utility";
+import {getTitleFromPropName, parseSmID} from "../../../../../utility";
+import {PropertyOwnerField} from "./smEntity/propertyOwner";
 
 export default class SchematicField extends React.Component {
     static propTypes = {
@@ -32,7 +33,7 @@ export default class SchematicField extends React.Component {
             resolveSmEntitySchematic: this.props.resolveSmEntitySchematic
         };
         const Component      = SchematicField.fieldFactory.Component;
-        return <Component {...componentProps} />
+        return <Component {...this.props} {...componentProps} />
     }
     
     @bind
@@ -46,4 +47,15 @@ export default class SchematicField extends React.Component {
         return updateValueStatus(effectiveSchematic, value, validityStatus) || true;
     }
 };
-SchematicField.fieldFactory = new Factory([props => DefaultPropertyField]);
+SchematicField.fieldFactory = new Factory([
+                                              props => DefaultPropertyField,
+                                              props => {
+                                                  const {smID}    = props.schematic;
+                                                  const {manager} = parseSmID(smID);
+                                                  if (manager === 'Model' || manager === 'Entity') {
+                                                      return PropertyOwnerField;
+                                                  } else {
+                                                      return null;
+                                                  }
+                                              }
+                                          ]);

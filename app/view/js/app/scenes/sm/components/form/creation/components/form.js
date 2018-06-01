@@ -6,31 +6,30 @@ import axios from "axios";
 import {reduceEntriesIntoObject} from "../../../../../../../utility";
 import {connect} from "react-redux";
 import {SmEntityFieldset} from "./field/fieldset";
-import {normalizeSmID, parseSmID} from "../../../../utility";
+import {normalizeSmID} from "../../../../utility";
 import {ApiResponseMessage} from "../../response";
 import {fetchModels} from "../../../../modules/models/actions/index";
-import {PromisedComponent} from "../../../../../../../components/promised/index";
+import {fromSm_selectItemsOfSmID, fromSm_selectSchematicOfSmID} from "../../../../selector";
 
 const mapDispatch             = dispatch => bindActionCreators({fetchModels,}, dispatch);
-let attempts                  = {};
 const getFormSubmissionStatus = function (smEntity) {
-    let canSubmit                = true;
-    const submissionErrors       = {};
-    const {properties, messages} = smEntity;
-    const messageEntries         = Object.entries(messages || {});
+    let canSubmit                     = true;
+    const {properties, messages = {}} = smEntity;
+    const messageEntries              = Object.entries(messages || {});
     // Check the properties to make sure they are valid
     messageEntries.map(entry => {
         const [name, message] = entry;
-        if (typeof message === "undefined") return;
+        if (typeof message === "undefined" || (typeof message === "object" && !message)) return;
         const {status, message: text} = message;
         if (typeof status === 'undefined' || (!status && typeof status === 'object')) {
+            text && (messages[name] = text);
             return;
         }
         canSubmit = canSubmit ? !!status : false;
-        !status && (submissionErrors[name] = text || 'Invalid value');
+        (messages[name] = text || (!canSubmit ? 'Invalid value' : null));
     });
     
-    return {canSubmit, submissionErrors};
+    return {canSubmit, messages};
 };
 
 @connect(mapState, mapDispatch)
@@ -80,18 +79,32 @@ class SmEntityCreationForm extends React.Component {
             throw new Error("Can only prompt for SmEntities that have Properties");
         }
         
+        const resolveSmEntities        = item => {
+            const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
+            
+            if (!smID) return;
+            console.log(smID);
+            return fromSm_selectItemsOfSmID(this.props.sm, {smID});
+        };
+        const resolveSmEntitySchematic = item => {
+            const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
+            
+            if (!smID) return;
+            
+            return fromSm_selectSchematicOfSmID(this.props.sm, {smID});
+        };
+        const _message                 = this.state.messages && (this.state.messages._message || this.state.messages[0]);
         return (
             <form onSubmit={this.handleSubmit} className={status ? 'status__' + status : ''}>
-                <PromisedComponent key={'fields'}
-                                   promised={{schematic}}
-                                   smEntity={this.state.smEntity || null}
-                                   resolveSmEntitySchematic={() => {}}
-                                   resolveSmEntities={() => {}}
-                                   updateValueStatus={this.updateValueStatus.bind(this)}>
-                    {SmEntityFieldset}
-                </PromisedComponent>
+                <SmEntityFieldset schematic={schematic}
+                                  messages={this.state.messages}
+                                  smEntity={this.state.smEntity}
+                                  resolveSmEntities={resolveSmEntities}
+                                  updateValueStatus={this.updateValueStatus.bind(this)}
+                                  resolveSmEntitySchematic={resolveSmEntitySchematic}>
+                </SmEntityFieldset>
                 <div className="message--wrapper">
-                    <ApiResponseMessage message={this.state.messages && (this.state.messages._message || this.state.messages[0])} />
+                    <ApiResponseMessage message={_message} />
                 </div>
                 <button type="submit">Submit</button>
             </form>
@@ -108,14 +121,14 @@ class SmEntityCreationForm extends React.Component {
         const url      = this.props.uri;
         const smEntity = this.state.smEntity || {};
         
-        let {canSubmit, submissionErrors} = getFormSubmissionStatus(smEntity);
+        let {canSubmit, messages} = getFormSubmissionStatus(smEntity);
         
         // Set the error messages on fail
         if (!canSubmit) {
             this.setState({
                               messages: {
                                   ...this.state.messages,
-                                  ...submissionErrors,
+                                  ...messages,
                                   _message: 'Could not submit form',
                               }
                           });
@@ -134,60 +147,30 @@ class SmEntityCreationForm extends React.Component {
                                            .reduce(reduceEntriesIntoObject, {});
                           axios.post(url, post)
                                .then(({data}) => {
-                                   const status   = data.success ? 'success' : 'error';
-                                   const _message = status === 'error' ? {message: 'Error Processing Request', success: false}
-                                                                       : null;
-                                   const messages = typeof data.message === 'object' ? data.message : {_message};
-                                   this.setState({_status: status, messages}, i => console.log(this.state));
+                                   const status     = data.success || (data.status === true) ? 'success' : 'error';
+                                   const _message   = status === 'error' ? {message: 'Error Processing Request', success: false}
+                                                                         : null;
+                                   const properties = data.properties || {};
+                
+                                   const messages    = typeof data.message === 'object' ? data.message
+                                                                                        : (typeof data.message === 'string' ? {_message: data.message}
+                                                                                                                            : {_message});
+                                   const newSmEntity = {...this.state.smEntity, messages};
+                                   Object.entries(properties)
+                                         .forEach(([property_name, property_val]) => {
+                                             const smEntityProperty       = (smEntity.properties || {})[property_name];
+                                             const {properties, messages} = (smEntityProperty || {});
+                    
+                                             property_val.messages && Object.assign((smEntityProperty || {}).messages, property_val.messages);
+                                         });
+                
+                                   this.setState({
+                                                     _status:  status,
+                                                     smEntity: newSmEntity,
+                                                     messages: {_message: messages._message || _message},
+                                                 }, i => console.log(this.state));
                                })
                       })
-    }
-    
-    fetchSmEntities({smID}) {
-        if (typeof smID !== 'string') throw new Error("Can only find from smID");
-        
-        if (attempts[smID]) return attempts[smID];
-        
-        const {manager, name, owner} = parseSmID(smID);
-        setTimeout(i => {attempts[smID] = null}, 1000);
-        switch (manager) {
-            case 'Model':
-                return attempts[smID] = this.props
-                                            .fetchModels({smID})
-                                            .then(({models}) => attempts[smID] = models);
-        }
-    }
-    
-    resolveSmEntitySchematic(originalSchematic) {
-        let smEntity = originalSchematic;
-        if (typeof  smEntity === 'object') smEntity = smEntity.smID;
-        if (typeof smEntity !== 'string') {
-            console.error('Cannot resolve from ', smEntity, originalSchematic);
-            return null;
-        }
-        
-        let schematic;
-        let contextName                  = this.props.context;
-        let {contexts, models, entities} = this.props;
-        let smID                         = smEntity;
-        if (contextName && contexts[contextName]) {
-            let context = contexts[contextName];
-            schematic   = (context.schematics || {})[smID];
-        }
-        
-        let {manager, name, owner} = parseSmID(smID);
-        switch (manager) {
-            case 'Model':
-                schematic = models[smID] || models[normalizeSmID(smID)];
-                break;
-            case 'Entity':
-                schematic = entities[smID] || entities[normalizeSmID(smID)];
-                break;
-        }
-        
-        if (schematic) schematic.name = schematic.name || null;
-        
-        return schematic ? schematic : null;
     }
     
     updateValueStatus(effectiveSchematic, value, message = true) {
@@ -244,7 +227,6 @@ SmEntityCreationForm.propTypes = {
 };
 export {SmEntityCreationForm};
 function mapState(state) {
-    let sm                           = state.scenes.sm;
-    let {contexts, models, entities} = sm;
-    return {contexts, models, entities}
+    let sm = state.scenes.sm;
+    return {sm: {...sm}}
 }

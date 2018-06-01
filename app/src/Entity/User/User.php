@@ -8,6 +8,7 @@ use Sm\Core\Context\Context;
 use Sm\Core\Exception\UnimplementedError;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
+use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Property\Property;
 use Sm\Data\Property\PropertyContainer;
 use WANGHORN\Entity\Entity;
@@ -21,6 +22,7 @@ use WANGHORN\Entity\Entity;
 class User extends Entity {
     use EntityHasPrimaryModelTrait {
         find as _find;
+        create as _create;
     }
     
     #
@@ -32,6 +34,20 @@ class User extends Entity {
     public function destroy() {
         $primaryModel = $this->getPersistedIdentity();
         $result       = $this->modelDataManager->persistenceManager->markDelete($primaryModel);
+    }
+    public function create(Context $context, $attributes = []): EntityValidationResult {
+        
+        $passwordProperty = $this->getProperties()->password;
+        $result           = $this->_create($context, $attributes);
+        
+        if (!$result->isSuccess()) return $result;
+        
+        $this->fillPropertyValue($passwordProperty);
+        $passwordProperty->create($context);
+        /** @var Entity $passwordEntity */
+        $passwordEntity = $passwordProperty->value;
+        var_dump($passwordEntity->getPersistedIdentity());
+        die();
     }
     /**
      * @param array                         $attributes
@@ -61,14 +77,6 @@ class User extends Entity {
     #
     ##
     #
-    public function setPassword($password) {
-        $hash           = 'hello';
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        
-        throw new UnimplementedError("Need to figure out how to store passwords");
-        
-        return $this;
-    }
     public function passwordMatches($password) {
         $expectedPasswordHash = '';
         return password_verify($password, $expectedPasswordHash);
