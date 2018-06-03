@@ -1,4 +1,6 @@
 // Small class to structure the routes we'll use in our application
+import {RENDER_METHODS} from "./constants";
+
 type renderedByType = "client" | "server"
 type routeParams = {
     resolution: string,
@@ -72,7 +74,7 @@ export const normalizeRoutes =
                          routes
                              .map((route: Route) => {
                                  if (route.pattern) route.pattern = (pattern_prefix || '') + route.pattern;
-                                 if (frontend_renderer && !route.resolution && route.renderedBy.length === 1 && route.renderedBy[0] === 'client') {
+                                 if (frontend_renderer && !route.resolution && route.renderedBy.length === 1 && route.renderedBy[0] === RENDER_METHODS.client) {
                                      route.resolution = frontend_renderer
                                  }
                                  return new Route({...route});

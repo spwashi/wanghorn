@@ -6,7 +6,6 @@ namespace WANGHORN\Controller\User;
 
 use Modules\Query\Sql\Exception\CannotDuplicateEntryException;
 use Sm\Core\Exception\InvalidArgumentException;
-use Sm\Data\Entity\Context\ContextualizedEntityProxy;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntitySchema;
@@ -15,6 +14,7 @@ use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Controller\ApiResponse;
 use WANGHORN\Controller\AppController;
+use WANGHORN\Entity\User\Schema\UserEntitySchema;
 use WANGHORN\Entity\User\User;
 
 /**
@@ -119,7 +119,7 @@ class UserController extends AppController {
         $_SESSION[ static::SESSION_USERNAME_INDEX ] = null;
         return $this->redirect('home');
     }
-    protected function proxy_in_context($username, EntityContext $context): ContextualizedEntityProxy {
+    protected function proxy_in_context($username, EntityContext $context): UserEntitySchema {
         return $this->find_inContext($username, $context)->proxyInContext($context);
     }
     protected function find_inContext($username, $context_name = null): User {

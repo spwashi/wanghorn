@@ -19,7 +19,7 @@ class EmailController extends AppController {
         ##
         $this->mailInstance = $this->setUp('smtp.gmail.com', 587, $username, $password);
     }
-    public function instance() {
+    public function getInstance() {
         if (isset($this->mailInstance)) {
             $clone            = clone $this->mailInstance;
             $clone->SMTPDebug = $this->app->environmentIs(Application::ENV_DEV) ? 2 : 0;
@@ -27,6 +27,7 @@ class EmailController extends AppController {
         }
         throw new Error("No instance available");
     }
+    
     public function setUp($host, $port, $username, $password) {
         $mail = new PHPMailer(true);
         $mail->isSMTP();
@@ -38,13 +39,14 @@ class EmailController extends AppController {
         $mail->Password   = $password;
         return $mail;
     }
-    function sendEmail(PHPMailer $mail,
-                       array $from,
-                       array $reply_to,
-                       array $to,
-                       string $html_body,
-                       string $plain_txt_body = '',
-                       $subject) {
+    
+    public function sendEmail(PHPMailer $mail,
+                              array $from,
+                              array $reply_to,
+                              array $to,
+                              string $html_body,
+                              string $plain_txt_body = '',
+                              $subject) {
         $mail->setFrom(...$from);
         $mail->addReplyTo(...$reply_to);
         $mail->addAddress(...$to);
@@ -78,15 +80,12 @@ class EmailController extends AppController {
         return "Received Nonce: {$nonce}";
     }
     public function tmp() {
-        $requestDescriptor = $this->app->communication->getRoute('user--signup_continue')
-                                                      ->getRequestDescriptor();
-        if ($requestDescriptor instanceof HttpRequestDescriptor) {
-            $link = APP__URL__ROOT . $requestDescriptor->asUrlPath([ 'signup_nonce' => 'oogabooga' ]);
-        }
-        return [ $link ?? null ];
+        $parameters = [ 'signup_nonce' => 'oogabooga' ];
+        $route_name = 'user--signup_continue';
+        return [ $this->routeAsLink($route_name, $parameters) ];
     }
     public function test() {
-        $mail = $this->instance();
+        $mail = $this->getInstance();
         ##
         $reply_to = [ 'support@spwashi.com', 'Spwashi Support' ];
         $from     = [ 'support@spwashi.com', 'Spwashi Support Team' ];

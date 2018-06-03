@@ -5,36 +5,6 @@
    "appPath": "wanghorn",
    "appPublicUrl": "http://localhost/wanghorn/public",
    "routes": {
-      "error-404": {
-         "pattern": "wanghorn/404/{path}"
-      },
-      "home": {
-         "pattern": "wanghorn/$",
-         "title": "Home"
-      },
-      "about_me": {
-         "pattern": "wanghorn/about-me$",
-         "title": "About Me"
-      },
-      "gallery--home": {
-         "pattern": "wanghorn/gallery$",
-         "title": "Gallery"
-      },
-      "gallery--item__view": {
-         "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+",
-         "title": "Gallery Item View"
-      },
-      "gallery--items": {
-         "pattern": "wanghorn/gallery/items.json$"
-      },
-      "events--home": {
-         "pattern": "wanghorn/events$",
-         "title": "Events"
-      },
-      "events--item__view": {
-         "pattern": "wanghorn/events/{id}:.+/view",
-         "title": "Event View"
-      },
       "dev--home": {
          "pattern": "wanghorn/dev$",
          "title": "Dev"
@@ -118,6 +88,36 @@
       },
       "user--signup_continue": {
          "pattern": "wanghorn/dev/email/test/{signup_nonce}"
+      },
+      "error-404": {
+         "pattern": "wanghorn/404/{path}"
+      },
+      "home": {
+         "pattern": "wanghorn/$",
+         "title": "Home"
+      },
+      "about_me": {
+         "pattern": "wanghorn/about-me$",
+         "title": "About Me"
+      },
+      "gallery--home": {
+         "pattern": "wanghorn/gallery$",
+         "title": "Gallery"
+      },
+      "gallery--item__view": {
+         "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+",
+         "title": "Gallery Item View"
+      },
+      "gallery--items": {
+         "pattern": "wanghorn/gallery/items.json$"
+      },
+      "events--home": {
+         "pattern": "wanghorn/events$",
+         "title": "Events"
+      },
+      "events--item__view": {
+         "pattern": "wanghorn/events/{id}:.+/view",
+         "title": "Event View"
       },
       "entity--create": {
          "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create$",

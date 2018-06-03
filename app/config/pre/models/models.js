@@ -1,6 +1,7 @@
 import * as _ from './_';
 import * as _uploaded from './_/_uploaded';
 import * as user from './user';
+import * as user_verification_hash from './user/verification_hash';
 import * as file from './file';
 import * as tag from './tag';
 import * as email from './email';
@@ -22,11 +23,11 @@ export const models = {
     image,
     
     user,
+    user_verification_hash,
     event,
     email,
     person,
     
-    // Project tables
     project,
     project_tag_map,
     

@@ -6,17 +6,17 @@ export const name           = 'user';
 export const user__identity = Model.identify(name);
 export const inherits       = _.name;
 export const properties     = {
-    username:        {
+    username:          {
         length:    40,
         datatypes: STRING_,
         unique:    true
     },
-    email:           {
+    email:             {
         length:    255,
         datatypes: STRING_,
         unique:    true,
     },
-    verification_dt: {
+    verification_dt:   {
         datatypes:   [DATETIME_, NULL_],
         isGenerated: true
     }

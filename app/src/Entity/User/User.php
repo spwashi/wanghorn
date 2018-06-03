@@ -14,6 +14,9 @@ use Sm\Data\Property\PropertyContainer;
 use WANGHORN\Entity\Entity;
 use WANGHORN\Entity\User\Schema\UserEntitySchema;
 
+/**
+ * @method proxyInContext(Context $context):Proxy\UserEntityProxy
+ */
 class User extends Entity implements UserEntitySchema {
     use EntityHasPrimaryModelTrait;
     

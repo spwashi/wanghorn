@@ -526,6 +526,72 @@
          }
       }
    },
+   "user_verification_hash": {
+      "smID": "[Model]user_verification_hash",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]user_verification_hash} id"
+         ],
+         "unique": {}
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]user_verification_hash} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]user_verification_hash} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]user_verification_hash} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]user_verification_hash} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "hash": {
+            "smID": "[Property]{[Model]user_verification_hash} hash",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50
+         },
+         "user_id": {
+            "smID": "[Property]{[Model]user_verification_hash} user_id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "reference": {
+               "identity": "[Model]user",
+               "hydrationMethod": "[Property]{[Model]user} id"
+            }
+         }
+      }
+   },
    "email": {
       "smID": "[Model]email",
       "inherits": [
