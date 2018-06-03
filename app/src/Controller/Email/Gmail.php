@@ -68,6 +68,19 @@ class Gmail extends Email {
         
         $mail->Subject = $this->subject;
         $mail->AltBody = $this->plaintext_content;
+        try {
+            $mail->send();
+            $results['success'] = true;
+        } catch (\Exception $e) {
+            $results['success'] = false;
+            if ($this->debug) {
+                $results['output'] = explode("\n", ob_get_contents());
+            }
+            return $results;
+        } finally {
+            ob_end_clean();
+        }
+        
         return $this;
     }
     public function save($folder = 'Sent Mail') {

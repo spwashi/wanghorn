@@ -2,6 +2,7 @@
 
 namespace WANGHORN\Controller\Email;
 
+use Sm\Application\Application;
 use Sm\Modules\Network\Http\Request\HttpRequestDescriptor;
 use WANGHORN\Controller\AppController;
 
@@ -26,7 +27,7 @@ class EmailController extends AppController {
         
         Gmail::init()
              ->initialize([ 'sam@spwashi.com', 'Spwashi Support Team' ])
-             ->setDebug(true)
+             ->setDebug($this->app->environmentIs(Application::ENV_DEV))
              ->setSubject('This is a Test!')
              ->setPlaintextContent("Hello!<br> <a href='{$link}'>Click Here to continue</a>")
              ->setContent('Hey there')
