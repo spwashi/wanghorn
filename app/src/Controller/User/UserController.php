@@ -55,7 +55,7 @@ class UserController extends AppController {
         }
         if (!is_string($identity)) throw new InvalidArgumentException("Can only search for users by ID or Email");
         try {
-            return $this->find_inContext($identity, $context_name);
+            return $this->find_in_context($identity, $context_name);
         } catch (EntityNotFoundException|\Exception $exception) {
             if ($throw) throw $exception;
             return null;
@@ -119,10 +119,18 @@ class UserController extends AppController {
         $_SESSION[ static::SESSION_USERNAME_INDEX ] = null;
         return $this->redirect('home');
     }
-    protected function proxy_in_context($username, EntityContext $context): UserEntitySchema {
-        return $this->find_inContext($username, $context)->proxyInContext($context);
+    /**
+     * Proxy a new user in a context in a context
+     *
+     * @param                                       $username
+     * @param \Sm\Data\Entity\Context\EntityContext $context
+     *
+     * @return UserEntitySchema
+     */
+    protected function proxy_in_context($username, EntityContext $context) {
+        return $this->find_in_context($username, $context)->proxyInContext($context);
     }
-    protected function find_inContext($username, $context_name = null): User {
+    protected function find_in_context($username, $context_name = null): User {
         if ($context_name instanceof EntityContext) {
             $context_name = $context_name->getContextName();
         }

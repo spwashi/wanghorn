@@ -243,6 +243,11 @@
          "name": "file--prime_upload",
          "resolution": "Entity\\File\\File@prime",
          "pattern": "wanghorn/file/upload"
+      },
+      {
+         "name": "test_email",
+         "resolution": "Email\\Email@test",
+         "pattern": "wanghorn/email/test$"
       }
    ]
 }

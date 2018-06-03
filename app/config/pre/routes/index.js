@@ -1,5 +1,5 @@
 import {APP_BASE_URL_PATH} from "../../config";
-import {normalizeRoutes} from "./route";
+import {normalizeRoutes, Route} from "./route";
 
 import devRoutes from './dev';
 import errorRoutes from './error';
@@ -18,6 +18,12 @@ const routes = [
     ...entityRoutes,
     ...modelRoutes,
     ...fileRoutes,
+    
+    new Route({
+                  name:       "test_email",
+                  resolution: "[Email]@test",
+                  pattern:    "email/test$"
+              })
 ];
 const config = {
     frontend_renderer: '[Home]@index',

@@ -156,6 +156,9 @@
       },
       "file--prime_upload": {
          "pattern": "wanghorn/file/upload"
+      },
+      "test_email": {
+         "pattern": "wanghorn/email/test$"
       }
    }
 }
