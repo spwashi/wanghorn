@@ -12,91 +12,53 @@ use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Property\Property;
 use Sm\Data\Property\PropertyContainer;
 use WANGHORN\Entity\Entity;
+use WANGHORN\Entity\User\Schema\UserEntitySchema;
 
-/**
- * Class User
- *
- * @property-read                                                         $authentications
- * @property-read UserPropertyContainer                                   $properties
- */
-class User extends Entity {
-    use EntityHasPrimaryModelTrait {
-        find as _find;
-        create as _create;
-    }
+class User extends Entity implements UserEntitySchema {
+    use EntityHasPrimaryModelTrait;
     
     #
-    ##
-    #
+    ##  Persistence
     public function save($attributes = []) {
         throw new UnimplementedError("Cannot save User");
     }
-    public function destroy() {
-        $primaryModel = $this->getPersistedIdentity();
-        $result       = $this->modelDataManager->persistenceManager->markDelete($primaryModel);
-    }
+    public function destroy() { }
     public function create(Context $context, $attributes = []): EntityValidationResult {
-        
-        $passwordProperty = $this->getProperties()->password;
-        $result           = $this->_create($context, $attributes);
+        $result = $this->createPrimaryModel($context, $attributes);
         
         if (!$result->isSuccess()) return $result;
         
-        $this->fillPropertyValue($passwordProperty);
-        $passwordProperty->create($context);
-        /** @var Entity $passwordEntity */
-        $passwordEntity = $passwordProperty->value;
-        var_dump($passwordEntity->getPersistedIdentity());
-        die();
+        $this->fillPropertyValue($this->properties->password);
+        
+        $this->properties->password->create($context);
+        
+        return $result;
     }
-    /**
-     * @param array                         $attributes
-     * @param \Sm\Core\Context\Context|null $context
-     *
-     * @return $this|mixed
-     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     * @throws \Sm\Data\Entity\Exception\EntityModelNotFoundException
-     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
-     * @throws \Sm\Data\Entity\Exception\EntityNotFoundException
-     */
     public function find($attributes = [], Context $context = null) {
-        $this->_find($attributes, $context);
-        if ($context instanceof EntityContext) {
-            $entitySchematic = $context->getSchematic($this->getSmID());
-            if (isset($entitySchematic)) {
-                $properties     = $entitySchematic->getProperties();
-                $property_names = array_keys($properties->getAll(true));
-                foreach ($property_names as $property_name) {
-                    $this->findProperty($property_name);
-                }
-            }
-        }
+        $this->findPrimaryModel($attributes, $context);
+        
+        if (!($context instanceof EntityContext)) return $this;
+        
+        $smID            = $this->getSmID();
+        $entitySchematic = $context->getSchematic($smID);
+        
+        if (!isset($entitySchematic)) return $this;
+        
+        $all_property   = $entitySchematic->getProperties()->getAll(true);
+        $property_names = array_keys($all_property);
+        
+        foreach ($property_names as $property_name) $this->findProperty($property_name);
+        
         return $this;
     }
-    
     #
-    ##
+    ##  Getters/Setters
+    public function getProperties(): PropertyContainer { return parent::getProperties(); }
     #
-    public function passwordMatches($password) {
-        $expectedPasswordHash = '';
-        return password_verify($password, $expectedPasswordHash);
-    }
-    /**
-     * @return UserPropertyContainer|PropertyContainer
-     */
-    public function getProperties(): PropertyContainer {
-        return parent::getProperties();
-    }
-    /**
-     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     */
+    ##  Initialization/Instantiation
     public function findPassword(): Property {
         return $this->findProperty($this->properties->password);
     }
-    /**
-     * @return \Sm\Data\Property\Property
-     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     */
     public function findUsername(): Property {
         return $this->findProperty($this->properties->username);
     }

@@ -53,7 +53,7 @@ class SmEntityCreationForm extends React.Component {
         let smEntity          = this.props.smEntity && this.props.smEntity.smID ? this.props.smEntity : {};
         let schematic         = this.props.schematic || {};
         let smID              = (schematic && schematic.smID) || (smEntity && smEntity.smID) || this.props.smID;
-        let schematicResolved = this.resolveSmEntitySchematic(smID);
+        let schematicResolved = fromSm_selectSchematicOfSmID(this.props.sm, {smID});
         schematic             = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
         
         if (schematic && schematic.smID) {
@@ -64,7 +64,7 @@ class SmEntityCreationForm extends React.Component {
                           hasSoughtSchematic: true,
                           schematic:          schematic,
                           smEntity
-                      }, () => Promise.resolve(schematicResolved))
+                      })
     }
     
     render() {
@@ -158,10 +158,10 @@ class SmEntityCreationForm extends React.Component {
                                    const newSmEntity = {...this.state.smEntity, messages};
                                    Object.entries(properties)
                                          .forEach(([property_name, property_val]) => {
-                                             const smEntityProperty       = (smEntity.properties || {})[property_name];
-                                             const {properties, messages} = (smEntityProperty || {});
+                                             const smEntityProperty = (smEntity.properties || {})[property_name];
+                                             const {messages}       = (smEntityProperty || {});
                     
-                                             property_val.messages && Object.assign((smEntityProperty || {}).messages, property_val.messages);
+                                             property_val.messages && Object.assign(messages, property_val.messages);
                                          });
                 
                                    this.setState({

@@ -12,18 +12,67 @@ use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Evaluation\Validation\ValidationResult;
 use WANGHORN\Entity\Entity;
 
+
+/**
+ * Class Password
+ *
+ * * Currently hashed using the BCRYPT algorithm
+ */
 class Password extends Entity implements Resolvable {
     protected $internal = [];
     use EntityHasPrimaryModelTrait {
-        find as _find;
         getPropertiesForModel as gProps;
     }
-    public function set($na, $value = null) {
-        return parent::set($na, $value);
+    
+    #
+    ##  Resolution
+    /**
+     * Get the end value of a Resolvable
+     *
+     * @return mixed
+     */
+    public function resolve() {
+        /** @var \Sm\Data\Entity\Property\EntityProperty $password */
+        $password = $this->properties->password;
+        return $password->resolve();
     }
-    protected function getPropertiesForModel(\Sm\Data\Entity\Entity $entity): array {
-        $properties = $this->gProps($entity);
+    
+    #
+    ##  Initialization/Instantiation
+    /**
+     * @param array                         $attributes
+     * @param \Sm\Core\Context\Context|null $context
+     *
+     * @return mixed|\Sm\Data\Entity\Entity
+     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
+     * @throws \Sm\Data\Entity\Exception\EntityNotFoundException
+     */
+    public function find($attributes = [], Context $context = null) {
+        return $this->findPrimaryModel($attributes, $context);
+    }
+    
+    #
+    ##  Persistence
+    /**
+     * @param \Sm\Core\Context\Context $context
+     * @param array                    $attributes
+     *
+     * @return \Sm\Data\Entity\Validation\EntityValidationResult
+     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
+     * @throws \Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException
+     */
+    public function create(Context $context, $attributes = []): ?EntityValidationResult {
+        return $this->createPrimaryModel($context, $attributes);
+    }
+    public function destroy() {
+        throw new UnimplementedError("Cannot yet delete passwords");
+    }
+    public function save($attributes = []) {
+        throw new UnimplementedError("Cannot yet update passwords");
+    }
+    protected function getPropertiesForModel(\Sm\Data\Entity\Entity $entity, Context $context = null): array {
         $ret        = [];
+        $properties = $this->gProps($entity);
         foreach ($properties as $name => $property) {
             if ($name === 'password') {
                 $value        = "{$property->value}";
@@ -35,6 +84,12 @@ class Password extends Entity implements Resolvable {
         return $ret;
     }
     
+    public function matches($password) {
+        return password_verify($password, $this->getPersistedIdentity()->properties->password);
+    }
+    
+    #
+    ##  Validation
     public function validate(Context $context = null): ValidationResult {
         if ($context instanceof EntityCreationContext) {
             /** @var \Sm\Data\Entity\Property\EntityProperty $password */
@@ -57,31 +112,9 @@ class Password extends Entity implements Resolvable {
         return new EntityValidationResult(false, get_class($context));
     }
     
+    #
+    ##  Serialization
     public function jsonSerialize() {
-        return false;
-    }
-    
-    public function destroy() {
-        throw new UnimplementedError("Cannot yet delete passwords");
-    }
-    /**
-     * Get the end value of a Resolvable
-     *
-     * @return mixed
-     */
-    public function resolve() {
-        /** @var \Sm\Data\Entity\Property\EntityProperty $password */
-        $password = $this->properties->password;
-        return $password->resolve();
-    }
-    /**
-     * Save the Entity
-     *
-     * @param array $attributes The properties that we want to se on this Entity
-     *
-     * @return mixed
-     */
-    public function save($attributes = []) {
-        throw new UnimplementedError("Cannot yet update passwords");
+        return 'Cannot be serialized';
     }
 }

@@ -6,27 +6,30 @@ namespace WANGHORN\Controller\User;
 
 use Modules\Query\Sql\Exception\CannotDuplicateEntryException;
 use Sm\Core\Exception\InvalidArgumentException;
+use Sm\Data\Entity\Context\ContextualizedEntityProxy;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntitySchema;
 use Sm\Data\Entity\Exception\EntityNotFoundException;
 use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
-use Sm\Modules\Network\Http\Http;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
+use WANGHORN\Controller\ApiResponse;
 use WANGHORN\Controller\AppController;
-use WANGHORN\Entity\Password\Password;
 use WANGHORN\Entity\User\User;
 
+/**
+ * Class UserController
+ *
+ */
 class UserController extends AppController {
     const SESSION_USERNAME_INDEX = APP__NAME . '_LOGGED_IN_USERNAME_';
     
-    /**
-     * @param $context_name
-     *
-     * @return \Sm\Data\Entity\Context\EntityContext
-     * @throws \Sm\Core\Exception\InvalidArgumentException
-     * @throws \Sm\Core\Exception\UnimplementedError
-     */
+    public function init_entity(): User {
+        return $this->app->data->entities->instantiate('user');
+    }
+    
+    #
+    ##  Internal Controller Methods
     public function resolveContext($context_name) {
         /** @var \Sm\Data\Entity\EntityDataManager $entityDataManager */
         $entityDataManager = $this->app->data->entities;
@@ -44,18 +47,6 @@ class UserController extends AppController {
                                                                 ]);
         return $entityContext;
     }
-    
-    /**
-     * @param      $context
-     * @param      $identity
-     *
-     * @param bool $throw
-     *
-     * @return \WANGHORN\Entity\User\User
-     * @throws \Sm\Data\Entity\Exception\EntityNotFoundException
-     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
-     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     */
     public function findUser($context, $identity, $throw = false): ?User {
         $context_name = $context instanceof EntityContext ? $context->getContextName() : $context;
         
@@ -64,7 +55,7 @@ class UserController extends AppController {
         }
         if (!is_string($identity)) throw new InvalidArgumentException("Can only search for users by ID or Email");
         try {
-            return $this->findInContext($identity, $context_name);
+            return $this->find_inContext($identity, $context_name);
         } catch (EntityNotFoundException|\Exception $exception) {
             if ($throw) throw $exception;
             return null;
@@ -78,81 +69,86 @@ class UserController extends AppController {
         return $userProxy;
     }
     
-    public function create() {
-        return [
-            'success' => true,
-            'message' => [ '_message' => 'boon' ],
-        ];
-    }
-    /**
-     * @return array
-     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
-     */
+    #
+    ##  API Methods
+    public function create() { return $this->signUp(); }
     public function signUp() {
+        /** @var User $user */
+        
         $request_data  = HttpRequestFromEnvironment::getRequestData();
         $entityContext = $this->resolveContext('signup_process');
+        $properties    = $request_data['properties'] ?? [];
         
-        /** @var User $user */
-        $userSchematic = $this->app->data->entities->getSchematicByName('user');
-        $user          = $this->app->data->entities->instantiate($userSchematic);
-        $messages      = [];
-        
-        $user->set($request_data['properties'] ?? null);
+        #
+        ##  Should probably proxy in contexts
+        $user = $this->init_entity()->set($properties);
         
         try {
             $user->find([ 'username' => $user->properties->username ]);
-            return $this->getUserAlreadyExistsStatusResponse();
+            return new ApiResponse(false, 'User already exists');
         } catch (EntityNotFoundException $exception) {
         }
         
         /** @var \Sm\Data\Entity\Validation\EntityValidationResult $response */
         try {
             $user->create($entityContext);
+            
+            $username = $user->properties->username;
+            $raw_pw   = $user->properties->password->resolve();
+            
+            return $this->attemptUserLogin($username, $raw_pw);
         } catch (CannotDuplicateEntryException $error) {
-            return $this->getUserAlreadyExistsStatusResponse();
+            return new ApiResponse(false, 'User already exists');
         } catch (CannotCreateEntityException $exception) {
-            $failedProperties             = $exception->getFailedProperties();
-            $messages                     = $failedProperties;
-            $messages        ['_message'] = 'Could not continue';
+            $failedProperties     = $exception->getFailedProperties();
+            $messages             = $failedProperties;
+            $messages['_message'] = 'Could not continue';
         }
         
-        return [
-            'user_id'    => null,
-            'user'       => $user,
-            'properties' => $failedProperties ?? $user->getProperties(),
-            'message'    => $messages,
-            'success'    => empty($failedProperties),
-        ];
+        $success = empty($failedProperties);
+        
+        return new ApiResponse($success, $messages);
+    }
+    public function login() {
+        $data = HttpRequestFromEnvironment::getRequestData();
+        
+        return $this->attemptUserLogin($data['username'] ?? null,
+                                       $data['password'] ?? null);
     }
     public function logout() {
         $_SESSION[ static::SESSION_USERNAME_INDEX ] = null;
-        return $this->app->communication->dispatch(Http::REDIRECT, $this->app->communication->getRoute('home'));
+        return $this->redirect('home');
     }
-    /**
-     * @return $this|array|\WANGHORN\Entity\User\User
-     * @throws \Sm\Core\Exception\UnimplementedError
-     * @throws \Sm\Core\Exception\InvalidArgumentException
-     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
-     * @throws \Sm\Data\Property\Exception\ReadonlyPropertyException
-     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     */
-    public function login() {
-        $data     = HttpRequestFromEnvironment::getRequestData();
-        $username = $data['username'] ?? null;
-        $password = $data['password'] ?? null;
+    protected function proxy_in_context($username, EntityContext $context): ContextualizedEntityProxy {
+        return $this->find_inContext($username, $context)->proxyInContext($context);
+    }
+    protected function find_inContext($username, $context_name = null): User {
+        if ($context_name instanceof EntityContext) {
+            $context_name = $context_name->getContextName();
+        }
         
+        if (isset($context_name) && !is_string($context_name)) throw new InvalidArgumentException("Cannot find entities within contexts that aren't strings ");
+        
+        /** @var User $userEntity */
+        $userEntity = $this->init_entity();
+        $context    = $this->resolveContext($context_name);
+        $index      = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $userEntity->find([ $index => $username ], $context);
+        return $userEntity;
+    }
+    protected function attemptUserLogin($username, $password): array {
         # Instantiate a Model that we'll use to find a matching object (or throw an error if it doesn't exist)
         try {
-            $context      = new EntityContext('login_process');
-            $userEntity   = $this->findInContext($username, $context->getContextName());
-            $proxy        = $userEntity->proxyInContext($context);
-            $passwordProp = $userEntity->findPassword();
-            $model        = $passwordProp->value->getPersistedIdentity();
-            $success      = password_verify($password, $model->properties->password);
-            if ($success) $_SESSION[ static::SESSION_USERNAME_INDEX ] = $userEntity->properties->username->value;
+            $context = new EntityContext('login_process');
+            $user    = $this->proxy_in_context($username, $context);
+            $success = $user->findPassword()->value->matches($password);
+            
+            if (!$success) throw new EntityNotFoundException("Could not find password");
+            
+            $_SESSION[ static::SESSION_USERNAME_INDEX ] = $user->properties->username->value;
+            
             return [
-                'user'    => $success ? $proxy : null,
+                'user'    => $success ? $user : null,
                 'success' => $success,
             ];
         } catch (EntityNotFoundException $exception) {
@@ -163,51 +159,10 @@ class UserController extends AppController {
         }
     }
     
-    /**
-     * @param        $username
-     *
-     * @param string $context_name
-     *
-     * @return \WANGHORN\Entity\User\User
-     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     * @throws \Sm\Data\Entity\Exception\EntityNotFoundException
-     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
-     */
-    protected function findInContext($username, string $context_name = null): User {
-        /** @var User $userEntity */
-        $userEntity = $this->app->data->entities->instantiate('user');
-        $context    = $this->resolveContext($context_name);
-        $index      = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $userEntity->find([ $index => $username ], $context);
-        return $userEntity;
+    #
+    ## API responses
+    public function getUserAlreadyExistsStatusResponse() {
+        return new ApiResponse(false, 'User Already Exists');
     }
-    /**
-     * @return array
-     */
-    public function getUserAlreadyExistsStatusResponse(): array {
-        return [
-            'success' => false,
-            'message' => [ '_message' => 'User already exists' ],
-        ];
-    }
-    /**
-     * @param                                    $entityContext
-     * @param                                    $user_id
-     *
-     * @param \WANGHORN\Entity\Password\Password $password
-     *
-     * @return array
-     * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-     */
-    public function createPasswordForUser($entityContext, $user_id, Password $password): array {
-        $messages = [];
-        try {
-            $password->create($entityContext, [ 'user_id' => $user_id, ]);
-        } catch (CannotCreateEntityException $exception) {
-            $failedProperties             = $exception->getFailedProperties();
-            $messages                     = $failedProperties;
-            $messages        ['_message'] = [ 'Could not create password for user', ];
-        }
-        return $messages;
-    }
+    
 }
