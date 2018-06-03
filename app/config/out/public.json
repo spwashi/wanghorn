@@ -5,6 +5,36 @@
    "appPath": "wanghorn",
    "appPublicUrl": "http://localhost/wanghorn/public",
    "routes": {
+      "error-404": {
+         "pattern": "wanghorn/404/{path}"
+      },
+      "home": {
+         "pattern": "wanghorn/$",
+         "title": "Home"
+      },
+      "about_me": {
+         "pattern": "wanghorn/about-me$",
+         "title": "About Me"
+      },
+      "gallery--home": {
+         "pattern": "wanghorn/gallery$",
+         "title": "Gallery"
+      },
+      "gallery--item__view": {
+         "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+",
+         "title": "Gallery Item View"
+      },
+      "gallery--items": {
+         "pattern": "wanghorn/gallery/items.json$"
+      },
+      "events--home": {
+         "pattern": "wanghorn/events$",
+         "title": "Events"
+      },
+      "events--item__view": {
+         "pattern": "wanghorn/events/{id}:.+/view",
+         "title": "Event View"
+      },
       "dev--home": {
          "pattern": "wanghorn/dev$",
          "title": "Dev"
@@ -51,24 +81,12 @@
          "pattern": "wanghorn/dev/entities$",
          "title": "Entities"
       },
-      "dev--entity": {
-         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+$"
-      },
       "dev--entity--property": {
          "pattern": "wanghorn/dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
          "title": "Entity Property"
       },
       "dev--entities__json": {
          "pattern": "wanghorn/dev/entities.json$"
-      },
-      "dev--create_entity": {
-         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z]+/create$"
-      },
-      "dev--create_entity--receive": {
-         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+/create/receive$",
-         "http_method": [
-            "post"
-         ]
       },
       "dev--monitors__json": {
          "pattern": "wanghorn/dev/monitors.json$"
@@ -89,46 +107,6 @@
       "user--signup_continue": {
          "pattern": "wanghorn/dev/email/test/{signup_nonce}"
       },
-      "error-404": {
-         "pattern": "wanghorn/404/{path}"
-      },
-      "home": {
-         "pattern": "wanghorn/$",
-         "title": "Home"
-      },
-      "about_me": {
-         "pattern": "wanghorn/about-me$",
-         "title": "About Me"
-      },
-      "gallery--home": {
-         "pattern": "wanghorn/gallery$",
-         "title": "Gallery"
-      },
-      "gallery--item__view": {
-         "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+",
-         "title": "Gallery Item View"
-      },
-      "gallery--items": {
-         "pattern": "wanghorn/gallery/items.json$"
-      },
-      "events--home": {
-         "pattern": "wanghorn/events$",
-         "title": "Events"
-      },
-      "events--item__view": {
-         "pattern": "wanghorn/events/{id}:.+/view",
-         "title": "Event View"
-      },
-      "entity--create": {
-         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create$",
-         "title": "Create Entity"
-      },
-      "entity--create--receive": {
-         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create/receive$",
-         "http_method": [
-            "post"
-         ]
-      },
       "user--process_login": {
          "pattern": "wanghorn/user/login$"
       },
@@ -136,29 +114,10 @@
          "pattern": "wanghorn/user/logout$"
       },
       "user--process_signup": {
-         "pattern": "wanghorn/user/signup/receive$"
+         "pattern": "wanghorn/user/signup/receive"
       },
       "user--signup": {
          "pattern": "wanghorn/user/signup$"
-      },
-      "entity--user--create--receive": {
-         "pattern": "wanghorn/user/signup/receive$"
-      },
-      "model--create": {
-         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create$",
-         "title": "Create Model"
-      },
-      "model--create--receive": {
-         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create/receive$",
-         "http_method": [
-            "post"
-         ]
-      },
-      "file--prime_upload": {
-         "pattern": "wanghorn/file/upload"
-      },
-      "test_email": {
-         "pattern": "wanghorn/email/test$"
       }
    }
 }
