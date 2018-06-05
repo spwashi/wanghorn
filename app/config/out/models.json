@@ -121,6 +121,78 @@
          }
       }
    },
+   "file_location": {
+      "smID": "[Model]file_location",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]file_location} id"
+         ],
+         "unique": {
+            "name": [
+               "[Property]{[Model]file_location} name"
+            ],
+            "path": [
+               "[Property]{[Model]file_location} path"
+            ]
+         }
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]file_location} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]file_location} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]file_location} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]file_location} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "name": {
+            "smID": "[Property]{[Model]file_location} name",
+            "datatypes": [
+               "string",
+               "null"
+            ],
+            "length": 50,
+            "unique": "name"
+         },
+         "path": {
+            "smID": "[Property]{[Model]file_location} path",
+            "datatypes": [
+               "string"
+            ],
+            "length": 1000,
+            "unique": "path"
+         }
+      }
+   },
    "user": {
       "smID": "[Model]user",
       "inherits": [
@@ -338,20 +410,25 @@
          }
       }
    },
-   "file": {
-      "smID": "[Model]file",
+   "_uploaded": {
+      "smID": "[Model]_uploaded",
       "inherits": [
          "[Model]_"
       ],
       "propertyMeta": {
          "primary": [
-            "[Property]{[Model]file} id"
+            "[Property]{[Model]_uploaded} id"
          ],
-         "unique": {}
+         "unique": {
+            "unique_key": [
+               "[Property]{[Model]_uploaded} name",
+               "[Property]{[Model]_uploaded} file_location_id"
+            ]
+         }
       },
       "properties": {
          "id": {
-            "smID": "[Property]{[Model]file} id",
+            "smID": "[Property]{[Model]_uploaded} id",
             "datatypes": [
                "int"
             ],
@@ -360,7 +437,7 @@
             "isGenerated": true
          },
          "delete_dt": {
-            "smID": "[Property]{[Model]file} delete_dt",
+            "smID": "[Property]{[Model]_uploaded} delete_dt",
             "datatypes": [
                "datetime",
                "null"
@@ -368,7 +445,7 @@
             "isGenerated": true
          },
          "creation_dt": {
-            "smID": "[Property]{[Model]file} creation_dt",
+            "smID": "[Property]{[Model]_uploaded} creation_dt",
             "datatypes": [
                "datetime"
             ],
@@ -376,7 +453,7 @@
             "defaultValue": "now"
          },
          "last_update_dt": {
-            "smID": "[Property]{[Model]file} last_update_dt",
+            "smID": "[Property]{[Model]_uploaded} last_update_dt",
             "datatypes": [
                "datetime"
             ],
@@ -384,8 +461,126 @@
             "defaultValue": "now",
             "updateValue": "now"
          },
+         "readable_name": {
+            "smID": "[Property]{[Model]_uploaded} readable_name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50
+         },
+         "name": {
+            "smID": "[Property]{[Model]_uploaded} name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "unique": true,
+            "isGenerated": true
+         },
+         "mime": {
+            "smID": "[Property]{[Model]_uploaded} mime",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
+         },
+         "size": {
+            "smID": "[Property]{[Model]_uploaded} size",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11
+         },
+         "hash": {
+            "smID": "[Property]{[Model]_uploaded} hash",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
+         },
+         "file_location_id": {
+            "smID": "[Property]{[Model]_uploaded} file_location_id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "unique": true,
+            "reference": {
+               "identity": "[Model]file_location",
+               "hydrationMethod": "[Property]{[Model]file_location} id"
+            }
+         },
          "user_id": {
-            "smID": "[Property]{[Model]file} user_id",
+            "smID": "[Property]{[Model]_uploaded} user_id",
+            "datatypes": [
+               "int",
+               "null"
+            ],
+            "length": 11,
+            "reference": {
+               "identity": "[Model]user",
+               "hydrationMethod": "[Property]{[Model]user} id"
+            }
+         }
+      }
+   },
+   "user_verification_hash": {
+      "smID": "[Model]user_verification_hash",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]user_verification_hash} id"
+         ],
+         "unique": {}
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]user_verification_hash} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]user_verification_hash} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]user_verification_hash} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]user_verification_hash} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "hash": {
+            "smID": "[Property]{[Model]user_verification_hash} hash",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50
+         },
+         "user_id": {
+            "smID": "[Property]{[Model]user_verification_hash} user_id",
             "datatypes": [
                "int"
             ],
@@ -534,6 +729,241 @@
          }
       }
    },
+   "file": {
+      "smID": "[Model]file",
+      "inherits": [
+         "[Model]_",
+         "[Model]_",
+         "[Model]_uploaded"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]file} id"
+         ],
+         "unique": {
+            "unique_key": [
+               "[Property]{[Model]file} name",
+               "[Property]{[Model]file} file_location_id"
+            ]
+         }
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]file} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]file} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]file} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]file} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "readable_name": {
+            "smID": "[Property]{[Model]file} readable_name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50
+         },
+         "name": {
+            "smID": "[Property]{[Model]file} name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "unique": true,
+            "isGenerated": true
+         },
+         "mime": {
+            "smID": "[Property]{[Model]file} mime",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
+         },
+         "size": {
+            "smID": "[Property]{[Model]file} size",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11
+         },
+         "hash": {
+            "smID": "[Property]{[Model]file} hash",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
+         },
+         "file_location_id": {
+            "smID": "[Property]{[Model]file} file_location_id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "unique": true,
+            "reference": {
+               "identity": "[Model]file_location",
+               "hydrationMethod": "[Property]{[Model]file_location} id"
+            }
+         },
+         "user_id": {
+            "smID": "[Property]{[Model]file} user_id",
+            "datatypes": [
+               "int",
+               "null"
+            ],
+            "length": 11,
+            "reference": {
+               "identity": "[Model]user",
+               "hydrationMethod": "[Property]{[Model]user} id"
+            }
+         }
+      }
+   },
+   "image": {
+      "smID": "[Model]image",
+      "inherits": [
+         "[Model]_",
+         "[Model]_uploaded"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]image} id"
+         ],
+         "unique": {
+            "unique_key": [
+               "[Property]{[Model]image} name",
+               "[Property]{[Model]image} file_location_id"
+            ]
+         }
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]image} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]image} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]image} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]image} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "readable_name": {
+            "smID": "[Property]{[Model]image} readable_name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50
+         },
+         "name": {
+            "smID": "[Property]{[Model]image} name",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "unique": true,
+            "isGenerated": true
+         },
+         "mime": {
+            "smID": "[Property]{[Model]image} mime",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
+         },
+         "size": {
+            "smID": "[Property]{[Model]image} size",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11
+         },
+         "hash": {
+            "smID": "[Property]{[Model]image} hash",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true
+         },
+         "file_location_id": {
+            "smID": "[Property]{[Model]image} file_location_id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "unique": true,
+            "reference": {
+               "identity": "[Model]file_location",
+               "hydrationMethod": "[Property]{[Model]file_location} id"
+            }
+         },
+         "user_id": {
+            "smID": "[Property]{[Model]image} user_id",
+            "datatypes": [
+               "int",
+               "null"
+            ],
+            "length": 11,
+            "reference": {
+               "identity": "[Model]user",
+               "hydrationMethod": "[Property]{[Model]user} id"
+            }
+         }
+      }
+   },
    "project": {
       "smID": "[Model]project",
       "inherits": [
@@ -620,6 +1050,17 @@
             "reference": {
                "identity": "[Model]person",
                "hydrationMethod": "[Property]{[Model]person} id"
+            }
+         },
+         "image_id": {
+            "smID": "[Property]{[Model]project} image_id",
+            "datatypes": [
+               "int",
+               "null"
+            ],
+            "reference": {
+               "identity": "[Model]image",
+               "hydrationMethod": "[Property]{[Model]image} id"
             }
          }
       }

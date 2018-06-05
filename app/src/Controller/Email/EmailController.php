@@ -25,13 +25,24 @@ class EmailController extends AppController {
         } catch (\Exception $exception) {
         }
         
-        Gmail::init()
-             ->initialize([ 'sam@spwashi.com', 'Spwashi Support Team' ])
-             ->setDebug($this->app->environmentIs(Application::ENV_DEV))
-             ->setSubject('This is a Test!')
-             ->setPlaintextContent("Hello!<br> <a href='{$link}'>Click Here to continue</a>")
-             ->setContent('Hey there')
-             ->send([ 'sam@spwashi.com', 'Sam Washington' ])
-             ->save();
+        $from       = [ 'sam@spwashi.com', 'Spwashi Support Team' ];
+        $reply_to   = [ 'sam@spwashi.com', 'Spwashi Support Team' ];
+        $subject    = 'This is a Test!';
+        $html       = "Hello!<br> <a href='{$link}'>Click Here to continue</a>";
+        $plain_text = 'Hey there';
+        $recipients = [
+            [ 'sam@spwashi.com', 'Sam Washington' ],
+        ];
+    }
+    public function sendEmail(string $subject, $html, $plain_text, array $from, array $recipients, array $reply_to = null) {
+        $reply_to = $reply_to ?? $from;
+        $is_debug = $this->app->environmentIs(Application::ENV_DEV);
+        return Gmail::init()
+                    ->initialize($from, $reply_to)
+                    ->setDebug($is_debug)
+                    ->setSubject($subject)
+                    ->setPlaintextContent($html)
+                    ->setContent($plain_text)
+                    ->send(...$recipients);
     }
 }

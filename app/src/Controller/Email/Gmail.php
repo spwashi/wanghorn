@@ -15,6 +15,7 @@ class Gmail extends Email {
     protected $reply_to;
     protected $from;
     protected $debug;
+    protected $folder = 'Sent Mail';
     
     #
     ##  Constructors/Initialization
@@ -69,27 +70,28 @@ class Gmail extends Email {
         $mail->Subject = $this->subject;
         $mail->AltBody = $this->plaintext_content;
         try {
+            ob_start();
             $mail->send();
-            $results['success'] = true;
+            $this->save();
         } catch (\Exception $e) {
-            $results['success'] = false;
             if ($this->debug) {
-                $results['output'] = explode("\n", ob_get_contents());
+                $results['success'] = false;
+                $results['output']  = explode("\n", ob_get_contents());
+                return $results;
             }
-            return $results;
         } finally {
             ob_end_clean();
         }
         
         return $this;
     }
-    public function save($folder = 'Sent Mail') {
+    public function save() {
         if (!isset($this->instance)) {
             throw new UnresolvableException("Trying to interact send uninitialized email");
         }
         
         //You can change 'Sent Mail' to any other folder or tag
-        $path = "{imap.gmail.com:993/imap/ssl}[Gmail]/{$folder}";
+        $path = "{imap.gmail.com:993/imap/ssl}[Gmail]/{$this->folder}";
         $mail = $this->instance;
         //Tell your server to open an IMAP connection using the same username and password as you used for SMTP
         $imapStream = \imap_open($path,

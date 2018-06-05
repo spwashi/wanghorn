@@ -1,56 +1,6 @@
 {
    "routes": [
       {
-         "name": "error-404",
-         "resolution": "Error\\Error@rt_404",
-         "pattern": "wanghorn/404/{path}"
-      },
-      {
-         "name": "home",
-         "title": "Home",
-         "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/$"
-      },
-      {
-         "name": "test",
-         "resolution": "Home\\Home@test"
-      },
-      {
-         "name": "about_me",
-         "title": "About Me",
-         "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/about-me$"
-      },
-      {
-         "name": "gallery--home",
-         "title": "Gallery",
-         "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/gallery$"
-      },
-      {
-         "name": "gallery--item__view",
-         "title": "Gallery Item View",
-         "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+"
-      },
-      {
-         "name": "gallery--items",
-         "resolution": "Home\\Home@gallery",
-         "pattern": "wanghorn/gallery/items.json$"
-      },
-      {
-         "name": "events--home",
-         "title": "Events",
-         "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/events$"
-      },
-      {
-         "name": "events--item__view",
-         "title": "Event View",
-         "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/events/{id}:.+/view"
-      },
-      {
          "name": "dev--home",
          "title": "Dev",
          "resolution": "Home\\Home@index",
@@ -119,6 +69,11 @@
          "pattern": "wanghorn/dev/entities$"
       },
       {
+         "name": "dev--entity",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+$"
+      },
+      {
          "name": "dev--entity--property",
          "title": "Entity Property",
          "resolution": "Home\\Home@index",
@@ -128,6 +83,19 @@
          "name": "dev--entities__json",
          "resolution": "Dev\\Dev@entities",
          "pattern": "wanghorn/dev/entities.json$"
+      },
+      {
+         "name": "dev--create_entity",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z]+/create$"
+      },
+      {
+         "name": "dev--create_entity--receive",
+         "resolution": "Dev\\Dev@createEntity",
+         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
       },
       {
          "name": "dev--monitors__json",
@@ -169,6 +137,70 @@
          "pattern": "wanghorn/dev/email/test/{signup_nonce}"
       },
       {
+         "name": "error-404",
+         "resolution": "Error\\Error@rt_404",
+         "pattern": "wanghorn/404/{path}"
+      },
+      {
+         "name": "home",
+         "title": "Home",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/$"
+      },
+      {
+         "name": "test",
+         "resolution": "Home\\Home@test"
+      },
+      {
+         "name": "about_me",
+         "title": "About Me",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/about-me$"
+      },
+      {
+         "name": "gallery--home",
+         "title": "Gallery",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/gallery$"
+      },
+      {
+         "name": "gallery--item__view",
+         "title": "Gallery Item View",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+"
+      },
+      {
+         "name": "gallery--items",
+         "resolution": "Home\\Home@gallery",
+         "pattern": "wanghorn/gallery/items.json$"
+      },
+      {
+         "name": "events--home",
+         "title": "Events",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/events$"
+      },
+      {
+         "name": "events--item__view",
+         "title": "Event View",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/events/{id}:.+/view"
+      },
+      {
+         "name": "entity--create",
+         "title": "Create Entity",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create$"
+      },
+      {
+         "name": "entity--create--receive",
+         "resolution": "Entity\\Entity@create",
+         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
+      },
+      {
          "name": "user--process_login",
          "resolution": "User\\User@login",
          "pattern": "wanghorn/user/login$"
@@ -181,12 +213,41 @@
       {
          "name": "user--process_signup",
          "resolution": "User\\User@signUp",
-         "pattern": "wanghorn/user/signup/receive"
+         "pattern": "wanghorn/user/signup/receive$"
       },
       {
          "name": "user--signup",
          "resolution": "Home\\Home@index",
          "pattern": "wanghorn/user/signup$"
+      },
+      {
+         "name": "entity--user--create--receive",
+         "resolution": "User\\User@signUp",
+         "pattern": "wanghorn/user/signup/receive$"
+      },
+      {
+         "name": "model--create",
+         "title": "Create Model",
+         "resolution": "Home\\Home@index",
+         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create$"
+      },
+      {
+         "name": "model--create--receive",
+         "resolution": "Model\\Model@create",
+         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
+      },
+      {
+         "name": "file--prime_upload",
+         "resolution": "Entity\\File\\File@prime",
+         "pattern": "wanghorn/file/upload"
+      },
+      {
+         "name": "test_email",
+         "resolution": "Email\\Email@test",
+         "pattern": "wanghorn/email/test$"
       }
    ]
 }

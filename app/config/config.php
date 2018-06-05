@@ -5,6 +5,9 @@ use Sm\Core\Event\GenericEvent;
 use Sm\Core\Resolvable\Exception\UnresolvableException;
 use Sm\Core\Util;
 use Sm\Data\Model\StandardModelPersistenceManager;
+use Sm\Modules\Communication\Email\EmailCommunicationModule;
+use Sm\Modules\Communication\Email\Factory\EmailFactory;
+use Sm\Modules\Communication\Email\Gmail;
 use Sm\Modules\Query\MySql\Authentication\MySqlAuthentication;
 use Sm\Modules\Query\MySql\MySqlQueryModule;
 use Sm\Modules\View\PlainFile\PlainFileViewModule;
@@ -113,6 +116,21 @@ function _communication_layer(Application $app): void {
         $app_events[] = GenericEvent::init('FAILED LOADING ROUTES', $php_path);
     }
     $app->getMonitor('info')->append(...$app_events);
+    
+    
+    $authentication_path = DEFAULT_APP__CONFIG_PATH . 'out/connect.json';
+    if (file_exists($json_path)) {
+        $authentications = file_get_contents($json_path);
+        $emailFactory    = new EmailFactory();
+        $module          = new EmailCommunicationModule($emailFactory);
+        $module->registerEmailCreator(function () use ($authentications) {
+            return new Gmail($authentications['email']['std']['username'] ?? null, $authentications['email']['std']['password'] ?? null);
+        });
+        $app->communication->registerModule($module, 'email');
+        var_dump('HERE');
+    } else {
+        $app_events[] = GenericEvent::init('FAILED LOADING EMAIL', $json_path);
+    }
 }
 
 /**
