@@ -3,9 +3,9 @@ import path from "path";
 // ASSUMED TO CHANGE
 
 // The domain name of the site we are configuring
-export const APP_ROOT_URL      = 'http://localhost';
+export const APP_ROOT_URL      = 'http://wanghorn';
 // The URL Path (sans leading or trailing slash) at which the main site can be found relative to the domain
-export const APP_BASE_URL_PATH = `wanghorn`;
+export const APP_BASE_URL_PATH = ``;
 // The name of the application without spaces. Case sensitive, I recommend lowercase-with-dashes or camelCased
 export const APP_NAME          = `wanghorn`;
 // The namespace used in PHP to prefix app-specific files

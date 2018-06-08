@@ -1,164 +1,163 @@
 {
    "name": "wanghorn",
-   "appDomain": "http://localhost",
-   "appUrl": "http://localhost/wanghorn",
-   "appPath": "wanghorn",
-   "appPublicUrl": "http://localhost/wanghorn/public",
+   "appDomain": "http://wanghorn",
+   "appUrl": "http://wanghorn",
+   "appPublicUrl": "http://wanghorn//public",
    "routes": {
       "dev--home": {
-         "pattern": "wanghorn/dev$",
+         "pattern": "dev$",
          "title": "Dev"
       },
       "dev--model": {
-         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+$"
+         "pattern": "dev/models/{name}:[a-zA-Z_]+$"
       },
       "dev--models": {
-         "pattern": "wanghorn/dev/models$",
+         "pattern": "dev/models$",
          "title": "Models"
       },
       "dev--models__json": {
-         "pattern": "wanghorn/dev/models.json$"
+         "pattern": "dev/models.json$"
       },
       "dev--model--property": {
-         "pattern": "wanghorn/dev/models/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
+         "pattern": "dev/models/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
          "title": "Model Property"
       },
       "dev--all_models": {
-         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/all",
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/all",
          "http_method": [
             "get"
          ]
       },
       "dev--get_model_schematic": {
-         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/schematic$",
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/schematic$",
          "http_method": [
             "get"
          ]
       },
       "dev--model--home": {
-         "pattern": "wanghorn/dev/models$"
+         "pattern": "dev/models$"
       },
       "dev--create_model": {
-         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/create$"
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/create$"
       },
       "dev--create_model--receive": {
-         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/create/receive$",
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/create/receive$",
          "http_method": [
             "post"
          ]
       },
       "dev--entities": {
-         "pattern": "wanghorn/dev/entities$",
+         "pattern": "dev/entities$",
          "title": "Entities"
       },
       "dev--entity": {
-         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+$"
+         "pattern": "dev/entities/{name}:[a-zA-Z_]+$"
       },
       "dev--entity--property": {
-         "pattern": "wanghorn/dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
+         "pattern": "dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
          "title": "Entity Property"
       },
       "dev--entities__json": {
-         "pattern": "wanghorn/dev/entities.json$"
+         "pattern": "dev/entities.json$"
       },
       "dev--create_entity": {
-         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z]+/create$"
+         "pattern": "dev/entities/{name}:[a-zA-Z]+/create$"
       },
       "dev--create_entity--receive": {
-         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+/create/receive$",
+         "pattern": "dev/entities/{name}:[a-zA-Z_]+/create/receive$",
          "http_method": [
             "post"
          ]
       },
       "dev--monitors__json": {
-         "pattern": "wanghorn/dev/monitors.json$"
+         "pattern": "dev/monitors.json$"
       },
       "dev--status__json": {
-         "pattern": "wanghorn/dev/status.json$"
+         "pattern": "dev/status.json$"
       },
       "dev--routes__json": {
-         "pattern": "wanghorn/dev/routes.json$"
+         "pattern": "dev/routes.json$"
       },
       "dev--routes": {
-         "pattern": "wanghorn/dev/routes$",
+         "pattern": "dev/routes$",
          "title": "Routes"
       },
       "dev--execute_query": {
-         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
+         "pattern": "dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       "user--signup_continue": {
-         "pattern": "wanghorn/dev/email/test/{signup_nonce}"
+         "pattern": "dev/email/test/{signup_nonce}"
       },
       "error-404": {
-         "pattern": "wanghorn/404/{path}"
+         "pattern": "404/{path}"
       },
       "home": {
-         "pattern": "wanghorn/$",
+         "pattern": "$",
          "title": "Home"
       },
       "about_me": {
-         "pattern": "wanghorn/about-me$",
+         "pattern": "about-me$",
          "title": "About Me"
       },
       "gallery--home": {
-         "pattern": "wanghorn/gallery$",
+         "pattern": "gallery$",
          "title": "Gallery"
       },
       "gallery--item__view": {
-         "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+",
+         "pattern": "gallery/{name}:[a-zA-Z]+",
          "title": "Gallery Item View"
       },
       "gallery--items": {
-         "pattern": "wanghorn/gallery/items.json$"
+         "pattern": "gallery/items.json$"
       },
       "events--home": {
-         "pattern": "wanghorn/events$",
+         "pattern": "events$",
          "title": "Events"
       },
       "events--item__view": {
-         "pattern": "wanghorn/events/{id}:.+/view",
+         "pattern": "events/{id}:.+/view",
          "title": "Event View"
       },
       "entity--create": {
-         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create$",
+         "pattern": "entity/{name}:[a-zA-Z_]+/create$",
          "title": "Create Entity"
       },
       "entity--create--receive": {
-         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create/receive$",
+         "pattern": "entity/{name}:[a-zA-Z_]+/create/receive$",
          "http_method": [
             "post"
          ]
       },
       "user--process_login": {
-         "pattern": "wanghorn/user/login$"
+         "pattern": "user/login$"
       },
       "user--logout$": {
-         "pattern": "wanghorn/user/logout$"
+         "pattern": "user/logout$"
       },
       "user--process_signup": {
-         "pattern": "wanghorn/user/signup/receive$"
+         "pattern": "user/signup/receive$"
       },
       "user--signup": {
-         "pattern": "wanghorn/user/signup$"
+         "pattern": "user/signup$"
       },
       "entity--user--create--receive": {
-         "pattern": "wanghorn/user/signup/receive$"
+         "pattern": "user/signup/receive$"
       },
       "model--create": {
-         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create$",
+         "pattern": "model/{name}:[a-zA-Z_]+/create$",
          "title": "Create Model"
       },
       "model--create--receive": {
-         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create/receive$",
+         "pattern": "model/{name}:[a-zA-Z_]+/create/receive$",
          "http_method": [
             "post"
          ]
       },
       "file--prime_upload": {
-         "pattern": "wanghorn/file/upload"
+         "pattern": "file/upload"
       },
       "test_email": {
-         "pattern": "wanghorn/email/test$"
+         "pattern": "email/test$"
       }
    }
 }

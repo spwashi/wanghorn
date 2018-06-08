@@ -1,6 +1,7 @@
 <?php
 
 use Sm\Application\Application;
+use Sm\Communication\CommunicationLayer;
 use Sm\Core\Event\GenericEvent;
 use Sm\Core\Resolvable\Exception\UnresolvableException;
 use Sm\Core\Util;
@@ -126,8 +127,7 @@ function _communication_layer(Application $app): void {
         $module->registerEmailCreator(function () use ($authentications) {
             return new Gmail($authentications['email']['std']['username'] ?? null, $authentications['email']['std']['password'] ?? null);
         });
-        $app->communication->registerModule($module, 'email');
-        var_dump('HERE');
+        $app->communication->registerModule($module, CommunicationLayer::MODULE_EMAIL);
     } else {
         $app_events[] = GenericEvent::init('FAILED LOADING EMAIL', $json_path);
     }
@@ -136,7 +136,6 @@ function _communication_layer(Application $app): void {
 /**
  * @param \Sm\Application\Application $app
  *
- * @throws \Sm\Core\Exception\InvalidArgumentException
  * @throws \Sm\Core\Factory\Exception\FactoryCannotBuildException
  * @throws \Sm\Core\SmEntity\Exception\InvalidConfigurationException
  */

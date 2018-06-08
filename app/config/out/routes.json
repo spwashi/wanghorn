@@ -4,34 +4,34 @@
          "name": "dev--home",
          "title": "Dev",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev$"
+         "pattern": "dev$"
       },
       {
          "name": "dev--model",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+$"
+         "pattern": "dev/models/{name}:[a-zA-Z_]+$"
       },
       {
          "name": "dev--models",
          "title": "Models",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/models$"
+         "pattern": "dev/models$"
       },
       {
          "name": "dev--models__json",
          "resolution": "Dev\\Dev@models",
-         "pattern": "wanghorn/dev/models.json$"
+         "pattern": "dev/models.json$"
       },
       {
          "name": "dev--model--property",
          "title": "Model Property",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/models/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$"
+         "pattern": "dev/models/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$"
       },
       {
          "name": "dev--all_models",
          "resolution": "Dev\\Dev@findAll",
-         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/all",
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/all",
          "http_method": [
             "get"
          ]
@@ -39,7 +39,7 @@
       {
          "name": "dev--get_model_schematic",
          "resolution": "Dev\\Dev@getSchematic",
-         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/schematic$",
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/schematic$",
          "http_method": [
             "get"
          ]
@@ -47,17 +47,17 @@
       {
          "name": "dev--model--home",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/models$"
+         "pattern": "dev/models$"
       },
       {
          "name": "dev--create_model",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/create$"
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/create$"
       },
       {
          "name": "dev--create_model--receive",
          "resolution": "Dev\\Dev@createModel",
-         "pattern": "wanghorn/dev/models/{name}:[a-zA-Z_]+/create/receive$",
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/create/receive$",
          "http_method": [
             "post"
          ]
@@ -66,33 +66,33 @@
          "name": "dev--entities",
          "title": "Entities",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/entities$"
+         "pattern": "dev/entities$"
       },
       {
          "name": "dev--entity",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+$"
+         "pattern": "dev/entities/{name}:[a-zA-Z_]+$"
       },
       {
          "name": "dev--entity--property",
          "title": "Entity Property",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$"
+         "pattern": "dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$"
       },
       {
          "name": "dev--entities__json",
          "resolution": "Dev\\Dev@entities",
-         "pattern": "wanghorn/dev/entities.json$"
+         "pattern": "dev/entities.json$"
       },
       {
          "name": "dev--create_entity",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z]+/create$"
+         "pattern": "dev/entities/{name}:[a-zA-Z]+/create$"
       },
       {
          "name": "dev--create_entity--receive",
          "resolution": "Dev\\Dev@createEntity",
-         "pattern": "wanghorn/dev/entities/{name}:[a-zA-Z_]+/create/receive$",
+         "pattern": "dev/entities/{name}:[a-zA-Z_]+/create/receive$",
          "http_method": [
             "post"
          ]
@@ -100,52 +100,52 @@
       {
          "name": "dev--monitors__json",
          "resolution": "Dev\\Dev@monitors",
-         "pattern": "wanghorn/dev/monitors.json$"
+         "pattern": "dev/monitors.json$"
       },
       {
          "name": "dev--status__json",
          "resolution": "Dev\\Dev@status",
-         "pattern": "wanghorn/dev/status.json$"
+         "pattern": "dev/status.json$"
       },
       {
          "name": "dev--routes__json",
          "resolution": "Dev\\Dev@routes",
-         "pattern": "wanghorn/dev/routes.json$"
+         "pattern": "dev/routes.json$"
       },
       {
          "name": "dev--routes",
          "title": "Routes",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/dev/routes$"
+         "pattern": "dev/routes$"
       },
       {
          "name": "dev--execute_query",
          "resolution": "Dev\\Dev@executeQuery",
-         "pattern": "wanghorn/dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
+         "pattern": "dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       {
          "resolution": "Email\\Email@test",
-         "pattern": "wanghorn/dev/email/test$"
+         "pattern": "dev/email/test$"
       },
       {
          "resolution": "Email\\Email@tmp",
-         "pattern": "wanghorn/dev/email/boon$"
+         "pattern": "dev/email/boon$"
       },
       {
          "name": "user--signup_continue",
          "resolution": "Email\\Email@completeTest",
-         "pattern": "wanghorn/dev/email/test/{signup_nonce}"
+         "pattern": "dev/email/test/{signup_nonce}"
       },
       {
          "name": "error-404",
          "resolution": "Error\\Error@rt_404",
-         "pattern": "wanghorn/404/{path}"
+         "pattern": "404/{path}"
       },
       {
          "name": "home",
          "title": "Home",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/$"
+         "pattern": "$"
       },
       {
          "name": "test",
@@ -155,47 +155,47 @@
          "name": "about_me",
          "title": "About Me",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/about-me$"
+         "pattern": "about-me$"
       },
       {
          "name": "gallery--home",
          "title": "Gallery",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/gallery$"
+         "pattern": "gallery$"
       },
       {
          "name": "gallery--item__view",
          "title": "Gallery Item View",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/gallery/{name}:[a-zA-Z]+"
+         "pattern": "gallery/{name}:[a-zA-Z]+"
       },
       {
          "name": "gallery--items",
          "resolution": "Home\\Home@gallery",
-         "pattern": "wanghorn/gallery/items.json$"
+         "pattern": "gallery/items.json$"
       },
       {
          "name": "events--home",
          "title": "Events",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/events$"
+         "pattern": "events$"
       },
       {
          "name": "events--item__view",
          "title": "Event View",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/events/{id}:.+/view"
+         "pattern": "events/{id}:.+/view"
       },
       {
          "name": "entity--create",
          "title": "Create Entity",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create$"
+         "pattern": "entity/{name}:[a-zA-Z_]+/create$"
       },
       {
          "name": "entity--create--receive",
          "resolution": "Entity\\Entity@create",
-         "pattern": "wanghorn/entity/{name}:[a-zA-Z_]+/create/receive$",
+         "pattern": "entity/{name}:[a-zA-Z_]+/create/receive$",
          "http_method": [
             "post"
          ]
@@ -203,38 +203,38 @@
       {
          "name": "user--process_login",
          "resolution": "User\\User@login",
-         "pattern": "wanghorn/user/login$"
+         "pattern": "user/login$"
       },
       {
          "name": "user--logout$",
          "resolution": "User\\User@logout",
-         "pattern": "wanghorn/user/logout$"
+         "pattern": "user/logout$"
       },
       {
          "name": "user--process_signup",
          "resolution": "User\\User@signUp",
-         "pattern": "wanghorn/user/signup/receive$"
+         "pattern": "user/signup/receive$"
       },
       {
          "name": "user--signup",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/user/signup$"
+         "pattern": "user/signup$"
       },
       {
          "name": "entity--user--create--receive",
          "resolution": "User\\User@signUp",
-         "pattern": "wanghorn/user/signup/receive$"
+         "pattern": "user/signup/receive$"
       },
       {
          "name": "model--create",
          "title": "Create Model",
          "resolution": "Home\\Home@index",
-         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create$"
+         "pattern": "model/{name}:[a-zA-Z_]+/create$"
       },
       {
          "name": "model--create--receive",
          "resolution": "Model\\Model@create",
-         "pattern": "wanghorn/model/{name}:[a-zA-Z_]+/create/receive$",
+         "pattern": "model/{name}:[a-zA-Z_]+/create/receive$",
          "http_method": [
             "post"
          ]
@@ -242,12 +242,12 @@
       {
          "name": "file--prime_upload",
          "resolution": "Entity\\File\\File@prime",
-         "pattern": "wanghorn/file/upload"
+         "pattern": "file/upload"
       },
       {
          "name": "test_email",
          "resolution": "Email\\Email@test",
-         "pattern": "wanghorn/email/test$"
+         "pattern": "email/test$"
       }
    ]
 }

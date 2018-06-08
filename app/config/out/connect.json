@@ -3,16 +3,16 @@
       "std": {
          "dbms": "mysql",
          "host": "localhost",
-         "username": "codozsqq",
-         "password": "^bzXfxDc!Dl6",
-         "database": "sm_test"
+         "username": "wanghorn",
+         "password": "wanghorn",
+         "database": "wanghorn"
       },
       "meta": {
          "dbms": "mysql",
          "host": "localhost",
-         "username": "codozsqq",
-         "password": "^bzXfxDc!Dl6",
-         "database": "sm_test"
+         "username": "wanghorn",
+         "password": "wanghorn",
+         "database": "wanghorn"
       }
    },
    "email": {

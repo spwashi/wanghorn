@@ -43,11 +43,12 @@ export const rules = [
     },
     {
         test:    /\.js$/,
-        exclude: /node_modules\/(?!spwashi-sm)/,
+        exclude: /node_modules\/(?!spwashi-sm|base-components)/,
         use:     [{
             loader:  'babel-loader',
             options: {
                 cacheDirectory: true,
+		babelrc:		true
             }
         }],
     }

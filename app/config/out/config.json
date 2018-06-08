@@ -8,12 +8,11 @@
       "public": "/var/www/wanghorn/public",
       "app": "/var/www/wanghorn/app"
    },
-   "urlPath": "wanghorn",
    "urls": {
       "src": null,
       "config": null,
-      "public": "http://localhost/wanghorn/public",
-      "root": "http://localhost",
-      "base": "http://localhost/wanghorn"
+      "public": "http://wanghorn//public",
+      "root": "http://wanghorn",
+      "base": "http://wanghorn"
    }
 }
