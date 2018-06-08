@@ -3,7 +3,7 @@
 printf "UPDATING THE SmPHP Framework from the filesystem \n\n"
 
 #
-local_smphp_root="/var/www/SmPHP"
+local_smphp_root="/home/sam/git/smphp"
 
 #
 APPLICATION_PATH=''

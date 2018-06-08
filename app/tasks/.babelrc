@@ -1,0 +1,17 @@
+{
+    "presets": [ "flow", "env", "react" ],
+    "plugins": [
+        "transform-object-rest-spread",
+        "transform-regenerator",
+        "transform-class-properties",
+        "transform-decorators-legacy",
+        "react-hot-loader/babel",
+
+        [
+            "babel-plugin-transform-builtin-extend",
+            {
+                "globals": [ "Map", "Error", "Array" ]
+            }
+        ]
+    ]
+}

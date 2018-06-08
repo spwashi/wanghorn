@@ -125,7 +125,8 @@ function _communication_layer(Application $app): void {
         $emailFactory    = new EmailFactory();
         $module          = new EmailCommunicationModule($emailFactory);
         $module->registerEmailCreator(function () use ($authentications) {
-            return new Gmail($authentications['email']['std']['username'] ?? null, $authentications['email']['std']['password'] ?? null);
+	        $std = $authentications['email']['std'];
+	        return new \Sm\Modules\Communication\Email\Mock\MockEmail($std['username'] ?? null, $std['password'] ?? null);
         });
         $app->communication->registerModule($module, CommunicationLayer::MODULE_EMAIL);
     } else {
