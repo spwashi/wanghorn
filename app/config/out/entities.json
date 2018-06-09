@@ -18,6 +18,23 @@
          }
       }
    },
+   "verification": {
+      "smID": "[Entity]verification",
+      "properties": {
+         "hash": {
+            "smID": "[Property]{[Entity]verification} hash",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "isGenerated": true,
+            "derivedFrom": "[Property]{[Model]user_verification_hash} hash",
+            "role": "value"
+         }
+      },
+      "persistedIdentity": "[Model]user_verification_hash",
+      "contexts": {}
+   },
    "password": {
       "smID": "[Entity]password",
       "properties": {
@@ -33,12 +50,6 @@
          }
       },
       "persistedIdentity": "[Model]password",
-      "representations": {
-         "inline": {
-            "datatype": "string",
-            "requireFormatting": true
-         }
-      },
       "contexts": {}
    },
    "user": {
@@ -62,6 +73,19 @@
             "unique": true,
             "derivedFrom": "[Property]{[Model]user} email"
          },
+         "verification": {
+            "smID": "[Property]{[Entity]user} verification",
+            "datatypes": [
+               "[Entity]verification"
+            ],
+            "isGenerated": true,
+            "derivedFrom": {
+               "user_id": "[Property]{[Model]user} id"
+            },
+            "contexts": [
+               "::verification"
+            ]
+         },
          "password": {
             "smID": "[Property]{[Entity]user} password",
             "datatypes": [
@@ -79,6 +103,12 @@
       "persistedIdentity": "[Model]user",
       "contexts": {
          "login_process": {
+            "self": {
+               "title": "User",
+               "name": "user"
+            }
+         },
+         "::verification": {
             "self": {
                "title": "User",
                "name": "user"

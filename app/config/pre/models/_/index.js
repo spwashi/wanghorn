@@ -5,7 +5,6 @@ export const name        = '_';
 export const ___identity = Model.identify(name);
 export const properties  = {
     id:             {
-        primary:     !0,
         datatypes:   INTEGER_,
         length:      11,
         isGenerated: true

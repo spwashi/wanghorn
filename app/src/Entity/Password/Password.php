@@ -5,6 +5,7 @@ namespace WANGHORN\Entity\Password;
 
 use Sm\Core\Context\Context;
 use Sm\Core\Exception\UnimplementedError;
+use Sm\Core\Resolvable\Exception\UnresolvableException;
 use Sm\Core\Resolvable\Resolvable;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
@@ -73,18 +74,28 @@ class Password extends Entity implements Resolvable {
 		throw new UnimplementedError("Cannot yet update passwords");
 	}
 
+	/**
+	 * @param \Sm\Data\Entity\Entity $entity
+	 * @param Context|null           $context
+	 * @return array
+	 * @throws UnresolvableException
+	 */
 	protected function getPropertiesForModel(\Sm\Data\Entity\Entity $entity, Context $context = null): array {
-		$ret        = [];
-		$properties = $this->gProps($entity);
-		foreach ($properties as $name => $property) {
-			if ($name === 'password') {
-				$value      = "{$property->value}";
-				$ret[$name] = password_hash($value, PASSWORD_BCRYPT);
-			} else {
-				$ret[$name] = $property;
-			}
+		# Inherits from trait
+		$properties = $this->gProps($entity, $context);
+
+		# If we are creating the Entity (e.g. signup)
+		if ($context instanceof EntityCreationContext) {
+			$property               = $properties['password'];
+
+			# Not sure why this would be the case
+			if(!isset($property)) throw new UnresolvableException("Could not resolve password");
+
+			$value                  = "{$property->value}";
+			$properties['password'] = password_hash($value, PASSWORD_BCRYPT);;
 		}
-		return $ret;
+
+		return $properties;
 	}
 
 	public function matches($password) {

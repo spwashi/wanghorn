@@ -28,14 +28,14 @@ const getFormSubmissionStatus = function (smEntity) {
         canSubmit = canSubmit ? !!status : false;
         (messages[name] = text || (!canSubmit ? 'Invalid value' : null));
     });
-    
+
     return {canSubmit, messages};
 };
 
 @connect(mapState, mapDispatch)
 class SmEntityCreationForm extends React.Component {
     state = {hasSoughtSchematic: null, schematic: null};
-    
+
     constructor(props) {
         super(props);
         this.state                 = {
@@ -46,51 +46,52 @@ class SmEntityCreationForm extends React.Component {
         };
         this.propertyChangeHandler = this.props.onPropertyValueChange || function () {};
     }
-    
+
     componentDidMount() {
         if (this.state.schematic || this.state.hasSoughtSchematic) { return; }
-        
+
         let smEntity          = this.props.smEntity && this.props.smEntity.smID ? this.props.smEntity : {};
         let schematic         = this.props.schematic || {};
         let smID              = (schematic && schematic.smID) || (smEntity && smEntity.smID) || this.props.smID;
-        let schematicResolved = fromSm_selectSchematicOfSmID(this.props.sm, {smID});
+        let contextName = this.props.contextName;
+        let schematicResolved = fromSm_selectSchematicOfSmID(this.props.sm, {smID, contextName});
         schematic             = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
-        
+
         if (schematic && schematic.smID) {
             smEntity.smID = (smEntity && smEntity.smID) || schematic.smID;
         }
-        
+
         this.setState({
                           hasSoughtSchematic: true,
                           schematic:          schematic,
                           smEntity
                       })
     }
-    
+
     render() {
         const status    = this.state._status;
         const schematic = this.state.schematic;
         const smEntity  = this.state.smEntity;
         if (!schematic) return schematic === false ? 'Cannot prompt for SmEntityCreation' : 'loading...';
         const {properties} = schematic;
-        
+
         if (!properties) {
             console.error(this.state.schematic, this.props.schematic);
             throw new Error("Can only prompt for SmEntities that have Properties");
         }
-        
+
         const resolveSmEntities        = item => {
             const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
-            
+
             if (!smID) return;
             console.log(smID);
             return fromSm_selectItemsOfSmID(this.props.sm, {smID});
         };
         const resolveSmEntitySchematic = item => {
             const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
-            
+
             if (!smID) return;
-            
+
             return fromSm_selectSchematicOfSmID(this.props.sm, {smID});
         };
         const _message                 = this.state.messages && (this.state.messages._message || this.state.messages[0]);
@@ -110,19 +111,19 @@ class SmEntityCreationForm extends React.Component {
             </form>
         );
     }
-    
+
     getSchematic() {
         return this.state.schematic || (typeof this.props.schematic === 'object' ? this.props.schematic : null);
     }
-    
+
     @bind
     handleSubmit(event) {
         event.preventDefault();
         const url      = this.props.uri;
         const smEntity = this.state.smEntity || {};
-        
+
         let {canSubmit, messages} = getFormSubmissionStatus(smEntity);
-        
+
         // Set the error messages on fail
         if (!canSubmit) {
             this.setState({
@@ -134,7 +135,7 @@ class SmEntityCreationForm extends React.Component {
                           });
             return;
         }
-        
+
         // Otherwise, go through the "loading, success/error" process below
         this.setState({_status: 'loading'},
                       () => {
@@ -151,7 +152,7 @@ class SmEntityCreationForm extends React.Component {
                                    const _message   = status === 'error' ? {message: 'Error Processing Request', success: false}
                                                                          : null;
                                    const properties = data.properties || {};
-                
+
                                    const messages    = typeof data.message === 'object' ? data.message
                                                                                         : (typeof data.message === 'string' ? {_message: data.message}
                                                                                                                             : {_message});
@@ -160,10 +161,10 @@ class SmEntityCreationForm extends React.Component {
                                          .forEach(([property_name, property_val]) => {
                                              const smEntityProperty = (smEntity.properties || {})[property_name];
                                              const {messages}       = (smEntityProperty || {});
-                    
+
                                              property_val.messages && Object.assign(messages, property_val.messages);
                                          });
-                
+
                                    this.setState({
                                                      _status:  status,
                                                      smEntity: newSmEntity,
@@ -172,44 +173,44 @@ class SmEntityCreationForm extends React.Component {
                                })
                       })
     }
-    
+
     updateValueStatus(effectiveSchematic, value, message = true) {
         const {smID, fieldName, name} = effectiveSchematic;
-        
+
         if (typeof message !== 'boolean' && typeof  message !== "object") {
             throw new Error("Expected an object or boolean for message");
         }
-        
+
         const propertyChangeHandler = this.propertyChangeHandler;
         const schematic             = this.getPropertySchematic(smID);
         let smEntity;
-        
+
         propertyChangeHandler(normalizeSmID(smID),
                               value,
                               schematic);
         if (!name) return;
-        
+
         smEntity            = this.getCurrentSmEntity();
         smEntity.properties = smEntity.properties || {};
         smEntity.messages   = smEntity.messages || {};
-        
+
         if (message || smEntity.messages[fieldName]) {
             smEntity.messages            = smEntity.messages || {};
             smEntity.messages[fieldName] = message;
         }
-        
+
         smEntity.properties[name] = value;
-        
+
         return this.setState({smEntity});
     }
-    
+
     getCurrentSmEntity() {
         return Object.assign({},
                              {smID: (this.getSchematic() || {}).smID},
                              (this.props.smEntity || {}),
                              (this.state.smEntity || {}));
     }
-    
+
     getPropertySchematic(smID) {
         let schematic = this.getSchematic();
         if (!schematic) return null;
@@ -219,7 +220,7 @@ class SmEntityCreationForm extends React.Component {
 
 SmEntityCreationForm.propTypes = {
     uri:                   PropTypes.string.isRequired,
-    context:               PropTypes.string,
+    contextName:               PropTypes.string,
     smEntity:              PropTypes.object,
     onPropertyValueChange: PropTypes.func,
     smID:                  PropTypes.string,

@@ -1,12 +1,6 @@
 {
    "_": {
       "smID": "[Model]_",
-      "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]_} id"
-         ],
-         "unique": {}
-      },
       "properties": {
          "id": {
             "smID": "[Property]{[Model]_} id",
@@ -14,7 +8,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -50,9 +43,7 @@
          "[Model]_"
       ],
       "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]tag} id"
-         ],
+         "primary": [],
          "unique": {
             "unique_key": [
                "[Property]{[Model]tag} text",
@@ -67,7 +58,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -127,9 +117,7 @@
          "[Model]_"
       ],
       "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]file_location} id"
-         ],
+         "primary": [],
          "unique": {
             "name": [
                "[Property]{[Model]file_location} name"
@@ -146,7 +134,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -199,9 +186,7 @@
          "[Model]_"
       ],
       "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]user} id"
-         ],
+         "primary": [],
          "unique": {
             "unique_key": [
                "[Property]{[Model]user} username",
@@ -216,7 +201,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -276,9 +260,7 @@
          "[Model]_"
       ],
       "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]event} id"
-         ],
+         "primary": [],
          "unique": {
             "unique_key": [
                "[Property]{[Model]event} title"
@@ -292,7 +274,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -353,12 +334,6 @@
       "inherits": [
          "[Model]_"
       ],
-      "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]person} id"
-         ],
-         "unique": {}
-      },
       "properties": {
          "id": {
             "smID": "[Property]{[Model]person} id",
@@ -366,7 +341,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -416,9 +390,7 @@
          "[Model]_"
       ],
       "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]_uploaded} id"
-         ],
+         "primary": [],
          "unique": {
             "unique_key": [
                "[Property]{[Model]_uploaded} name",
@@ -433,7 +405,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -531,12 +502,6 @@
       "inherits": [
          "[Model]_"
       ],
-      "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]user_verification_hash} id"
-         ],
-         "unique": {}
-      },
       "properties": {
          "id": {
             "smID": "[Property]{[Model]user_verification_hash} id",
@@ -544,7 +509,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -598,9 +562,7 @@
          "[Model]_"
       ],
       "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]email} id"
-         ],
+         "primary": [],
          "unique": {
             "unique_key": [
                "[Property]{[Model]email} email"
@@ -614,7 +576,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -668,12 +629,6 @@
       "inherits": [
          "[Model]_"
       ],
-      "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]password} id"
-         ],
-         "unique": {}
-      },
       "properties": {
          "id": {
             "smID": "[Property]{[Model]password} id",
@@ -681,7 +636,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -737,9 +691,7 @@
          "[Model]_uploaded"
       ],
       "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]file} id"
-         ],
+         "primary": [],
          "unique": {
             "unique_key": [
                "[Property]{[Model]file} name",
@@ -754,7 +706,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -854,9 +805,7 @@
          "[Model]_uploaded"
       ],
       "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]image} id"
-         ],
+         "primary": [],
          "unique": {
             "unique_key": [
                "[Property]{[Model]image} name",
@@ -871,7 +820,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -969,12 +917,6 @@
       "inherits": [
          "[Model]_"
       ],
-      "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]project} id"
-         ],
-         "unique": {}
-      },
       "properties": {
          "id": {
             "smID": "[Property]{[Model]project} id",
@@ -982,7 +924,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {
@@ -1070,12 +1011,6 @@
       "inherits": [
          "[Model]_"
       ],
-      "propertyMeta": {
-         "primary": [
-            "[Property]{[Model]project_tag_map} id"
-         ],
-         "unique": {}
-      },
       "properties": {
          "id": {
             "smID": "[Property]{[Model]project_tag_map} id",
@@ -1083,7 +1018,6 @@
                "int"
             ],
             "length": 11,
-            "primary": true,
             "isGenerated": true
          },
          "delete_dt": {

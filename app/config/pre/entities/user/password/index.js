@@ -1,6 +1,5 @@
-import {password__identity} from "../../models/password";
-import {STRING_} from "../../models/datatypes";
-import {Entity} from "../helpers";
+import {password__identity} from "../../../models/password/index";
+import {Entity} from "../../helpers";
 
 export const name              = 'password';
 export const identity          = Entity.identify(name);
@@ -8,15 +7,9 @@ export const identity          = Entity.identify(name);
 export const persistedIdentity = password__identity;
 export const properties        = {
     password: {
-        identity:  true,
+        identity:  true, // We inherit this property from the model
         minLength: 8,
         datatypes: 'password',
         role:      'value'
-    }
-};
-export const representations   = {
-    inline: {
-        datatype:          STRING_,
-        requireFormatting: true
     }
 };

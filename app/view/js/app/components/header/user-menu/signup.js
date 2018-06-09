@@ -11,7 +11,7 @@ export default class SignupForm extends React.Component {
     
     render() {
         const {username, password, onPropertyValueChange} = this.props;
-        return <SmEntityCreationForm context={'signup_process'}
+        return <SmEntityCreationForm contextName={'signup_process'}
                                      smID={'[Entity]user'}
                                      smEntity={{name: 'User', properties: {username, password}}}
                                      onPropertyValueChange={onPropertyValueChange}
