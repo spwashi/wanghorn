@@ -2,6 +2,7 @@
 
 define('SM_IS_CLI', php_sapi_name() === 'cli');
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 const APP__APP_PATH            = __DIR__ . '/';
 const DEFAULT_APP__CONFIG_PATH = __DIR__ . '/config/';
@@ -16,7 +17,9 @@ use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 /** @var Application $app */
-$app = Application::init(APP__APP_PATH, DEFAULT_APP__CONFIG_PATH, DEFAULT_APP__LOG_PATH);
+$app = Application::init(APP__APP_PATH,
+                         DEFAULT_APP__CONFIG_PATH,
+                         DEFAULT_APP__LOG_PATH);
 
 try {
     #   - Create & Boot the application

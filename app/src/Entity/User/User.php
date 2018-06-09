@@ -27,15 +27,17 @@ class User extends Entity implements UserEntitySchema {
     }
     public function destroy() { }
     public function create(Context $context, $attributes = []): EntityValidationResult {
-        $result = $this->createPrimaryModel($context, $attributes);
-        
-        if (!$result->isSuccess()) return $result;
-        
-        $this->fillPropertyValue($this->properties->password);
-        
-        $this->properties->password->create($context);
-        
-        return $result;
+    	$result = $this->createPrimaryModel($context, $attributes);
+
+	    if (!$result->isSuccess()) {
+		    return $result;
+	    }
+
+	    $this->fillPropertyValue($this->properties->password);
+
+	    $this->properties->password->create($context);
+
+	    return $result;
     }
     public function find($attributes = [], Context $context = null) {
         $this->findPrimaryModel($attributes, $context);

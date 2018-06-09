@@ -74,7 +74,7 @@ class UserController extends AppController {
     public function create() { return $this->signUp(); }
     public function signUp() {
         /** @var User $user */
-        
+
         $request_data  = HttpRequestFromEnvironment::getRequestData();
         $entityContext = $this->resolveContext('signup_process');
         $properties    = $request_data['properties'] ?? [];
@@ -82,21 +82,23 @@ class UserController extends AppController {
         #
         ##  Should probably proxy in contexts
         $user = $this->init_entity()->set($properties);
-        
+
+        # If the user exists, don't continue
         try {
+        	#todo should check email addresses
             $user->find([ 'username' => $user->properties->username ]);
             return new ApiResponse(false, 'User already exists');
         } catch (EntityNotFoundException $exception) {
         }
-        
+
+
         /** @var \Sm\Data\Entity\Validation\EntityValidationResult $response */
         try {
-            $user->create($entityContext);
-            
-            $username = $user->properties->username;
-            $raw_pw   = $user->properties->password->resolve();
-            
-            return $this->attemptUserLogin($username, $raw_pw);
+	        $user->create($entityContext);
+
+	        $username = $user->properties->username;
+
+            return $this->attemptUserLogin($username, $user->properties->password->resolve());
         } catch (CannotDuplicateEntryException $error) {
             return new ApiResponse(false, 'User already exists');
         } catch (CannotCreateEntityException $exception) {
@@ -106,7 +108,7 @@ class UserController extends AppController {
         }
         
         $success = empty($failedProperties);
-        
+
         return new ApiResponse($success, $messages);
     }
     public function login() {
