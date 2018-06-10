@@ -11,11 +11,13 @@ use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntitySchema;
 use Sm\Data\Entity\Exception\EntityNotFoundException;
 use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
+use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Controller\ApiResponse;
 use WANGHORN\Controller\AppController;
 use WANGHORN\Entity\User\Schema\UserEntitySchema;
 use WANGHORN\Entity\User\User;
+use WANGHORN\Model\Model;
 
 /**
  * Class UserController
@@ -99,9 +101,12 @@ class UserController extends AppController {
 		try {
 			$user->create($entityContext);
 
-			$username = $user->properties->username;
+			$username       = $user->properties->username;
+			$login_response = $this->attemptUserLogin($username, $user->properties->password->resolve());
 
-			return $this->attemptUserLogin($username, $user->properties->password->resolve());
+			$this->sendVerificationEmail($user);
+
+			return $login_response;
 		} catch (CannotDuplicateEntryException $error) {
 			return new ApiResponse(false, 'User already exists');
 		} catch (CannotCreateEntityException $exception) {
@@ -127,6 +132,8 @@ class UserController extends AppController {
 		return $this->redirect('home');
 	}
 
+	#
+	##  Contextualization
 	/**
 	 * Proxy a new user in a context in a context
 	 *
@@ -154,6 +161,8 @@ class UserController extends AppController {
 		return $userEntity;
 	}
 
+	#
+	##  Login Helpers
 	protected function attemptUserLogin($username, $password): ApiResponse {
 		# Instantiate a Model that we'll use to find a matching object (or throw an error if it doesn't exist)
 		try {
@@ -177,9 +186,71 @@ class UserController extends AppController {
 	}
 
 	#
+	##  Signup Helpers
+	protected function createVerificationLink($hash): string {
+		$parameters = ['hash' => $hash];
+		$route_name = 'user--verify';
+		return $this->routeAsLink($route_name, $parameters);
+	}
+	#
 	## API responses
 	public function getUserAlreadyExistsStatusResponse() {
 		return new ApiResponse(false, 'User Already Exists');
+	}
+
+	/**
+	 * @param $username_str
+	 * @param $verification_link
+	 * @return string
+	 */
+	protected function createUserVerificationEmailHTML($username_str, $verification_link): string {
+		$html = "Hi, {$username_str}! Thanks for signing up. <br>Please " .
+		        "<a href='{$verification_link}'>Click Here to verify your account</a>, and then we can get things set up.";
+		return $html;
+	}
+
+	public function verifyUser($hash) {
+		/** @var Model $schematic */
+		$model                   = $this->app->data->models->instantiate('user_verification_hash');
+		$model->properties->hash = $hash;
+		try {
+			$this->app->data->models->persistenceManager->find($model);
+		} catch (ModelNotFoundException $exception) {
+			return new ApiResponse(false, 'Invalid verification link.');
+		}
+		return new ApiResponse(true, 'Valid Verification link, but we will not do anything');
+	}
+
+	/**
+	 * @param $user
+	 */
+	protected function sendVerificationEmail(UserEntitySchema $user) {
+		#todo input validation?
+		$username          = $user->properties->username;
+		$verification_hash = $user->properties->verification;
+		$email             = $user->properties->email;
+
+		# I think these'll throw exceptions if they can't be resolved, but that's also a todo
+		$verification_hash_str = $verification_hash->resolve();
+		$username_str          = $username->resolve();
+		$email_str             = $email->resolve();
+
+		$from    = ['support@spwashi.com', 'Spwashi Support Team'];
+		$subject = 'Hello, ' . $username_str . '! Please verify your account';
+
+		$verification_link = $this->createVerificationLink($verification_hash_str);
+		$html              = $this->createUserVerificationEmailHTML($username_str, $verification_link);
+		$plain_text        = 'Welcome!! Your account is almost set up, but we just need to verify it.';
+		$recipients        = [[$email_str, $username_str]];
+
+
+		#todo better error handling
+		$this->controller('Email\\Email@sendEmail')
+		     ->resolve($subject,
+		               $html,
+		               $plain_text,
+		               $from,
+		               $recipients);
 	}
 
 }

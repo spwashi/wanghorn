@@ -46,7 +46,10 @@ class VerificationHash extends Entity implements Resolvable {
 	#
 	##  Persistence
 	public function create(Context $context, $attributes = []): ?EntityValidationResult {
-		return $this->createPrimaryModel($context, $attributes);
+		$result                 = $this->createPrimaryModel($context, $attributes);
+		$model                  = $this->getPersistedIdentity();
+		$this->properties->hash = $model->properties->hash->resolve();
+		return $result;
 	}
 
 	public function destroy() {
@@ -59,8 +62,8 @@ class VerificationHash extends Entity implements Resolvable {
 
 	protected function getPropertiesForModel(\Sm\Data\Entity\Entity $entity, Context $context = null): array {
 		$properties = $this->gProps($entity);
-		if($context instanceof EntityCreationContext){
-			$properties['hash'] = md5(date('mdy').date('mdy').microtime());
+		if ($context instanceof EntityCreationContext) {
+			$properties['hash'] = md5(date('mdy') . date('mdy') . microtime());
 		}
 		return $properties;
 	}
@@ -74,7 +77,7 @@ class VerificationHash extends Entity implements Resolvable {
 	public function validate(Context $context = null): ValidationResult {
 		if ($context instanceof EntityCreationContext) {
 			/** @var \Sm\Data\Entity\Property\EntityProperty $verificationHash */
-			$verificationHash                = $this->properties->hash;
+			$verificationHash        = $this->properties->hash;
 			$value_validation_result = $verificationHash->validate();
 			$isSuccess               = $value_validation_result ? $value_validation_result->isSuccess() : true;
 

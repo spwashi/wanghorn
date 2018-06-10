@@ -206,6 +206,11 @@
          "pattern": "user/login$"
       },
       {
+         "name": "user--verify",
+         "resolution": "User\\User@verifyUser",
+         "pattern": "user/verify/{hash}:[a-zA-Z\\d]+$"
+      },
+      {
          "name": "user--logout$",
          "resolution": "User\\User@logout",
          "pattern": "user/logout$"

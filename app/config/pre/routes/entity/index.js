@@ -23,6 +23,11 @@ const entity = {
                       pattern:    "user/login$"
                   }),
         new Route({
+                      name:       'user--verify',
+                      resolution: "[User]@verifyUser",
+                      pattern:    "user/verify/{hash}:[a-zA-Z\\d]+$"
+                  }),
+        new Route({
                       name:       "user--logout$",
                       resolution: "[User]@logout",
                       pattern:    "user/logout$"

@@ -131,6 +131,9 @@
       "user--process_login": {
          "pattern": "user/login$"
       },
+      "user--verify": {
+         "pattern": "user/verify/{hash}:[a-zA-Z\\d]+$"
+      },
       "user--logout$": {
          "pattern": "user/logout$"
       },

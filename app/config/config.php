@@ -120,8 +120,8 @@ function _communication_layer(Application $app): void {
 
 
 	$authentication_path = DEFAULT_APP__CONFIG_PATH . 'out/connect.json';
-	if (file_exists($json_path)) {
-		$authentications = file_get_contents($json_path);
+	if (file_exists($authentication_path)) {
+		$authentications = json_decode(file_get_contents($authentication_path), 1);
 		$emailFactory    = new EmailFactory();
 		$module          = new EmailCommunicationModule($emailFactory);
 		$module->registerEmailCreator(function () use ($authentications) {

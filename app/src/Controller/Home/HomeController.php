@@ -21,8 +21,8 @@ class HomeController extends AppController {
         $html_filename = APP__NAME . '.html';
         /** @var \Sm\Data\Entity\EntitySchematic $userSchematic */
         $context_name  = 'signup_process';
-        $entityContext = $this->app->controller->createControllerResolvable('User\\User@resolveContext')->resolve($context_name);
-        $userProxy     = $this->app->controller->createControllerResolvable('User\\User@findSessionUser')->resolve();
+	    $entityContext = $this->controller('User\\User@resolveContext')->resolve($context_name);
+        $userProxy     = $this->controller('User\\User@findSessionUser')->resolve();
         $tags          = [
             $this->wrapWithScriptTag($entityContext, "context__{$context_name}--configuration"),
             $this->wrapWithScriptTag($userProxy, "session__user"),

@@ -9,12 +9,6 @@ use WANGHORN\Controller\AppController;
 
 
 class EmailController extends AppController {
-	public function tmp() {
-		$parameters = ['signup_nonce' => 'oogabooga'];
-		$route_name = 'user--signup_continue';
-		return [$this->routeAsLink($route_name, $parameters)];
-	}
-
 	/**
 	 * @throws \Sm\Core\Context\Layer\Module\Exception\MissingModuleException
 	 */
@@ -35,7 +29,7 @@ class EmailController extends AppController {
 		$subject    = 'This is a Test!';
 		$html       = "Hello!<br> <a href='{$link}'>Click Here to continue</a>";
 		$plain_text = 'Hey there';
-		$recipients = [['percy@spwashi.com', 'Percy Washington'],['samgineer@gmail.com','Sam Washington'], ['Spwashi', 'sam@spwashi.com']];
+		$recipients = [['percy@spwashi.com', 'Percy Washington'], ['samgineer@gmail.com', 'Sam Washington'], ['Spwashi', 'sam@spwashi.com']];
 		$this->sendEmail($subject, $html, $plain_text, $from, $recipients, $reply_to);
 	}
 
