@@ -1,21 +1,21 @@
 <?php
 
 
-namespace WANGHORN\Controller;
+namespace WANGHORN\Response;
 
 class ApiResponse implements \JsonSerializable {
 	protected $action;
 	protected $message;
-	protected $success;
+	protected $status;
 
 	public function __construct($success = null, $message = null, $action = null) {
-		$this->success = $success;
+		$this->status  = $success;
 		$this->message = $message;
 		$this->action  = $action;
 	}
 
-	public function setSuccess($status = true) {
-		$this->success = $status;
+	public function setStatus($status = true) {
+		$this->status = $status;
 		return $this;
 	}
 
@@ -25,6 +25,10 @@ class ApiResponse implements \JsonSerializable {
 	}
 
 	public function jsonSerialize() {
-		return ['success' => $this->success, 'message' => $this->message, 'action' => $this->action];
+		$callback = function ($item) { return isset($item); };
+		$return   = ['success' => $this->status,
+		             'message' => $this->message,
+		             'action'  => $this->action];
+		return array_filter($return, $callback);
 	}
 }

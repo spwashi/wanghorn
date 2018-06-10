@@ -1,7 +1,7 @@
 <?php
 
 
-namespace WANGHORN\Entity;
+namespace WANGHORN\Entity\Entity;
 
 
 use Sm\Core\Context\Context;
@@ -33,7 +33,7 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
     
     #
     ##  Persistence
-    abstract public function create(Context $context): ?EntityValidationResult;
+    abstract public function create(Context $context);
     
     
     #

@@ -11,7 +11,7 @@ use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
 use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Evaluation\Validation\ValidationResult;
-use WANGHORN\Entity\Entity;
+use WANGHORN\Entity\Entity\Entity;
 
 
 /**

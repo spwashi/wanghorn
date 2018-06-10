@@ -10,15 +10,16 @@ use Sm\Core\Exception\UnimplementedError;
 use Sm\Core\Resolvable\Exception\UnresolvableException;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
+use Sm\Data\Entity\EntitySchema;
 use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
 use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Property\Property;
 use Sm\Data\Property\PropertyContainer;
-use WANGHORN\Entity\Entity;
+use WANGHORN\Entity\Entity\Entity;
+use WANGHORN\Entity\User\Proxy\UserEntityProxy;
 use WANGHORN\Entity\User\Schema\UserEntitySchema;
 
 /**
- * @method proxyInContext(Context $context):Proxy\UserEntityProxy
  */
 class User extends Entity implements UserEntitySchema {
 	use EntityHasPrimaryModelTrait;
@@ -102,5 +103,16 @@ class User extends Entity implements UserEntitySchema {
 		$verification_hash = $this->properties->verification;
 		$this->fillPropertyValue($verification_hash);
 		$verification_hash->create($context);
+	}
+
+	#
+	##  Contextualization
+	/**
+	 * @param Context|null $context
+	 * @return EntitySchema|UserEntityProxy
+	 * @throws InvalidArgumentException
+	 */
+	public function proxyInContext(Context $context = null): EntitySchema {
+		return new UserEntityProxy($this, $context);
 	}
 }

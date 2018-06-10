@@ -8,9 +8,12 @@ use Sm\Core\Exception\UnimplementedError;
 use Sm\Core\Resolvable\Resolvable;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
+use Sm\Data\Entity\EntitySchema;
 use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Evaluation\Validation\ValidationResult;
-use WANGHORN\Entity\Entity;
+use WANGHORN\Entity\Entity\Entity;
+use WANGHORN\Entity\User\Verification\Proxy\UserVerificationProxy;
+use WANGHORN\Entity\User\Verification\Response\UserVerificationStatusResponse;
 
 
 /**
@@ -18,7 +21,7 @@ use WANGHORN\Entity\Entity;
  *
  * * Currently hashed using the BCRYPT algorithm
  */
-class VerificationHash extends Entity implements Resolvable {
+class UserVerification extends Entity implements Resolvable {
 	protected $internal = [];
 	use EntityHasPrimaryModelTrait {
 		getPropertiesForModel as gProps;
@@ -26,11 +29,6 @@ class VerificationHash extends Entity implements Resolvable {
 
 	#
 	##  Resolution
-	/**
-	 * Get the end value of a Resolvable
-	 *
-	 * @return mixed
-	 */
 	public function resolve() {
 		/** @var \Sm\Data\Entity\Property\EntityProperty $verificationHash */
 		$verificationHash = $this->properties->hash;
@@ -51,25 +49,21 @@ class VerificationHash extends Entity implements Resolvable {
 		$this->properties->hash = $model->properties->hash->resolve();
 		return $result;
 	}
-
 	public function destroy() {
 		throw new UnimplementedError("Cannot yet delete verificationHashes");
 	}
-
 	public function save($attributes = []) {
 		throw new UnimplementedError("Cannot yet update verificationHashes");
 	}
-
+	public function matches($verificationHash) {
+		return verificationHash_verify($verificationHash, $this->getPersistedIdentity()->properties->verificationHash);
+	}
 	protected function getPropertiesForModel(\Sm\Data\Entity\Entity $entity, Context $context = null): array {
 		$properties = $this->gProps($entity);
 		if ($context instanceof EntityCreationContext) {
 			$properties['hash'] = md5(date('mdy') . date('mdy') . microtime());
 		}
 		return $properties;
-	}
-
-	public function matches($verificationHash) {
-		return verificationHash_verify($verificationHash, $this->getPersistedIdentity()->properties->verificationHash);
 	}
 
 	#
@@ -97,8 +91,24 @@ class VerificationHash extends Entity implements Resolvable {
 	}
 
 	#
+	##  Contextualization]
+	/**
+	 * @param Context|null $context
+	 * @return UserVerificationProxy|EntitySchema
+	 * @throws \Sm\Core\Exception\InvalidArgumentException
+	 */
+	public function proxyInContext(Context $context = null): ?EntitySchema {
+		return new UserVerificationProxy($this, $context);
+	}
+
+	#
 	##  Serialization
 	public function jsonSerialize() {
-		return 'Cannot be serialized';
+		/** @var \DateTime $creationDatetime */
+		$creationDatetime = $this->persistedIdentity->properties->creation_dt->resolve();
+		$is_expired       = $creationDatetime && $creationDatetime->diff(new \DateTime)->days >= 3;
+		$response         = new UserVerificationStatusResponse;
+		$response->setIsExpired($is_expired);
+		return $response;
 	}
 }

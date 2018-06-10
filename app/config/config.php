@@ -192,7 +192,7 @@ function _data_layer(Application $app): void {
 			case '[Entity]password':
 				return new \WANGHORN\Entity\Password\Password($entityDataManager);
 			case '[Entity]verification':
-				return new \WANGHORN\Entity\User\Verification\VerificationHash($entityDataManager);
+				return new \WANGHORN\Entity\User\Verification\UserVerification($entityDataManager);
 			default:
 				throw new UnresolvableException("Cannot initialize $smID");
 		}
