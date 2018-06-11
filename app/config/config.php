@@ -19,9 +19,9 @@ use WANGHORN\Datatype\DatatypeFactory;
 ####################################################################################
 #####              APPLICATION CONSTANTS                                     #######
 ####################################################################################
-require_once DEFAULT_APP__CONFIG_PATH . 'autoload.php';
-const CONFIG_FILE          = DEFAULT_APP__CONFIG_PATH . 'out/config.json';
-const CONNECTION_INFO_FILE = DEFAULT_APP__CONFIG_PATH . 'out/connect.json';
+require_once APP__CONFIG_PATH . 'autoload.php';
+const CONFIG_FILE          = APP__CONFIG_PATH . 'out/config.json';
+const CONNECTION_INFO_FILE = APP__CONFIG_PATH . 'out/connect.json';
 $_required_ci_app = [];
 
 if (file_exists(CONFIG_FILE)) {
@@ -101,8 +101,8 @@ function _controller_layer(Application $app): void {
 function _communication_layer(Application $app): void {
 	$app_events = [];
 
-	$json_path = DEFAULT_APP__CONFIG_PATH . 'out/routes.json';
-	$php_path  = DEFAULT_APP__CONFIG_PATH . 'routes/routes.php';
+	$json_path = APP__CONFIG_PATH . 'out/routes.json';
+	$php_path  = APP__CONFIG_PATH . 'routes/routes.php';
 	if (file_exists($json_path)) {
 		$json_routes = file_get_contents($json_path);
 		$app->communication->registerRoutes($json_routes);
@@ -119,7 +119,7 @@ function _communication_layer(Application $app): void {
 	$app->getMonitor('info')->append(...$app_events);
 
 
-	$authentication_path = DEFAULT_APP__CONFIG_PATH . 'out/connect.json';
+	$authentication_path = APP__CONFIG_PATH . 'out/connect.json';
 	if (file_exists($authentication_path)) {
 		$authentications = json_decode(file_get_contents($authentication_path), 1);
 		$emailFactory    = new EmailFactory();

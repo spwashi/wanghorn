@@ -15,6 +15,7 @@ use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
 use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Entity\User\Verification\Context\UserVerificationContext;
+use WANGHORN\Entity\User\Verification\Proxy\UserVerificationProxy;
 use WANGHORN\Entity\User\Verification\UserVerification;
 use WANGHORN\Response\ApiResponse;
 use WANGHORN\Controller\AppController;
@@ -135,12 +136,14 @@ class UserController extends AppController {
 	#
 	##  Contextualization
 	/**
-	 * Proxy a new user in a context in a context
+	 * Proxy a new user in a context
 	 *
 	 * @param                                       $username
 	 * @param \Sm\Data\Entity\Context\EntityContext $context
 	 *
 	 * @return UserEntitySchema
+	 * @throws InvalidArgumentException
+	 * @throws UnresolvableException
 	 */
 	protected function proxy_in_context($username, EntityContext $context) {
 		return $this->find_in_context($username, $context)->proxyInContext($context);
@@ -180,7 +183,7 @@ class UserController extends AppController {
 
 			if (!$success) throw new EntityNotFoundException("Could not find password");
 
-			$_SESSION[static::SESSION_USERNAME_INDEX] = $user->properties->username->value;
+			$this->declareUserLoggedIn($user);
 
 			return new ApiResponse(true,
 			                       [
@@ -194,7 +197,7 @@ class UserController extends AppController {
 	}
 
 	#
-	##  Signup Helpers
+	##  Sign-up Helpers
 	protected function createVerificationLink($hash): string {
 		$parameters = ['hash' => $hash];
 		$route_name = 'user--verify';
@@ -210,10 +213,9 @@ class UserController extends AppController {
 	 * This logic should /probably/ move out of here
 	 *
 	 * @param $hash
-	 * @return ApiResponse
+	 * @return ApiResponse|UserVerificationProxy
 	 * @throws InvalidArgumentException
 	 * @throws \Sm\Core\Exception\UnimplementedError
-	 * @throws EntityNotFoundException
 	 */
 	public function verifyUser($hash) {
 		$verificationContext = $this->resolveContext('::verification');
@@ -228,7 +230,17 @@ class UserController extends AppController {
 		/** @var \DateTime $link_creation_dt */
 		$verificationModel = $verification->getPersistedIdentity();
 		$user_id           = $verificationModel->properties->user_id->resolve();
-		$user              = $this->findUser($verificationContext, ['id' => $user_id]);
+		try {
+			$user = $this->findUser($verificationContext, ['id' => $user_id]);
+			/** @var Model $userModel */
+			$userModel = $user->getPersistedIdentity();
+			$userModel->set(['verification_dt' => new \DateTime]);
+			$this->app->data->models->persistenceManager->save($userModel);
+			$this->declareUserLoggedIn($user);
+			$this->redirect('home');
+		} catch (EntityNotFoundException $exception) {
+			return new ApiResponse(false, 'Could not verify user.');
+		}
 
 		return $verification->proxyInContext($verificationContext);
 	}
@@ -269,6 +281,13 @@ class UserController extends AppController {
 		               $plain_text,
 		               $from,
 		               $recipients);
+	}
+	/**
+	 * @param $user
+	 * @return mixed
+	 */
+	protected function declareUserLoggedIn($user) {
+		return $_SESSION[static::SESSION_USERNAME_INDEX] = $user->properties->username->value;
 	}
 
 }
