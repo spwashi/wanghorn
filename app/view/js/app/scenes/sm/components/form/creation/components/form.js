@@ -63,7 +63,6 @@ class SmEntityCreationForm extends React.Component {
 	render() {
 		const status    = this.state.status;
 		const schematic = this.state.schematic;
-		const smEntity  = this.state.smEntity;
 		if (!schematic) return schematic === false ? 'Cannot prompt for SmEntityCreation' : 'loading...';
 		const {properties} = schematic;
 
@@ -90,7 +89,7 @@ class SmEntityCreationForm extends React.Component {
 			<form onSubmit={this.handleSubmit} className={status ? 'status__' + status : ''}>
 				<SmEntityFieldset schematic={schematic}
 				                  messages={this.state.message}
-				                  smEntity={this.state.smEntity}
+				                  smEntity={this.effectiveSmEntity}
 				                  resolveSmEntities={resolveSmEntities}
 				                  updatePropertyValueStatus={this.updatePropertyValueStatus.bind(this)}
 				                  resolveSmEntitySchematic={resolveSmEntitySchematic}>

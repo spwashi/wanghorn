@@ -11,13 +11,27 @@ export default class SignupForm extends React.Component {
 
 	render() {
 		const {username, password, onPropertyValueChange} = this.props;
+
+		const userEntity = {
+			name:       'user',
+			properties: {
+				username,
+				password: {
+					properties: {password}
+				}
+			}
+		};
+		console.log(userEntity);
+		const onResponseReceived = response => {
+			const {data} = response;
+			let user     = data.message.user;
+			user && this.props.handleActiveUserFound && this.props.handleActiveUserFound(user);
+		};
+
 		return <SmEntityCreationForm contextName={'signup_process'}
 		                             smID={'[Entity]user'}
-		                             onSubmissionResponseReceived={({data, smEntity}) => {
-			                             let user = data.message.user;
-			                             user && this.props.handleActiveUserFound && this.props.handleActiveUserFound(user);
-		                             }}
-		                             smEntity={{name: 'User', properties: {username, password}}}
+		                             onSubmissionResponseReceived={onResponseReceived}
+		                             smEntity={userEntity}
 		                             onPropertyValueChange={onPropertyValueChange}
 		                             uri={getURI('user--process_signup')}/>;
 	}

@@ -76,22 +76,26 @@ class UserMenu extends React.Component {
 					this.setState({username: value});
 			}
 		};
-		return (
-			<div className={"user_menu " + (isLoginActive ? 'active' : '')}>
-				{activeUser ? <LoggedInUserMenu activeUser={activeUser}/>
-				            : isLoginActive ? <UserMenuLogin onPropertyValueChange={onPropertyValueChange}
-				                                             username={username} password={password}
-				                                             onSubmit={this.getHandleSubmit('login')}
-				                                             onDeactivateAttempt={onRequestClose}/>
-				                            : <UserMenuController onPropertyValueChange={onPropertyValueChange}
-				                                                  isSignupActive={this.state.isSignupActive}
-				                                                  signupResponse={this.state.signupResponse}
-				                                                  username={username}
-				                                                  password={password}
-				                                                  handleActiveUserFound={user => this.props.dispatchActiveUserFound({user})}
-				                                                  {...userMenuActions} />}
-			</div>
-		);
+		let menu;
+		if (activeUser) {
+			menu = <LoggedInUserMenu activeUser={activeUser}/>;
+		} else {
+			if (isLoginActive) {
+				menu = <UserMenuLogin onPropertyValueChange={onPropertyValueChange}
+				                      username={username} password={password}
+				                      onSubmit={this.getHandleSubmit('login')}
+				                      onDeactivateAttempt={onRequestClose}/>;
+			} else {
+				menu = <UserMenuController onPropertyValueChange={onPropertyValueChange}
+				                           isSignupActive={this.state.isSignupActive}
+				                           signupResponse={this.state.signupResponse}
+				                           username={username}
+				                           password={password}
+				                           handleActiveUserFound={user => this.props.dispatchActiveUserFound({user})}
+				                           {...userMenuActions} />;
+			}
+		}
+		return <div className={"user_menu " + (isLoginActive ? 'active' : '')}>{menu}</div>
 	}
 
 
