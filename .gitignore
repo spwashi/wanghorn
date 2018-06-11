@@ -1,10 +1,20 @@
-node_modules/
-/vendor/
-/composer.lock
 /.idea/
+/vendor/
+node_modules/
+
+# generated files
+composer.lock
+app/package-lock.json
+app/config/out/emitted.json
+
+#
+_files_
+
+# public files
 public/css/
 public/html/
 public/js/
-app/package-lock.json
-app/config/out/emitted.json.
+
+
+# any log files
 *.log
