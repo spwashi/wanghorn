@@ -71,7 +71,6 @@ function mapState(state) {
 }
 function mapDispatch(dispatch) {
     const actions = {
-        markContextResolved,
         fetchModelMetas,
         fetchEntityMetas,
         fetchSmEntities:        fetchSmEntities,

@@ -1,233 +1,237 @@
-import React from "react"
-import * as PropTypes from "prop-types"
-import bind from "bind-decorator";
-import {bindActionCreators} from "redux"
-import axios from "axios";
-import {reduceEntriesIntoObject} from "../../../../../../../utility";
-import {connect} from "react-redux";
-import {SmEntityFieldset} from "./field/fieldset";
-import {normalizeSmID} from "../../../../utility";
-import {ApiResponseMessage} from "../../response";
-import {fetchModels} from "../../../../modules/models/actions/index";
+import React                                                    from "react"
+import * as PropTypes                                           from "prop-types"
+import bind                                                     from "bind-decorator";
+import {bindActionCreators}                                     from "redux"
+import axios                                                    from "axios";
+import {reduceEntriesIntoObject}                                from "../../../../../../../utility";
+import {connect}                                                from "react-redux";
+import {SmEntityFieldset}                                       from "./field/fieldset";
+import {normalizeSmID}                                          from "../../../../utility";
+import {ApiResponseMessage}                                     from "../../response";
+import {fetchModels}                                            from "../../../../modules/models/actions/index";
 import {fromSm_selectItemsOfSmID, fromSm_selectSchematicOfSmID} from "../../../../selector";
 
-const mapDispatch             = dispatch => bindActionCreators({fetchModels,}, dispatch);
-const getFormSubmissionStatus = function (smEntity) {
-    let canSubmit                     = true;
-    const {properties, messages = {}} = smEntity;
-    const messageEntries              = Object.entries(messages || {});
-    // Check the properties to make sure they are valid
-    messageEntries.map(entry => {
-        const [name, message] = entry;
-        if (typeof message === "undefined" || (typeof message === "object" && !message)) return;
-        const {status, message: text} = message;
-        if (typeof status === 'undefined' || (!status && typeof status === 'object')) {
-            text && (messages[name] = text);
-            return;
-        }
-        canSubmit = canSubmit ? !!status : false;
-        (messages[name] = text || (!canSubmit ? 'Invalid value' : null));
-    });
-
-    return {canSubmit, messages};
-};
 
 @connect(mapState, mapDispatch)
 class SmEntityCreationForm extends React.Component {
-    state = {hasSoughtSchematic: null, schematic: null};
+	state     = {hasSoughtSchematic: null, schematic: null};
+	propTypes = {
+		uri:                          PropTypes.string.isRequired,
+		contextName:                  PropTypes.string,
+		onSubmissionResponseReceived: PropTypes.func,
+		smEntity:                     PropTypes.object,
+		onPropertyValueChange:        PropTypes.func,
+		smID:                         PropTypes.string,
+		schematic:                    PropTypes.object
+	};
 
-    constructor(props) {
-        super(props);
-        this.state                 = {
-            _status:    null,
-            properties: {},
-            messages:   {},
-            schematic:  this.getSchematic() || null
-        };
-        this.propertyChangeHandler = this.props.onPropertyValueChange || function () {};
-    }
+	constructor(props) {
+		super(props);
+		this.state                 = {
+			status:     null,
+			properties: {},
+			messages:   {},
+			schematic:  this.schematic || null
+		};
+		this.propertyChangeHandler = this.props.onPropertyValueChange || function () {
+		};
+	}
 
-    componentDidMount() {
-        if (this.state.schematic || this.state.hasSoughtSchematic) { return; }
+	componentDidMount() {
+		if (this.state.schematic || this.state.hasSoughtSchematic) {
+			return;
+		}
 
-        let smEntity          = this.props.smEntity && this.props.smEntity.smID ? this.props.smEntity : {};
-        let schematic         = this.props.schematic || {};
-        let smID              = (schematic && schematic.smID) || (smEntity && smEntity.smID) || this.props.smID;
-        let contextName = this.props.contextName;
-        let schematicResolved = fromSm_selectSchematicOfSmID(this.props.sm, {smID, contextName});
-        schematic             = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
+		let smEntity          = this.props.smEntity && this.props.smEntity.smID ? this.props.smEntity : {};
+		let schematic         = this.props.schematic || {};
+		let smID              = (schematic && schematic.smID) || (smEntity && smEntity.smID) || this.props.smID;
+		let contextName       = this.props.contextName;
+		let schematicResolved = fromSm_selectSchematicOfSmID(this.props.sm, {smID, contextName});
+		schematic             = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
 
-        if (schematic && schematic.smID) {
-            smEntity.smID = (smEntity && smEntity.smID) || schematic.smID;
-        }
+		if (schematic && schematic.smID) {
+			smEntity.smID = (smEntity && smEntity.smID) || schematic.smID;
+		}
 
-        this.setState({
-                          hasSoughtSchematic: true,
-                          schematic:          schematic,
-                          smEntity
-                      })
-    }
+		this.setState({
+			              hasSoughtSchematic: true,
+			              schematic,
+			              smEntity
+		              })
+	}
 
-    render() {
-        const status    = this.state._status;
-        const schematic = this.state.schematic;
-        const smEntity  = this.state.smEntity;
-        if (!schematic) return schematic === false ? 'Cannot prompt for SmEntityCreation' : 'loading...';
-        const {properties} = schematic;
+	render() {
+		const status    = this.state.status;
+		const schematic = this.state.schematic;
+		const smEntity  = this.state.smEntity;
+		if (!schematic) return schematic === false ? 'Cannot prompt for SmEntityCreation' : 'loading...';
+		const {properties} = schematic;
 
-        if (!properties) {
-            console.error(this.state.schematic, this.props.schematic);
-            throw new Error("Can only prompt for SmEntities that have Properties");
-        }
+		if (!properties) {
+			console.error(this.state.schematic, this.props.schematic);
+			throw new Error("Can only prompt for SmEntities that have Properties");
+		}
 
-        const resolveSmEntities        = item => {
-            const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
+		const resolveSmEntities        = item => {
+			const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
 
-            if (!smID) return;
-            console.log(smID);
-            return fromSm_selectItemsOfSmID(this.props.sm, {smID});
-        };
-        const resolveSmEntitySchematic = item => {
-            const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
+			if (!smID) return;
+			console.log(smID);
+			return fromSm_selectItemsOfSmID(this.props.sm, {smID});
+		};
+		const resolveSmEntitySchematic = item => {
+			const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
 
-            if (!smID) return;
+			if (!smID) return;
 
-            return fromSm_selectSchematicOfSmID(this.props.sm, {smID});
-        };
-        const _message                 = this.state.messages && (this.state.messages._message || this.state.messages[0]);
-        return (
-            <form onSubmit={this.handleSubmit} className={status ? 'status__' + status : ''}>
-                <SmEntityFieldset schematic={schematic}
-                                  messages={this.state.messages}
-                                  smEntity={this.state.smEntity}
-                                  resolveSmEntities={resolveSmEntities}
-                                  updateValueStatus={this.updateValueStatus.bind(this)}
-                                  resolveSmEntitySchematic={resolveSmEntitySchematic}>
-                </SmEntityFieldset>
-                <div className="message--wrapper">
-                    <ApiResponseMessage message={_message} />
-                </div>
-                <button type="submit">Submit</button>
-            </form>
-        );
-    }
+			return fromSm_selectSchematicOfSmID(this.props.sm, {smID});
+		};
+		return (
+			<form onSubmit={this.handleSubmit} className={status ? 'status__' + status : ''}>
+				<SmEntityFieldset schematic={schematic}
+				                  messages={this.state.message}
+				                  smEntity={this.state.smEntity}
+				                  resolveSmEntities={resolveSmEntities}
+				                  updatePropertyValueStatus={this.updatePropertyValueStatus.bind(this)}
+				                  resolveSmEntitySchematic={resolveSmEntitySchematic}>
+				</SmEntityFieldset>
+				<div className="message--wrapper">
+					<ApiResponseMessage message={this.state.message}/>
+				</div>
+				<button type="submit">Submit</button>
+			</form>
+		);
+	}
 
-    getSchematic() {
-        return this.state.schematic || (typeof this.props.schematic === 'object' ? this.props.schematic : null);
-    }
+	get schematic() {
+		return this.state.schematic || (typeof this.props.schematic === 'object' ? this.props.schematic : null);
+	}
 
-    @bind
-    handleSubmit(event) {
-        event.preventDefault();
-        const url      = this.props.uri;
-        const smEntity = this.state.smEntity || {};
+	get effectiveSmEntity() {
+		const smEntity = Object.assign({},
+		                               {smID: (this.schematic || {}).smID},
+		                               (this.props.smEntity || {}),
+		                               (this.state.smEntity || {}));
 
-        let {canSubmit, messages} = getFormSubmissionStatus(smEntity);
+		smEntity.properties = smEntity.properties || {};
+		smEntity.messages   = smEntity.messages || {};
 
-        // Set the error messages on fail
-        if (!canSubmit) {
-            this.setState({
-                              messages: {
-                                  ...this.state.messages,
-                                  ...messages,
-                                  _message: 'Could not submit form',
-                              }
-                          });
-            return;
-        }
+		return smEntity;
+	}
 
-        // Otherwise, go through the "loading, success/error" process below
-        this.setState({_status: 'loading'},
-                      () => {
-                          let post = Object.entries(this.state.smEntity || {})
-                                           // Ignore underscore properties
-                                           .filter(([name]) => name[0] !== '_')
-                                           // Check to see if this looks weird?
-                                           .map(([name, value]) => [name, value])
-                                           //Convert to object
-                                           .reduce(reduceEntriesIntoObject, {});
-                          axios.post(url, post)
-                               .then(({data}) => {
-                                   const status     = data.success || (data.status === true) ? 'success' : 'error';
-                                   const _message   = status === 'error' ? {message: 'Error Processing Request', success: false}
-                                                                         : null;
-                                   const properties = data.properties || {};
+	@bind
+	// handles the submission of the form
+	handleSubmit(event) {
+		event.preventDefault();
+		const url                   = this.props.uri;
+		const smEntity              = this.state.smEntity || {};
+		const {canSubmit, messages} = getFormSubmissionStatus(smEntity);
 
-                                   const messages    = typeof data.message === 'object' ? data.message
-                                                                                        : (typeof data.message === 'string' ? {_message: data.message}
-                                                                                                                            : {_message});
-                                   const newSmEntity = {...this.state.smEntity, messages};
-                                   Object.entries(properties)
-                                         .forEach(([property_name, property_val]) => {
-                                             const smEntityProperty = (smEntity.properties || {})[property_name];
-                                             const {messages}       = (smEntityProperty || {});
+		// Set the error messages on fail
+		if (!canSubmit) {
+			let message = Object.assign({}, this.state.message, messages, {_message: 'Could not submit form'});
+			this.setState({message});
+			return;
+		}
 
-                                             property_val.messages && Object.assign(messages, property_val.messages);
-                                         });
+		// Otherwise, go through the "loading, success/error" process below
+		this.setState({status: 'loading'},
+		              () => {
+			              let post = Object.entries(this.state.smEntity || {})
+			                               .filter(([name]) => name[0] !== '_')
+			                               .map(([name, value]) => [name, value])
+			                               .reduce(reduceEntriesIntoObject, {});
+			              axios.post(url, post).then(({data}) => this.onSubmissionReceived(data))
+		              })
+	}
 
-                                   this.setState({
-                                                     _status:  status,
-                                                     smEntity: newSmEntity,
-                                                     messages: {_message: messages._message || _message},
-                                                 }, i => console.log(this.state));
-                               })
-                      })
-    }
+	// When the data has been received after submission
+	onSubmissionReceived(data) {
+		const {status, message} = SmEntityCreationForm.normalizeResponse(data);
+		const smEntity          = this.resolveSmEntityFromData({status, message});
+		this.props.onSubmissionResponseReceived && this.props.onSubmissionResponseReceived({data, smEntity});
+		this.setState({status, smEntity, message});
+	}
 
-    updateValueStatus(effectiveSchematic, value, message = true) {
-        const {smID, fieldName, name} = effectiveSchematic;
+	// Get the new smEntity from the response
+	resolveSmEntityFromData(data) {
+		const {status, message} = data;
+		return {...this.state.smEntity, message};
+	}
 
-        if (typeof message !== 'boolean' && typeof  message !== "object") {
-            throw new Error("Expected an object or boolean for message");
-        }
+	// Function to run when we update the value of the schematic
+	updatePropertyValueStatus(effectiveSchematic, value, message = true) {
+		const {smID, fieldName, name} = effectiveSchematic;
 
-        const propertyChangeHandler = this.propertyChangeHandler;
-        const schematic             = this.getPropertySchematic(smID);
-        let smEntity;
+		if (typeof message !== 'boolean' && typeof  message !== "object") {
+			throw new Error("Expected an object or boolean for message");
+		}
 
-        propertyChangeHandler(normalizeSmID(smID),
-                              value,
-                              schematic);
-        if (!name) return;
+		const propertyChangeHandler = this.propertyChangeHandler;
+		let smEntity;
 
-        smEntity            = this.getCurrentSmEntity();
-        smEntity.properties = smEntity.properties || {};
-        smEntity.messages   = smEntity.messages || {};
+		propertyChangeHandler(normalizeSmID(smID),
+		                      value,
+		                      effectiveSchematic);
+		if (!name) return;
 
-        if (message || smEntity.messages[fieldName]) {
-            smEntity.messages            = smEntity.messages || {};
-            smEntity.messages[fieldName] = message;
-        }
+		smEntity = this.effectiveSmEntity;
 
-        smEntity.properties[name] = value;
+		if (message || smEntity.messages[fieldName]) {
+			smEntity.messages            = smEntity.messages || {};
+			smEntity.messages[fieldName] = message;
+		}
 
-        return this.setState({smEntity});
-    }
+		smEntity.properties[name] = value;
 
-    getCurrentSmEntity() {
-        return Object.assign({},
-                             {smID: (this.getSchematic() || {}).smID},
-                             (this.props.smEntity || {}),
-                             (this.state.smEntity || {}));
-    }
+		return this.setState({smEntity});
+	}
 
-    getPropertySchematic(smID) {
-        let schematic = this.getSchematic();
-        if (!schematic) return null;
-        return schematic.properties[smID];
-    }
+	//
+	static normalizeResponse(data) {
+		const status = data.success || (data.status === true) ? 'success' : 'error';
+		let txt, message;
+		if (status === 'error') {
+			txt = {message: 'Error Processing Request', success: false};
+		} else {
+			txt = data && data.message && data.message._message;
+		}
+		if (typeof data.message === 'object') {
+			message = data.message;
+		} else {
+			message = typeof data.message === 'string' ? {_message: data.message} : {_message: txt};
+		}
+		return {status, message};
+	}
 }
 
-SmEntityCreationForm.propTypes = {
-    uri:                   PropTypes.string.isRequired,
-    contextName:               PropTypes.string,
-    smEntity:              PropTypes.object,
-    onPropertyValueChange: PropTypes.func,
-    smID:                  PropTypes.string,
-    schematic:             PropTypes.object
-};
 export {SmEntityCreationForm};
+
 function mapState(state) {
-    let sm = state.scenes.sm;
-    return {sm: {...sm}}
+	let sm = state.scenes.sm;
+	return {sm: {...sm}}
+}
+
+function mapDispatch(dispatch) {
+	return bindActionCreators({fetchModels,}, dispatch);
+}
+
+function getFormSubmissionStatus(smEntity) {
+	let canSubmit                     = true;
+	const {properties, messages = {}} = smEntity;
+	const messageEntries              = Object.entries(messages || {});
+	// Check the properties to make sure they are valid
+	messageEntries.map(entry => {
+		const [name, message] = entry;
+		if (typeof message === "undefined" || (typeof message === "object" && !message)) return;
+		const {status, message: text} = message;
+		if (typeof status === 'undefined' || (!status && typeof status === 'object')) {
+			text && (messages[name] = text);
+			return;
+		}
+		canSubmit = canSubmit ? !!status : false;
+		(messages[name] = text || (!canSubmit ? 'Invalid value' : null));
+	});
+
+	return {canSubmit, messages};
 }

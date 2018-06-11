@@ -8,6 +8,7 @@ let reducer = combineReducers({
                                   activeUser: (state, action) => {
                                       switch (action.type) {
                                           case ACTIVE_USER_FOUND:
+                                              console.log(action);
                                               return action.user;
                                           default:
                                               return state || null;

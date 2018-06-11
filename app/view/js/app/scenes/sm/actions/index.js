@@ -2,9 +2,9 @@ import {FETCH_SM_ENTITIES, FETCH_SM_ENTITIES_RECEIVED, FETCH_SM_ENTITY_SCHEMATIC
 
 export const CONTEXT_RESOLVED = 'CONTEXT_RESOLVED';
 
-export const markContextResolved = context => ({
-    type: CONTEXT_RESOLVED,
-    context
+export const markContextResolved = ({context}) => ({
+	type: CONTEXT_RESOLVED,
+	context
 });
 
 export const fetchSmEntitySchematic           = ({smID} = {}) => ({type: FETCH_SM_ENTITY_SCHEMATIC, smID});

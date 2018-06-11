@@ -7,12 +7,14 @@ namespace WANGHORN\Controller\User;
 use Modules\Query\Sql\Exception\CannotDuplicateEntryException;
 use Sm\Core\Exception\InvalidArgumentException;
 use Sm\Core\Resolvable\Exception\UnresolvableException;
+use Sm\Core\Resolvable\Resolvable;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntitySchema;
 use Sm\Data\Entity\Exception\EntityNotFoundException;
 use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
 use Sm\Data\Model\Exception\ModelNotFoundException;
+use Sm\Data\Property\Property;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Entity\User\Verification\Context\UserVerificationContext;
 use WANGHORN\Entity\User\Verification\Proxy\UserVerificationProxy;
@@ -159,12 +161,13 @@ class UserController extends AppController {
 		$userEntity = $this->init_entity();
 		$context    = $this->resolveContext($context_name);
 
-		if (is_string($identity)) {
-			$index      = filter_var($identity, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+		if (is_string($identity) || $identity instanceof Resolvable) {
+			$index      = filter_var("{$identity}", FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 			$attributes = [$index => $identity];
 		} else if (is_array($identity)) {
 			$attributes = $identity;
 		} else {
+			var_dump($identity);
 			throw new UnresolvableException("Could not resolve username");
 		}
 
@@ -275,12 +278,14 @@ class UserController extends AppController {
 
 
 		#todo better error handling
+		ob_start();
 		$this->controller('Email\\Email@sendEmail')
 		     ->resolve($subject,
 		               $html,
 		               $plain_text,
 		               $from,
 		               $recipients);
+		ob_end_clean();
 	}
 	/**
 	 * @param $user
