@@ -156,7 +156,15 @@ class SmEntityCreationForm extends React.Component {
 	// Get the new smEntity from the response
 	resolveSmEntityFromData(data) {
 		const {status, message} = data;
-		return {...this.state.smEntity, message};
+		let smEntity            = this.state.smEntity;
+		if (typeof message === "object") {
+			Object.entries(message)
+			      .forEach(([propertyName, propertyMessage]) => {
+				      const smEntityProperty = (smEntity.properties || {})[propertyName] || {};
+				      propertyMessage.messages && Object.assign(smEntityProperty.messages || {}, propertyMessage.messages);
+			      });
+		}
+		return {...smEntity, message};
 	}
 
 	// Function to run when we update the value of the schematic
