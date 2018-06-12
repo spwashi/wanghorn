@@ -2,7 +2,7 @@ import React                                          from "react";
 import PropTypes                                      from "prop-types";
 import {Route, withRouter}                            from 'react-router-dom'
 import {getReactPath, getURI}                         from "../../../../../path/resolution";
-import {CreateSmEntityDialog}                         from "./../../components/form/components/creationDialog";
+import {SmEntityModificationDialog}                   from "../modification/components/dialog";
 import {getSmEntityManagerFormats, parseSmID, isSmID} from "./../../utility";
 import {selectSmState, fromSm_selectSchematicOfSmID}  from "../../selector";
 import {connect}                                      from "react-redux";
@@ -13,7 +13,7 @@ class CreationRoute extends React.Component {
 		sm:                 PropTypes.object,
 		// A string that can identify this smEntity
 		smEntityIdentifier: PropTypes.string.isRequired,
-		// Where to go when we close this form/page
+		// Where to go when we close this modification/page
 		closingUri:         PropTypes.string,
 	};
 	render() {
@@ -45,12 +45,12 @@ class CreationRoute extends React.Component {
 			}
 
 			const navigateUri = getURI(formReceiveUriName, {name}, {fallback: fallbackReceiveName});
-			return <CreateSmEntityDialog smID={smID}
-			                             title={formTitle}
-			                             closingUri={closingUri || getURI('dev--model', {name})}
-			                             formUrl={navigateUri}
-			                             schematic={schematic}
-			                             history={history}/>;
+			return <SmEntityModificationDialog smID={smID}
+			                                   title={formTitle}
+			                                   closingUri={closingUri || getURI('dev--model', {name})}
+			                                   formUrl={navigateUri}
+			                                   schematic={schematic}
+			                                   history={history}/>;
 		};
 
 		const fallbackReactPathName = `${ownerType_lowercase}--create`;

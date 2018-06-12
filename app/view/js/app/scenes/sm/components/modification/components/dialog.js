@@ -8,24 +8,29 @@ import {SmEntityModificationForm} from "./form";
 import {navigateBackOnHistory}    from "../../../../../components/modal/index";
 import {withRouter}               from "react-router-dom";
 
-class CreateSmEntityDialog extends React.Component {
+class SmEntityModificationDialog extends React.Component {
 	state            = {isActive: true};
 	static propTypes = {
 		smID:       PropTypes.string.isRequired,
 		title:      PropTypes.string,
 		formUrl:    PropTypes.string,
 		closingUri: PropTypes.string,
-		schematic:  PropTypes.object.isRequired
+		schematic:  PropTypes.object.isRequired,
+		smEntity:   PropTypes.object
 	};
 	render() {
-		let {smID, schematic, formUrl, title} = this.props;
-		title                                 = title || `Create New ${smID}`;
-		const name                            = getNameFromSmID(this.props.smID);
-		const onRequestClose                  = this.onRequestClose;
-		const isOpen                          = this.state.isActive;
+		let {smID, schematic, formUrl, title, smEntity} = this.props;
+		title                                           = title || `Create New ${smID}`;
+		const name                                      = getNameFromSmID(this.props.smID);
+		const onRequestClose                            = this.onRequestClose;
+		const isOpen                                    = this.state.isActive;
 		return (
 			<Modal isOpen={isOpen} onRequestClose={onRequestClose} title={title} contentLabel={title}>
-				<SmEntityModificationForm key={smID} smID={smID} schematic={schematic} uri={formUrl}/>
+				<SmEntityModificationForm key={smID}
+				                          smID={smID}
+				                          smEntity={smEntity}
+				                          schematic={schematic}
+				                          uri={formUrl}/>
 			</Modal>
 		)
 	};
@@ -39,5 +44,5 @@ class CreateSmEntityDialog extends React.Component {
 	}
 }
 
-CreateSmEntityDialog = withRouter(CreateSmEntityDialog);
-export {CreateSmEntityDialog};
+SmEntityModificationDialog = withRouter(SmEntityModificationDialog);
+export {SmEntityModificationDialog};

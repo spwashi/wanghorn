@@ -9,7 +9,7 @@ use Sm\Data\Type\DateTime_;
 use Sm\Data\Type\Exception\CannotCastException;
 
 class Property extends \Sm\Data\Property\Property {
-	const DATETIME_FORMAT = 'Y-m-d H:i:s';
+	const DATETIME_FORMAT = DATE_ISO8601;
 	protected $datatypeFactory;
 	use PropertyTrait {
 		setDatatypeFactory as _setDataTypeFactory;
@@ -19,6 +19,7 @@ class Property extends \Sm\Data\Property\Property {
 	 *
 	 * @return $this
 	 * @throws \Sm\Data\Type\Exception\CannotCastException
+	 * @throws \Sm\Core\Exception\InvalidArgumentException
 	 */
 	public function setSubject($subject = null): \Sm\Data\Property\Property {
 

@@ -151,7 +151,7 @@ class SmEntityModificationForm extends React.Component {
 	// SUBMISSION/RESPONSE MANAGEMENT
 
 	@bind
-	// handles the submission of the form
+	// handles the submission of the modification
 	handleSubmit(event) {
 		event.preventDefault();
 		const url                   = this.props.uri;
@@ -160,7 +160,7 @@ class SmEntityModificationForm extends React.Component {
 
 		// Set the error messages on fail
 		if (!canSubmit) {
-			let message = Object.assign({}, this.state.message, messages, {_message: 'Could not submit form'});
+			let message = Object.assign({}, this.state.message, messages, {_message: 'Could not submit modification'});
 			this.setState({message});
 			return;
 		}

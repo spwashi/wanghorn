@@ -1,6 +1,6 @@
 import React                  from "react";
 import moment                 from "moment";
-import {DefaultPropertyField} from "../../../../scenes/sm/components/form/components/field/smEntity/default";
+import {DefaultPropertyField} from "../../../../scenes/sm/components/modification/components/field/smEntity/default";
 import {Field}                from "base-components/form/field/field";
 import Datetime               from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"

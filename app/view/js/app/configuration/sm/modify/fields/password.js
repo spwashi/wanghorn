@@ -1,5 +1,5 @@
 import React           from "react";
-import {PropertyInput} from "../../../../scenes/sm/components/form/components/field/propertyInput";
+import {PropertyInput} from "../../../../scenes/sm/components/modification/components/field/propertyInput";
 import {Field}         from "../../../../../components/form/field/field";
 
 const PASSWORD_NO_MATCH = 'Passwords do not match';

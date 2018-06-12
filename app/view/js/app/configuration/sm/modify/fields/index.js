@@ -1,5 +1,5 @@
 import React                    from "react"
-import SchematicField           from "../../../../scenes/sm/components/form/components/field/schematic";
+import SchematicField           from "../../../../scenes/sm/components/modification/components/field/schematic";
 import {PasswordField}          from "./password";
 import {PropertyReferenceField} from "./reference";
 import {FileUploadField}        from "./file";

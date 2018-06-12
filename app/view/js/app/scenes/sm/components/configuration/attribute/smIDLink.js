@@ -1,7 +1,7 @@
-import React from "react"
+import React       from "react"
 import {parseSmID} from "spwashi-sm/src/components/sm/utility";
-import {getURI} from "../../../../../../path/resolution";
-import {SmID_Link} from "../../link/index";
+import {getURI}    from "../../../../../../path/resolution";
+import {SmID_Link} from "../../smID/link/index";
 
 export const ConfigurationSmID_OrName = ({smID, isActive}) => {
     const parsed  = parseSmID(smID);

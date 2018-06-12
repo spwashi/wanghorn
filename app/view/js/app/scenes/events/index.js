@@ -4,17 +4,17 @@ import moment                         from 'moment';
 import axios                          from 'axios';
 import Modal, {navigateBackOnHistory} from "../../components/modal";
 import {Route}                        from "react-router-dom"
-import {withRouter}                   from "react-router"
-import {PageContent}                  from "../../components/page";
-import {connect}                      from "react-redux";
-import {bindActionCreators}           from 'redux';
-import {getReactPath, getURI}         from "../../../path/resolution";
-import Calendar                       from "./components/calendar";
-import bind                           from "bind-decorator/index";
-import Button                         from "base-components/button/index";
-import {LinkItem}                     from "../../../components/navigation";
-import {CreateSmEntityDialog}         from "../sm/components/form/components/creationDialog";
-import CreationRoute                  from "../sm/components/routes/creation";
+import {withRouter}                 from "react-router"
+import {PageContent}                from "../../components/page";
+import {connect}                    from "react-redux";
+import {bindActionCreators}         from 'redux';
+import {getReactPath, getURI}       from "../../../path/resolution";
+import Calendar                     from "./components/calendar";
+import bind                         from "bind-decorator/index";
+import Button                       from "base-components/button/index";
+import {LinkItem}                   from "../../../components/navigation";
+import {SmEntityModificationDialog} from "../sm/components/modification/components/dialog";
+import CreationRoute                from "../sm/components/routes/creation";
 
 
 let eventNames = ['Example Event', 'This is a test', 'How do these look?', 'This should be connected to a database'];

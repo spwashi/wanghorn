@@ -1,6 +1,6 @@
 import React                      from "react"
 import * as PropTypes             from "prop-types"
-import {SmEntityModificationForm} from "../../../scenes/sm/components/form/components/form";
+import {SmEntityModificationForm} from "../../../scenes/sm/components/modification/components/form";
 import {getURI}                   from "../../../../path/resolution";
 
 export default class SignupForm extends React.Component {

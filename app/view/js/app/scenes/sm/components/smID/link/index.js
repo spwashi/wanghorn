@@ -1,7 +1,7 @@
-import React from "react"
+import React          from "react"
 import * as PropTypes from "prop-types"
-import bind from "bind-decorator";
-import {LinkItem} from "../../../../../components/navigation";
+import bind           from "bind-decorator";
+import {LinkItem}     from "../../../../../../components/navigation/index";
 
 export class SmID_Link extends React.Component {
     render() {

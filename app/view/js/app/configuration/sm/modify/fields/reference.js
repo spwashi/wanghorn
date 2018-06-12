@@ -1,6 +1,6 @@
 import React                     from "react";
 import {Field}                   from "../../../../../components/form/field/field";
-import {PropertyReferenceSelect} from "../../../../scenes/sm/components/form/components/select/propertyReference";
+import {PropertyReferenceSelect} from "../../../../scenes/sm/components/modification/components/select/propertyReference";
 
 export class PropertyReferenceField extends React.Component {
     render() {

@@ -3,7 +3,7 @@ import Dropzone               from 'react-dropzone'
 import axios                  from 'axios'
 import bind                   from 'bind-decorator'
 import {Field}                from "../../../../../components/form/field/field";
-import {DefaultPropertyField} from "../../../../scenes/sm/components/form/components/field/smEntity/default";
+import {DefaultPropertyField} from "../../../../scenes/sm/components/modification/components/field/smEntity/default";
 import {getURI}               from "../../../../../path/resolution";
 
 const FileMessage =
@@ -57,7 +57,7 @@ export class FileUploadField extends React.Component {
             
                           axios.post(getURI('file--prime_upload'),
                                      formData,
-                                     {headers: {'Content-Type': 'multipart/form-data'}})
+                                     {headers: {'Content-Type': 'multipart/modification-data'}})
                                .then(resp => {
                                    const {data} = resp;
                                    this.setState({

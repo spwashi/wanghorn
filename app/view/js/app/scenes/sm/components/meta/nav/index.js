@@ -1,6 +1,6 @@
-import React from "react"
-import * as PropTypes from "prop-types"
-import {SmID_LinkItem} from "../../link/linkItem";
+import React           from "react"
+import * as PropTypes  from "prop-types"
+import {SmID_LinkItem} from "../../smID/link/linkItem";
 
 class SmID_LinkContainer extends React.Component {
     render() {
