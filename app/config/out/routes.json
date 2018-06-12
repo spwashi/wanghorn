@@ -189,7 +189,7 @@
       {
          "name": "events--all",
          "title": "All Events",
-         "resolution": "Home\\Home@events",
+         "resolution": "Event\\Event@all",
          "pattern": "events/all$"
       },
       {

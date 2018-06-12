@@ -57,39 +57,6 @@ class HomeController extends AppController {
 		return $rendered;
 	}
 
-	public function events() {
-		return [
-			[
-				'id'          => 1,
-				'title'       => 'Example Event 1',
-				'start_dt'    => ((new \DateTime)->add(\DateInterval::createFromDateString('' . rand(1, 5) . ' hours')))->format(DATE_ISO8601),
-				'end_dt'      => ((new \DateTime)->add(\DateInterval::createFromDateString('' . rand(5, 24) . ' hours')))->format(DATE_ISO8601),
-				'description' => 'Event Description'
-			],
-			[
-				'id'          => 2,
-				'title'       => 'This is an example of an event description',
-				'start_dt'    => ((new \DateTime)->add(\DateInterval::createFromDateString('' . rand(1, 5) . ' hours')))->format(DATE_ISO8601),
-				'end_dt'      => ((new \DateTime)->add(\DateInterval::createFromDateString('' . rand(10, 36) . ' hours')))->format(DATE_ISO8601),
-				'description' => 'Event Description'
-			],
-			[
-				'id'          => 3,
-				'title'       => 'Example Event 3',
-				'start_dt'    => ((new \DateTime)->add(\DateInterval::createFromDateString('' . rand(-30, -10) . ' hours')))->format(DATE_ISO8601),
-				'end_dt'      => ((new \DateTime)->add(\DateInterval::createFromDateString('' . rand(-10, 0) . ' hours')))->format(DATE_ISO8601),
-				'description' => 'Event Description'
-			],
-			[
-				'id'          => 4,
-				'title'       => 'Example Event 4',
-				'start_dt'    => ((new \DateTime)->add(\DateInterval::createFromDateString('' . rand(1, 5) . ' hours')))->format(DATE_ISO8601),
-				'end_dt'      => ((new \DateTime)->add(\DateInterval::createFromDateString('' . rand(5, 10) . ' hours')))->format(DATE_ISO8601),
-				'description' => 'Event Description'
-			],
-		];
-	}
-
 	public function gallery() {
 		$file_get_contents = file_get_contents(__DIR__ . '/projects.json');
 		$json_decode       = json_decode($file_get_contents, 1);

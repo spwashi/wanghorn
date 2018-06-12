@@ -101,6 +101,9 @@
 		> input, > textarea, > .field--input {
 			border: thin solid #ccc;
 		}
+		.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
+			padding: 0;
+		}
 		> textarea {
 			padding: 10px;
 		}
@@ -119,9 +122,9 @@
 				transition:   color .3s;
 			}
 		}
-		.react-datepicker-wrapper{
+		.react-datepicker-wrapper {
 			width: 100%;
-			input, .react-datepicker__input-container{
+			input, .react-datepicker__input-container {
 				width: 100%;
 			}
 		}

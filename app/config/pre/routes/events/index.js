@@ -14,7 +14,7 @@ export default [
 		          title:      "Add Event"
 	          }),
 	new Route({
-		          resolution: "[Home]@events",
+		          resolution: "[Event]@all",
 		          pattern:    'events/all$',
 		          name:       'events--all',
 		          title:      "All Events"
