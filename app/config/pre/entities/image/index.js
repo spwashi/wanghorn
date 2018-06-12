@@ -8,11 +8,7 @@ const getContexts              = () => {
         title:       'image',
         contextType: CONTEXT_TYPES.IDENTITY
     };
-    return {
-        self,
-        login_process:  {self},
-        signup_process: {self}
-    }
+    return {self}
 };
 export const name              = 'image';
 export const contexts          = getContexts();

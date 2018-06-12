@@ -1,7 +1,7 @@
-import React from "react"
-import * as PropTypes from "prop-types"
-import {SmEntityCreationForm} from "../../../scenes/sm/components/form/creation/components/form";
-import {getURI} from "../../../../path/resolution";
+import React                      from "react"
+import * as PropTypes             from "prop-types"
+import {SmEntityModificationForm} from "../../../scenes/sm/components/form/components/form";
+import {getURI}                   from "../../../../path/resolution";
 
 export default class SignupForm extends React.Component {
     constructor(props) {
@@ -11,10 +11,10 @@ export default class SignupForm extends React.Component {
     
     render() {
         const {username, password, onPropertyValueChange} = this.props;
-        return <SmEntityCreationForm context={'signup_process'} smID={'[Entity]user'}
-                                     smEntity={{properties: {username, password}}}
-                                     onPropertyValueChange={onPropertyValueChange}
-                                     uri={getURI('user--process_signup')} />;
+        return <SmEntityModificationForm context={'signup_process'} smID={'[Entity]user'}
+                                         smEntity={{properties: {username, password}}}
+                                         onPropertyValueChange={onPropertyValueChange}
+                                         uri={getURI('user--process_signup')} />;
     }
 }
 

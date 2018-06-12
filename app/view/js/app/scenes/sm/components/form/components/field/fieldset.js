@@ -1,8 +1,8 @@
 import React                               from "react"
 import * as PropTypes                      from "prop-types"
-import {parseSmID}                         from "../../../../../utility";
+import {parseSmID}                         from "../../../../utility";
 import {getSettablePropertiesFromSmEntity} from "../../utility";
-import {PromisedComponent}                 from "../../../../../../../../components/promised/index";
+import {PromisedComponent}                 from "../../../../../../../components/promised/index";
 import {SmEntityField}                     from "./smEntity/index";
 
 let attempted = [];

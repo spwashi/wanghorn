@@ -1,10 +1,10 @@
-import React from "react"
-import Dropzone from 'react-dropzone'
-import axios from 'axios'
-import bind from 'bind-decorator'
-import {Field} from "../../../../../components/form/field/field";
-import {DefaultPropertyField} from "../../../../scenes/sm/components/form/creation/components/field/smEntity/default";
-import {getURI} from "../../../../../path/resolution";
+import React                  from "react"
+import Dropzone               from 'react-dropzone'
+import axios                  from 'axios'
+import bind                   from 'bind-decorator'
+import {Field}                from "../../../../../components/form/field/field";
+import {DefaultPropertyField} from "../../../../scenes/sm/components/form/components/field/smEntity/default";
+import {getURI}               from "../../../../../path/resolution";
 
 const FileMessage =
           ({isPrimingUpload, didPrimeUpload, files}) => {
@@ -36,8 +36,8 @@ export class FileUploadField extends React.Component {
         const dropZone =
                   <Dropzone name={this.props.name} style={{}}
                             className={className}
-                            activeClassName={'file-upload-input file-upload-input__active'}
-                            acceptClassName={'file-upload-input file-upload-input__accept'}
+                            activeClassName={'field--input file-upload-input file-upload-input__active'}
+                            acceptClassName={'field--input file-upload-input file-upload-input__accept'}
                             onDropAccepted={this.onDropAccepted}><FileMessage isPrimingUpload={this.state.isPrimingUpload}
                                                                               didPrimeUpload={this.state.didPrimeUpload}
                                                                               files={this.state.files} /></Dropzone>;

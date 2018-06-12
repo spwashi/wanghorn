@@ -18,6 +18,54 @@
          }
       }
    },
+   "event": {
+      "smID": "[Entity]event",
+      "properties": {
+         "name": {
+            "smID": "[Property]{[Entity]event} name",
+            "datatypes": [
+               "string",
+               "null"
+            ],
+            "derivedFrom": "[Property]{[Model]event} name"
+         },
+         "title": {
+            "smID": "[Property]{[Entity]event} title",
+            "datatypes": [
+               "string"
+            ],
+            "length": 75,
+            "unique": true,
+            "derivedFrom": "[Property]{[Model]event} title"
+         },
+         "start_dt": {
+            "smID": "[Property]{[Entity]event} start_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "derivedFrom": "[Property]{[Model]event} start_dt"
+         },
+         "end_dt": {
+            "smID": "[Property]{[Entity]event} end_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "derivedFrom": "[Property]{[Model]event} end_dt"
+         },
+         "description": {
+            "smID": "[Property]{[Entity]event} description",
+            "datatypes": [
+               "string",
+               "null"
+            ],
+            "length": 2500,
+            "derivedFrom": "[Property]{[Model]event} description",
+            "minLength": 2000
+         }
+      },
+      "persistedIdentity": "[Model]event",
+      "contexts": {}
+   },
    "verification": {
       "smID": "[Entity]verification",
       "properties": {
@@ -178,19 +226,6 @@
          }
       },
       "persistedIdentity": "[Model]image",
-      "contexts": {
-         "login_process": {
-            "self": {
-               "title": "image",
-               "name": "image"
-            }
-         },
-         "signup_process": {
-            "self": {
-               "title": "image",
-               "name": "image"
-            }
-         }
-      }
+      "contexts": {}
    }
 }

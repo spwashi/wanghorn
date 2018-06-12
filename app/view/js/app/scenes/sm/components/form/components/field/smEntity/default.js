@@ -1,7 +1,7 @@
-import React from "react"
-import * as PropTypes from "prop-types"
+import React           from "react"
+import * as PropTypes  from "prop-types"
 import {PropertyInput} from "../propertyInput";
-import {Field} from "../../../../../../../../../components/form/field/field";
+import {Field}         from "../../../../../../../../components/form/field/field";
 
 export class DefaultPropertyField extends React.Component {
     static propTypes = {

@@ -1,7 +1,7 @@
-import React                  from "react"
-import * as PropTypes         from "prop-types"
-import {SmEntityCreationForm} from "../../../scenes/sm/components/form/creation/components/form";
-import {getURI}               from "../../../../path/resolution";
+import React                      from "react"
+import * as PropTypes             from "prop-types"
+import {SmEntityModificationForm} from "../../../scenes/sm/components/form/components/form";
+import {getURI}                   from "../../../../path/resolution";
 
 export default class SignupForm extends React.Component {
 	constructor(props) {
@@ -12,6 +12,8 @@ export default class SignupForm extends React.Component {
 	render() {
 		const {username, password, onPropertyValueChange} = this.props;
 
+		// todo consider -- it seems like there'd be a better way of setting or resolving the password
+
 		const userEntity = {
 			name:       'user',
 			properties: {
@@ -21,19 +23,19 @@ export default class SignupForm extends React.Component {
 				}
 			}
 		};
-		console.log(userEntity);
+
 		const onResponseReceived = response => {
 			const {data} = response;
 			let user     = data.message.user;
 			user && this.props.handleActiveUserFound && this.props.handleActiveUserFound(user);
 		};
 
-		return <SmEntityCreationForm contextName={'signup_process'}
-		                             smID={'[Entity]user'}
-		                             onSubmissionResponseReceived={onResponseReceived}
-		                             smEntity={userEntity}
-		                             onPropertyValueChange={onPropertyValueChange}
-		                             uri={getURI('user--process_signup')}/>;
+		return <SmEntityModificationForm contextName={'signup_process'}
+		                                 smID={'[Entity]user'}
+		                                 onSubmissionResponseReceived={onResponseReceived}
+		                                 smEntity={userEntity}
+		                                 onPropertyValueChange={onPropertyValueChange}
+		                                 uri={getURI('user--process_signup')}/>;
 	}
 }
 

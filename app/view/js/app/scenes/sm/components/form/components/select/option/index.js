@@ -1,6 +1,6 @@
-import React from "react"
-import * as PropTypes from "prop-types"
-import {Factory} from "../../../../../../../../../modules/factory/index";
+import React           from "react"
+import * as PropTypes  from "prop-types"
+import {Factory}       from "../../../../../../../../modules/factory/index";
 import {SmEntityTitle} from "./title";
 
 export class SmEntitySelectOption extends React.Component {

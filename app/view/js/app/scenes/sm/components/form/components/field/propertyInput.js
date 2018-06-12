@@ -1,6 +1,6 @@
-import React from "react"
+import React          from "react"
 import * as PropTypes from "prop-types"
-import {parseSmID} from "../../../../../utility";
+import {parseSmID}    from "../../../../utility";
 
 const getPropertyType = function (schematic, type) {
     const {name}                = parseSmID(schematic) || {};

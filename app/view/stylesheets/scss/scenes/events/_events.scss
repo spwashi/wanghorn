@@ -1,118 +1,170 @@
 @import "colors/colors";
 
+
 .page--__--events {
 	&::before {
-		content         : '';
-		display         : block;
-		width           : 100%;
-		height          : 100%;
-		background      : $events_page-_-background-_-prop;
-		background-size : cover;
-		opacity         : .5;
-		z-index         : -1;
-		top             : 0;
-		left            : 0;
-		position        : fixed;
-		filter          : blur(1px);
+		content:         '';
+		display:         block;
+		width:           100%;
+		height:          100%;
+		background:      $events_page-_-background-_-prop;
+		background-size: cover;
+		opacity:         .5;
+		z-index:         -1;
+		top:             0;
+		left:            0;
+		position:        fixed;
+		filter:          blur(1px);
 	}
 	&::after {
-		display          : block;
-		width            : 100%;
-		height           : 100%;
-		position         : fixed;
-		top              : 0;
-		background-color : desaturate(lighten($accent_color__1, 30%), 10%);
-		opacity          : .5;
-		content          : '';
-		z-index          : -1;
-		left             : 0;
+		display:          block;
+		width:            100%;
+		height:           100%;
+		position:         fixed;
+		top:              0;
+		background-color: desaturate(lighten($accent_color__1, 30%), 10%);
+		opacity:          .5;
+		content:          '';
+		z-index:          -1;
+		left:             0;
+	}
+	.button.event-add--wrapper {
+		$height: 100px;
+		display:          inline-block;
+		margin-top:       10px;
+		padding:          10px;
+		position:         absolute;
+		right:            $height;
+		bottom:           $height;
+		height:           $height;
+		width:            $height;
+		font-size:        .8em;
+		background-color: $accent_color__2;
+		text-align:       center;
+		border-radius:    $height;
+		font-weight:      normal;
+		z-index:          10;
+		&:hover {
+			transition: font-size .2s;
+			a::before {
+				transition: font-size .2s;
+				font-size:  $height * 1.2;
+			}
+		}
+		a {
+			font-weight: normal;
+			color:       transparent;
+			height:      100%;
+			width:       100%;
+			display:     block;
+			&::before {
+				transition:  font-size .2s;
+				font-style:  normal;
+				color:       #fff;
+				position:    absolute;
+				width:       100%;
+				height:      100%;
+				content:     '+';
+				font-size:   $height;
+				line-height: $height/2;
+				top:         20%;
+				right:       0;
+			}
+		}
+
 	}
 }
 
+
 .page--__--events {
-	padding-top : 25px;
-	font-family : monospace;
-	color       : desaturate(darken($accent_color__2, 20%), 50%);
+	padding-top: 25px;
+	font-family: monospace;
+	color:       desaturate(darken($accent_color__2, 20%), 50%);
 	.rbc-month-view {
-		position : relative;
+		position: relative;
 		&::after {
-			display          : block;
-			width            : 100%;
-			height           : 100%;
-			position         : absolute;
-			top              : 0;
-			background-color : desaturate(lighten($accent_color__1, 10%), 5%);
-			opacity          : .3;
-			content          : '';
-			z-index          : -1;
-			left             : 0;
+			display:          block;
+			width:            100%;
+			height:           100%;
+			position:         absolute;
+			top:              0;
+			background-color: desaturate(lighten($accent_color__1, 10%), 5%);
+			opacity:          .3;
+			content:          '';
+			z-index:          -1;
+			left:             0;
 		}
 	}
 	.rbc-header {
-		color : rgba(white, .7);
+		color: rgba(white, .7);
 	}
 	.rbc-time-content {
-		overflow-x : hidden;
+		overflow-x: hidden;
 	}
 	.rbc-timeslot-group {
-		border-bottom : thin solid $timeslot-_-borderColor;
+		border-bottom: thin solid $timeslot-_-borderColor;
 	}
 	.rbc-today {
-		background-color : inherit;
+		background-color: inherit;
 		&.rbc-header {
-			&::after {content : '(Today)';font-size : .9em}
+			&::after {
+				content:   '(Today)';
+				font-size: .9em
+			}
 		}
 	}
 	.rbc-calendar {
-		width  : 100%;
-		height : 500px;
+		width:  100%;
+		height: 500px;
 	}
 	.rbc-off-range-bg {
-		background-color : $calendar--date__offRange-_-backgroundColor;
+		background-color: $calendar--date__offRange-_-backgroundColor;
 	}
 	.rbc-off-range {
-		color : $calendar--date__offRange--link-_-color;
+		color: $calendar--date__offRange--link-_-color;
 	}
 	.rbc-toolbar button {
-		font-weight : bold;
-		font-size   : .7em;
-		background  : $calendar--control--button-_-backgroundColor;
-		color       : white;
+		font-weight: bold;
+		font-size:   .7em;
+		background:  $calendar--control--button-_-backgroundColor;
+		color:       white;
 		&:active, &.rbc-active {
-			background : darken($calendar--date__offRange-_-backgroundColor, 10%);
-			color      : rgba(white, .7);
+			background: darken($calendar--date__offRange-_-backgroundColor, 10%);
+			color:      rgba(white, .7);
 			&:hover {
-				background : darken($calendar--date__offRange-_-backgroundColor, 20%);
+				background: darken($calendar--date__offRange-_-backgroundColor, 20%);
 			}
 		}
 		&:hover {
-			color      : rgba(white, .5);
-			background : $calendar--date__offRange-_-backgroundColor;
+			color:      rgba(white, .5);
+			background: $calendar--date__offRange-_-backgroundColor;
 		}
 	}
 	.rbc-date-cell {
 		a {
-			display : inline-block;
-			width   : 100%;
-			color   : rgba(white, .7);
+			display: inline-block;
+			width:   100%;
+			color:   rgba(white, .7);
 		}
 		&:hover {
-			a {color : rgba(white, .9);}
+			a {
+				color: rgba(white, .9);
+			}
 		}
 	}
 	.rbc-event {
-		background-color : $calendar--event-_-backgroundColor;
+		background-color: $calendar--event-_-backgroundColor;
 		&:hover {
-			background-color : $calendar--event__hover-_-backgroundColor;
+			background-color: $calendar--event__hover-_-backgroundColor;
 		}
 		&.rbc-addons-dnd-dragging {
-			background-color : $calendar--event__dragging-_-borderColor;
-			border           : thin solid $calendar--event-_-backgroundColor;
+			background-color: $calendar--event__dragging-_-borderColor;
+			border:           thin solid $calendar--event-_-backgroundColor;
 		}
 		&.rbc-selected {
-			background-color : $calendar--event__selected-_-backgroundColor;
+			background-color: $calendar--event__selected-_-backgroundColor;
 			&:hover {
-				background-color : $calendar--event__selected__hover-_-borderColor;
+				background-color: $calendar--event__selected__hover-_-borderColor;
 			}
 		}
 	}

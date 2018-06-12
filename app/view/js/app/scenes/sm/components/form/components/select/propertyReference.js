@@ -1,7 +1,7 @@
-import React from "react"
-import {normalizeSmID, parseSmID} from "../../../../../utility";
+import React                      from "react"
+import {normalizeSmID, parseSmID} from "../../../../utility";
 import 'react-select/dist/react-select.css';
-import {SmEntitySelect} from "./index";
+import {SmEntitySelect}           from "./index";
 
 /**
  * Class intended to represent an SmEntity as a <select> input (or something equivalent)

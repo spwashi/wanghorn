@@ -1,7 +1,7 @@
-import React from "react"
-import * as PropTypes from "prop-types"
-import {normalizeSchematic, parseSmID} from "../../../../../../utility";
-import SchematicField from "../schematic";
+import React                           from "react"
+import * as PropTypes                  from "prop-types"
+import {normalizeSchematic, parseSmID} from "../../../../../utility";
+import SchematicField                  from "../schematic";
 
 export class SmEntityField extends React.Component {
     static propTypes            = {

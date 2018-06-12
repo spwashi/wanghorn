@@ -1,7 +1,7 @@
-import React from "react"
-import * as PropTypes from "prop-types"
-import {InputWrapper} from "./wrapper";
-import {ApiResponseMessage} from "../../../app/scenes/sm/components/form/response";
+import React                from "react"
+import * as PropTypes       from "prop-types"
+import {InputWrapper}       from "./wrapper";
+import {ApiResponseMessage} from "../response";
 
 export const Field = function ({title, name, input, message}) {
     return (

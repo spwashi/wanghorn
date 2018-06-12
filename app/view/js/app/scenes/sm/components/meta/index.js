@@ -1,10 +1,10 @@
-import React from "react";
-import {Route} from "react-router-dom";
-import * as PropTypes from "prop-types"
+import React                  from "react";
+import {Route}                from "react-router-dom";
+import * as PropTypes         from "prop-types"
 import {getReactPath, getURI} from "../../../../../path/resolution";
-import {parseSmID} from "../../utility";
-import {CreateSmEntityDialog} from "../form/creation/components/dialog";
-import {LinkItem} from "../../../../../components/navigation";
+import {parseSmID}            from "../../utility";
+import {CreateSmEntityDialog} from "../form/components/creationDialog";
+import {LinkItem}             from "../../../../../components/navigation";
 
 class SmEntityMetaComponent extends React.Component {
     render() {

@@ -36,17 +36,4 @@ export default [
                   resolution: "[Home]@gallery",
                   pattern:    "gallery/items.json$"
               }),
-    
-    new Route({
-                  renderedBy: RENDER_METHODS.client,
-                  pattern:    'events$',
-                  name:       'events--home',
-                  title:      "Events"
-              }),
-    new Route({
-                  renderedBy: RENDER_METHODS.client,
-                  pattern:    'events/{id}:.+/view',
-                  name:       'events--item__view',
-                  title:      "Event View"
-              }),
 ]

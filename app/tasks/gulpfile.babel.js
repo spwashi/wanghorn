@@ -61,7 +61,7 @@ function requireUncached(moduleName) {
                 delete module.constructor._pathCache[cacheKey];
             }
         });
-    };
+    }
     
     /**
      * Traverses the cache to search for all the cached

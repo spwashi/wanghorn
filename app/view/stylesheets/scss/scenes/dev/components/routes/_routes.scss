@@ -1,108 +1,110 @@
 @import "../../colors";
 
 .route--wrapper {
-	$sa_toggle_width : 35px;
-	position : relative;
+	$sa_toggle_width: 35px;
+	position: relative;
+	padding: 5px;
+
 	&:hover {
-		background-color : $component--meta--bg;
+		background-color: $component--meta--bg;
 	}
+
 	.route--identifier {
-		border-bottom : thin solid #ccc;
-		font-size     : .7em;
+		border-bottom: thin solid #ccc;
 		.name:not(:empty) {
-			font-weight   : bold;
-			margin-right  : 10px;
-			padding-right : 10px;
-			width         : 20%;
-			border-right  : thin solid #ccc;
+			font-weight: bold;
+			margin-right: 10px;
+			padding-right: 10px;
+			width: 20%;
+			border-right: thin solid #ccc;
 		}
 		* {
-			display : inline-block;
+			display: inline-block;
 		}
 	}
 	button.selectively-active--toggle {
-		position   : absolute;
-		width      : $sa_toggle_width;
-		height     : 30px;
-		max-height : 100%;
-		display    : block;
-		top        : 0;
-		right      : 0;
-		background : rgba($component--meta--bg--color, .7);
-		color      : transparent;
-		text-align : center;
+		position: absolute;
+		width: $sa_toggle_width;
+		height: 30px;
+		max-height: 100%;
+		display: block;
+		top: 0;
+		right: 0;
+		background: rgba($component--meta--bg--color, .7);
+		color: transparent;
+		text-align: center;
 		&::before {
-			color       : white;
-			font-weight : bold;
-			display     : block;
-			width       : 100%;
-			height      : 100%;
+			color: white;
+			font-weight: bold;
+			display: block;
+			width: 100%;
+			height: 100%;
 			@at-root {
 				.route--wrapper.active .selectively-active--toggle::before {
-					content : '-';
+					content: '-';
 				}
 
 				.route--wrapper.inactive .selectively-active--toggle::before {
-					content : '+';
+					content: '+';
 				}
 			}
 		}
 		&:hover {
-			background : rgba(darken($component--meta--bg--color, 4%), .5);
+			background: rgba(darken($component--meta--bg--color, 4%), .5);
 		}
 	}
+
 	.route--navigate {
-		background : rgba($component--meta--bg--color, .5);
-		right      : $sa_toggle_width + 10px;
-		position   : absolute;
-		height     : 100%;
-		width      : 130px;
+		background: rgba($component--meta--bg--color, .5);
+		right: $sa_toggle_width + 10px;
+		position: absolute;
+		height: 100%;
+		width: 130px;
 		&:hover, &:focus {
-			background : rgba(darken($component--meta--bg--color, 10%), .9);
+			background: rgba(darken($component--meta--bg--color, 10%), .9);
 		}
 	}
 	&.active {
 		.route--navigate {
-			background : rgba($accent_color__2, .9);
-			color      : white;
+			background: rgba($accent_color__2, .9);
+			color: white;
 			&:hover, &:focus {
-				background : rgba(darken($accent_color__2, 10%), .9);
+				background: rgba(darken($accent_color__2, 10%), .9);
 			}
 		}
 	}
 }
 
 .route--configuration {
-	font-size : .8em;
 	.attribute__requestDescriptor {
-		word-break : keep-all;
+		word-break: keep-all;
 		.attribute--value {
-			padding  : 0;
-			position : relative;
+			padding: 0;
+			position: relative;
 			> div {
-				height     : 100%;
-				overflow-x : auto;
-				line-break : unset;
-				position   : relative;
-				width      : 100%;
+				height: 100%;
+				overflow-x: auto;
+				line-break: unset;
+				position: relative;
+				width: 100%;
 			}
 		}
 		table {
-			height         : 100%;
-			border-spacing : 0;
-			width          : 100%;
+			height: 100%;
+			border-spacing: 0;
+			width: 100%;
 		}
 		tr {
-			width : 100%;
+			width: 100%;
 		}
 		td {
-			padding       : 3px;
-			border-bottom : thin solid $configuration--component-_-border-color;
+			padding: 3px;
+			border-bottom: thin solid $configuration--component-_-border-color;
 			//white-space   : nowrap;
 			&.attribute {
-				border-right     : thin solid $configuration--component-_-bg;
-				text-transform   : capitalize;
-				background-color : $component--meta--bg;
+				border-right: thin solid $configuration--component-_-bg;
+				text-transform: capitalize;
+				background-color: $component--meta--bg;
 			}
 			&.value {
 			}
@@ -111,35 +113,34 @@
 }
 
 .route--container--container {
-	display   : flex;
-	flex-flow : row wrap;
+	display: flex;
+	flex-flow: row wrap;
 }
 
 .route--container--wrapper {
-	flex  : 1 1 100%;
-	width : 100%;
+	flex: 1 1 100%;
+	width: 100%;
 	&:hover {
 		.route--configuration--title--wrapper {
-			border-bottom : thin solid white;
+			border-bottom: thin solid white;
 		}
 	}
 	.route--configuration--title--wrapper {
-		border-bottom : thin solid #ccc;
-		position      : relative;
+		border-bottom: thin solid #ccc;
+		position: relative;
 		.description {
-			right       : 0;
-			position    : absolute;
-			bottom      : 0;
-			font-weight : normal;
-			font-size   : .7em;
+			right: 0;
+			position: absolute;
+			bottom: 0;
+			font-weight: normal;
 		}
 	}
 }
 
 .route--configuration--list, .route--configuration--container {
 	> .title {
-		background-color : $component--meta--bg;
-		border-bottom    : thin solid $configuration--component-_-border-color;
+		background-color: $component--meta--bg;
+		border-bottom: thin solid $configuration--component-_-border-color;
 	}
 	.description {
 	}
@@ -147,37 +148,36 @@
 
 .route--navigation--form {
 	a.navigate {
-		font-style : normal;
-		width      : 80%;
-		border-top : thin solid #ccc;
-		text-align : center;
-		display    : block;
-		margin     : auto;
-		padding    : 10px 10px;
+		font-style: normal;
+		width: 80%;
+		border-top: thin solid #ccc;
+		text-align: center;
+		display: block;
+		margin: auto;
+		padding: 10px 10px;
 		&.active {
-			font-weight : bold;
+			font-weight: bold;
 		}
 		&.disabled {
-			cursor : auto;
-			color  : #ccc;
+			cursor: auto;
+			color: #ccc;
 		}
 	}
 }
 
-@media screen and (max-device-width : 700px), screen and (max-width : 700px) {
+@media screen and (max-device-width: 700px), screen and (max-width: 700px) {
 	.route--container--wrapper {
-		border-top : thin solid #ccc;
+		border-top: thin solid #ccc;
 		.route--configuration--title--wrapper {
 			.description {
-				position   : relative;
-				display    : block;
-				right      : auto;
-				left       : auto;
-				top        : auto;
-				bottom     : 50%;
-				font-size  : .6em;
-				padding    : 10px;
-				border-top : thin solid #ccc;
+				position: relative;
+				display: block;
+				right: auto;
+				left: auto;
+				top: auto;
+				bottom: 50%;
+				padding: 10px;
+				border-top: thin solid #ccc;
 			}
 		}
 	}

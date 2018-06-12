@@ -181,6 +181,18 @@
          "pattern": "events$"
       },
       {
+         "name": "event--create",
+         "title": "Add Event",
+         "resolution": "Home\\Home@index",
+         "pattern": "events/new$"
+      },
+      {
+         "name": "events--all",
+         "title": "All Events",
+         "resolution": "Home\\Home@events",
+         "pattern": "events/all$"
+      },
+      {
          "name": "events--item__view",
          "title": "Event View",
          "resolution": "Home\\Home@index",

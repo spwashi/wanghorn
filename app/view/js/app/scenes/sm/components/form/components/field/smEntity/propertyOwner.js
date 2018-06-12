@@ -1,7 +1,7 @@
 import {getSettablePropertiesFromSmEntity} from "../../../utility";
-import {normalizeSchematic} from "../../../../../../utility";
-import React from "react"
-import SchematicField from "../schematic";
+import {normalizeSchematic}                from "../../../../../utility";
+import React                               from "react"
+import SchematicField                      from "../schematic";
 
 /**
  * Get a Map of the settable properties of an SmEntity

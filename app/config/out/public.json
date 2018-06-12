@@ -114,6 +114,14 @@
          "pattern": "events$",
          "title": "Events"
       },
+      "event--create": {
+         "pattern": "events/new$",
+         "title": "Add Event"
+      },
+      "events--all": {
+         "pattern": "events/all$",
+         "title": "All Events"
+      },
       "events--item__view": {
          "pattern": "events/{id}:.+/view",
          "title": "Event View"

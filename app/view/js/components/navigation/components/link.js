@@ -10,7 +10,7 @@ export class Link extends React.Component {
         let {className}                                                            = this.props;
         className                                                                  = `${className || ''} ${this.state.isFocused ? 'focused' : ''}`;
         if (!!redirect) {
-            return <Redirect push to={to}></Redirect>
+            return <Redirect push to={to}/>
         }
         
         const isActiveFn = typeof isActive === 'boolean' ? () => isActive

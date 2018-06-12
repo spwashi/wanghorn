@@ -309,6 +309,21 @@
             "length": 75,
             "unique": true
          },
+         "name": {
+            "smID": "[Property]{[Model]event} name",
+            "datatypes": [
+               "string",
+               "null"
+            ]
+         },
+         "description": {
+            "smID": "[Property]{[Model]event} description",
+            "datatypes": [
+               "string",
+               "null"
+            ],
+            "length": 2500
+         },
          "start_dt": {
             "smID": "[Property]{[Model]event} start_dt",
             "datatypes": [
@@ -319,12 +334,6 @@
             "smID": "[Property]{[Model]event} end_dt",
             "datatypes": [
                "datetime"
-            ]
-         },
-         "hr_duration": {
-            "smID": "[Property]{[Model]event} hr_duration",
-            "datatypes": [
-               "string"
             ]
          }
       }
