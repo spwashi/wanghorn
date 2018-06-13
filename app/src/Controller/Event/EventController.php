@@ -11,7 +11,7 @@ namespace WANGHORN\Controller\Event;
 
 use DateInterval;
 use DateTime;
-use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironmentz;
+use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Controller\AppController;
 class EventController extends AppController {
 	public function create() {

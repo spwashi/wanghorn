@@ -4,34 +4,16 @@ import moment                         from 'moment';
 import axios                          from 'axios';
 import Modal, {navigateBackOnHistory} from "../../components/modal";
 import {Route}                        from "react-router-dom"
-import {withRouter}                 from "react-router"
-import {PageContent}                from "../../components/page";
-import {connect}                    from "react-redux";
-import {bindActionCreators}         from 'redux';
-import {getReactPath, getURI}       from "../../../path/resolution";
-import Calendar                     from "./components/calendar";
-import bind                         from "bind-decorator/index";
-import Button                       from "base-components/button/index";
-import {LinkItem}                   from "../../../components/navigation";
-import {SmEntityModificationDialog} from "../sm/components/modification/components/dialog";
-import CreationRoute                from "../sm/components/routes/creation";
+import {withRouter}                   from "react-router"
+import {PageContent}                  from "../../components/page";
+import {getReactPath, getURI}         from "../../../path/resolution";
+import Calendar                       from "./components/calendar";
+import bind                           from "bind-decorator/index";
+import {LinkItem}                     from "../../../components/navigation";
+import CreationRoute                  from "../sm/components/routes/creation";
 
 
-let eventNames = ['Example Event', 'This is a test', 'How do these look?', 'This should be connected to a database'];
-let i          = 0;
-let allEvents  = eventNames.map(title => {
-	const rand1     = Math.floor(Math.random() * 10);
-	const rand2     = Math.floor(Math.random() * 10);
-	const startDate = moment().add(rand1, 'days');
-	const endDate   = moment(startDate).add(rand2, 'days');
-	return {
-		id:          ++i,
-		description: 'This is to show what it might look like',
-		start:       new Date(startDate),
-		end:         new Date(endDate),
-		title
-	}
-});
+let allEvents = [];
 
 class EventsPage extends React.Component {
 	static contextTypes = {router: PropTypes.object.isRequired};

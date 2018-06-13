@@ -17,48 +17,44 @@ class CreationRoute extends React.Component {
 		closingUri:         PropTypes.string,
 	};
 	render() {
+		let smID, name;
+
 		let {smEntityIdentifier, closingUri} = this.props;
 		const formTitle                      = this.props.title;
 		const sm                             = this.props.sm;
 
-		const managerFormats      = getSmEntityManagerFormats(smEntityIdentifier);
-		const ownerType_lowercase = managerFormats.lowercase;
-		const managerName         = managerFormats.managerName;
-		const fallbackReceiveName = `${ownerType_lowercase}--create--receive`;
-		let smID, name;
+		const managerFormats        = getSmEntityManagerFormats(smEntityIdentifier);
+		const ownerType_lowercase   = managerFormats.lowercase;
+		const managerName           = managerFormats.managerName;
+		const fallbackReceiveName   = `${ownerType_lowercase}--create--receive`;
+		const getFormReceiveUriName = name => `${ownerType_lowercase}--${name}--create--receive`;
+
 		if (isSmID(smEntityIdentifier)) {
 			const parsed = parseSmID(smEntityIdentifier);
 			name         = parsed.name;
 			smID         = smEntityIdentifier;
 		}
 
-		const SmEntityCreationDialog = ({history, match}) => {
-			if (!isSmID(smEntityIdentifier)) {
-				name = match.params.name;
-				smID = `${managerName}${name}`;
-			}
-			const formReceiveUriName = `${ownerType_lowercase}--${name}--create--receive`;
-			const schematic          = fromSm_selectSchematicOfSmID(sm, {smID});
+		const SmEntityCreationDialog =
+			      ({history, match, name, smID, sm}) => {
+				      if (!smID) name = match.params.name;
+				      smID            = smID || `${managerName}${name}`;
 
-			if (!schematic) {
-				return ' ...loading';
-			}
-
-			const navigateUri = getURI(formReceiveUriName, {name}, {fallback: fallbackReceiveName});
-			return <SmEntityModificationDialog smID={smID}
-			                                   title={formTitle}
-			                                   closingUri={closingUri || getURI('dev--model', {name})}
-			                                   formUrl={navigateUri}
-			                                   schematic={schematic}
-			                                   history={history}/>;
-		};
-
-		const fallbackReactPathName = `${ownerType_lowercase}--create`;
-		const reactPath             = getReactPath(name ? `${name}--create`
-		                                                : fallbackReactPathName,
-		                                           null,
-		                                           {fallback: fallbackReactPathName});
-		return <Route path={reactPath} component={SmEntityCreationDialog}/>;
+				      const schematic = fromSm_selectSchematicOfSmID(sm, {smID});
+				      if (!schematic) return ' ...loading';
+				      const navigateUri = getURI(getFormReceiveUriName(name), {name}, {fallback: fallbackReceiveName});
+				      return <SmEntityModificationDialog smID={smID}
+				                                         title={formTitle}
+				                                         closingUri={closingUri || getURI('dev--model', {name})}
+				                                         formUrl={navigateUri}
+				                                         schematic={schematic}
+				                                         history={history}/>;
+			      };
+		const fallbackReactPathName  = `${ownerType_lowercase}--create`;
+		const reactPathName          = name ? `${name}--create` : fallbackReactPathName;
+		const reactPath              = getReactPath(reactPathName, null, {fallback: fallbackReactPathName});
+		const component              = props => <SmEntityCreationDialog {...props} {...{sm, name, smID}}/>;
+		return <Route path={reactPath} component={component}/>;
 
 	}
 }

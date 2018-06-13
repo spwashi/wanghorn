@@ -101,8 +101,14 @@
 		> input, > textarea, > .field--input {
 			border: thin solid #ccc;
 		}
-		.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
-			padding: 0;
+		.rdt.field--input {
+			input {
+				width: 100%;
+			}
+			.rdtPicker {
+				width:  100%;
+				border: thin solid #ccc;
+			}
 		}
 		> textarea {
 			padding: 10px;
