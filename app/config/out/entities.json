@@ -21,13 +21,18 @@
    "event": {
       "smID": "[Entity]event",
       "properties": {
-         "name": {
-            "smID": "[Property]{[Entity]event} name",
+         "event_name": {
+            "smID": "[Property]{[Entity]event} event_name",
             "datatypes": [
                "string",
-               "null"
+               "slug"
             ],
-            "derivedFrom": "[Property]{[Model]event} name"
+            "derivedFrom": {
+               "identity": "[Model]event",
+               "hydrationMethod": {
+                  "property": "name"
+               }
+            }
          },
          "title": {
             "smID": "[Property]{[Entity]event} title",

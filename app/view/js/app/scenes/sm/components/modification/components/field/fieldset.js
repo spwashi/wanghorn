@@ -43,6 +43,7 @@ export class SmEntityFieldset extends React.Component {
 			<PromisedComponent key={name}
 			                   fieldName={name}
 			                   value={value}
+			                   owner={smEntity}
 			                   message={message}
 			                   resolveSmEntitySchematic={this.props.resolveSmEntitySchematic}
 			                   resolveSmEntities={this.props.resolveSmEntities}
