@@ -8,6 +8,7 @@ use Sm\Core\Exception\UnimplementedError;
 use Sm\Core\Resolvable\Exception\UnresolvableException;
 use Sm\Data\DataLayer;
 use Sm\Data\SmEntity\SmEntityDataManager;
+use Sm\Data\Type\DateTime_;
 use WANGHORN\Entity\Password\PasswordDatatype;
 
 class DatatypeFactory extends \Sm\Data\Type\DatatypeFactory {
@@ -26,7 +27,7 @@ class DatatypeFactory extends \Sm\Data\Type\DatatypeFactory {
 				                $parsed    = SmEntityDataManager::parseSmID($smID);
 				                $dataLayer = $self->getDataLayer();
 				                if (!isset($dataLayer)) {
-					                throw new UnresolvableException("Cannot resolve $smID without being connected to a datalayer");
+					                throw new UnresolvableException("Cannot resolve {$smID} without being connected to a datalayer");
 				                }
 				                if (!$parsed) throw new UnimplementedError("Cannot resolve Datatype '" . $smID . "'");
 				                $manager = $dataLayer->getDataManager($parsed['manager'] ?? null);
@@ -36,9 +37,9 @@ class DatatypeFactory extends \Sm\Data\Type\DatatypeFactory {
 			                },
 			                function ($name) {
 				                if ($name !== 'slug') return null;
-
 				                return new Slug;
-			                }
+			                },
+			                'datetime' => DateTime::class
 		                ]);
 	}
 	public function build($name = null, $schematic = null) {

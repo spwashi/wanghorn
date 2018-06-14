@@ -15,6 +15,28 @@ import CreationRoute                  from "../sm/components/routes/creation";
 
 let allEvents = [];
 
+function EventModalBodyActive({event} = {}) {
+	if (!event) return 'loading...';
+	return (
+		<div className="event__detail-view">
+			<div className="event--detail--container">
+				<div className="event--detail--wrapper start_dt--wrapper">
+					<div className="event--detail start event--detail__start start_dt">
+						{moment(event.start).calendar()}
+					</div>
+				</div>
+				<div className="event--detail--wrapper end_dt--wrapper">
+					<div className="event--detail end event--detail__end end_dt">
+						{moment(event.end).calendar()}
+					</div>
+				</div>
+			</div>
+			<div className="description--wrapper">
+				<div className="description" dangerouslySetInnerHTML={{__html: event.description}}/>
+			</div>
+		</div>
+	);
+}
 class EventsPage extends React.Component {
 	static contextTypes = {router: PropTypes.object.isRequired};
 	       state        = {events: allEvents};
@@ -71,18 +93,13 @@ class EventsPage extends React.Component {
 				       component={({match}) => {
 					       const id    = (match.params || {}).id;
 					       const event = (this.state.events || []).find(event => id && (parseInt(event.id) === parseInt(id)));
+					       let body    = <EventModalBodyActive event={event}/>;
 					       return (
-						       <Modal isOpen={true} contentLabel={name} onRequestClose={this.onRequestClose} title={event && event.title}>
-							       <div className="description">{event.description}</div>
-							       <div className="event-details">
-								       <div className="start start_dt">
-									       {moment(event.start).calendar()}
-								       </div>
-								       <div className="end end_dt">
-									       {moment(event.end).calendar()}
-								       </div>
-							       </div>
-						       </Modal>
+						       <Modal isOpen={true}
+						              contentLabel={name}
+						              onRequestClose={this.onRequestClose}
+						              title={event ? event.title : 'Loading...'}
+						              children={body}/>
 					       );
 				       }}/>
 				<CreationRoute smEntityIdentifier={'[Entity]event'}

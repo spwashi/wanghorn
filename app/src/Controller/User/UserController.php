@@ -83,11 +83,8 @@ class UserController extends AppController {
 	##  API Methods
 	public function create() { return $this->signUp(); }
 	public function signUp() {
-		/** @var User $user */
-
-		$request_data  = HttpRequestFromEnvironment::getRequestData();
 		$entityContext = $this->resolveContext('signup_process');
-		$properties    = $request_data['properties'] ?? [];
+		$properties    = HttpRequestFromEnvironment::getRequestData()['properties'] ?? [];;
 
 		#
 		##  Should probably proxy in contexts
@@ -234,7 +231,7 @@ class UserController extends AppController {
 		$verificationModel = $verification->getPersistedIdentity();
 		$user_id           = $verificationModel->properties->user_id->resolve();
 		try {
-			$user = $this->findUser($verificationContext, ['id' => $user_id]);
+			$user = $this->findUser($verificationContext, ['id' => $user_id, 'verification_dt' => null], true);
 			/** @var Model $userModel */
 			$userModel = $user->getPersistedIdentity();
 			$userModel->set(['verification_dt' => new \DateTime]);
