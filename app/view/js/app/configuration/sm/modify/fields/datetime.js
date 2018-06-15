@@ -4,19 +4,19 @@ import {DefaultPropertyField} from "../../../../scenes/sm/components/modificatio
 import {Field}                from "base-components/form/field/field";
 import Datetime               from "react-datetime/DateTime"
 import "react-datetime/css/react-datetime.css"
+import ValueRepresentation    from "../../../../scenes/sm/components/modification/components/field/internal/valueRepresentationProxy";
 
 export class DatetimeField extends React.Component {
 	static propTypes = {...DefaultPropertyField.propTypes};
 	       state     = {};
 
 	render() {
-		const value        = this.props.value;
+		let value          = this.props.value;
+		value              = value instanceof ValueRepresentation ? value.internal : value;
 		const onChange     = e => {
-			if (!e.minute) {
-				return;
-			}
+			if (!e.minute) return;
 			e.minute(Math.round(e.minute() / 15) * 15).second(0);
-			this.props.onValueChange(e)
+			this.props.onValueChange(new ValueRepresentation(e.toISOString(true).replace(/\.\d+/, ''), e))
 		};
 		const schematic    = this.props.schematic;
 		const defaultValue = moment(value || undefined);

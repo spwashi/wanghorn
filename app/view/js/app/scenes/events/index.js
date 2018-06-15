@@ -54,28 +54,30 @@ class EventsPage extends React.Component {
 		console.log(start, event.start);
 	};
 	componentDidMount() {
-		axios.get(getURI('events--all')).then(response => {
-			let events = response.data;
-			if (!Array.isArray(events)) {
-				console.error('Invalid return from events request -- ', events);
-				return;
-			}
+		axios.get(getURI('events--all'))
+		     .then(response => {
+			     let events = response.data;
 
-			events = events.map(event => {
-				const {id, title, description, start_dt, end_dt} = event;
+			     if (!Array.isArray(events)) {
+				     console.error('Invalid return from events request -- ', events);
+				     return;
+			     }
 
-				const start = new Date(start_dt);
-				const end   = new Date(end_dt);
+			     events = events.map(event => {
+				     const {id, title, description, start_dt, end_dt} = event;
 
-				return {
-					id,
-					title, description,
-					start, end
-				};
-			});
+				     const start = new Date(start_dt);
+				     const end   = new Date(end_dt);
 
-			this.setState({events});
-		});
+				     return {
+					     id,
+					     title, description,
+					     start, end
+				     };
+			     });
+
+			     this.setState({events});
+		     });
 	}
 
 	render() {

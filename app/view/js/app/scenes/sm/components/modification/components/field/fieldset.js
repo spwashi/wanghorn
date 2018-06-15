@@ -28,7 +28,7 @@ export class SmEntityFieldset extends React.Component {
 		schematic.name = schematic.name || name;
 
 		const value   = properties[name] || null;
-		const message = messages[name] || (this.props.messages || {})[name];
+		const message = messages[name] || (this.props.message || {})[name];
 
 		if (typeof schematic !== "object") throw new Error("Could not handle schematic");
 

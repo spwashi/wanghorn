@@ -14,22 +14,24 @@ export class SlugField extends React.Component {
 		const name                  = schematic.name;
 		const title                 = this.props.title;
 		const message               = this.props.message;
-		const owner                 = this.props.owner;
 		let slug                    = this.props.value;
 		const checkPropertyValidity = (schematic, password) => true;
 		const onSlugValueChange     = value => {
 			value = convertToSlug(value);
-
-			if (!this.state.hasBeenModified) {
-				this.setState({hasBeenModified: true}, done => onValueChange(value, checkPropertyValidity));
+			console.log(`|${value}|`);
+			if (value === '') {
+				console.log('here', this.state.hasBeenModified);
+				this.state.hasBeenModified && this.setState({hasBeenModified: false},
+				                                            done => onValueChange(this.getSlug(), checkPropertyValidity))
+			} else if (!this.state.hasBeenModified) {
+				this.setState({hasBeenModified: true},
+				              done => onValueChange(this.getSlug(), checkPropertyValidity));
 			} else {
 				onValueChange(value, checkPropertyValidity);
 			}
 		};
-		if (!this.state.hasBeenModified && owner) {
-			const titlePropertyValue = owner && owner.properties && owner.properties.title;
-			slug = titlePropertyValue ? convertToSlug(titlePropertyValue) : '';
-		}
+
+		slug        = this.getSlug();
 		const input = <PropertyInput title={title}
 		                             value={slug}
 		                             onValueChange={onSlugValueChange}
@@ -38,5 +40,16 @@ export class SlugField extends React.Component {
 		              name={name}
 		              message={message}
 		              input={input}/>;
+	}
+	getSlug() {
+		const owner = this.props.owner;
+		let slug    = this.props.value;
+
+		if (!this.state.hasBeenModified && owner) {
+			const titlePropertyValue = owner && owner.properties && owner.properties.title;
+			slug                     = titlePropertyValue ? convertToSlug(titlePropertyValue) : '';
+		}
+
+		return slug;
 	}
 }

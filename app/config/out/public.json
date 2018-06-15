@@ -114,9 +114,17 @@
          "pattern": "events$",
          "title": "Events"
       },
+      "entity--event--create--receive": {
+         "pattern": "events/create/receive",
+         "title": "Receive Event Creation"
+      },
       "event--create": {
          "pattern": "events/new$",
          "title": "Add Event"
+      },
+      "event--view": {
+         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+",
+         "title": "View Event"
       },
       "events--all": {
          "pattern": "events/all$",

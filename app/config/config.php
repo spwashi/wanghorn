@@ -189,6 +189,8 @@ function _data_layer(Application $app): void {
 		switch ($smID) {
 			case '[Entity]user':
 				return new \WANGHORN\Entity\User\User($entityDataManager);
+			case '[Entity]event':
+				return new \WANGHORN\Entity\Event\Event($entityDataManager);
 			case '[Entity]password':
 				return new \WANGHORN\Entity\Password\Password($entityDataManager);
 			case '[Entity]verification':

@@ -181,10 +181,22 @@
          "pattern": "events$"
       },
       {
+         "name": "entity--event--create--receive",
+         "title": "Receive Event Creation",
+         "resolution": "Event\\Event@create",
+         "pattern": "events/create/receive"
+      },
+      {
          "name": "event--create",
          "title": "Add Event",
          "resolution": "Home\\Home@index",
          "pattern": "events/new$"
+      },
+      {
+         "name": "event--view",
+         "title": "View Event",
+         "resolution": "Event\\Event@findEvent",
+         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+"
       },
       {
          "name": "events--all",

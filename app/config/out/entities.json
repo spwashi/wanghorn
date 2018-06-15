@@ -63,9 +63,8 @@
                "string",
                "null"
             ],
-            "length": 2500,
-            "derivedFrom": "[Property]{[Model]event} description",
-            "minLength": 2000
+            "length": 2000,
+            "derivedFrom": "[Property]{[Model]event} description"
          }
       },
       "persistedIdentity": "[Model]event",

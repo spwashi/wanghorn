@@ -2,7 +2,9 @@
 
 namespace WANGHORN\Controller;
 
+use InvalidArgumentException;
 use Sm\Application\Controller\BaseApplicationController;
+use Sm\Data\Entity\Context\EntityContext;
 use Sm\Modules\Network\Http\Http;
 use Sm\Modules\Network\Http\Request\HttpRequestDescriptor;
 
@@ -17,11 +19,18 @@ class AppController extends BaseApplicationController {
 		return $this->app->communication->dispatch(Http::REDIRECT,
 		                                           $this->app->communication->getRoute($name));
 	}
+	public function resolveContext($context_name = null) {
+		if ($context_name instanceof EntityContext) {
+			return $context_name;
+		}
 
-	/**
-	 * @param $controller_identifier
-	 * @return \Sm\Controller\ControllerResolvable
-	 */
+		if (isset($context_name) && !is_string($context_name)) {
+			throw new InvalidArgumentException("Cannot find entities within contexts that aren't strings ");
+		}
+		
+		return EntityContext::init($context_name);
+	}
+
 	protected function controller($controller_identifier): \Sm\Controller\ControllerResolvable {
 		return $this->app->controller->createControllerResolvable($controller_identifier);
 	}

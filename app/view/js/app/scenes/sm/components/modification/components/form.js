@@ -10,11 +10,12 @@ import {normalizeSmID}                                          from "../../../u
 import {ApiResponseMessage}                                     from "../../../../../../components/form/response";
 import {fetchModels}                                            from "../../../modules/models/actions/index";
 import {fromSm_selectItemsOfSmID, fromSm_selectSchematicOfSmID} from "../../../selector";
+import ValueRepresentation                                      from "./field/internal/valueRepresentationProxy";
 
 
 @connect(mapState, mapDispatch)
 class SmEntityModificationForm extends React.Component {
-	state     = {hasSoughtSchematic: null, schematic: null};
+	state            = {hasSoughtSchematic: null, schematic: null};
 	static propTypes = {
 		uri:                          PropTypes.string.isRequired,
 		contextName:                  PropTypes.string,
@@ -30,7 +31,7 @@ class SmEntityModificationForm extends React.Component {
 		this.state                 = {
 			status:     null,
 			properties: {},
-			messages:   {},
+			message:    {},
 			schematic:  this.schematic || null
 		};
 		this.propertyChangeHandler = this.props.onPropertyValueChange || function () {
@@ -74,10 +75,11 @@ class SmEntityModificationForm extends React.Component {
 
 		const resolveSmEntities        = this.resolveSmEntities;
 		const resolveSmEntitySchematic = this.resolveSmEntitySchematic;
+
 		return (
 			<form onSubmit={this.handleSubmit} className={status ? 'status__' + status : ''}>
 				<SmEntityFieldset schematic={schematic}
-				                  messages={this.state.message}
+				                  message={this.state.message}
 				                  smEntity={this.effectiveSmEntity}
 				                  resolveSmEntities={resolveSmEntities}
 				                  updatePropertyValueStatus={this.updatePropertyValueStatus.bind(this)}
@@ -116,7 +118,7 @@ class SmEntityModificationForm extends React.Component {
 		                               (this.state.smEntity || {}));
 
 		smEntity.properties = smEntity.properties || {};
-		smEntity.messages   = smEntity.messages || {};
+		smEntity.message    = smEntity.message || {};
 
 		return smEntity;
 	}
@@ -138,9 +140,9 @@ class SmEntityModificationForm extends React.Component {
 
 		smEntity = this.effectiveSmEntity;
 
-		if (message || smEntity.messages[fieldName]) {
-			smEntity.messages            = smEntity.messages || {};
-			smEntity.messages[fieldName] = message;
+		if (message || smEntity.message[fieldName]) {
+			smEntity.message            = smEntity.message || {};
+			smEntity.message[fieldName] = message;
 		}
 
 		smEntity.properties[name] = value;
@@ -154,13 +156,13 @@ class SmEntityModificationForm extends React.Component {
 	// handles the submission of the modification
 	handleSubmit(event) {
 		event.preventDefault();
-		const url                   = this.props.uri;
-		const smEntity              = this.state.smEntity || {};
-		const {canSubmit, messages} = getFormSubmissionStatus(smEntity);
+		const url                  = this.props.uri;
+		const smEntity             = this.state.smEntity || {};
+		const {canSubmit, message} = getFormSubmissionStatus(smEntity);
 
-		// Set the error messages on fail
+		// Set the error message on fail
 		if (!canSubmit) {
-			let message = Object.assign({}, this.state.message, messages, {_message: 'Could not submit modification'});
+			let message = Object.assign({}, this.state.message, message, {_message: 'Could not submit modification'});
 			this.setState({message});
 			return;
 		}
@@ -168,10 +170,17 @@ class SmEntityModificationForm extends React.Component {
 		// Otherwise, go through the "loading, success/error" process below
 		this.setState({status: 'loading'},
 		              () => {
-			              let post = Object.entries(this.state.smEntity || {})
-			                               .filter(([name]) => name[0] !== '_')
-			                               .map(([name, value]) => [name, value])
-			                               .reduce(reduceEntriesIntoObject, {});
+			              const post = Object.entries(this.state.smEntity || {})
+			                                 .filter(([name]) => name[0] !== '_')
+			                                 .map(([name, value]) => [name, value])
+			                                 .reduce(reduceEntriesIntoObject, {});
+
+			              post.properties && Object.entries(post.properties || {})
+			                                       .forEach(entry => {
+				                                       const [name, property] = entry;
+				                                       post.properties[name]  = property instanceof ValueRepresentation ? property.value : property;
+			                                       });
+
 			              axios.post(url, post).then(({data}) => this.onSubmissionReceived(data))
 		              })
 	}
@@ -191,7 +200,7 @@ class SmEntityModificationForm extends React.Component {
 			Object.entries(message)
 			      .forEach(([propertyName, propertyMessage]) => {
 				      const smEntityProperty = (smEntity.properties || {})[propertyName] || {};
-				      propertyMessage.messages && Object.assign(smEntityProperty.messages || {}, propertyMessage.messages);
+				      propertyMessage.message && Object.assign(smEntityProperty.message || {}, propertyMessage.message);
 			      });
 		}
 		return {...smEntity, message};
@@ -227,21 +236,21 @@ function mapDispatch(dispatch) {
 }
 
 function getFormSubmissionStatus(smEntity) {
-	let canSubmit                     = true;
-	const {properties, messages = {}} = smEntity;
-	const messageEntries              = Object.entries(messages || {});
+	let canSubmit                    = true;
+	const {properties, message = {}} = smEntity;
+	const messageEntries             = Object.entries(message || {});
 	// Check the properties to make sure they are valid
 	messageEntries.map(entry => {
 		const [name, message] = entry;
 		if (typeof message === "undefined" || (typeof message === "object" && !message)) return;
 		const {status, message: text} = message;
 		if (typeof status === 'undefined' || (!status && typeof status === 'object')) {
-			text && (messages[name] = text);
+			text && (message[name] = text);
 			return;
 		}
 		canSubmit = canSubmit ? !!status : false;
-		(messages[name] = text || (!canSubmit ? 'Invalid value' : null));
+		(message[name] = text || (!canSubmit ? 'Invalid value' : null));
 	});
 
-	return {canSubmit, messages};
+	return {canSubmit, message};
 }

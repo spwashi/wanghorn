@@ -8,10 +8,22 @@ export default [
 		          title:      "Events"
 	          }),
 	new Route({
+		          resolution: '[Event]@create',
+		          pattern:    'events/create/receive',
+		          name:       'entity--event--create--receive',
+		          title:      "Receive Event Creation"
+	          }),
+	new Route({
 		          renderedBy: RENDER_METHODS.client,
 		          pattern:    'events/new$',
 		          name:       'event--create',
 		          title:      "Add Event"
+	          }),
+	new Route({
+		          resolution: '[Event]@findEvent',
+		          pattern:    'event/{name}:[a-zA-Z_\\-\\d]+',
+		          name:       'event--view',
+		          title:      "View Event"
 	          }),
 	new Route({
 		          resolution: "[Event]@all",

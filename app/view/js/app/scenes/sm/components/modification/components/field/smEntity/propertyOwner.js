@@ -77,10 +77,9 @@ export class PropertyOwnerField extends React.Component {
 		const ownerSchematic    = this.getNormalizedSchematic();
 		const owner             = this.getSmEntity();
 		const value             = owner.properties ? owner.properties[name] : null;
-		const message           = (owner.messages ? owner.messages[name] : null) || (this.props.message && this.props.messages || {})[name];
+		const message           = (owner.messages ? owner.messages[name] : null) || (this.props.message  || {})[name];
 		const updateValueStatus = this.getPropertyValueStatusUpdateFn(name);
 		const fieldName         = prefixName({prefix: ownerSchematic.fieldName, name});
-		console.log(owner);
 		return <SchematicField key={name}
 		                       name={name}
 		                       value={value}

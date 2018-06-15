@@ -20,7 +20,7 @@ export const properties        = {
 	start_dt:    true,
 	end_dt:      true,
 	description: {
-		identity:  true,
-		minLength: 2000
+		identity: true,
+		length:   2000
 	},
 };
