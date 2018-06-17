@@ -5,7 +5,8 @@ import SchematicField                  from "../schematic";
 
 export class SmEntityField extends React.Component {
 	static propTypes            = {
-		fieldName: PropTypes.string.isRequired,
+		fieldName:       PropTypes.string.isRequired,
+		setDefaultValue: PropTypes.func,
 
 		value:   PropTypes.any,
 		owner:   PropTypes.object,
@@ -26,6 +27,7 @@ export class SmEntityField extends React.Component {
 		                       value={this.props.value}
 		                       owner={this.props.owner}
 		                       message={this.props.message}
+		                       setDefaultValue={this.props.setDefaultValue}
 		                       resolveSmEntitySchematic={this.props.resolveSmEntitySchematic}
 		                       resolveSmEntities={this.props.resolveSmEntities}
 		                       updateValueStatus={this.props.updateValueStatus}/>;

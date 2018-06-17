@@ -11,22 +11,24 @@ import {withRouter}               from "react-router-dom";
 class SmEntityModificationDialog extends React.Component {
 	state            = {isActive: true};
 	static propTypes = {
-		smID:       PropTypes.string.isRequired,
-		title:      PropTypes.string,
-		formUrl:    PropTypes.string,
-		closingUri: PropTypes.string,
-		schematic:  PropTypes.object.isRequired,
-		smEntity:   PropTypes.object
+		smID:                         PropTypes.string.isRequired,
+		title:                        PropTypes.string,
+		formUrl:                      PropTypes.string,
+		onSubmissionResponseReceived: PropTypes.func,
+		closingUri:                   PropTypes.string,
+		schematic:                    PropTypes.object.isRequired,
+		smEntity:                     PropTypes.object
 	};
 	render() {
-		let {smID, schematic, formUrl, title, smEntity} = this.props;
-		title                                           = title || `Create New ${smID}`;
-		const name                                      = getNameFromSmID(this.props.smID);
-		const onRequestClose                            = this.onRequestClose;
-		const isOpen                                    = this.state.isActive;
+		let {smID, schematic, formUrl, title, smEntity, onSubmissionResponseReceived} = this.props;
+		title                                                                         = title || `Create New ${smID}`;
+		const name                                                                    = getNameFromSmID(this.props.smID);
+		const onRequestClose                                                          = this.onRequestClose;
+		const isOpen                                                                  = this.state.isActive;
 		return (
 			<Modal isOpen={isOpen} onRequestClose={onRequestClose} title={title} contentLabel={title}>
 				<SmEntityModificationForm key={smID}
+				                          onSubmissionResponseReceived={onSubmissionResponseReceived}
 				                          smID={smID}
 				                          smEntity={smEntity}
 				                          schematic={schematic}

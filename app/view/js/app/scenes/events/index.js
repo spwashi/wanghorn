@@ -54,6 +54,10 @@ class EventsPage extends React.Component {
 		console.log(start, event.start);
 	};
 	componentDidMount() {
+		this.fetchModels();
+	}
+
+	fetchModels() {
 		axios.get(getURI('events--all'))
 		     .then(response => {
 			     let events = response.data;
@@ -79,7 +83,6 @@ class EventsPage extends React.Component {
 			     this.setState({events});
 		     });
 	}
-
 	render() {
 		let onSelect = event => {
 			const {id, title, start, end} = event;
@@ -105,6 +108,9 @@ class EventsPage extends React.Component {
 					       );
 				       }}/>
 				<CreationRoute smEntityIdentifier={'[Entity]event'}
+				               onSubmissionResponseReceived={data => {
+					               console.log(data);
+				               }}
 				               title={'Create New Event'}
 				               closingUri={getURI('events--home')}/>
 			</PageContent>

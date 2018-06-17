@@ -1,9 +1,9 @@
-import React                from "react"
-import {bindActionCreators} from 'redux'
-import {connect}            from "react-redux";
-import {Route, withRouter}  from 'react-router-dom'
-import * as PropTypes       from "prop-types"
-import {selectSmSchematics} from "./selector";
+import React                                     from "react"
+import {bindActionCreators}                      from 'redux'
+import {connect}                                 from "react-redux";
+import {Route, withRouter}                       from 'react-router-dom'
+import * as PropTypes                            from "prop-types"
+import {selectSmSchematics}                      from "./selector";
 import {fetchModelMetas}                         from "./modules/models/actions/index";
 import {fetchEntityMetas}                        from "./modules/entities/actions/actions";
 import {fetchSmEntities, fetchSmEntitySchematic} from "./actions";
@@ -19,7 +19,6 @@ class SmScene extends React.Component {
 	}
 
 	render() {
-
 		const modelCreationRoute  = this.renderSmEntityCreationRoute('Model');
 		const entityCreationRoute = this.renderSmEntityCreationRoute('Entity');
 		return (
@@ -30,9 +29,7 @@ class SmScene extends React.Component {
 		);
 	}
 
-	renderSmEntityCreationRoute(ownerType) {
-		return <CreationRoute smEntityIdentifier={ownerType}/>
-	}
+	renderSmEntityCreationRoute = (ownerType) => <CreationRoute smEntityIdentifier={ownerType}/>;
 }
 
 SmScene = withRouter(SmScene);

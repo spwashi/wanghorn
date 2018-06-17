@@ -80,6 +80,7 @@
     "bind-decorator": "^1.0.11",
     "deep-sort-object": "^1.0.2",
     "gsap": "^1.20.4",
+    "lodash": "^4.17.10",
     "moment": "^2.22.1",
     "react": "latest",
     "react-big-calendar": "^0.19.1",

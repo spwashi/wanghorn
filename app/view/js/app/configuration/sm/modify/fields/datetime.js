@@ -9,10 +9,16 @@ import ValueRepresentation    from "../../../../scenes/sm/components/modificatio
 export class DatetimeField extends React.Component {
 	static propTypes = {...DefaultPropertyField.propTypes};
 	       state     = {};
-
+	componentDidMount() {
+		let str   = moment().toISOString(true).replace(/\.\d+/, '');
+		let value = new ValueRepresentation(str, moment());
+		this.props.setDefaultValue && this.props.setDefaultValue(value);
+	}
 	render() {
 		let value          = this.props.value;
-		value              = value instanceof ValueRepresentation ? value.internal : value;
+		value              = value instanceof ValueRepresentation ? value.internal
+		                                                          : (typeof value === 'string' ? moment(value)
+		                                                                                       : value);
 		const onChange     = e => {
 			if (!e.minute) return;
 			e.minute(Math.round(e.minute() / 15) * 15).second(0);

@@ -1,5 +1,6 @@
 import React                                                    from "react"
 import * as PropTypes                                           from "prop-types"
+import _                                                        from 'lodash';
 import bind                                                     from "bind-decorator";
 import {bindActionCreators}                                     from "redux"
 import axios                                                    from "axios";
@@ -28,39 +29,30 @@ class SmEntityModificationForm extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state                 = {
-			status:     null,
-			properties: {},
-			message:    {},
-			schematic:  this.schematic || null
-		};
+		let schematic              = this.schematic || null;
+		let smEntity               = this.props.smEntity && this.props.smEntity.smID ? this.props.smEntity : {};
+		smEntity.smID              = smEntity.smID || (this.schematic && this.schematic.smID);
+		let message                = {};
+		let status                 = null;
+		this.state                 = {status, message, smEntity, schematic};
 		this.propertyChangeHandler = this.props.onPropertyValueChange || function () {
 		};
 	}
 
 	// LIFECYCLE
-
 	componentDidMount() {
-		if (this.state.schematic || this.state.hasSoughtSchematic) {
-			return;
-		}
+		if (this.state.schematic || this.state.hasSoughtSchematic) return;
 
-		let smEntity          = this.props.smEntity && this.props.smEntity.smID ? this.props.smEntity : {};
+		let smEntity          = this.state.smEntity;
 		let schematic         = this.props.schematic || {};
 		let smID              = (schematic && schematic.smID) || (smEntity && smEntity.smID) || this.props.smID;
 		let contextName       = this.props.contextName;
 		let schematicResolved = fromSm_selectSchematicOfSmID(this.props.sm, {smID, contextName});
 		schematic             = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
-
-		if (schematic && schematic.smID) {
-			smEntity.smID = (smEntity && smEntity.smID) || schematic.smID;
-		}
-
-		this.setState({
-			              hasSoughtSchematic: true,
-			              schematic,
-			              smEntity
-		              })
+		this.setState({hasSoughtSchematic: true, schematic})
+	}
+	shouldComponentUpdate(props, state, context) {
+		return true;
 	}
 	render() {
 		const status    = this.state.status;
@@ -81,10 +73,10 @@ class SmEntityModificationForm extends React.Component {
 				<SmEntityFieldset schematic={schematic}
 				                  message={this.state.message}
 				                  smEntity={this.effectiveSmEntity}
+				                  setDefaultValue={this.setFieldDefaultValue.bind(this)}
 				                  resolveSmEntities={resolveSmEntities}
 				                  updatePropertyValueStatus={this.updatePropertyValueStatus.bind(this)}
-				                  resolveSmEntitySchematic={resolveSmEntitySchematic}>
-				</SmEntityFieldset>
+				                  resolveSmEntitySchematic={resolveSmEntitySchematic}/>
 				<div className="message--wrapper">
 					<ApiResponseMessage message={this.state.message}/>
 				</div>
@@ -112,42 +104,55 @@ class SmEntityModificationForm extends React.Component {
 		return this.state.schematic || (typeof this.props.schematic === 'object' ? this.props.schematic : null);
 	}
 	get effectiveSmEntity() {
-		const smEntity = Object.assign({},
-		                               {smID: (this.schematic || {}).smID},
-		                               (this.props.smEntity || {}),
-		                               (this.state.smEntity || {}));
+		let smID       = (this.schematic || {}).smID;
+		const smEntity = _.merge({smID},
+		                         (this.props.smEntity || {}),
+		                         (this.state.smEntity || {}));
 
 		smEntity.properties = smEntity.properties || {};
 		smEntity.message    = smEntity.message || {};
 
 		return smEntity;
 	}
+	setFieldDefaultValue(effectiveSchematic, value, message = true) {
+		const {smID, fieldName, name} = effectiveSchematic;
+		let smEntity                  = this.effectiveSmEntity;
+		if (!name) return;
+		let hasChanged = false;
+
+
+		if ((value != smEntity.properties[name]) && !smEntity.properties[name]) {
+			smEntity.properties[name] = value;
+			hasChanged                = true;
+		}
+
+		if ((message !== smEntity.message[name]) && !smEntity.message[name]) {
+			smEntity.message[name] = message;
+			hasChanged             = true;
+		}
+		hasChanged && this.setState(
+			state => {
+				return {
+					...state,
+					smEntity: _.merge({}, smEntity, state.smEntity)
+				}
+			});
+	}
 	// Function to run when we update the value of the schematic
 	updatePropertyValueStatus(effectiveSchematic, value, message = true) {
 		const {smID, fieldName, name} = effectiveSchematic;
-
-		if (typeof message !== 'boolean' && typeof  message !== "object") {
-			throw new Error("Expected an object or boolean for message");
-		}
-
-		const propertyChangeHandler = this.propertyChangeHandler;
-		let smEntity;
-
-		propertyChangeHandler(normalizeSmID(smID),
-		                      value,
-		                      effectiveSchematic);
+		if (typeof message !== 'boolean' && typeof  message !== "object") throw new Error("Expected an object or boolean for message");
+		this.propertyChangeHandler(normalizeSmID(smID), value, effectiveSchematic);
 		if (!name) return;
-
-		smEntity = this.effectiveSmEntity;
-
+		let smEntity = this.effectiveSmEntity;
 		if (message || smEntity.message[fieldName]) {
 			smEntity.message            = smEntity.message || {};
 			smEntity.message[fieldName] = message;
 		}
-
-		smEntity.properties[name] = value;
-
-		return this.setState({smEntity});
+		if (value !== smEntity.properties[name]) {
+			smEntity.properties[name] = value;
+			this.setState({smEntity});
+		}
 	}
 
 	// SUBMISSION/RESPONSE MANAGEMENT
@@ -181,7 +186,8 @@ class SmEntityModificationForm extends React.Component {
 				                                       post.properties[name]  = property instanceof ValueRepresentation ? property.value : property;
 			                                       });
 
-			              axios.post(url, post).then(({data}) => this.onSubmissionReceived(data))
+			              axios.post(url + '?d_lm=q', post)
+			                   .then(({data}) => this.onSubmissionReceived(data))
 		              })
 	}
 	// When the data has been received after submission
@@ -228,7 +234,7 @@ export {SmEntityModificationForm};
 
 function mapState(state) {
 	let sm = state.scenes.sm;
-	return {sm: {...sm}}
+	return {sm}
 }
 
 function mapDispatch(dispatch) {

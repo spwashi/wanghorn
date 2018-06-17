@@ -14,6 +14,9 @@ use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\Exception\EntityNotFoundException;
 use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
+use Sm\Data\Model\Exception\ModelNotFoundException;
+use Sm\Data\Model\ModelSchematic;
+use Sm\Data\Model\StandardModelPersistenceManager;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Controller\AppController;
 use WANGHORN\Entity\Event\Event;
@@ -63,7 +66,6 @@ class EventController extends AppController {
 		$event->set($properties);
 		try {
 			$event->create($context);
-			return $event->properties;
 		} catch (CannotDuplicateEntryException $exception) {
 			return new ApiResponse(false, 'Event with this name already exists!');
 		} catch (CannotCreateEntityException $exception) {
@@ -74,33 +76,27 @@ class EventController extends AppController {
 		}
 
 
-		return new ApiResponse(true, $event->properties);
+		return new ApiResponse(true, 'Successfully added event');
 	}
 
 	/**
 	 * @return array
 	 */
 	public function all() {
-		$arr = [];
-		foreach (range(1, 10) as $i) {
-			$interval_spec = '' . ($i + rand(2, 3)) . ' day';
-			$interval      = DateInterval::createFromDateString($interval_spec);
-			$start         = $this->randomDatetime()->add($interval);
-			$description   = 'Event Description -- ' . Util::generateRandomString(rand(100, 1000),
-			                                                                      Util::ALPHA_ALL . ':&');
-			$description   = str_replace([':', '&'], [' ', "\n"], $description);
-			$description   = join("\n\n", str_split($description, rand(100, 300)));
-			$description   = preg_replace('/([a-z]+[A-Z]{1})/', '$1 ', $description);
-			$description   = preg_replace("/\n{2,}/", "\n\n", $description);
-			$arr[]         = [
-				'id'          => $i,
-				'title'       => 'Example Event ' . $i,
-				'start_dt'    => $start->format(DATE_ISO8601),
-				'end_dt'      => $this->randomDatetime($start)->format(DATE_ISO8601),
-				'description' => str_replace("\n\n", '<br><br>', $description)
-			];
+		$modelDataManager   = $this->app->data->models;
+		$persistenceManager = $modelDataManager->persistenceManager;
+		if ($persistenceManager instanceof StandardModelPersistenceManager) {
+			$persistenceManager->setFindSafety(false);
 		}
-		return $arr;
+		/** @var ModelSchematic $schematic */
+		$schematic = $modelDataManager->getSchematicByName('event');
+		try {
+			$all = $persistenceManager->findAll($schematic);
+			$persistenceManager->setFindSafety(true);
+			return array_map(function ($item) { return $item->properties; }, $all);
+		} catch (ModelNotFoundException $e) {
+			return [];
+		}
 	}
 	/**
 	 * @param DateTime|null $datetime

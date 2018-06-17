@@ -7,7 +7,13 @@ function convertToSlug(value) {
 	                    .replace(/-{2,}/, '-').toLowerCase();
 }
 export class SlugField extends React.Component {
-	state = {hasBeenModified: false}
+	state = {hasBeenModified: false};
+	componentDidMount(){
+		const slug = this.getSlug();
+		if(slug && slug.length){
+			this.props.setDefaultValue(slug);
+		}
+	}
 	render() {
 		const onValueChange         = this.props.onValueChange;
 		const schematic             = this.props.schematic;
@@ -18,14 +24,13 @@ export class SlugField extends React.Component {
 		const checkPropertyValidity = (schematic, password) => true;
 		const onSlugValueChange     = value => {
 			value = convertToSlug(value);
-			console.log(`|${value}|`);
 			if (value === '') {
 				console.log('here', this.state.hasBeenModified);
 				this.state.hasBeenModified && this.setState({hasBeenModified: false},
 				                                            done => onValueChange(this.getSlug(), checkPropertyValidity))
 			} else if (!this.state.hasBeenModified) {
 				this.setState({hasBeenModified: true},
-				              done => onValueChange(this.getSlug(), checkPropertyValidity));
+				              done => onValueChange(value, checkPropertyValidity));
 			} else {
 				onValueChange(value, checkPropertyValidity);
 			}

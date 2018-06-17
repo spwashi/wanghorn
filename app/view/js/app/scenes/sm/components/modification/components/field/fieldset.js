@@ -45,6 +45,7 @@ export class SmEntityFieldset extends React.Component {
 			                   value={value}
 			                   owner={smEntity}
 			                   message={message}
+			                   setDefaultValue={this.props.setDefaultValue}
 			                   resolveSmEntitySchematic={this.props.resolveSmEntitySchematic}
 			                   resolveSmEntities={this.props.resolveSmEntities}
 			                   updateValueStatus={this.props.updatePropertyValueStatus}
@@ -66,5 +67,6 @@ SmEntityFieldset.propTypes = {
 	resolveSmEntities:        PropTypes.func,
 
 	// A function that allows us to update the value of this SmEntity
-	updatePropertyValueStatus: PropTypes.func
+	updatePropertyValueStatus: PropTypes.func,
+	setDefaultValue:           PropTypes.func
 };

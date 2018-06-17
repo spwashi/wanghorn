@@ -14,6 +14,7 @@ export default class SchematicField extends React.Component {
 		value:                    PropTypes.any,
 		owner:                    PropTypes.object,
 		message:                  PropTypes.any,
+		setDefaultValue:          PropTypes.func,
 		resolveSmEntitySchematic: PropTypes.func.isRequired,
 		resolveSmEntities:        PropTypes.func.isRequired,
 		updateValueStatus:        PropTypes.func.isRequired
@@ -29,6 +30,7 @@ export default class SchematicField extends React.Component {
 			owner:                    this.props.owner,
 			title:                    getTitleFromPropName(this.props.name),
 			message:                  this.props.message,
+			setDefaultValue:          this.setDefaultValue,
 			onValueChange:            this.onValueChange,
 			primaryDatatype:          this.props.schematic.datatypes && this.props.schematic.datatypes[0],
 			resolveSmEntities:        this.props.resolveSmEntities,
@@ -37,16 +39,26 @@ export default class SchematicField extends React.Component {
 		const Component      = SchematicField.fieldFactory.Component;
 		return <Component {...this.props} {...componentProps} />
 	}
-
+	@bind
+	setDefaultValue(value, message) {
+		if (!this.props.value) {
+			this.props.setDefaultValue && this.props.setDefaultValue(this.effectiveSchematic,
+			                                                         value,
+			                                                         message)
+		}
+	}
 	@bind
 	onValueChange(value, checkPropertyValidity = (schematic, value) => true) {
-		const schematic          = this.props.schematic;
-		const fieldName          = this.props.fieldName;
-		const smID               = schematic.smID;
-		const effectiveSchematic = {smID, fieldName, ...schematic};
+		const effectiveSchematic = this.effectiveSchematic;
 		const validityStatus     = checkPropertyValidity(effectiveSchematic, value);
 		const updateValueStatus  = this.props.updateValueStatus;
 		return updateValueStatus(effectiveSchematic, value, validityStatus) || true;
+	}
+	get effectiveSchematic() {
+		const schematic = this.props.schematic;
+		const fieldName = this.props.fieldName;
+		const smID      = schematic.smID;
+		return {smID, fieldName, ...schematic};
 	}
 };
 SchematicField.fieldFactory = new Factory([

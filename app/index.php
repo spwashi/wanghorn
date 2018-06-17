@@ -91,7 +91,22 @@ try {
 	$app->logging->log($exception_messages, 'exception');
 } finally {
 	if (isset($_GET['d_lm'])) {
-		$app->logging->log($app->getMonitors(), 'monitors');
+		$log_level = $_GET['d_lm'];
+		$monitors  = $app->getMonitors();
+		switch ($log_level) {
+			case 'q':
+				$items = $monitors->getAll(true);
+				foreach ($items as $key => $item) {
+					if (strpos($key, 'query') === false) {
+						unset($items[$key]);
+					}
+				}
+				$app->logging->log($items, 'monitors/query');
+				break;
+			default:
+				$app->logging->log($monitors->getAll(true), 'monitors/monitors');
+				break;
+		}
 	}
 	die; /* terminate the script */
 }

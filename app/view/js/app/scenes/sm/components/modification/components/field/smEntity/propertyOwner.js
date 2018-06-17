@@ -77,13 +77,15 @@ export class PropertyOwnerField extends React.Component {
 		const ownerSchematic    = this.getNormalizedSchematic();
 		const owner             = this.getSmEntity();
 		const value             = owner.properties ? owner.properties[name] : null;
-		const message           = (owner.messages ? owner.messages[name] : null) || (this.props.message  || {})[name];
+		const message           = (owner.messages ? owner.messages[name] : null) || (this.props.message || {})[name];
 		const updateValueStatus = this.getPropertyValueStatusUpdateFn(name);
+		const setDefaultValue   = this.getDefaultValueSetFn(name);
 		const fieldName         = prefixName({prefix: ownerSchematic.fieldName, name});
 		return <SchematicField key={name}
 		                       name={name}
 		                       value={value}
 		                       owner={owner}
+		                       setDefaultValue={setDefaultValue}
 		                       prefix={ownerSchematic.name || ownerSchematic.smID}
 		                       message={message}
 		                       fieldName={fieldName}
@@ -93,7 +95,23 @@ export class PropertyOwnerField extends React.Component {
 		                       resolveSmEntitySchematic={this.props.resolveSmEntitySchematic}
 		/>;
 	};
-
+	getDefaultValueSetFn(propertyName) {
+		const ownerSchematic = this.getNormalizedSchematic();
+		const owner          = this.getSmEntity();
+		return (value, message) => {
+			console.log(value, message);
+			let hasChangedSomething = false;
+			if (value !== owner.properties[propertyName]) {
+				owner.properties[propertyName] = value || owner.properties[propertyName];
+				hasChangedSomething            = hasChangedSomething || true;
+			}
+			if ((owner.messages[propertyName] !== message) && message) {
+				owner.messages[propertyName] = message || owner.messages[propertyName];
+				hasChangedSomething          = true;
+			}
+			if (hasChangedSomething) this.props.setDefaultValue(ownerSchematic, owner);
+		}
+	}
 	getPropertyValueStatusUpdateFn(propertyName) {
 		const ownerSchematic = this.getNormalizedSchematic();
 		const owner          = this.getSmEntity();
