@@ -8,11 +8,16 @@ function convertToSlug(value) {
 }
 export class SlugField extends React.Component {
 	state = {hasBeenModified: false};
-	componentDidMount(){
+	componentDidMount() {
 		const slug = this.getSlug();
-		if(slug && slug.length){
+		console.log('mounted', slug);
+		if (slug && slug.length) {
+			console.log(slug);
 			this.props.setDefaultValue(slug);
 		}
+	}
+	componentDidUpdate() {
+		// !this.props.value && this.props.setDefaultValue && this.props.setDefaultValue(this.getSlug())
 	}
 	render() {
 		const onValueChange         = this.props.onValueChange;
@@ -20,12 +25,10 @@ export class SlugField extends React.Component {
 		const name                  = schematic.name;
 		const title                 = this.props.title;
 		const message               = this.props.message;
-		let slug                    = this.props.value;
 		const checkPropertyValidity = (schematic, password) => true;
 		const onSlugValueChange     = value => {
 			value = convertToSlug(value);
 			if (value === '') {
-				console.log('here', this.state.hasBeenModified);
 				this.state.hasBeenModified && this.setState({hasBeenModified: false},
 				                                            done => onValueChange(this.getSlug(), checkPropertyValidity))
 			} else if (!this.state.hasBeenModified) {

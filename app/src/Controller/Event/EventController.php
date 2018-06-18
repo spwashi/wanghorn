@@ -19,6 +19,7 @@ use Sm\Data\Model\ModelSchematic;
 use Sm\Data\Model\StandardModelPersistenceManager;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Controller\AppController;
+use WANGHORN\Datatype\Slug;
 use WANGHORN\Entity\Entity\Entity;
 use WANGHORN\Entity\Event\Event;
 use WANGHORN\Response\ApiResponse;
@@ -64,6 +65,13 @@ class EventController extends AppController {
 
 		$properties = HttpRequestFromEnvironment::getRequestData()['properties'] ?? [];
 		$event      = $this->init_entity();
+		if (!isset($properties['name'])) {
+			if (!isset($properties['title'])) {
+				$please_name_event = 'Each event should have a name, but we can derive this from the title';
+				return new ApiResponse(false, $please_name_event);
+			}
+			$properties['name'] = Slug::slugify($properties['title'] ?? '');
+		}
 		$event->set($properties);
 		try {
 			$event->create($context);
