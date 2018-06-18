@@ -8,7 +8,7 @@ import "react-datetime/css/react-datetime.css"
 import ValueRepresentation    from "../../../../scenes/sm/components/modification/components/field/internal/valueRepresentationProxy";
 import InlineEditableInput    from "./input/inlineEditable";
 
-class DatetimeInput extends React.Component {
+export class DatetimeInput extends React.Component {
 	static propTypes = {
 		value:        PropTypes.object,
 		defaultValue: PropTypes.any.isRequired,
@@ -21,7 +21,7 @@ class DatetimeInput extends React.Component {
 
 		const dateFormat  = 'ddd, MMM Do YYYY';
 		const hourFormat  = 'h:mm a';
-		const valueString = value ? value.format(`${dateFormat} ${hourFormat}`) : null;
+		const valueString = value ? value.format(`${dateFormat} \\a\\t ${hourFormat}`) : null;
 
 		return (
 			<InlineEditableInput value={valueString}

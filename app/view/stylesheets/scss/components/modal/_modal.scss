@@ -1,6 +1,22 @@
 @import "../../colors/colors";
 
 
+.inline-editable {
+	cursor: pointer;
+	input {
+		width: 100%;
+	}
+}
+.rdt.field--input {
+	input {
+		width: 100%;
+	}
+	.rdtPicker {
+		width:  100%;
+		border: thin solid #ccc;
+	}
+}
+
 .modal__-open {
 	&.modal--overlay {
 		top:              0;
@@ -121,17 +137,9 @@
 		> .inline-editable {
 			padding: 5px;
 		}
+
 		> input, > textarea, > .field--input, > .inline-editable {
 			border: thin solid #ccc;
-		}
-		.rdt.field--input {
-			input {
-				width: 100%;
-			}
-			.rdtPicker {
-				width:  100%;
-				border: thin solid #ccc;
-			}
 		}
 		> textarea {
 			padding: 10px;

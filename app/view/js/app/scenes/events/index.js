@@ -3,40 +3,20 @@ import * as PropTypes                 from "prop-types"
 import moment                         from 'moment';
 import axios                          from 'axios';
 import Modal, {navigateBackOnHistory} from "../../components/modal";
-import {Route}                        from "react-router-dom"
-import {withRouter}                   from "react-router"
-import {PageContent}                  from "../../components/page";
-import {getReactPath, getURI}         from "../../../path/resolution";
-import Calendar                       from "./components/calendar";
-import bind                           from "bind-decorator/index";
-import {LinkItem}                     from "../../../components/navigation";
-import ModificationRoute              from "../sm/components/routes/modification";
+import {Route}                from "react-router-dom"
+import {withRouter}           from "react-router"
+import {PageContent}          from "../../components/page";
+import {getReactPath, getURI} from "../../../path/resolution";
+import Calendar               from "./components/calendar";
+import bind                   from "bind-decorator/index";
+import {LinkItem}             from "../../../components/navigation";
+import ModificationRoute      from "../sm/components/routes/modification";
+import {DatetimeField}        from "../../configuration/sm/modify/fields/datetime";
+import {EventModalBodyActive} from "./components/modal/body";
 
 
 let allEvents = [];
 
-function EventModalBodyActive({event} = {}) {
-	if (!event) return 'loading...';
-	return (
-		<div className="event__detail-view">
-			<div className="event--detail--container">
-				<div className="event--detail--wrapper start_dt--wrapper">
-					<div className="event--detail start event--detail__start start_dt">
-						{moment(event.start).calendar()}
-					</div>
-				</div>
-				<div className="event--detail--wrapper end_dt--wrapper">
-					<div className="event--detail end event--detail__end end_dt">
-						{moment(event.end).calendar()}
-					</div>
-				</div>
-			</div>
-			<div className="description--wrapper">
-				<div className="description" dangerouslySetInnerHTML={{__html: event.description}}/>
-			</div>
-		</div>
-	);
-}
 const convertToEvent = event => {
 	const {id, title, event_name, description, start_dt, end_dt} = event;
 
