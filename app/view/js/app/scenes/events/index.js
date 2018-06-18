@@ -10,7 +10,7 @@ import {getReactPath, getURI}         from "../../../path/resolution";
 import Calendar                       from "./components/calendar";
 import bind                           from "bind-decorator/index";
 import {LinkItem}                     from "../../../components/navigation";
-import CreationRoute                  from "../sm/components/routes/creation";
+import ModificationRoute              from "../sm/components/routes/modification";
 
 
 let allEvents = [];
@@ -37,6 +37,19 @@ function EventModalBodyActive({event} = {}) {
 		</div>
 	);
 }
+const convertToEvent = event => {
+	const {id, title, event_name, description, start_dt, end_dt} = event;
+
+	const start = new Date(start_dt);
+	const end   = new Date(end_dt);
+
+	return {
+		id,
+		event_name,
+		title, description,
+		start, end
+	};
+};
 class EventsPage extends React.Component {
 	static contextTypes = {router: PropTypes.object.isRequired};
 	       state        = {events: allEvents};
@@ -67,26 +80,17 @@ class EventsPage extends React.Component {
 				     return;
 			     }
 
-			     events = events.map(event => {
-				     const {id, title, description, start_dt, end_dt} = event;
-
-				     const start = new Date(start_dt);
-				     const end   = new Date(end_dt);
-
-				     return {
-					     id,
-					     title, description,
-					     start, end
-				     };
-			     });
+			     events = events.map(convertToEvent);
 
 			     this.setState({events});
 		     });
 	}
 	render() {
 		let onSelect = event => {
-			const {id, title, start, end} = event;
-			this.props.history && this.props.history.push(getURI('events--item__view', {id: '' + id}));
+			const {id, title, event_name: name, start, end} = event;
+			console.log(event);
+			const identifier                                = (name && name.length && name) || id;
+			this.props.history && this.props.history.push(getURI('events--item__view', {name: '' + identifier}));
 		};
 		return (
 			<PageContent pageTitle="Events" pageClass=".page--__--events">
@@ -96,8 +100,10 @@ class EventsPage extends React.Component {
 				</LinkItem>
 				<Route path={getReactPath('events--item__view')}
 				       component={({match}) => {
-					       const id    = (match.params || {}).id;
-					       const event = (this.state.events || []).find(event => id && (parseInt(event.id) === parseInt(id)));
+					       const id    = (match.params || {}).name;
+					       const event = (this.state.events || []).find(event => {
+						       return id && ((parseInt(event.id) === parseInt(id)) || (id === event.event_name));
+					       });
 					       let body    = <EventModalBodyActive event={event}/>;
 					       return (
 						       <Modal isOpen={true}
@@ -107,12 +113,22 @@ class EventsPage extends React.Component {
 						              children={body}/>
 					       );
 				       }}/>
-				<CreationRoute smEntityIdentifier={'[Entity]event'}
-				               onSubmissionResponseReceived={data => {
-					               console.log(data);
-				               }}
-				               title={'Create New Event'}
-				               closingUri={getURI('events--home')}/>
+				<ModificationRoute smEntityIdentifier={'[Entity]event'}
+				                   onSubmissionResponseReceived={data => {
+					                   if (!data || typeof  data !== 'object') return;
+
+					                   const {smEntity} = data;
+					                   if (!smEntity) return;
+
+					                   const {properties} = smEntity;
+					                   if (!properties) return;
+
+					                   const event  = convertToEvent(properties);
+					                   const events = [...this.state.events, event];
+					                   this.setState({events})
+				                   }}
+				                   title={'Create New Event'}
+				                   closingUri={getURI('events--home')}/>
 			</PageContent>
 		);
 	}

@@ -25,7 +25,7 @@ class Property extends \Sm\Data\Property\Property {
 	 * @throws \Sm\Core\Exception\UnimplementedError
 	 */
 	public function jsonSerialize() {
-		$value = $this->resolve();
+		$value = $this->value;
 		return $value instanceof \DateTime ? $value->format(static::DATETIME_FORMAT) : parent::jsonSerialize();
 	}
 }

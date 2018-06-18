@@ -331,8 +331,7 @@
          "name": {
             "smID": "[Property]{[Model]event} name",
             "datatypes": [
-               "string",
-               "null"
+               "string"
             ]
          },
          "description": {

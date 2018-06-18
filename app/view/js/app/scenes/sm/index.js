@@ -7,7 +7,7 @@ import {selectSmSchematics}                      from "./selector";
 import {fetchModelMetas}                         from "./modules/models/actions/index";
 import {fetchEntityMetas}                        from "./modules/entities/actions/actions";
 import {fetchSmEntities, fetchSmEntitySchematic} from "./actions";
-import CreationRoute                             from "./components/routes/creation";
+import ModificationRoute                         from "./components/routes/modification";
 
 @connect(mapState, mapDispatch)
 class SmScene extends React.Component {
@@ -29,7 +29,7 @@ class SmScene extends React.Component {
 		);
 	}
 
-	renderSmEntityCreationRoute = (ownerType) => <CreationRoute smEntityIdentifier={ownerType}/>;
+	renderSmEntityCreationRoute = (ownerType) => <ModificationRoute smEntityIdentifier={ownerType}/>;
 }
 
 SmScene = withRouter(SmScene);

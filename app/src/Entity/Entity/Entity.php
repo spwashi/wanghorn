@@ -45,11 +45,4 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
                                           'entity properties checked',
                                           $property_errors);
     }
-    
-    
-    #
-    ## Serialization
-    public function jsonSerialize() {
-        return parent::jsonSerialize();
-    }
 }

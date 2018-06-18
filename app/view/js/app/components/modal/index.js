@@ -9,6 +9,7 @@ export function navigateBackOnHistory(history, uri) {
 export default class Modal extends React.Component {
 	static propTypes = {
 		onRequestClose:          PropTypes.func,
+		onRequestEdit:           PropTypes.func,
 		isOpen:                  PropTypes.bool,
 		contentLabel:            PropTypes.string,
 		title:                   PropTypes.string,
@@ -22,16 +23,16 @@ export default class Modal extends React.Component {
 	}
 
 	render() {
-		let {title, onRequestClose, isOpen, contentLabel} = this.props;
-		let modalStatusClassNames                         = {
-			afterOpen:   'modal__-open',
-			beforeClose: 'modal__-closing'
-		};
-		let baseClassname                                 = this.props.baseClassName || '';
-		let overlayClassname                              = this.props.baseClassName ? baseClassname + '--overlay' : '';
-		let modalClassNames                               = {base: `${baseClassname} modal--base`, ...modalStatusClassNames};
-		let modalOverlayClassNames                        = {base: `${overlayClassname} modal--overlay`, ...modalStatusClassNames};
+		let {title, onRequestClose, onRequestEdit, isOpen, contentLabel} = this.props;
+		let {canEdit}                                                    = this.props;
 
+		let modalStatusClassNames  = {afterOpen: 'modal__-open', beforeClose: 'modal__-closing'};
+		let baseClassname          = this.props.baseClassName || '';
+		let overlayClassname       = this.props.baseClassName ? baseClassname + '--overlay' : '';
+		let modalClassNames        = {base: `${baseClassname} modal--base`, ...modalStatusClassNames};
+		let modalOverlayClassNames = {base: `${overlayClassname} modal--overlay`, ...modalStatusClassNames};
+
+		let editButton = canEdit ? <button tabIndex={0} className={'button__edit modal--button__edit'} onClick={onRequestEdit}>E</button> : null;
 		return (
 			<ReactModal onRequestClose={onRequestClose}
 			            isOpen={isOpen}
@@ -41,7 +42,10 @@ export default class Modal extends React.Component {
 			            className={modalClassNames}>
 				<header>
 					<h2>{title}</h2>
-					<button tabIndex={0} className={'button__close modal--button__close'} onClick={onRequestClose}>X</button>
+					<div className="button--container">
+						<button tabIndex={0} className={'button__close modal--button__close'} onClick={onRequestClose}>X</button>
+						{editButton}
+					</div>
 				</header>
 				{this.props.children}
 			</ReactModal>

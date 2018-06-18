@@ -122,16 +122,15 @@
          "pattern": "events/new$",
          "title": "Add Event"
       },
-      "event--view": {
-         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+",
-         "title": "View Event"
+      "event--find": {
+         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+"
       },
       "events--all": {
          "pattern": "events/all$",
          "title": "All Events"
       },
       "events--item__view": {
-         "pattern": "events/{id}:.+/view",
+         "pattern": "events/{name}:[a-zA-Z_\\-\\d]+/view",
          "title": "Event View"
       },
       "entity--create": {

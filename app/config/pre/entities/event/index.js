@@ -16,6 +16,7 @@ export const properties        = {
 		},
 		datatypes:   [STRING_, 'slug']
 	},
+	id:          true,
 	title:       true,
 	start_dt:    true,
 	end_dt:      true,

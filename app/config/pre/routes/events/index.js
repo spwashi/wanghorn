@@ -22,8 +22,7 @@ export default [
 	new Route({
 		          resolution: '[Event]@findEvent',
 		          pattern:    'event/{name}:[a-zA-Z_\\-\\d]+',
-		          name:       'event--view',
-		          title:      "View Event"
+		          name:       'event--find',
 	          }),
 	new Route({
 		          resolution: "[Event]@all",
@@ -33,7 +32,7 @@ export default [
 	          }),
 	new Route({
 		          renderedBy: RENDER_METHODS.client,
-		          pattern:    'events/{id}:.+/view',
+		          pattern:    'events/{name}:[a-zA-Z_\\-\\d]+/view',
 		          name:       'events--item__view',
 		          title:      "Event View"
 	          })

@@ -195,7 +195,11 @@ class SmEntityModificationForm extends React.Component {
 		data                    = SmEntityModificationForm.normalizeResponse(data);
 		const {status, message} = data;
 		const smEntity          = this.resolveSmEntityFromData({status, message});
-		this.props.onSubmissionResponseReceived && this.props.onSubmissionResponseReceived({data, smEntity});
+		console.log(status);
+		let responseReceived = this.props.onSubmissionResponseReceived;
+		if (responseReceived) {
+			responseReceived({data, smEntity: status !== 'error' ? smEntity : null});
+		}
 		this.setState({status, smEntity, message});
 	}
 	// Get the new smEntity from the response

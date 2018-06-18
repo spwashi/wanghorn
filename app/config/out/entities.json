@@ -34,6 +34,16 @@
                }
             }
          },
+         "id": {
+            "smID": "[Property]{[Entity]event} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true,
+            "derivedFrom": "[Property]{[Model]event} id"
+         },
          "title": {
             "smID": "[Property]{[Entity]event} title",
             "datatypes": [

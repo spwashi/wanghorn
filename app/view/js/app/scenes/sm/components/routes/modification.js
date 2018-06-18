@@ -8,11 +8,12 @@ import {selectSmState, fromSm_selectSchematicOfSmID}  from "../../selector";
 import {connect}                                      from "react-redux";
 
 
-class SmEntityCreationDialog extends React.Component {
+class Dialog extends React.Component {
 	static propTypes = {
 		match:                        PropTypes.any.isRequired,
 		history:                      PropTypes.any.isRequired,
 		sm:                           PropTypes.any.isRequired,
+		action:                       PropTypes.string.isRequired,
 		name:                         PropTypes.any.isRequired,
 		smID:                         PropTypes.any.isRequired,
 		formTitle:                    PropTypes.any,
@@ -22,6 +23,7 @@ class SmEntityCreationDialog extends React.Component {
 	};
 	render() {
 		let {match, history}                            = this.props;
+		let {action}                                    = this.props;
 		let {sm, name, smID}                            = this.props;
 		let {formTitle, closingUri, smEntityIdentifier} = this.props;
 		let {onSubmissionResponseReceived}              = this.props;
@@ -32,13 +34,13 @@ class SmEntityCreationDialog extends React.Component {
 		const managerFormats      = getSmEntityManagerFormats(smEntityIdentifier);
 		const ownerType_lowercase = managerFormats.lowercase;
 		const managerName         = managerFormats.managerName;
-		const fallbackReceiveName = `${ownerType_lowercase}--create--receive`;
+		const fallbackReceiveName = `${ownerType_lowercase}--${action}--receive`;
 
 
 		smID = smID || `${managerName}${name}`;
 
 
-		const getFormReceiveUriName = name => `${ownerType_lowercase}--${name}--create--receive`;
+		const getFormReceiveUriName = name => `${ownerType_lowercase}--${name}--${action}--receive`;
 		const navigateUri           = getURI(getFormReceiveUriName(name), {name}, {fallback: fallbackReceiveName});
 
 		if (!schematic) return ' ...loading';
@@ -55,47 +57,55 @@ class SmEntityCreationDialog extends React.Component {
 
 @connect(mapState)
 @withRouter
-class CreationRoute extends React.Component {
+class ModificationRoute extends React.Component {
 	static propTypes = {
 		sm:                           PropTypes.object,
 		onSubmissionResponseReceived: PropTypes.func,
+		isEdit:                       PropTypes.bool,
 		// A string that can identify this smEntity
 		smEntityIdentifier:           PropTypes.string.isRequired,
 		// Where to go when we close this modification/page
 		closingUri:                   PropTypes.string,
 	};
 	shouldComponentUpdate(props, state) {
-		return !(props.sm && props.sm.schematics);
+		return !(props.sm && props.sm.schematics) || (props.location !== this.props.location);
 	}
 	render() {
-		let smID, name;
 		let {smEntityIdentifier, closingUri}                = this.props;
+		const {isEdit}                                      = this.props;
 		const {sm, formTitle, onSubmissionResponseReceived} = this.props;
 		const managerFormats                                = getSmEntityManagerFormats(smEntityIdentifier);
 		const ownerType_lowercase                           = managerFormats.lowercase;
-		const fallback                                      = `${ownerType_lowercase}--create`;
+		const action                                        = isEdit ? 'edit' : 'create';
+		const fallback                                      = `${ownerType_lowercase}--${action}`;
+		const {smID, name}                                  = this.resolveFromIdentifier(smEntityIdentifier);
+		const reactPathName                                 = name ? `${name}--${action}` : fallback;
+		const reactPath                                     = getReactPath(reactPathName, null, {fallback: fallback});
+		return <Route path={reactPath}
+		              component={props => <Dialog key={'dialog'}
+		                                          {...this.props}
+		                                          closingUri={closingUri}
+		                                          formTitle={formTitle}
+		                                          action={isEdit ? 'edit' : 'create'}
+		                                          name={name}
+		                                          onSubmissionResponseReceived={onSubmissionResponseReceived}
+		                                          sm={sm}
+		                                          smID={smID} smEntityIdentifier={smEntityIdentifier}/>}/>;
+
+	}
+	resolveFromIdentifier(smEntityIdentifier) {
+		let smID, name;
 		if (isSmID(smEntityIdentifier)) {
 			const parsed = parseSmID(smEntityIdentifier);
 			name         = parsed.name;
 			smID         = smEntityIdentifier;
 		}
-		const reactPathName = name ? `${name}--create` : fallback;
-		const reactPath     = getReactPath(reactPathName, null, {fallback: fallback});
-		return <Route path={reactPath}
-		              component={props => <SmEntityCreationDialog key={'dialog'}
-		                                                          {...this.props}
-		                                                          closingUri={closingUri}
-		                                                          formTitle={formTitle}
-		                                                          name={name}
-		                                                          onSubmissionResponseReceived={onSubmissionResponseReceived}
-		                                                          sm={sm}
-		                                                          smID={smID} smEntityIdentifier={smEntityIdentifier}/>}/>;
-
+		return {smID, name};
 	}
 }
 
 
-export default CreationRoute;
+export default ModificationRoute;
 
 function mapState(state) {
 	const sm = selectSmState(state);

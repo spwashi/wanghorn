@@ -11,7 +11,7 @@ export const properties      = {
 		datatypes: STRING_,
 		unique:    true
 	},
-	name:        {datatypes: [STRING_, NULL_]},
+	name:        {datatypes: [STRING_]},
 	description: {length: 2500, datatypes: [STRING_, NULL_]},
 	start_dt:    {datatypes: DATETIME_},
 	end_dt:      {datatypes: DATETIME_}

@@ -19,6 +19,7 @@ use Sm\Data\Model\ModelSchematic;
 use Sm\Data\Model\StandardModelPersistenceManager;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Controller\AppController;
+use WANGHORN\Entity\Entity\Entity;
 use WANGHORN\Entity\Event\Event;
 use WANGHORN\Response\ApiResponse;
 class EventController extends AppController {
@@ -84,6 +85,7 @@ class EventController extends AppController {
 	 */
 	public function all() {
 		$modelDataManager   = $this->app->data->models;
+		$entityDataManager  = $this->app->data->entities;
 		$persistenceManager = $modelDataManager->persistenceManager;
 		if ($persistenceManager instanceof StandardModelPersistenceManager) {
 			$persistenceManager->setFindSafety(false);
@@ -93,7 +95,16 @@ class EventController extends AppController {
 		try {
 			$all = $persistenceManager->findAll($schematic);
 			$persistenceManager->setFindSafety(true);
-			return array_map(function ($item) { return $item->properties; }, $all);
+			$mapToEntity =
+				function ($model) use ($entityDataManager) {
+					/** @var Event $entity */
+					$entity           = $entityDataManager->instantiate('event');
+					$entity           = $entity->fromModel($model);
+					$entityProperties = $entity->properties;
+					return $entityProperties;
+				};
+			$ret         = array_map($mapToEntity, $all);
+			return $ret;
 		} catch (ModelNotFoundException $e) {
 			return [];
 		}
