@@ -1,10 +1,46 @@
 import React                  from "react";
+import PropTypes              from "prop-types";
 import moment                 from "moment";
 import {DefaultPropertyField} from "../../../../scenes/sm/components/modification/components/field/smEntity/default";
 import {Field}                from "base-components/form/field/field";
 import Datetime               from "react-datetime/DateTime"
 import "react-datetime/css/react-datetime.css"
 import ValueRepresentation    from "../../../../scenes/sm/components/modification/components/field/internal/valueRepresentationProxy";
+import InlineEditableInput    from "./input/inlineEditable";
+
+class DatetimeInput extends React.Component {
+	static propTypes = {
+		value:        PropTypes.object,
+		defaultValue: PropTypes.any.isRequired,
+		required:     PropTypes.bool.isRequired,
+		onChange:     PropTypes.func.isRequired,
+	};
+	       state     = {inputIsActive: null};
+	render() {
+		const {value, defaultValue, required, onChange} = this.props;
+
+		const dateFormat  = 'ddd, MMM Do YYYY';
+		const hourFormat  = 'h:mm a';
+		const valueString = value ? value.format(`${dateFormat} ${hourFormat}`) : null;
+
+		return (
+			<InlineEditableInput value={valueString}
+			                     input={() => <Datetime value={value}
+			                                            onBlur={e => this.setState({inputIsActive: false}, () => console.log('here'))}
+			                                            onChange={onChange}
+
+			                                            className={'field--input'}
+			                                            dateFormat={dateFormat}
+			                                            timeFormat={hourFormat}
+			                                            inputProps={{required, autoFocus: true}}
+			                                            defaultValue={defaultValue}
+			                                            timeConstraints={{minutes: {step: 15}}}/>}
+			                     isEdit={this.state.inputIsActive}
+			                     activate={e => this.setState({inputIsActive: true})}
+			                     deactivate={e => this.setState({inputIsActive: false})}/>
+		);
+	}
+}
 
 export class DatetimeField extends React.Component {
 	static propTypes = {...DefaultPropertyField.propTypes};
@@ -14,27 +50,30 @@ export class DatetimeField extends React.Component {
 		let value = new ValueRepresentation(str, moment());
 		this.props.setDefaultValue && this.props.setDefaultValue(value);
 	}
-	render() {
-		let value          = this.props.value;
-		value              = value instanceof ValueRepresentation ? value.internal
-		                                                          : (typeof value === 'string' ? moment(value)
-		                                                                                       : value);
-		const onChange     = e => {
+	onChange =
+		e => {
 			if (!e.minute) return;
 			e.minute(Math.round(e.minute() / 15) * 15).second(0);
-			this.props.onValueChange(new ValueRepresentation(e.toISOString(true).replace(/\.\d+/, ''), e))
+			let value = new ValueRepresentation(e.toISOString(true).replace(/\.\d+/, ''), e);
+			this.props.onValueChange(value)
 		};
-		const schematic    = this.props.schematic;
-		const defaultValue = moment(value || undefined);
-		const required     = !!(schematic && schematic.isRequired);
-		const input        = <Datetime value={value}
-		                               className={'field--input'}
-		                               dateFormat={'ddd, MMM Do YYYY'}
-		                               timeFormat={'h:mm a'}
-		                               timeConstraints={{minutes: {step: 15}}}
-		                               defaultValue={defaultValue}
-		                               inputProps={{required: required}}
-		                               onChange={onChange}/>;
-		return <Field title={this.props.title} name={this.props.name} message={this.props.message} input={input}/>
+
+	render() {
+		let value = this.props.value;
+		if (value instanceof ValueRepresentation) {
+			value = value.internal;
+		} else if (typeof value === 'string') {
+			value = moment(value);
+		}
+
+		const schematic = this.props.schematic;
+		const input     = <DatetimeInput value={value}
+		                                 defaultValue={moment(value || undefined)}
+		                                 onChange={this.onChange}
+		                                 required={!!(schematic && schematic.isRequired)}/>;
+		return <Field title={this.props.title}
+		              name={this.props.name}
+		              message={this.props.message}
+		              input={input}/>
 	}
 }

@@ -98,7 +98,10 @@
 			display:   inline-block;
 			font-size: .7em;
 		}
-		> input, > textarea, > .field--input {
+		> .inline-editable {
+			padding: 5px;
+		}
+		> input, > textarea, > .field--input, > .inline-editable {
 			border: thin solid #ccc;
 		}
 		.rdt.field--input {
@@ -134,7 +137,7 @@
 				width: 100%;
 			}
 		}
-		> input, > .Select, > textarea, > select, > .field--input, > .field--input {
+		> input, > .Select, > textarea, > select, > .field--input, > .inline-editable {
 			flex:    1 0 75%;
 			display: inline-block;
 		}
