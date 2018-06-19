@@ -11,7 +11,7 @@ export const APP_NAME          = `wanghorn`;
 // The namespace used in PHP to prefix app-specific files
 export const APP_NAMESPACE     = APP_NAME.toUpperCase();
 // The URL including the Path that we will use to access our files
-export const APP_URL           = `${APP_ROOT_URL}/${APP_BASE_URL_PATH}`;
+export const APP_URL           = APP_BASE_URL_PATH.length ? `${APP_ROOT_URL}/${APP_BASE_URL_PATH}` : APP_ROOT_URL;
 // URL for the public files (where we access the files output by webpack)
 export const APP_URL__PUBLIC   = `${APP_URL}/public`;
 // The environment in which we are operating -- defaults to production for the sake of probable intention

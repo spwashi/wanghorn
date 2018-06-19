@@ -4,36 +4,38 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118758462-1"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-118758462-1');
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-118758462-1');
     </script>
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({
-                      'gtm.start':
-                          new Date().getTime(), event: 'gtm.js'
-                  });
-        var f                          = d.getElementsByTagName(s)[0],
-            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async                        = true;
-        j.src                          =
-            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-N99LWLN');</script>
+			w[l] = w[l] || [];
+			w[l].push({
+				          'gtm.start':
+					          new Date().getTime(), event: 'gtm.js'
+			          });
+			var f                          = d.getElementsByTagName(s)[0],
+			    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+			j.async                        = true;
+			j.src                          =
+				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+			f.parentNode.insertBefore(j, f);
+		})(window, document, 'script', 'dataLayer', 'GTM-N99LWLN');</script>
     <!-- End Google Tag Manager -->
 
     <!-- Charset -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
 
     <!-- FontAwesome -->
-    <link rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
-          crossorigin="anonymous">
-
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.public.vendor %>/fa/css/fontawesome-all.min.css">
+    <style>
+        @font-face {
+            font-family: FontAwesome;
+            src:         url(<%= htmlWebpackPlugin.options.public.vendor %>/fa/fonts/fa-solid.ttf)
+        }
+    </style>
     <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/apple-touch-icon.png?v=1.1">
     <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/favicon-32x32.png?v=1.1">
@@ -49,12 +51,12 @@
     {{inject|raw}}
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N99LWLN"
-                height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <div id="app"></div>
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N99LWLN"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="app"></div>
 </body>
 </html>

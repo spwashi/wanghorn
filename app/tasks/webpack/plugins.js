@@ -1,20 +1,23 @@
-import path                                                                                                                                                                             from "path"
+import path    from "path"
 import ExtractTextPlugin
-                                                                                                                                                                                        from "extract-text-webpack-plugin";
+               from "extract-text-webpack-plugin";
 import HtmlPlugin
-                                                                                                                                                                                        from "html-webpack-plugin";
+               from "html-webpack-plugin";
 import {
 	APP_NAME,
 	ENVIRONMENT
-}                                                                                                                                                                                       from "../../config/config";
+}              from "../../config/config";
 import CleanWebpackPlugin
-                                                                                                                                                                                        from "clean-webpack-plugin";
-import webpack                                                                                                                                                                          from "webpack";
-import {htmlTemplatePath, outputPath__CSS, outputPath__HTML, outputPath__JS, publicURL__HTML, publicURL__IMG, publicURL__JS, relativeCSS_output_filename, relativeHTML_output_filename} from "./paths";
+               from "clean-webpack-plugin";
+import webpack from "webpack";
+import {
+	htmlTemplatePath, outputPath__CSS, outputPath__HTML, outputPath__JS,
+	publicURL__CSS, publicURL__HTML, publicURL__IMG, publicURL__JS, publicURL__vendor, relativeCSS_output_filename, relativeHTML_output_filename
+}              from "./paths";
 import HtmlWebpackHarddiskPlugin
-                                                                                                                                                                                        from "html-webpack-harddisk-plugin";
+               from "html-webpack-harddisk-plugin";
 import HardSourceWebpackPlugin
-                                                                                                                                                                                        from 'hard-source-webpack-plugin';
+               from 'hard-source-webpack-plugin';
 
 const IS_PROD                 = ENVIRONMENT === 'production';
 const extractTextPlugin       =
@@ -27,9 +30,11 @@ const htmlPlugin              =
 		                     inlineSource:      '.(js|css)$',
 		                     filename:          relativeHTML_output_filename,
 		                     public:            {
-			                     publicURL__IMG,
-			                     publicURL__HTML,
-			                     publicURL__JS,
+			                     img:    publicURL__IMG,
+			                     vendor: publicURL__vendor,
+			                     html:   publicURL__HTML,
+			                     css:    publicURL__CSS,
+			                     js:     publicURL__JS,
 		                     }
 	                     });
 const cleanWebpackPlugin      = new CleanWebpackPlugin([`${outputPath__JS}/*`, `${outputPath__CSS}/*`],
