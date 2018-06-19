@@ -1,6 +1,7 @@
-import React                          from "react";
-import moment                         from "moment";
-import {DatetimeField, DatetimeInput} from "../../../../configuration/sm/modify/fields/datetime";
+import React           from "react";
+import moment          from "moment";
+import {DatetimeField} from "../../../../configuration/sm/modify/fields/datetime";
+import {DatetimeInput} from "../../../../configuration/sm/modify/fields/datetime/input";
 export class EventModalBodyActive extends React.Component {
 	render() {
 		const event = this.props.event;
