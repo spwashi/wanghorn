@@ -170,7 +170,7 @@
 	}
 	.rbc-calendar {
 		width:  100%;
-		height: 500px;
+		min-height: 500px;
 	}
 	.rbc-off-range-bg {
 		background-color: $calendar--date__offRange-_-backgroundColor;
