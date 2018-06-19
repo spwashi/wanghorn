@@ -1,17 +1,19 @@
-import React                                                    from "react"
-import * as PropTypes                                           from "prop-types"
-import _                                                        from 'lodash';
-import bind                                                     from "bind-decorator";
-import {bindActionCreators}                                     from "redux"
-import axios                                                    from "axios";
-import {reduceEntriesIntoObject}                                from "../../../../../../utility";
-import {connect}                                                from "react-redux";
-import {SmEntityFieldset}                                       from "./field/fieldset";
-import {normalizeSmID}                                          from "../../../utility";
-import {ApiResponseMessage}                                     from "../../../../../../components/form/response";
-import {fetchModels}                                            from "../../../modules/models/actions/index";
-import {fromSm_selectItemsOfSmID, fromSm_selectSchematicOfSmID} from "../../../selector";
-import ValueRepresentation                                      from "./field/internal/valueRepresentationProxy";
+import React                from "react"
+import * as PropTypes       from "prop-types"
+import _                    from 'lodash';
+import bind                 from "bind-decorator";
+import {bindActionCreators} from "redux"
+import {randomString}       from "../../../../../../utility";
+import {connect}            from "react-redux";
+import {SmEntityFieldset}   from "./field/fieldset";
+import {normalizeSmID}      from "../../../utility"
+import {
+	fromSm_resolveItemOfInternalID,
+	fromSm_selectInstancesOfSmID,
+	fromSm_selectSchematicOfSmID
+}                           from "../../../selector";
+import {persistSmEntity}    from "../../../actions";
+import {ApiResponseMessage} from "base-components/form/response";
 
 
 @connect(mapState, mapDispatch)
@@ -29,12 +31,14 @@ class SmEntityModificationForm extends React.Component {
 
 	constructor(props) {
 		super(props);
-		let schematic              = this.schematic || null;
-		let smEntity               = this.props.smEntity && this.props.smEntity.smID ? this.props.smEntity : {};
-		smEntity.smID              = smEntity.smID || (this.schematic && this.schematic.smID);
 		let message                = {};
 		let status                 = null;
-		this.state                 = {status, message, smEntity, schematic};
+		let schematic              = this.schematic || null;
+		let smEntity               = this.props.smEntity && this.props.smEntity.smID ? this.props.smEntity : {};
+		let _id                    = smEntity._id || randomString();
+		smEntity.smID              = smEntity.smID || (this.schematic && this.schematic.smID);
+		smEntity._id               = _id;
+		this.state                 = {_id, status, message, smEntity, schematic};
 		this.propertyChangeHandler = this.props.onPropertyValueChange || function () {
 		};
 	}
@@ -51,8 +55,26 @@ class SmEntityModificationForm extends React.Component {
 		schematic             = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
 		this.setState({hasSoughtSchematic: true, schematic})
 	}
-	shouldComponentUpdate(props, state, context) {
-		return true;
+	get persistedInstance() {
+		return fromSm_resolveItemOfInternalID(this.props.sm,
+		                                      {
+			                                      smID: this.props.smID,
+			                                      _id:  this.state._id
+		                                      });
+	}
+	componentWillReceiveProps(nextProps) {
+		const item    = this.persistedInstance;
+		let isLoading = this.state.status === 'loading';
+		if (!item) return;
+		let hasBeenUpdated = item._lastResolved > (this.effectiveSmEntity._lastResolved || 0);
+		console.log(item, hasBeenUpdated);
+		if (isLoading && hasBeenUpdated) {
+			this.setState({
+				              status:   'success',
+				              smEntity: item,
+				              message:  item.message || this.state.message
+			              });
+		}
 	}
 	render() {
 		const status    = this.state.status;
@@ -90,7 +112,7 @@ class SmEntityModificationForm extends React.Component {
 	resolveSmEntities        = item => {
 		const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
 		if (!smID) return;
-		return fromSm_selectItemsOfSmID(this.props.sm, {smID});
+		return fromSm_selectInstancesOfSmID(this.props.sm, {smID});
 	};
 	resolveSmEntitySchematic = item => {
 		const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
@@ -130,13 +152,11 @@ class SmEntityModificationForm extends React.Component {
 			smEntity.message[name] = message;
 			hasChanged             = true;
 		}
-		hasChanged && this.setState(
-			state => {
-				return {
-					...state,
-					smEntity: _.merge({}, smEntity, state.smEntity)
-				}
+		if (hasChanged) {
+			this.setState(state => {
+				return {...state, smEntity: _.merge(smEntity, state.smEntity)}
 			});
+		}
 	}
 	// Function to run when we update the value of the schematic
 	updatePropertyValueStatus(effectiveSchematic, value, message = true) {
@@ -173,65 +193,11 @@ class SmEntityModificationForm extends React.Component {
 		}
 
 		// Otherwise, go through the "loading, success/error" process below
-		this.setState({status: 'loading'},
-		              () => {
-			              const post = Object.entries(this.state.smEntity || {})
-			                                 .filter(([name]) => name[0] !== '_')
-			                                 .map(([name, value]) => [name, value])
-			                                 .reduce(reduceEntriesIntoObject, {});
-
-			              post.properties && Object.entries(post.properties || {})
-			                                       .forEach(entry => {
-				                                       const [name, property] = entry;
-				                                       post.properties[name]  = property instanceof ValueRepresentation ? property.value : property;
-			                                       });
-
-			              axios.post(url + '?d_lm=q', post)
-			                   .then(({data}) => this.onSubmissionReceived(data))
-		              })
-	}
-	// When the data has been received after submission
-	onSubmissionReceived(data) {
-		data                    = SmEntityModificationForm.normalizeResponse(data);
-		const {status, message} = data;
-		const smEntity          = this.resolveSmEntityFromData({status, message});
-		console.log(status);
-		let responseReceived = this.props.onSubmissionResponseReceived;
-		if (responseReceived) {
-			responseReceived({data, smEntity: status !== 'error' ? smEntity : null});
-		}
-		this.setState({status, smEntity, message});
-	}
-	// Get the new smEntity from the response
-	resolveSmEntityFromData(data) {
-		const {status, message} = data;
-		let smEntity            = this.state.smEntity;
-		if (typeof message === "object") {
-			Object.entries(message)
-			      .forEach(([propertyName, propertyMessage]) => {
-				      const smEntityProperty = (smEntity.properties || {})[propertyName] || {};
-				      propertyMessage.message && Object.assign(smEntityProperty.message || {}, propertyMessage.message);
-			      });
-		}
-		return {...smEntity, message};
+		let _id     = this.state._id;
+		let persist = done => this.props.persist({smEntity, _id});
+		this.setState({status: 'loading'}, persist)
 	}
 
-	//
-	static normalizeResponse(data) {
-		const status = data.success || (data.status === true) ? 'success' : 'error';
-		let txt, message;
-		if (status === 'error') {
-			txt = {message: 'Error Processing Request', success: false};
-		} else {
-			txt = data && data.message && data.message._message;
-		}
-		if (typeof data.message === 'object') {
-			message = data.message;
-		} else {
-			message = typeof data.message === 'string' ? {_message: data.message} : {_message: txt};
-		}
-		return {status, message};
-	}
 }
 
 export {SmEntityModificationForm};
@@ -242,7 +208,7 @@ function mapState(state) {
 }
 
 function mapDispatch(dispatch) {
-	return bindActionCreators({fetchModels,}, dispatch);
+	return bindActionCreators({persist: persistSmEntity}, dispatch);
 }
 
 function getFormSubmissionStatus(smEntity) {

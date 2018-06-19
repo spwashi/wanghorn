@@ -1,8 +1,8 @@
 import React               from "react";
 import PropTypes           from "prop-types";
-import "react-datetime/css/react-datetime.css"
 import InlineEditableInput from "../input/inlineEditable";
 import Datetime            from "react-datetime";
+import "react-datetime/css/react-datetime.css"
 
 export class DatetimeInput extends React.Component {
 	static propTypes = {
@@ -19,21 +19,23 @@ export class DatetimeInput extends React.Component {
 		const hourFormat  = 'h:mm a';
 		const valueString = value ? value.format(`${dateFormat} \\a\\t ${hourFormat}`) : null;
 
-		return (
-			<InlineEditableInput value={valueString}
-			                     input={() => <Datetime value={value}
-			                                            onBlur={e => this.setState({inputIsActive: false}, () => console.log('here'))}
-			                                            onChange={onChange}
+		const input = () => <Datetime className={'field--input'}
+		                              value={value}
+		                              defaultValue={defaultValue}
 
-			                                            className={'field--input'}
-			                                            dateFormat={dateFormat}
-			                                            timeFormat={hourFormat}
-			                                            inputProps={{required, autoFocus: true}}
-			                                            defaultValue={defaultValue}
-			                                            timeConstraints={{minutes: {step: 15}}}/>}
-			                     isEdit={this.state.inputIsActive}
-			                     activate={e => this.setState({inputIsActive: true})}
-			                     deactivate={e => this.setState({inputIsActive: false})}/>
-		);
+		                              onBlur={e => this.setState({inputIsActive: false})}
+		                              onChange={onChange}
+		                              inputProps={{required, autoFocus: true}}
+
+		                              dateFormat={dateFormat}
+		                              timeFormat={hourFormat}
+
+		                              timeConstraints={{minutes: {step: 15}}}/>;
+
+		return <InlineEditableInput value={valueString}
+		                            input={input}
+		                            isEdit={this.state.inputIsActive}
+		                            activate={e => this.setState({inputIsActive: true})}
+		                            deactivate={e => this.setState({inputIsActive: false})}/>;
 	}
 }

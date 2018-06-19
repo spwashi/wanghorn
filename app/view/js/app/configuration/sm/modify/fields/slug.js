@@ -39,7 +39,7 @@ export class SlugField extends React.Component {
 			}
 		};
 
-		slug        = this.getSlug();
+		const slug  = this.getSlug();
 		const input = <PropertyInput title={title}
 		                             value={slug}
 		                             onValueChange={onSlugValueChange}

@@ -43,7 +43,23 @@ let stringifiedEnv            = JSON.stringify(process.env.NODE_ENV || 'developm
 const definePlugin            = new webpack.DefinePlugin({'process.env.NODE_ENV': stringifiedEnv});
 const prodPlugins             = [new webpack.optimize.UglifyJsPlugin({compress: {warnings: false}})];
 const devPlugins              = [new HtmlWebpackHarddiskPlugin({outputPath: path.resolve(outputPath__HTML)})];
-const hardSourceWebpackPlugin = new HardSourceWebpackPlugin;
+const hardSourceWebpackPlugin = new HardSourceWebpackPlugin({
+	                                                            apply: function (compiler) {
+		                                                            compiler.plugin('compilation', function (compilation) {
+			                                                            compilation.plugin('optimize-chunk-order', function () {
+				                                                            if (compilation.usedChunkIds) {
+					                                                            var usedChunkIds = {};
+					                                                            for (var key in compilation.usedChunkIds) {
+						                                                            if (compilation.usedChunkIds[key] < 100000) {
+							                                                            usedChunkIds[key] = compilation.usedChunkIds[key];
+						                                                            }
+					                                                            }
+					                                                            compilation.usedChunkIds = usedChunkIds;
+				                                                            }
+			                                                            });
+		                                                            });
+	                                                            },
+                                                            });
 
 export const webpackPlugins = [
 	extractTextPlugin,

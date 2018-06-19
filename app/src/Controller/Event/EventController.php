@@ -67,7 +67,7 @@ class EventController extends AppController {
 		$event      = $this->init_entity();
 		if (!isset($properties['name'])) {
 			if (!isset($properties['title'])) {
-				$please_name_event = 'Each event should have a name, but we can derive this from the title';
+				$please_name_event = 'Each event should have a name (we can guess from the title). Please provide at least a name or a title.';
 				return new ApiResponse(false, $please_name_event);
 			}
 			$properties['name'] = Slug::slugify($properties['title'] ?? '');

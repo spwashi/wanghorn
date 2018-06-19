@@ -80,7 +80,7 @@ class ModificationRoute extends React.Component {
 		const fallback                                      = `${ownerType_lowercase}--${action}`;
 		const {smID, name}                                  = this.resolveFromIdentifier(smEntityIdentifier);
 		const reactPathName                                 = name ? `${name}--${action}` : fallback;
-		const reactPath                                     = getReactPath(reactPathName, null, {fallback: fallback});
+		const reactPath                                     = getReactPath(reactPathName, null, {fallback});
 		return <Route path={reactPath}
 		              component={props => <Dialog key={'dialog'}
 		                                          {...this.props}

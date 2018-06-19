@@ -1,11 +1,11 @@
 import React                                                                                                                           from "react"
 import * as PropTypes                                                                                                                  from "prop-types"
-import {SmEntitySelectOption}                                                                                                          from "./option/index";
-import {bindActionCreators}                                                                                                            from 'redux'
-import {connect}                                                                                                                       from 'react-redux'
-import ReactSelect                                                                                                                     from "react-select";
-import {fromSm_selectItemsOfSmID, fromSm_selectSchematicOfSmID, fromSmEntityManagersSelectType, selectSmEntityManagers, selectSmState} from "../../../../selector";
-import {fetchSmEntities, fetchSmEntitySchematic}                                                                                       from "../../../../actions/index";
+import {SmEntitySelectOption}                                                                                                              from "./option/index";
+import {bindActionCreators}                                                                                                                from 'redux'
+import {connect}                                                                                                                           from 'react-redux'
+import ReactSelect                                                                                                                         from "react-select";
+import {fromSm_selectInstancesOfSmID, fromSm_selectSchematicOfSmID, fromSmEntityManagersSelectType, selectSmEntityManagers, selectSmState} from "../../../../selector";
+import {fetchSmEntities, fetchSmEntitySchematic}                                                                                           from "../../../../actions/index";
 
 const mapState    = state => ({
 	sm:       selectSmState(state),
@@ -67,7 +67,7 @@ export class SmEntitySelect extends React.Component {
 	getItems(smIDs) {
 		const items = [];
 		smIDs.map(smID => {
-			const fetched = fromSm_selectItemsOfSmID(this.props.sm, {smID}) || [];
+			const fetched = fromSm_selectInstancesOfSmID(this.props.sm, {smID}) || [];
 			return items.push(...fetched);
 		});
 		console.log(items);
