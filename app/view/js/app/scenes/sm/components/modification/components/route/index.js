@@ -1,10 +1,10 @@
 import React                                          from "react";
 import PropTypes                                      from "prop-types";
 import {Route, withRouter}                            from 'react-router-dom'
-import {getReactPath, getURI}                         from "../../../../../path/resolution";
-import {SmEntityModificationDialog}                   from "../modification/components/dialog";
-import {getSmEntityManagerFormats, parseSmID, isSmID} from "./../../utility";
-import {selectSmState, fromSm_selectSchematicOfSmID}  from "../../selector";
+import {getReactPath, getURI}                         from "../../../../../../../path/resolution";
+import {SmEntityModificationDialog}                   from "../dialog";
+import {getSmEntityManagerFormats, parseSmID, isSmID} from "../../../../utility";
+import {selectSmState, fromSm_selectSchematicOfSmID}  from "../../../../selector";
 import {connect}                                      from "react-redux";
 
 
@@ -13,21 +13,20 @@ class Dialog extends React.Component {
 		match:              PropTypes.any.isRequired,
 		history:            PropTypes.any.isRequired,
 		sm:                 PropTypes.any.isRequired,
-		action:             PropTypes.string.isRequired,
+		intent:             PropTypes.string.isRequired,
 		name:               PropTypes.any.isRequired,
 		smID:               PropTypes.any.isRequired,
 		formTitle:          PropTypes.any,
+		resolveSmEntity:    PropTypes.func,
 		closingUri:         PropTypes.any.isRequired,
 		smEntityIdentifier: PropTypes.any.isRequired,
 	};
 	render() {
 		let {match, history}                            = this.props;
-		let {action}                                    = this.props;
-		let {sm, name, smID}                            = this.props;
+		let {intent}                                    = this.props;
+		let {sm, name, smID, resolveSmEntity}           = this.props;
 		let {formTitle, closingUri, smEntityIdentifier} = this.props;
-		let {onSubmissionResponseReceived}              = this.props;
 		if (!smID) name = match.params.name;
-
 
 		const schematic      = fromSm_selectSchematicOfSmID(sm, {smID});
 		const managerFormats = getSmEntityManagerFormats(smEntityIdentifier);
@@ -40,51 +39,60 @@ class Dialog extends React.Component {
 
 		return <SmEntityModificationDialog smID={smID}
 		                                   title={formTitle}
+		                                   smEntity={resolveSmEntity && resolveSmEntity({id: match.params.id})}
 		                                   closingUri={closingUri}
 		                                   schematic={schematic}
-		                                   history={history}/>;
+		                                   history={history}
+		                                   intent={intent}/>;
 	}
 }
 
 
 @connect(mapState)
-@withRouter
 class ModificationRoute extends React.Component {
 	static propTypes = {
 		sm:                           PropTypes.object,
+		resolveSmEntity:              PropTypes.func,
 		onSubmissionResponseReceived: PropTypes.func,
 		isEdit:                       PropTypes.bool,
 		// A string that can identify this smEntity
 		smEntityIdentifier:           PropTypes.string.isRequired,
 		// Where to go when we close this modification/page
 		closingUri:                   PropTypes.string,
+		formTitle:                    PropTypes.string,
 	};
 	shouldComponentUpdate(props, state) {
 		return (!(props.sm && props.sm.schematics)) || (props.location !== this.props.location);
 	}
 	render() {
-		let {smEntityIdentifier, closingUri} = this.props;
-		const {isEdit}                       = this.props;
-		const {sm, formTitle}                = this.props;
-		const managerFormats                 = getSmEntityManagerFormats(smEntityIdentifier);
-		const ownerType_lowercase            = managerFormats.lowercase;
-		const action                         = isEdit ? 'edit' : 'create';
-		const fallback                       = `${ownerType_lowercase}--${action}`;
-		const {smID, name}                   = this.resolveFromIdentifier(smEntityIdentifier);
-		const reactPathName                  = name ? `${name}--${action}` : fallback;
-		const reactPath                      = getReactPath(reactPathName, null, {fallback});
-		return <Route path={reactPath}
-		              component={props => <Dialog key={'dialog'}
-		                                          {...this.props}
-		                                          closingUri={closingUri}
-		                                          formTitle={formTitle}
-		                                          action={isEdit ? 'edit' : 'create'}
-		                                          name={name}
-		                                          sm={sm}
-		                                          smID={smID} smEntityIdentifier={smEntityIdentifier}/>}/>;
+		const editIsBroken = this.props.isEdit && !this.props.resolveSmEntity;
+		return editIsBroken ? `Oops! Looks like we can't resolve this entity` : this.renderDialogRoute();
 
 	}
-	resolveFromIdentifier(smEntityIdentifier) {
+	renderDialogRoute() {
+		const intent       = this.props.isEdit ? 'edit' : 'create';
+		const {lowercase}  = getSmEntityManagerFormats(this.props.smEntityIdentifier);
+		const {smID, name} = ModificationRoute.resolveFromIdentifier(this.props.smEntityIdentifier);
+
+		const fallback        = `${lowercase}--${intent}`;
+		const reactPathName   = name ? `${name}--${intent}` : fallback;
+		const reactPath       = getReactPath(reactPathName, null, {fallback});
+		const dialogComponent = props => <Dialog {...props}
+		                                         key={'dialog'}
+
+		                                         resolveSmEntity={this.props.resolveSmEntity}
+		                                         closingUri={this.props.closingUri}
+		                                         formTitle={this.props.formTitle}
+		                                         intent={this.props.isEdit ? 'edit' : 'create'}
+		                                         sm={this.props.sm}
+
+		                                         name={name}
+		                                         smID={smID}
+
+		                                         smEntityIdentifier={this.props.smEntityIdentifier}/>;
+		return <Route path={reactPath} component={dialogComponent}/>;
+	}
+	static resolveFromIdentifier(smEntityIdentifier) {
 		let smID, name;
 		if (isSmID(smEntityIdentifier)) {
 			const parsed = parseSmID(smEntityIdentifier);
@@ -96,7 +104,7 @@ class ModificationRoute extends React.Component {
 }
 
 
-export default ModificationRoute;
+export default withRouter(ModificationRoute);
 
 function mapState(state) {
 	const sm = selectSmState(state);

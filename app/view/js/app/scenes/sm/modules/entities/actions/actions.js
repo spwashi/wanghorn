@@ -5,7 +5,7 @@ export const fetchEntityMetasCompleted = entities => ({type: FETCH_ENTITY_METAS_
 export const fetchEntityMetas          = fetchEntityMetasBegin;
 
 export const fetchEntitiesBegin     = ({smID} = {}) => ({type: FETCH_ENTITY_INSTANCES, smID});
-export const fetchEntitiesCompleted = entities => ({type: FETCH_ENTITY_INSTANCES_RECEIVED, entities});
+export const fetchEntitiesCompleted = ({smID, entities}) => ({type: FETCH_ENTITY_INSTANCES_RECEIVED, smID, entities});
 export const fetchEntities          = fetchEntitiesBegin;
 
 export const declareEntityResolved = ({smEntity, _id}) => ({type: ENTITY_INSTANCE_RESOLVED, smEntity, _id});

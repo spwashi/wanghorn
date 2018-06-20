@@ -6,6 +6,7 @@ namespace WANGHORN\Controller\Entity;
 
 use Sm\Application\Application;
 use WANGHORN\Controller\AppController;
+use WANGHORN\Response\ApiResponse;
 
 class EntityController extends AppController {
 	public function create($entity_name) {
@@ -26,11 +27,10 @@ class EntityController extends AppController {
 			'message' => $message,
 		];
 	}
-
+	public function edit() {
+		return new ApiResponse(false, 'Unimplemented ');
+	}
 	public function createBatch($entity_name) {
-		return [
-			'success' => false,
-			'message' => ['_message' => 'Unimplemented'],
-		];
+		return new ApiResponse(false, 'Unimplemented ');
 	}
 }

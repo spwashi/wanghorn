@@ -10,9 +10,7 @@ export class SlugField extends React.Component {
 	state = {hasBeenModified: false};
 	componentDidMount() {
 		const slug = this.getSlug();
-		console.log('mounted', slug);
 		if (slug && slug.length) {
-			console.log(slug);
 			this.props.setDefaultValue(slug);
 		}
 	}

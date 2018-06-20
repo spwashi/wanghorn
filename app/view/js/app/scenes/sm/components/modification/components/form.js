@@ -20,13 +20,12 @@ import {ApiResponseMessage} from "base-components/form/response";
 class SmEntityModificationForm extends React.Component {
 	state            = {hasSoughtSchematic: null, schematic: null};
 	static propTypes = {
-		uri:                          PropTypes.string.isRequired,
-		contextName:                  PropTypes.string,
-		onSubmissionResponseReceived: PropTypes.func,
-		smEntity:                     PropTypes.object,
-		onPropertyValueChange:        PropTypes.func,
-		smID:                         PropTypes.string,
-		schematic:                    PropTypes.object
+		intent:                PropTypes.oneOf(["create", "edit"]).isRequired,
+		contextName:           PropTypes.string,
+		smEntity:              PropTypes.object,
+		onPropertyValueChange: PropTypes.func,
+		smID:                  PropTypes.string,
+		schematic:             PropTypes.object
 	};
 
 	constructor(props) {
@@ -108,7 +107,6 @@ class SmEntityModificationForm extends React.Component {
 	}
 
 	// RESOLUTION
-
 	resolveSmEntities        = item => {
 		const smID = typeof item === "object" && item ? item.smID : (typeof  item === 'string' ? item : null);
 		if (!smID) return;
@@ -121,7 +119,6 @@ class SmEntityModificationForm extends React.Component {
 	};
 
 	// GETTERS/SETTERS
-
 	get schematic() {
 		return this.state.schematic || (typeof this.props.schematic === 'object' ? this.props.schematic : null);
 	}
@@ -176,12 +173,10 @@ class SmEntityModificationForm extends React.Component {
 	}
 
 	// SUBMISSION/RESPONSE MANAGEMENT
-
 	@bind
 	// handles the submission of the modification
 	handleSubmit(event) {
 		event.preventDefault();
-		const url                  = this.props.uri;
 		const smEntity             = this.state.smEntity || {};
 		const {canSubmit, message} = getFormSubmissionStatus(smEntity);
 
@@ -193,9 +188,8 @@ class SmEntityModificationForm extends React.Component {
 		}
 
 		// Otherwise, go through the "loading, success/error" process below
-		let _id     = this.state._id;
-		let persist = done => this.props.persist({smEntity, _id});
-		this.setState({status: 'loading'}, persist)
+		let _id = this.state._id;
+		this.setState({status: 'loading'}, done => this.props.persist({smEntity, _id, intent: this.props.intent}))
 	}
 
 }
@@ -206,11 +200,9 @@ function mapState(state) {
 	let sm = state.scenes.sm;
 	return {sm}
 }
-
 function mapDispatch(dispatch) {
 	return bindActionCreators({persist: persistSmEntity}, dispatch);
 }
-
 function getFormSubmissionStatus(smEntity) {
 	let canSubmit                    = true;
 	const {properties, message = {}} = smEntity;

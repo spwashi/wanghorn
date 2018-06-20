@@ -14,5 +14,5 @@ export const links = [
             {name: 'dev--routes', exact: false}
         ]
     },
-    {name: "events--home"},
+    {name: "event--home"},
 ];

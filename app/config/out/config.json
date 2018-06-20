@@ -1,5 +1,5 @@
 {
-   "env": "production",
+   "env": "development",
    "name": "wanghorn",
    "namespace": "WANGHORN",
    "paths": {
@@ -11,7 +11,7 @@
    "urls": {
       "src": null,
       "config": null,
-      "public": "http://wanghorn//public",
+      "public": "http://wanghorn/public",
       "root": "http://wanghorn",
       "base": "http://wanghorn"
    }

@@ -4,20 +4,32 @@ export default [
 	new Route({
 		          renderedBy: RENDER_METHODS.client,
 		          pattern:    'events$',
-		          name:       'events--home',
+		          name:       'event--home',
+		          title:      "Events"
+	          }),
+	new Route({
+		          renderedBy: RENDER_METHODS.client,
+		          pattern:    'event$',
+		          name:       'event--home--fallback',
 		          title:      "Events"
 	          }),
 	new Route({
 		          resolution: '[Event]@create',
-		          pattern:    'events/create/receive',
+		          pattern:    'event/create/receive',
 		          name:       'entity--event--create--receive',
 		          title:      "Receive Event Creation"
 	          }),
 	new Route({
 		          renderedBy: RENDER_METHODS.client,
-		          pattern:    'events/new$',
+		          pattern:    'event/new$',
 		          name:       'event--create',
 		          title:      "Add Event"
+	          }),
+	new Route({
+		          renderedBy: RENDER_METHODS.client,
+		          pattern:    'event/{id}:[a-zA-Z_\\-\\d]+/edit$',
+		          name:       'event--edit',
+		          title:      "Edit Event"
 	          }),
 	new Route({
 		          resolution: '[Event]@findEvent',
@@ -26,14 +38,14 @@ export default [
 	          }),
 	new Route({
 		          resolution: "[Event]@all",
-		          pattern:    'events/all$',
-		          name:       'events--all',
+		          pattern:    'event/all$',
+		          name:       'event--all',
 		          title:      "All Events"
 	          }),
 	new Route({
 		          renderedBy: RENDER_METHODS.client,
-		          pattern:    'events/{name}:[a-zA-Z_\\-\\d]+/view',
-		          name:       'events--item__view',
+		          pattern:    'event/{name}:[a-zA-Z_\\-\\d]+/view',
+		          name:       'event--item__view',
 		          title:      "Event View"
 	          })
 ]

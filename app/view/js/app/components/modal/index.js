@@ -1,6 +1,7 @@
 import React          from "react"
 import * as PropTypes from "prop-types"
 import ReactModal     from "react-modal";
+import {LinkItem}     from "../../../components/navigation";
 
 export function navigateBackOnHistory(history, uri) {
 	history.action === 'PUSH' ? history.goBack() : history.push(uri);
@@ -11,6 +12,8 @@ export default class Modal extends React.Component {
 		onRequestClose:          PropTypes.func,
 		onRequestEdit:           PropTypes.func,
 		isOpen:                  PropTypes.bool,
+		canEdit:                 PropTypes.bool,
+		editUri:                 PropTypes.string,
 		contentLabel:            PropTypes.string,
 		title:                   PropTypes.string,
 		onModalButtonCloseClick: PropTypes.func,
@@ -24,7 +27,7 @@ export default class Modal extends React.Component {
 
 	render() {
 		let {title, onRequestClose, onRequestEdit, isOpen, contentLabel} = this.props;
-		let {canEdit}                                                    = this.props;
+		let {canEdit, editUri}                                           = this.props;
 
 		let modalStatusClassNames  = {afterOpen: 'modal__-open', beforeClose: 'modal__-closing'};
 		let baseClassname          = this.props.baseClassName || '';
@@ -32,7 +35,15 @@ export default class Modal extends React.Component {
 		let modalClassNames        = {base: `${baseClassname} modal--base`, ...modalStatusClassNames};
 		let modalOverlayClassNames = {base: `${overlayClassname} modal--overlay`, ...modalStatusClassNames};
 
-		let editButton = canEdit ? <button tabIndex={0} className={'button__edit modal--button__edit'} onClick={onRequestEdit}>E</button> : null;
+		let editButton = null;
+		if (canEdit || editUri) {
+			const editButtonClassName = 'button__edit modal--button__edit';
+			if (editUri) {
+				editButton = <LinkItem to={editUri} maintainHash={true} className={editButtonClassName}>E</LinkItem>;
+			} else {
+				editButton = <button tabIndex={0} className={editButtonClassName} onClick={onRequestEdit}>E</button>;
+			}
+		}
 		return (
 			<ReactModal onRequestClose={onRequestClose}
 			            isOpen={isOpen}

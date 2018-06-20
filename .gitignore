@@ -18,3 +18,4 @@ public/js/
 
 # any log files
 *.logapp/config/out/
+log/

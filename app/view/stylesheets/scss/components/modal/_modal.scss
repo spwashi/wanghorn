@@ -7,6 +7,8 @@
 		width: 100%;
 	}
 }
+
+
 .rdt.field--input {
 	input {
 		width: 100%;
@@ -16,6 +18,7 @@
 		border: thin solid #ccc;
 	}
 }
+
 
 .modal__-open {
 	&.modal--overlay {
@@ -89,6 +92,9 @@
 			font-size:        .7em;
 			font-weight:      bold;
 			background-color: rgba(#555, .5);
+			a {
+				color: #fff;
+			}
 			&:hover {
 				background-color: darken(#555, 10%);
 			}

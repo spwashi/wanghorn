@@ -21,6 +21,6 @@ export const fetchSmEntities                  = ({smID} = {}) => ({type: FETCH_S
 export const fetchSmEntities__received        = ({smID} = {}) => ({type: FETCH_SM_ENTITIES_RECEIVED, smID});
 
 
-export const persistSmEntity            = ({_id, smEntity}) => ({type: PERSIST_SM_ENTITY, smEntity, _id});
+export const persistSmEntity            = ({_id, smEntity, intent}) => ({type: PERSIST_SM_ENTITY, smEntity, intent, _id});
 export const persistSmEntity__completed = ({_id, smEntity}) => ({type: PERSIST_SM_ENTITY_COMPLETED, smEntity, _id});
 export const persistSmEntity__failed    = ({_id, smEntity}) => ({type: PERSIST_SM_ENTITY_FAILED, smEntity, _id});

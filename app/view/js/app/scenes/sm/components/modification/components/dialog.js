@@ -1,38 +1,38 @@
-import React                      from "react"
-import * as PropTypes             from "prop-types"
-import bind                       from "bind-decorator";
-import {getNameFromSmID}          from "../../../utility";
-import {getURI}                   from "../../../../../../path/resolution";
-import Modal                      from "../../../../../components/modal/index";
-import {SmEntityModificationForm} from "./form";
-import {navigateBackOnHistory}    from "../../../../../components/modal/index";
-import {withRouter}               from "react-router-dom";
+import React                                   from "react"
+import * as PropTypes                          from "prop-types"
+import bind                                    from "bind-decorator"
+import {getNameFromSmID, getTitleFromPropName} from "../../../utility";
+import {getURI}                                from "../../../../../../path/resolution";
+import Modal                                   from "../../../../../components/modal/index";
+import {SmEntityModificationForm}              from "./form";
+import {navigateBackOnHistory}                 from "../../../../../components/modal/index";
+import {withRouter}                            from "react-router-dom";
 
 class SmEntityModificationDialog extends React.Component {
 	state            = {isActive: true};
 	static propTypes = {
-		smID:                         PropTypes.string.isRequired,
-		title:                        PropTypes.string,
-		formUrl:                      PropTypes.string,
-		onSubmissionResponseReceived: PropTypes.func,
-		closingUri:                   PropTypes.string,
-		schematic:                    PropTypes.object.isRequired,
-		smEntity:                     PropTypes.object
+		smID:       PropTypes.string.isRequired,
+		title:      PropTypes.string,
+		intent:     PropTypes.string.isRequired,
+		// The URI to which we will navigate upon closing this modal dialog
+		closingUri: PropTypes.string,
+		schematic:  PropTypes.object.isRequired,
+		smEntity:   PropTypes.object
 	};
 	render() {
-		let {smID, schematic, formUrl, title, smEntity, onSubmissionResponseReceived} = this.props;
-		title                                                                         = title || `Create New ${smID}`;
-		const name                                                                    = getNameFromSmID(this.props.smID);
-		const onRequestClose                                                          = this.onRequestClose;
-		const isOpen                                                                  = this.state.isActive;
+		let {smID, schematic, title, smEntity} = this.props;
+		const name                             = getNameFromSmID(this.props.smID);
+		const onRequestClose                   = this.onRequestClose;
+		const isOpen                           = this.state.isActive;
+		const intent                           = this.props.intent;
+		title                                  = title || `Create New ${getTitleFromPropName(name)}`;
 		return (
 			<Modal isOpen={isOpen} onRequestClose={onRequestClose} title={title} contentLabel={title}>
 				<SmEntityModificationForm key={smID}
-				                          onSubmissionResponseReceived={onSubmissionResponseReceived}
+				                          intent={intent}
 				                          smID={smID}
 				                          smEntity={smEntity}
-				                          schematic={schematic}
-				                          uri={formUrl}/>
+				                          schematic={schematic}/>
 			</Modal>
 		)
 	};

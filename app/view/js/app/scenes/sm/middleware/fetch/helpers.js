@@ -32,18 +32,20 @@ export const requestModels     = ({smID}, {state, dispatch}) => {
 
 	return axios.get(uri).then(response => dispatchModelsReceived(response));
 };
-export const requestEntities   = ({smID}, {state, dispatch}) => {
-	const dispatchEntitiesReceived = response => {
-		const models = response && response.data;
-		dispatch(fetchEntitiesCompleted({models, smID}));
-	};
-	let {manager, name}            = parseSmID(smID);
+export const requestEntities   =
+	             ({smID}, {state, dispatch}) => {
+		             const dispatchEntitiesReceived = entities => dispatch(fetchEntitiesCompleted({entities, smID}));
+		             let {manager, name}            = parseSmID(smID);
 
-	if (!manager === 'Entity') {
-		throw new Error("Can only fetch Entities");
-	}
+		             if (!manager === 'Entity') {
+			             throw new Error("Can only fetch Entities");
+		             }
 
-	const uri = getURI('dev--all_entities', {name});
+		             const uri = getURI(name + '--all', {name}, 'entity--fetch_all');
 
-	return axios.get(uri).then(response => dispatchEntitiesReceived(response));
-};
+		             return axios.get(uri)
+		                         .then(response => {
+			                         const entityReceived = ((response && response.data) || []).map(entity => ({properties: entity}));
+			                         dispatchEntitiesReceived(entityReceived)
+		                         });
+	             };

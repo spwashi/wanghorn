@@ -64,5 +64,5 @@ export const fromSm_selectInstancesOfSmID = (state = {}, {smID, contextName}) =>
 
 export const fromSm_resolveItemOfInternalID = (state = {}, {smID, _id}) => {
 	const items = fromSm_selectInstancesOfSmID(state, {smID});
-	return items[_id];
+	return (items || {})[_id];
 };

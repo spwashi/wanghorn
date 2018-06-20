@@ -1,5 +1,6 @@
 import {ENTITY_INSTANCE_RESOLVED, FETCH_ENTITY_INSTANCES_RECEIVED} from "../actions/types";
-import {reduceEntriesIntoObject}                                   from "../../../../../../utility";
+
+import {randomString} from "../../../../../../utility";
 
 type entityInstance = {
 	smID: string,
@@ -8,6 +9,9 @@ type entityInstance = {
 const instanceReducer = (instance: entityInstance, action) => {
 	let {type} = action;
 	switch (type) {
+		case FETCH_ENTITY_INSTANCES_RECEIVED:
+			const _id = randomString(6);
+			return {...instance, _id, _lastResolved: Date.now()};
 		case ENTITY_INSTANCE_RESOLVED:
 			return {...instance, _lastResolved: Date.now()};
 		default:
@@ -17,17 +21,24 @@ const instanceReducer = (instance: entityInstance, action) => {
 const instances       = (state, action) => {
 	const {type} = action;
 	const entity = action.smEntity;
-	let smID     = entity && entity.smID;
-
+	let smID     = (entity && entity.smID) || action.smID;
+	let _id;
 	switch (type) {
 		case FETCH_ENTITY_INSTANCES_RECEIVED:
-			let fetched_entities = Object.entries(action.entities)
-			                             .map(([smID, entity]) => [smID, instanceReducer(entity, action)])
-			                             .reduce(reduceEntriesIntoObject, {});
-			return {...state, ...fetched_entities};
+			let entities    = action.entities;
+			let allEntities = {};
+			Object.values(entities)
+			      .forEach(entity => {
+				      let localSmID               = smID || entity.smID;
+				      allEntities[localSmID]      = allEntities[localSmID] || {};
+				      const newEntity             = instanceReducer(entity, action);
+				      _id                         = newEntity._id;
+				      allEntities[localSmID][_id] = newEntity;
+			      });
+			return {...state, ...allEntities};
 		case ENTITY_INSTANCE_RESOLVED:
-			let _id     = action._id;
-			state[smID] = state.smID || {};
+			_id         = action._id;
+			state[smID] = state[smID] || {};
 			state[smID] = {...state[smID], [_id]: instanceReducer(entity, action)};
 			return state;
 			break;

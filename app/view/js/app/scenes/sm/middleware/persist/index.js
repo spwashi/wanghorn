@@ -79,7 +79,7 @@ function persistSmEntityMiddleware({dispatch, getState}) {
 			case PERSIST_SM_ENTITY:
 				if (!smEntity) console.error("Incomplete SmEntity");
 				const sentSmEntity             = getSmEntityToPost(smEntity);
-				const {uri: uriName, fallback} = getPersistenceUriName({smID, intent: 'create'});
+				const {uri: uriName, fallback} = getPersistenceUriName({smID, intent: action.intent});
 				const url                      = getReactPath(uriName, null, {fallback}) + '?d_lm=q';
 
 				axios.post(url, sentSmEntity)

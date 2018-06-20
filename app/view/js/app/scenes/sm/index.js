@@ -7,7 +7,7 @@ import {selectSmSchematics}                      from "./selector";
 import {fetchModelMetas}                         from "./modules/models/actions/index";
 import {fetchEntityMetas}                        from "./modules/entities/actions/actions";
 import {fetchSmEntities, fetchSmEntitySchematic} from "./actions";
-import ModificationRoute                         from "./components/routes/modification";
+import ModificationRoute                         from "./components/modification/components/route";
 
 @connect(mapState, mapDispatch)
 class SmScene extends React.Component {
