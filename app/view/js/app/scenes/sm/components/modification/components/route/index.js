@@ -10,16 +10,15 @@ import {connect}                                      from "react-redux";
 
 class Dialog extends React.Component {
 	static propTypes = {
-		match:                        PropTypes.any.isRequired,
-		history:                      PropTypes.any.isRequired,
-		sm:                           PropTypes.any.isRequired,
-		action:                       PropTypes.string.isRequired,
-		name:                         PropTypes.any.isRequired,
-		smID:                         PropTypes.any.isRequired,
-		formTitle:                    PropTypes.any,
-		closingUri:                   PropTypes.any.isRequired,
-		smEntityIdentifier:           PropTypes.any.isRequired,
-		onSubmissionResponseReceived: PropTypes.any.isRequired,
+		match:              PropTypes.any.isRequired,
+		history:            PropTypes.any.isRequired,
+		sm:                 PropTypes.any.isRequired,
+		action:             PropTypes.string.isRequired,
+		name:               PropTypes.any.isRequired,
+		smID:               PropTypes.any.isRequired,
+		formTitle:          PropTypes.any,
+		closingUri:         PropTypes.any.isRequired,
+		smEntityIdentifier: PropTypes.any.isRequired,
 	};
 	render() {
 		let {match, history}                            = this.props;
@@ -30,25 +29,18 @@ class Dialog extends React.Component {
 		if (!smID) name = match.params.name;
 
 
-		const schematic           = fromSm_selectSchematicOfSmID(sm, {smID});
-		const managerFormats      = getSmEntityManagerFormats(smEntityIdentifier);
-		const ownerType_lowercase = managerFormats.lowercase;
-		const managerName         = managerFormats.managerName;
-		const fallbackReceiveName = `${ownerType_lowercase}--${action}--receive`;
+		const schematic      = fromSm_selectSchematicOfSmID(sm, {smID});
+		const managerFormats = getSmEntityManagerFormats(smEntityIdentifier);
+		const managerName    = managerFormats.managerName;
 
-
-		smID = smID || `${managerName}${name}`;
-
-
-		const getFormReceiveUriName = name => `${ownerType_lowercase}--${name}--${action}--receive`;
-		const navigateUri           = getURI(getFormReceiveUriName(name), {name}, {fallback: fallbackReceiveName});
+		smID       = smID || `${managerName}${name}`;
+		closingUri = closingUri || getURI('dev--model', {name});
 
 		if (!schematic) return ' ...loading';
+
 		return <SmEntityModificationDialog smID={smID}
-		                                   onSubmissionResponseReceived={onSubmissionResponseReceived}
 		                                   title={formTitle}
-		                                   closingUri={closingUri || getURI('dev--model', {name})}
-		                                   formUrl={navigateUri}
+		                                   closingUri={closingUri}
 		                                   schematic={schematic}
 		                                   history={history}/>;
 	}
@@ -68,19 +60,19 @@ class ModificationRoute extends React.Component {
 		closingUri:                   PropTypes.string,
 	};
 	shouldComponentUpdate(props, state) {
-		return !(props.sm && props.sm.schematics) || (props.location !== this.props.location);
+		return (!(props.sm && props.sm.schematics)) || (props.location !== this.props.location);
 	}
 	render() {
-		let {smEntityIdentifier, closingUri}                = this.props;
-		const {isEdit}                                      = this.props;
-		const {sm, formTitle, onSubmissionResponseReceived} = this.props;
-		const managerFormats                                = getSmEntityManagerFormats(smEntityIdentifier);
-		const ownerType_lowercase                           = managerFormats.lowercase;
-		const action                                        = isEdit ? 'edit' : 'create';
-		const fallback                                      = `${ownerType_lowercase}--${action}`;
-		const {smID, name}                                  = this.resolveFromIdentifier(smEntityIdentifier);
-		const reactPathName                                 = name ? `${name}--${action}` : fallback;
-		const reactPath                                     = getReactPath(reactPathName, null, {fallback});
+		let {smEntityIdentifier, closingUri} = this.props;
+		const {isEdit}                       = this.props;
+		const {sm, formTitle}                = this.props;
+		const managerFormats                 = getSmEntityManagerFormats(smEntityIdentifier);
+		const ownerType_lowercase            = managerFormats.lowercase;
+		const action                         = isEdit ? 'edit' : 'create';
+		const fallback                       = `${ownerType_lowercase}--${action}`;
+		const {smID, name}                   = this.resolveFromIdentifier(smEntityIdentifier);
+		const reactPathName                  = name ? `${name}--${action}` : fallback;
+		const reactPath                      = getReactPath(reactPathName, null, {fallback});
 		return <Route path={reactPath}
 		              component={props => <Dialog key={'dialog'}
 		                                          {...this.props}
@@ -88,7 +80,6 @@ class ModificationRoute extends React.Component {
 		                                          formTitle={formTitle}
 		                                          action={isEdit ? 'edit' : 'create'}
 		                                          name={name}
-		                                          onSubmissionResponseReceived={onSubmissionResponseReceived}
 		                                          sm={sm}
 		                                          smID={smID} smEntityIdentifier={smEntityIdentifier}/>}/>;
 
