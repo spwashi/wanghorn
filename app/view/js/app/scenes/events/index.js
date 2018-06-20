@@ -52,7 +52,6 @@ class EventsPage extends React.Component {
 	}
 	renderModificationRoute() {
 		const closingUri      = getURI('event--home');
-		const smID            = EVENT_SM_ID;
 		const resolveSmEntity = ({id}) => this.findEvent(id);
 		return [
 			<ModificationRoute key={'edit'}
