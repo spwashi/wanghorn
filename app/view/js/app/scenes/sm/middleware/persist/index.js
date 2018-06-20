@@ -2,7 +2,7 @@ import {PERSIST_SM_ENTITY, PERSIST_SM_ENTITY_COMPLETED} from "../../actions/type
 import {getSmEntityManagerFormats, parseSmID}           from "../../utility";
 import {reduceEntriesIntoObject}                        from "../../../../../utility";
 import ValueRepresentation                              from "../../components/modification/components/field/internal/valueRepresentationProxy";
-import {getReactPath}                                   from "../../../../../path/resolution";
+import {getReactPath, getURI}                           from "../../../../../path/resolution";
 import axios                                            from "axios/index";
 import {persistSmEntity__completed}                     from "../../actions";
 import {ENTITY_INSTANCE_RESOLVED}                       from "../../modules/entities/actions/types";
@@ -79,8 +79,9 @@ function persistSmEntityMiddleware({dispatch, getState}) {
 			case PERSIST_SM_ENTITY:
 				if (!smEntity) console.error("Incomplete SmEntity");
 				const sentSmEntity             = getSmEntityToPost(smEntity);
+				const {name: smEntityName}     = parseSmID(smID);
 				const {uri: uriName, fallback} = getPersistenceUriName({smID, intent: action.intent});
-				const url                      = getReactPath(uriName, null, {fallback}) + '?d_lm=q';
+				const url                      = getURI(uriName, {name: smEntityName}, {fallback}) + '?d_lm=q';
 
 				axios.post(url, sentSmEntity)
 				     .then(response => {
