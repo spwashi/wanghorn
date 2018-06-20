@@ -289,7 +289,7 @@
       },
       {
          "name": "file--prime_upload",
-         "resolution": "Entity\\File\\File@prime",
+         "resolution": "File\\File@prime",
          "pattern": "file/upload"
       },
       {

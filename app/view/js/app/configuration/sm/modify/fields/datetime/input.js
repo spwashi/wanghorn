@@ -11,21 +11,41 @@ export class DatetimeInput extends React.Component {
 		required:     PropTypes.bool.isRequired,
 		onChange:     PropTypes.func.isRequired,
 	};
-	       state     = {inputIsActive: null};
+	       state     = {inputIsActive: undefined};
+	       inputRef: HTMLElement;
+	       valueRef: HTMLElement;
+
 	render() {
 		const {value, defaultValue, required, onChange} = this.props;
 
 		const dateFormat  = 'ddd, MMM Do YYYY';
 		const hourFormat  = 'h:mm a';
 		const valueString = value ? value.format(`${dateFormat} \\a\\t ${hourFormat}`) : null;
-
+		const activate    = e => {
+			this.datetime && this.datetime.openCalendar();
+			return !this.state.inputIsActive && this.setState({inputIsActive: true});
+		};
+		const deactivate  = e => {
+			this.datetime && this.datetime.closeCalendar();
+			return this.state.inputIsActive && this.setState({inputIsActive: false});
+		};
+		const inputProps  = {
+			required,
+			focused:   'focused',
+			autoFocus: true
+		};
 		const input = () => <Datetime className={'field--input'}
+
+		                              ref={e => this.datetime = e}
 		                              value={value}
 		                              defaultValue={defaultValue}
 
-		                              onBlur={e => this.setState({inputIsActive: false})}
+		                              open={this.state.inputIsActive}
+
+		                              onFocus={e => activate()}
+		                              onBlur={e => deactivate()}
 		                              onChange={onChange}
-		                              inputProps={{required, autoFocus: true}}
+		                              inputProps={inputProps}
 
 		                              dateFormat={dateFormat}
 		                              timeFormat={hourFormat}
@@ -34,8 +54,12 @@ export class DatetimeInput extends React.Component {
 
 		return <InlineEditableInput value={valueString}
 		                            input={input}
+
+		                            setInputRef={el => this.inputRef = el}
+		                            setValueRef={el => this.valueRef = el}
+
 		                            isEdit={this.state.inputIsActive}
-		                            activate={e => this.setState({inputIsActive: true})}
-		                            deactivate={e => this.setState({inputIsActive: false})}/>;
+		                            activate={activate}
+		                            deactivate={deactivate}/>;
 	}
 }

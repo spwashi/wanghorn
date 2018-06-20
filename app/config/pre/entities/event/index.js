@@ -21,6 +21,9 @@ export const properties        = {
 		isGenerated: true
 	},
 	title:       true,
+	image:       {
+		datatypes: 'file',
+	},
 	start_dt:    true,
 	end_dt:      true,
 	description: {

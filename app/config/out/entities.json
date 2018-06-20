@@ -34,6 +34,12 @@
                }
             }
          },
+         "image": {
+            "smID": "[Property]{[Entity]event} image",
+            "datatypes": [
+               "file"
+            ]
+         },
          "id": {
             "smID": "[Property]{[Entity]event} id",
             "datatypes": [
