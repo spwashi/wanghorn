@@ -11,7 +11,7 @@ export class DatetimeInput extends React.Component {
 		required:     PropTypes.bool.isRequired,
 		onChange:     PropTypes.func.isRequired,
 	};
-	       state     = {inputIsActive: undefined};
+	       state     = {inputIsActive: undefined, viewMode: 'days'};
 	       inputRef: HTMLElement;
 	       valueRef: HTMLElement;
 
@@ -34,23 +34,25 @@ export class DatetimeInput extends React.Component {
 			focused:   'focused',
 			autoFocus: true
 		};
-		const input = () => <Datetime className={'field--input'}
+		const input       = () => <Datetime className={'field--input'}
 
-		                              ref={e => this.datetime = e}
-		                              value={value}
-		                              defaultValue={defaultValue}
+		                                    ref={e => this.datetime = e}
+		                                    value={value}
+		                                    defaultValue={defaultValue}
 
-		                              open={this.state.inputIsActive}
+		                                    open={this.state.inputIsActive}
+		                                    viewMode={this.state.viewMode}
+		                                    onViewModeChange={viewMode => this.setState({viewMode})}
 
-		                              onFocus={e => activate()}
-		                              onBlur={e => deactivate()}
-		                              onChange={onChange}
-		                              inputProps={inputProps}
+		                                    onFocus={e => activate()}
+		                                    onBlur={e => deactivate()}
+		                                    onChange={onChange}
+		                                    inputProps={inputProps}
 
-		                              dateFormat={dateFormat}
-		                              timeFormat={hourFormat}
+		                                    dateFormat={dateFormat}
+		                                    timeFormat={hourFormat}
 
-		                              timeConstraints={{minutes: {step: 15}}}/>;
+		                                    timeConstraints={{minutes: {step: 15}}}/>;
 
 		return <InlineEditableInput value={valueString}
 		                            input={input}
