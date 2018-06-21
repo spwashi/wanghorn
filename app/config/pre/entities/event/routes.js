@@ -1,5 +1,5 @@
-import {Route}          from "../route";
-import {RENDER_METHODS} from "../constants";
+import {Route}          from "../../routes/route";
+import {RENDER_METHODS} from "../../routes/constants";
 export default [
 	new Route({
 		          renderedBy: RENDER_METHODS.client,
@@ -20,15 +20,21 @@ export default [
 		          title:      "Receive Event Creation"
 	          }),
 	new Route({
+		          resolution: '[Event]@edit',
+		          pattern:    'event/edit/receive',
+		          name:       'entity--event--edit--receive',
+		          title:      "Receive Event Edit Request"
+	          }),
+	new Route({
+		          name:       'event--create',
 		          renderedBy: RENDER_METHODS.client,
 		          pattern:    'event/new$',
-		          name:       'event--create',
 		          title:      "Add Event"
 	          }),
 	new Route({
+		          name:       'event--edit',
 		          renderedBy: RENDER_METHODS.client,
 		          pattern:    'event/{id}:[a-zA-Z_\\-\\d]+/edit$',
-		          name:       'event--edit',
 		          title:      "Edit Event"
 	          }),
 	new Route({

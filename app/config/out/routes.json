@@ -175,53 +175,6 @@
          "pattern": "gallery/items.json$"
       },
       {
-         "name": "event--home",
-         "title": "Events",
-         "resolution": "Home\\Home@index",
-         "pattern": "events$"
-      },
-      {
-         "name": "event--home--fallback",
-         "title": "Events",
-         "resolution": "Home\\Home@index",
-         "pattern": "event$"
-      },
-      {
-         "name": "entity--event--create--receive",
-         "title": "Receive Event Creation",
-         "resolution": "Event\\Event@create",
-         "pattern": "event/create/receive"
-      },
-      {
-         "name": "event--create",
-         "title": "Add Event",
-         "resolution": "Home\\Home@index",
-         "pattern": "event/new$"
-      },
-      {
-         "name": "event--edit",
-         "title": "Edit Event",
-         "resolution": "Home\\Home@index",
-         "pattern": "event/{id}:[a-zA-Z_\\-\\d]+/edit$"
-      },
-      {
-         "name": "event--find",
-         "resolution": "Event\\Event@findEvent",
-         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+"
-      },
-      {
-         "name": "event--all",
-         "title": "All Events",
-         "resolution": "Event\\Event@all",
-         "pattern": "event/all$"
-      },
-      {
-         "name": "event--item__view",
-         "title": "Event View",
-         "resolution": "Home\\Home@index",
-         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+/view"
-      },
-      {
          "name": "entity--create",
          "title": "Create Entity",
          "resolution": "Home\\Home@index",
@@ -272,6 +225,59 @@
          "name": "entity--user--create--receive",
          "resolution": "User\\User@signUp",
          "pattern": "user/signup/receive$"
+      },
+      {
+         "name": "event--home",
+         "title": "Events",
+         "resolution": "Home\\Home@index",
+         "pattern": "events$"
+      },
+      {
+         "name": "event--home--fallback",
+         "title": "Events",
+         "resolution": "Home\\Home@index",
+         "pattern": "event$"
+      },
+      {
+         "name": "entity--event--create--receive",
+         "title": "Receive Event Creation",
+         "resolution": "Event\\Event@create",
+         "pattern": "event/create/receive"
+      },
+      {
+         "name": "entity--event--edit--receive",
+         "title": "Receive Event Edit Request",
+         "resolution": "Event\\Event@edit",
+         "pattern": "event/edit/receive"
+      },
+      {
+         "name": "event--create",
+         "title": "Add Event",
+         "resolution": "Home\\Home@index",
+         "pattern": "event/new$"
+      },
+      {
+         "name": "event--edit",
+         "title": "Edit Event",
+         "resolution": "Home\\Home@index",
+         "pattern": "event/{id}:[a-zA-Z_\\-\\d]+/edit$"
+      },
+      {
+         "name": "event--find",
+         "resolution": "Event\\Event@findEvent",
+         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+"
+      },
+      {
+         "name": "event--all",
+         "title": "All Events",
+         "resolution": "Event\\Event@all",
+         "pattern": "event/all$"
+      },
+      {
+         "name": "event--item__view",
+         "title": "Event View",
+         "resolution": "Home\\Home@index",
+         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+/view"
       },
       {
          "name": "model--create",

@@ -61,10 +61,10 @@ class EventController extends AppController {
 	}
 
 	public function create() {
-		$context = new EntityCreationContext;
-
+		$context    = new EntityCreationContext;
 		$properties = HttpRequestFromEnvironment::getRequestData()['properties'] ?? [];
 		$event      = $this->init_entity();
+
 		if (!isset($properties['name'])) {
 			if (!isset($properties['title'])) {
 				$please_name_event = 'Each event should have a name (we can guess from the title). Please provide at least a name or a title.';
@@ -86,6 +86,27 @@ class EventController extends AppController {
 
 
 		return new ApiResponse(true, 'Successfully added event');
+	}
+
+	public function edit() {
+		$context     = new EntityCreationContext;
+		$requestData = HttpRequestFromEnvironment::getRequestData();
+		$properties  = $requestData['properties'] ?? [];
+		$event       = $this->init_entity();
+		$name        = $properties['event_name'] ?? $properties['name'] ?? null;
+
+		if (!isset($name)) return new ApiResponse(false, "Oops! We can't find the event you're trying to save (no name?)");
+
+		try {
+			$context = $this->findEvent($name);
+		} catch (EntityNotFoundException $e) {
+			return new ApiResponse(false,
+			                       [
+				                       'name' => "Couldn't find event with this name! this might be because we can't update event names yet."
+			                       ]);
+		}
+
+		return new ApiResponse(null, "This has not yet been implemented");
 	}
 
 	/**

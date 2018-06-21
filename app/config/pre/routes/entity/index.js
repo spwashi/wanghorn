@@ -1,8 +1,10 @@
 import {Route}                from "../route";
 import {HTTP, RENDER_METHODS} from "../constants";
+import event                  from "../../entities/event/routes";
+import user                   from "../../entities/user/routes";
 
 const entity = {
-	all:  [
+	all: [
 		new Route({
 			          title:      'Create Entity',
 			          renderedBy: RENDER_METHODS.client,
@@ -22,37 +24,7 @@ const entity = {
 			          http_method: HTTP.POST
 		          }),
 	],
-	user: [
-		new Route({
-			          name:       "user--process_login",
-			          resolution: "[User]@login",
-			          pattern:    "user/login$"
-		          }),
-		new Route({
-			          name:       'user--verify',
-			          resolution: "[User]@verifyUser",
-			          pattern:    "user/verify/{hash}:[a-zA-Z\\d]+$"
-		          }),
-		new Route({
-			          name:       "user--logout$",
-			          resolution: "[User]@logout",
-			          pattern:    "user/logout$"
-		          }),
-		new Route({
-			          resolution: "[User]@signUp",
-			          pattern:    "user/signup/receive$",
-			          name:       "user--process_signup"
-		          }),
-		new Route({
-			          renderedBy: "client",
-			          pattern:    "user/signup$",
-			          name:       "user--signup"
-		          }),
-		new Route({
-			          resolution: "[User]@signUp",
-			          pattern:    "user/signup/receive$",
-			          name:       "entity--user--create--receive"
-		          }),
-	]
+	user,
+	event
 };
-export default [...entity.all, ...entity.user];
+export default [...entity.all, ...entity.user, ...entity.event,];

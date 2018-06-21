@@ -88,7 +88,7 @@ function persistSmEntityMiddleware({dispatch, getState}) {
 					     const data            = normalizeResponse(response.data);
 					     let {message, status} = data;
 					     let smEntity          = resolveSmEntityFromData(data, sentSmEntity);
-					     dispatch(persistSmEntity__completed({smEntity, _id, message, status}))
+					     dispatch(persistSmEntity__completed({smEntity, _id, status}))
 				     });
 
 				break;

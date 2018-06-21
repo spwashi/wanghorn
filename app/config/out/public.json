@@ -110,37 +110,6 @@
       "gallery--items": {
          "pattern": "gallery/items.json$"
       },
-      "event--home": {
-         "pattern": "events$",
-         "title": "Events"
-      },
-      "event--home--fallback": {
-         "pattern": "event$",
-         "title": "Events"
-      },
-      "entity--event--create--receive": {
-         "pattern": "event/create/receive",
-         "title": "Receive Event Creation"
-      },
-      "event--create": {
-         "pattern": "event/new$",
-         "title": "Add Event"
-      },
-      "event--edit": {
-         "pattern": "event/{id}:[a-zA-Z_\\-\\d]+/edit$",
-         "title": "Edit Event"
-      },
-      "event--find": {
-         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+"
-      },
-      "event--all": {
-         "pattern": "event/all$",
-         "title": "All Events"
-      },
-      "event--item__view": {
-         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+/view",
-         "title": "Event View"
-      },
       "entity--create": {
          "pattern": "entity/{name}:[a-zA-Z_]+/create$",
          "title": "Create Entity"
@@ -174,6 +143,41 @@
       },
       "entity--user--create--receive": {
          "pattern": "user/signup/receive$"
+      },
+      "event--home": {
+         "pattern": "events$",
+         "title": "Events"
+      },
+      "event--home--fallback": {
+         "pattern": "event$",
+         "title": "Events"
+      },
+      "entity--event--create--receive": {
+         "pattern": "event/create/receive",
+         "title": "Receive Event Creation"
+      },
+      "entity--event--edit--receive": {
+         "pattern": "event/edit/receive",
+         "title": "Receive Event Edit Request"
+      },
+      "event--create": {
+         "pattern": "event/new$",
+         "title": "Add Event"
+      },
+      "event--edit": {
+         "pattern": "event/{id}:[a-zA-Z_\\-\\d]+/edit$",
+         "title": "Edit Event"
+      },
+      "event--find": {
+         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+"
+      },
+      "event--all": {
+         "pattern": "event/all$",
+         "title": "All Events"
+      },
+      "event--item__view": {
+         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+/view",
+         "title": "Event View"
       },
       "model--create": {
          "pattern": "model/{name}:[a-zA-Z_]+/create$",

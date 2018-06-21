@@ -5,7 +5,7 @@ import devRoutes    from './dev';
 import errorRoutes  from './error';
 import entityRoutes from './entity';
 import homeRoutes   from './home';
-import eventRoutes  from './events';
+import eventRoutes  from '../entities/event/routes';
 import modelRoutes  from './model';
 import fileRoutes   from './file';
 
@@ -15,7 +15,6 @@ const routes = [
 	...errorRoutes,
 
 	...homeRoutes,
-	...eventRoutes,
 
 	...entityRoutes,
 	...modelRoutes,

@@ -88,7 +88,7 @@ class EventsPage extends React.Component {
 	renderCalendar() {
 		return <Calendar defaultView="month"
 		                 defaultDate={new Date}
-		                 events={this.state.events.map(this.convertToEvent)}
+		                 events={this.state.events.map(this.convertToEvent).filter(i => !!i)}
 		                 onSelectEvent={this.onSelectEvent}/>;
 	}
 
@@ -100,6 +100,7 @@ class EventsPage extends React.Component {
 		this.props.history && this.props.history.push(getURI('event--item__view', {name: '' + identifier}));
 	};
 	convertToEvent = event => {
+		if (!event.properties) return null;
 		const {id, title, event_name, description, start_dt, end_dt} = event.properties;
 
 		const start = new Date(start_dt);
