@@ -1,5 +1,5 @@
 {
-   "env": "production",
+   "env": "development",
    "name": "wanghorn",
    "namespace": "WANGHORN",
    "paths": {

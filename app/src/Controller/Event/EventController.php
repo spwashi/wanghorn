@@ -3,14 +3,10 @@
 namespace WANGHORN\Controller\Event;
 
 
-use DateInterval;
+use Sm\Core\Exception\UnimplementedError;
+use Sm\Data\Entity\Context\EntityModificationContext;
 use DateTime;
 use Modules\Query\Sql\Exception\CannotDuplicateEntryException;
-use Sm\Core\Exception\InvalidArgumentException;
-use Sm\Core\Resolvable\Exception\UnresolvableException;
-use Sm\Core\Resolvable\Resolvable;
-use Sm\Core\Util;
-use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\Exception\EntityNotFoundException;
 use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
@@ -18,11 +14,12 @@ use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Model\ModelSchematic;
 use Sm\Data\Model\StandardModelPersistenceManager;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
+
 use WANGHORN\Controller\AppController;
 use WANGHORN\Datatype\Slug;
-use WANGHORN\Entity\Entity\Entity;
 use WANGHORN\Entity\Event\Event;
 use WANGHORN\Response\ApiResponse;
+
 class EventController extends AppController {
 	public function init_entity(): Event {
 		return $this->app->data->entities->instantiate('event');
@@ -89,21 +86,34 @@ class EventController extends AppController {
 	}
 
 	public function edit() {
-		$context     = new EntityCreationContext;
+		$context     = new EntityModificationContext;
 		$requestData = HttpRequestFromEnvironment::getRequestData();
 		$properties  = $requestData['properties'] ?? [];
-		$event       = $this->init_entity();
-		$name        = $properties['event_name'] ?? $properties['name'] ?? null;
+
+		if (empty($properties)) return new ApiResponse(null, 'No changes detected');
+
+		$name = $properties['event_name'] ?? null;
+		$id   = $properties['id'] ?? null;
 
 		if (!isset($name)) return new ApiResponse(false, "Oops! We can't find the event you're trying to save (no name?)");
 
 		try {
-			$context = $this->findEvent($name);
+			$event = $this->findEvent($name, $context, true);
+			return new ApiResponse(false, $event->properties);
 		} catch (EntityNotFoundException $e) {
+			$event = $this->findEvent($id, $context);
+		} catch (EntityNotFoundException $e) {
+			$cannot_find_by_name = "Event with this name not found";
 			return new ApiResponse(false,
-			                       [
-				                       'name' => "Couldn't find event with this name! this might be because we can't update event names yet."
-			                       ]);
+			                       ['event_name' => $cannot_find_by_name]);
+		}
+
+		$event = $this->init_entity();
+		$event->set($properties);
+		try {
+			$event->save();
+		} catch (UnimplementedError $exception) {
+			return new ApiResponse(false, 'Sorry, we can\'t save events right now.');
 		}
 
 		return new ApiResponse(null, "This has not yet been implemented");
