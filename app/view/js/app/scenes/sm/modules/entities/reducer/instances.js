@@ -31,9 +31,19 @@ const instances       = (state, action) => {
 				      let localSmID          = smID || entity.smID;
 				      allEntities[localSmID] = allEntities[localSmID] || {};
 				      if (entity && entity.properties && entity.properties.id) {
-					      let pastEntity = Object.values(state[localSmID] || {})
-					                             .find(pastEntity => pastEntity.properties && pastEntity.properties.id === entity.properties.id)
-					      _id            = pastEntity._id;
+					      const localState = state[localSmID];
+					      let pastEntity   = Object.values(localState || {})
+					                               .find(pastEntity => {
+						                               if (!pastEntity || !pastEntity.properties) {
+							                               if (pastEntity && pastEntity._id && localState[pastEntity._id]) {
+								                               delete  localState[pastEntity._id];
+							                               }
+							                               return;
+						                               }
+						                               return pastEntity.properties && pastEntity.properties.id === entity.properties.id;
+					                               });
+					      if (!pastEntity) return;
+					      _id = pastEntity._id;
 					      pastEntity && Object.assign(entity, {_id});
 				      }
 				      const newEntity             = instanceReducer(entity, action);

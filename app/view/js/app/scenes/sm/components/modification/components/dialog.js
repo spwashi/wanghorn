@@ -27,7 +27,7 @@ class SmEntityModificationDialog extends React.Component {
 		const intent                           = this.props.intent;
 		title                                  = title || `Create New ${getTitleFromPropName(name)}`;
 		return (
-			<Modal isOpen={isOpen} onRequestClose={onRequestClose} title={title} contentLabel={title}>
+			<Modal isOpen={isOpen} onRequestClose={onRequestClose} pageTitle={title} title={title} contentLabel={title}>
 				<SmEntityModificationForm key={smID}
 				                          intent={intent}
 				                          smID={smID}

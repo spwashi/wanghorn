@@ -58,7 +58,7 @@ class EventsPage extends React.Component {
 			                   isEdit={true}
 			                   resolveSmEntity={resolveSmEntity}
 			                   smEntityIdentifier={EVENT_SM_ID}
-			                   formTitle={'Edit Event'}
+			                   formTitle={`Event ~ edit`}
 			                   closingUri={closingUri}/>,
 			<ModificationRoute key={'create'}
 			                   smEntityIdentifier={EVENT_SM_ID}
@@ -75,12 +75,14 @@ class EventsPage extends React.Component {
 				      const event      = this.findEvent(name);
 				      const body       = <EventModalBodyActive event={event}/>;
 				      const properties = event.properties;
+				      const eventTitle = event ? properties.title : 'Loading...';
 				      return <Modal isOpen={true}
 				                    contentLabel={name}
 				                    editUri={getURI('event--edit', {id: properties.event_name || properties.id})}
 				                    onRequestEdit={this.onRequestEdit}
 				                    onRequestClose={this.onRequestClose}
-				                    title={event ? properties.title : 'Loading...'}
+				                    title={eventTitle}
+				                    pageTitle={`Events|${eventTitle}`}
 				                    children={body}/>;
 			      };
 		return <Route path={path} component={component}/>;

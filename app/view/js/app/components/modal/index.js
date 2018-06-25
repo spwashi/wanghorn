@@ -16,10 +16,16 @@ export default class Modal extends React.Component {
 		editUri:                 PropTypes.string,
 		contentLabel:            PropTypes.string,
 		title:                   PropTypes.string,
+		pageTitle:               PropTypes.string,
 		onModalButtonCloseClick: PropTypes.func,
 
 		baseClassName: PropTypes.string
 	};
+
+
+	componentWillMount() {
+		document.title = this.props.pageTitle ? this.props.pageTitle : document.title;
+	}
 
 	componentDidMount() {
 		ReactModal.setAppElement('#app--wrapper');
