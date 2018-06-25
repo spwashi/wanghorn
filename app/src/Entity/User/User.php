@@ -87,6 +87,7 @@ class User extends Entity implements UserEntitySchema {
 	/**
 	 * @param Context|null $context
 	 * @throws UnresolvableException
+	 * @throws InvalidArgumentException
 	 */
 	protected function createPassword(Context $context = null) {
 		$password = $this->properties->password;
@@ -98,6 +99,7 @@ class User extends Entity implements UserEntitySchema {
 	 * Create the hash that would verify the user (via link)
 	 * @param Context|null $context
 	 * @throws UnresolvableException
+	 * @throws InvalidArgumentException
 	 */
 	protected function createVerification(Context $context = null) {
 		$verification_hash = $this->properties->verification;

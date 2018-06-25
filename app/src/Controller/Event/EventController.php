@@ -70,6 +70,7 @@ class EventController extends AppController {
 			$properties['name'] = Slug::slugify($properties['title'] ?? '');
 		}
 		$event->set($properties);
+
 		try {
 			$event->create($context);
 		} catch (CannotDuplicateEntryException $exception) {
@@ -106,9 +107,11 @@ class EventController extends AppController {
 			return new ApiResponse(false, ['event_name' => $cannot_find_by_name]);
 		}
 
-		$event = $this->init_entity();
 		$event->set($properties);
+		$this->app->data->entities->log(['event' => $event, 'properties' => $properties]);
 		$result = $event->save();
+
+
 		if ($result->isSuccess()) {
 			try {
 				$saved_event = $this->findEvent($event->properties->id->value, null, true);
