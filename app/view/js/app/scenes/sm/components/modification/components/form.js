@@ -66,16 +66,13 @@ class SmEntityModificationForm extends React.Component {
 		const item = this.persistedInstance || this.state.smEntity;
 		if (!this.effectiveSmEntity._lastResolved) return false;
 		const should = (item._lastResolved > (this.effectiveSmEntity._lastResolved || 0)) || (item || {}).properties !== (this.state.smEntity || {}).properties;
-		console.log(should ? 'SHOULD' : 'NOT');
 		return should;
 	}
 	componentWillUpdate(nextProps) {
-		const item = this.persistedInstanceFromProps(nextProps);
-		console.log(this.state.status);
+		const item        = this.persistedInstanceFromProps(nextProps);
 		const st_smEntity = this.state.smEntity;
 
 		const hasBeenUpdated = item._lastResolved > (this.effectiveSmEntity._lastResolved || 0);
-		console.log('WILL_UPDATE', hasBeenUpdated);
 
 		if (!this.state._id) {
 			let _id         = this.internalID || randomString();
@@ -89,14 +86,12 @@ class SmEntityModificationForm extends React.Component {
 		}
 
 		if (hasBeenUpdated) {
-			console.log('HAS BEEN UPDATED', JSON.stringify(item.properties));
-			console.log('HAS BEEN UPDATED', JSON.stringify(nextProps.sm.managers.entities.instances));
 			this.setState({
 				              _id:      item._id || this.internalID,
 				              status:   'success',
 				              smEntity: item,
 				              message:  item.message || this.state.message
-			              }, done => console.log('SET_STATE', item.properties));
+			              });
 		}
 	}
 	render() {
@@ -112,10 +107,8 @@ class SmEntityModificationForm extends React.Component {
 
 		const resolveSmEntities        = this.resolveSmEntities;
 		const resolveSmEntitySchematic = this.resolveSmEntitySchematic;
-		console.log('RENDER');
 		return (
 			<form onSubmit={this.handleSubmit} className={status ? 'status__' + status : ''}>
-				{this.internalID}
 				<SmEntityFieldset schematic={schematic}
 				                  message={this.state.message}
 				                  smEntity={this.effectiveSmEntity}

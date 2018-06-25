@@ -23,10 +23,18 @@ export class SlugField extends React.Component {
 		const message               = this.props.message;
 		const checkPropertyValidity = (schematic, password) => true;
 		const onSlugValueChange     = value => {
-			value = convertToSlug(value);
+			value                    = convertToSlug(value);
+			const wasRecentlyChanged = value !== this.props.value;
 			if (value === '') {
-				this.state.hasBeenModified && this.setState({hasBeenModified: false},
-				                                            done => onValueChange(this.getSlug(), checkPropertyValidity))
+				if (this.state.hasBeenModified) {
+					const whenModified =
+						      done => {
+							      const val = wasRecentlyChanged ? value : this.getSlug();
+							      return onValueChange(val, checkPropertyValidity);
+						      };
+
+					this.setState({hasBeenModified: wasRecentlyChanged}, whenModified)
+				}
 			} else if (!this.state.hasBeenModified) {
 				this.setState({hasBeenModified: true},
 				              done => onValueChange(value, checkPropertyValidity));

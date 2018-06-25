@@ -32,7 +32,7 @@ const instances       = (state, action) => {
 				      allEntities[localSmID] = allEntities[localSmID] || {};
 				      if (entity && entity.properties && entity.properties.id) {
 					      let pastEntity = Object.values(state[localSmID] || {})
-					                             .find(pastEntity => pastEntity.properties.id === entity.properties.id)
+					                             .find(pastEntity => pastEntity.properties && pastEntity.properties.id === entity.properties.id)
 					      _id            = pastEntity._id;
 					      pastEntity && Object.assign(entity, {_id});
 				      }

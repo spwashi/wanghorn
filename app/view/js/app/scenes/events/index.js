@@ -119,8 +119,9 @@ class EventsPage extends React.Component {
 		return navigateBackOnHistory(history, uri);
 	};
 	findEvent      = name => {
-		const matchesID   = event => parseInt(event.properties.id) === parseInt(name);
-		const matchesName = event => (event.properties.event_name === name);
+		const matchesID   = event => event.properties && (parseInt(event.properties.id) === parseInt(name));
+		const matchesName = event => event.properties && (event.properties.event_name === name);
+		console.log(this.state.events);
 		return this.state.events.find(event => name && (matchesID(event) || matchesName(event)));
 	};
 }
