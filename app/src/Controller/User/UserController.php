@@ -12,7 +12,7 @@ use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntitySchema;
 use Sm\Data\Entity\Exception\EntityNotFoundException;
-use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
+use Sm\Data\Entity\Exception\Persistence\CannotModifyEntityException;
 use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Property\Property;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
@@ -111,7 +111,7 @@ class UserController extends AppController {
 			return $login_response;
 		} catch (CannotDuplicateEntryException $error) {
 			return new ApiResponse(false, 'User already exists');
-		} catch (CannotCreateEntityException $exception) {
+		} catch (CannotModifyEntityException $exception) {
 			$failedProperties     = $exception->getFailedProperties();
 			$messages             = $failedProperties;
 			$messages['_message'] = 'Could not continue';

@@ -9,7 +9,7 @@ use DateTime;
 use Modules\Query\Sql\Exception\CannotDuplicateEntryException;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\Exception\EntityNotFoundException;
-use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
+use Sm\Data\Entity\Exception\Persistence\CannotModifyEntityException;
 use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Model\ModelSchematic;
 use Sm\Data\Model\StandardModelPersistenceManager;
@@ -74,7 +74,7 @@ class EventController extends AppController {
 			$event->create($context);
 		} catch (CannotDuplicateEntryException $exception) {
 			return new ApiResponse(false, 'Event with this name already exists!');
-		} catch (CannotCreateEntityException $exception) {
+		} catch (CannotModifyEntityException $exception) {
 			$failedProperties     = $exception->getFailedProperties();
 			$messages             = $failedProperties;
 			$messages['_message'] = 'Could not continue';
@@ -99,21 +99,24 @@ class EventController extends AppController {
 
 		try {
 			$event = $this->findEvent($name, $context, true);
-			return new ApiResponse(false, $event->properties);
 		} catch (EntityNotFoundException $e) {
-			$event = $this->findEvent($id, $context);
+			$event = $this->findEvent($id, $context, true);
 		} catch (EntityNotFoundException $e) {
 			$cannot_find_by_name = "Event with this name not found";
-			return new ApiResponse(false,
-			                       ['event_name' => $cannot_find_by_name]);
+			return new ApiResponse(false, ['event_name' => $cannot_find_by_name]);
 		}
 
 		$event = $this->init_entity();
 		$event->set($properties);
-		try {
-			$event->save();
-		} catch (UnimplementedError $exception) {
-			return new ApiResponse(false, 'Sorry, we can\'t save events right now.');
+		$result = $event->save();
+		if ($result->isSuccess()) {
+			try {
+				$saved_event = $this->findEvent($event->properties->id->value, null, true);
+				return new ApiResponse(true, ['_message'   => 'Successfully saved event',
+				                              'properties' => $saved_event->properties]);
+			} catch (EntityNotFoundException $e) {
+				return new ApiResponse(false, 'Could not save entity...');
+			}
 		}
 
 		return new ApiResponse(null, "This has not yet been implemented");

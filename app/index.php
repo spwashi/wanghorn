@@ -48,47 +48,30 @@ try {
 		$response         = $primedErrorRoute->resolve();
 		$dispatchResult   = $communicationLayer->dispatch(Http::class, $response); # Not a redirect
 	}
-} catch (\Sm\Core\Exception\Exception $exception) {
+} catch (\Sm\Core\Exception\Exception|\Throwable $exception) {
+	$is_sm              = $exception instanceof \Sm\Core\Exception\Exception;
 	$exception_messages = [
-		get_class($exception),
-
-		$exception->getMessage(),
-		$exception->getFile(),
-		$exception->getLine(),
-
-		Sm\Core\Exception\Exception::getAbbreviatedTrace($exception->getTrace()),
-
-		$exception->getPrevious(),
-		$exception->getMonitorContainer(),
-		$exception,
+		'success'   => false,
+		'type'      => get_class($exception),
+		'message'   => $exception->getMessage(),
+		'file'      => $exception->getFile(),
+		'line'      => $exception->getLine(),
+		'trace'     => Sm\Core\Exception\Exception::getAbbreviatedTrace($exception->getTrace()),
+		'monitors'  => $is_sm ? $exception->getMonitorContainer() : null,
+		'previous'  => $exception->getPrevious(),
+		'exception' => $exception,
 	];
+
 	if ($app->environmentIs(Application::ENV_DEV)) {
 		try {
-			$error = json_encode($exception_messages);
 			header('Content-Type: application/json');
-			echo $error;
+			echo json_encode($exception_messages);
 		} catch (Exception $e) {
 			var_dump($e);
 		}
 	}
-	$app->logging->log($exception_messages, 'sm_exception');
-} catch (\Throwable $exception) {
-	$exception_messages = [
-		get_class($exception),
 
-		$exception->getMessage(),
-		$exception->getFile(),
-
-		Sm\Core\Exception\Exception::getAbbreviatedTrace($exception->getTrace()),
-
-		$exception->getPrevious(),
-		$exception,
-	];
-	if ($app->environmentIs(Application::ENV_DEV)) {
-		header('Content-Type: application/json');
-		echo json_encode($exception_messages);
-	}
-	$app->logging->log($exception_messages, 'exception');
+	$app->logging->log($exception_messages, $is_sm ? 'sm_exception' : 'exception');
 } finally {
 	if (isset($_GET['d_lm'])) {
 		$log_level = $_GET['d_lm'];

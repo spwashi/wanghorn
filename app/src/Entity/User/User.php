@@ -11,7 +11,7 @@ use Sm\Core\Resolvable\Exception\UnresolvableException;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
 use Sm\Data\Entity\EntitySchema;
-use Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException;
+use Sm\Data\Entity\Exception\Persistence\CannotModifyEntityException;
 use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Property\Property;
 use Sm\Data\Property\PropertyContainer;
@@ -41,7 +41,7 @@ class User extends Entity implements UserEntitySchema {
 	 * @throws UnimplementedError
 	 * @throws InvalidArgumentException
 	 * @throws UnresolvableException
-	 * @throws CannotCreateEntityException
+	 * @throws CannotModifyEntityException
 	 */
 	public function create(Context $context, $attributes = []): EntityValidationResult {
 		$result = $this->createPrimaryModel($context, $attributes);

@@ -21,25 +21,6 @@
    "event": {
       "smID": "[Entity]event",
       "properties": {
-         "event_name": {
-            "smID": "[Property]{[Entity]event} event_name",
-            "datatypes": [
-               "string",
-               "slug"
-            ],
-            "derivedFrom": {
-               "identity": "[Model]event",
-               "hydrationMethod": {
-                  "property": "name"
-               }
-            }
-         },
-         "image": {
-            "smID": "[Property]{[Entity]event} image",
-            "datatypes": [
-               "file"
-            ]
-         },
          "id": {
             "smID": "[Property]{[Entity]event} id",
             "datatypes": [
@@ -81,6 +62,14 @@
             ],
             "length": 2000,
             "derivedFrom": "[Property]{[Model]event} description"
+         },
+         "event_name": {
+            "smID": "[Property]{[Entity]event} event_name",
+            "datatypes": [
+               "string",
+               "slug"
+            ],
+            "derivedFrom": "[Property]{[Model]event} name"
          }
       },
       "persistedIdentity": "[Model]event",
@@ -147,9 +136,6 @@
                "[Entity]verification"
             ],
             "isGenerated": true,
-            "derivedFrom": {
-               "user_id": "[Property]{[Model]user} id"
-            },
             "contexts": [
                "::verification"
             ]
@@ -159,9 +145,6 @@
             "datatypes": [
                "[Entity]password"
             ],
-            "derivedFrom": {
-               "user_id": "[Property]{[Model]user} id"
-            },
             "contexts": [
                "login_process",
                "signup_process"
@@ -193,19 +176,6 @@
    "image": {
       "smID": "[Entity]image",
       "properties": {
-         "filename": {
-            "smID": "[Property]{[Entity]image} filename",
-            "datatypes": [
-               "string"
-            ],
-            "length": 50,
-            "derivedFrom": {
-               "identity": "[Model]image",
-               "hydrationMethod": {
-                  "property": "readable_name"
-               }
-            }
-         },
          "url": {
             "smID": "[Property]{[Entity]image} url",
             "datatypes": [
@@ -230,6 +200,14 @@
             "unique": true,
             "isGenerated": true,
             "derivedFrom": "[Property]{[Model]image} name"
+         },
+         "filename": {
+            "smID": "[Property]{[Entity]image} filename",
+            "datatypes": [
+               "string"
+            ],
+            "length": 50,
+            "derivedFrom": "[Property]{[Model]image} readable_name"
          },
          "file_location_id": {
             "smID": "[Property]{[Entity]image} file_location_id",

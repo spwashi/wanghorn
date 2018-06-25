@@ -60,7 +60,7 @@ class Password extends Entity implements Resolvable {
 	 *
 	 * @return \Sm\Data\Entity\Validation\EntityValidationResult
 	 * @throws \Sm\Core\Resolvable\Exception\UnresolvableException
-	 * @throws \Sm\Data\Entity\Exception\Persistence\CannotCreateEntityException
+	 * @throws \Sm\Data\Entity\Exception\Persistence\CannotModifyEntityException
 	 */
 	public function create(Context $context, $attributes = []): ?EntityValidationResult {
 		return $this->createPrimaryModel($context, $attributes);

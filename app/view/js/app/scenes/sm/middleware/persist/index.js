@@ -31,13 +31,22 @@ function normalizeResponse(data) {
 	if (typeof data.message === 'object') {
 		message = data.message;
 	} else {
-		message = typeof data.message === 'string' ? {_message: data.message} : {_message: txt};
+		message = typeof data.message === 'string' ? {_message: {status, message: data.message}} : {_message: txt};
 	}
 	return {status, message};
 }
 function resolveSmEntityFromData({status, message = {}} = {}, sentSmEntity) {
+	let effectiveSmEntity = {...sentSmEntity};
 	if (typeof message === "object") {
-		let properties                = sentSmEntity.properties || {};
+		if (message.properties && typeof message.properties === "object") {
+			effectiveSmEntity.properties =
+				{
+					...(effectiveSmEntity.properties || {}),
+					...message.properties
+				};
+		}
+
+		let properties                = effectiveSmEntity.properties || {};
 		let addEntryMessageToSmEntity = entry => {
 			const [propertyName, propertyMessage] = entry;
 			const smEntityProperty                = properties[propertyName] || {};
@@ -49,7 +58,7 @@ function resolveSmEntityFromData({status, message = {}} = {}, sentSmEntity) {
 		Object.entries(message).forEach(addEntryMessageToSmEntity);
 	}
 
-	return {...sentSmEntity, message};
+	return {...effectiveSmEntity, message};
 }
 function normalizeSmEntityProperties(post) {
 	post.properties && Object.entries(post.properties || {})
@@ -82,12 +91,12 @@ function persistSmEntityMiddleware({dispatch, getState}) {
 				const {name: smEntityName}     = parseSmID(smID);
 				const {uri: uriName, fallback} = getPersistenceUriName({smID, intent: action.intent});
 				const url                      = getURI(uriName, {name: smEntityName}, {fallback}) + '?d_lm=q';
-
 				axios.post(url, sentSmEntity)
 				     .then(response => {
 					     const data            = normalizeResponse(response.data);
 					     let {message, status} = data;
 					     let smEntity          = resolveSmEntityFromData(data, sentSmEntity);
+					     smEntity._id          = smEntity._id || _id;
 					     dispatch(persistSmEntity__completed({smEntity, _id, status}))
 				     });
 

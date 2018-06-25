@@ -89,7 +89,7 @@
          "pattern": "dev/email/test/{signup_nonce}"
       },
       "error-404": {
-         "pattern": "404/{path}"
+         "pattern": "404/{path}:.*"
       },
       "home": {
          "pattern": "$",
@@ -164,13 +164,6 @@
          "pattern": "event/new$",
          "title": "Add Event"
       },
-      "event--edit": {
-         "pattern": "event/{id}:[a-zA-Z_\\-\\d]+/edit$",
-         "title": "Edit Event"
-      },
-      "event--find": {
-         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+"
-      },
       "event--all": {
          "pattern": "event/all$",
          "title": "All Events"
@@ -178,6 +171,13 @@
       "event--item__view": {
          "pattern": "event/{name}:[a-zA-Z_\\-\\d]+/view",
          "title": "Event View"
+      },
+      "event--edit": {
+         "pattern": "event/{id}:[a-zA-Z_\\-\\d]+/edit$",
+         "title": "Edit Event"
+      },
+      "event--find": {
+         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+"
       },
       "model--create": {
          "pattern": "model/{name}:[a-zA-Z_]+/create$",

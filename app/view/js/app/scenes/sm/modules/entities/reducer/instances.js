@@ -10,8 +10,7 @@ const instanceReducer = (instance: entityInstance, action) => {
 	let {type} = action;
 	switch (type) {
 		case FETCH_ENTITY_INSTANCES_RECEIVED:
-			const _id = randomString(6);
-			return {...instance, _id, _lastResolved: Date.now()};
+			return {_id: randomString(6), ...instance, _lastResolved: Date.now()};
 		case ENTITY_INSTANCE_RESOLVED:
 			return {...instance, _lastResolved: Date.now()};
 		default:
@@ -29,8 +28,14 @@ const instances       = (state, action) => {
 			let allEntities = {};
 			Object.values(entities)
 			      .forEach(entity => {
-				      let localSmID               = smID || entity.smID;
-				      allEntities[localSmID]      = allEntities[localSmID] || {};
+				      let localSmID          = smID || entity.smID;
+				      allEntities[localSmID] = allEntities[localSmID] || {};
+				      if (entity && entity.properties && entity.properties.id) {
+					      let pastEntity = Object.values(state[localSmID] || {})
+					                             .find(pastEntity => pastEntity.properties.id === entity.properties.id)
+					      _id            = pastEntity._id;
+					      pastEntity && Object.assign(entity, {_id});
+				      }
 				      const newEntity             = instanceReducer(entity, action);
 				      _id                         = newEntity._id;
 				      allEntities[localSmID][_id] = newEntity;
@@ -39,8 +44,9 @@ const instances       = (state, action) => {
 		case ENTITY_INSTANCE_RESOLVED:
 			_id         = action._id;
 			state[smID] = state[smID] || {};
+			console.log(entity.properties);
 			state[smID] = {...state[smID], [_id]: instanceReducer(entity, action)};
-			return state;
+			return {...state};
 			break;
 		default:
 			return state || {};

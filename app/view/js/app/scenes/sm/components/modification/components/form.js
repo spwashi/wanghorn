@@ -34,12 +34,9 @@ class SmEntityModificationForm extends React.Component {
 		let status                 = null;
 		let schematic              = this.schematic || null;
 		let smEntity               = this.props.smEntity && this.props.smEntity.smID ? this.props.smEntity : {};
-		let _id                    = smEntity._id || randomString();
 		smEntity.smID              = smEntity.smID || (this.schematic && this.schematic.smID);
-		smEntity._id               = _id;
-		this.state                 = {_id, status, message, smEntity, schematic};
-		this.propertyChangeHandler = this.props.onPropertyValueChange || function () {
-		};
+		this.state                 = {status, message, smEntity, schematic, _id: smEntity._id};
+		this.propertyChangeHandler = this.props.onPropertyValueChange || function () {};
 	}
 
 	// LIFECYCLE
@@ -52,27 +49,54 @@ class SmEntityModificationForm extends React.Component {
 		let contextName       = this.props.contextName;
 		let schematicResolved = fromSm_selectSchematicOfSmID(this.props.sm, {smID, contextName});
 		schematic             = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
-		this.setState({hasSoughtSchematic: true, schematic})
+		const newState        = {hasSoughtSchematic: true, schematic};
+		this.setState(newState)
 	}
 	get persistedInstance() {
-		return fromSm_resolveItemOfInternalID(this.props.sm,
-		                                      {
-			                                      smID: this.props.smID,
-			                                      _id:  this.state._id
-		                                      });
+		const props = this.props;
+		return this.persistedInstanceFromProps(props);
 	}
-	componentWillReceiveProps(nextProps) {
-		const item    = this.persistedInstance;
-		let isLoading = this.state.status === 'loading';
-		if (!item) return;
-		let hasBeenUpdated = item._lastResolved > (this.effectiveSmEntity._lastResolved || 0);
-		console.log(item, hasBeenUpdated);
-		if (isLoading && hasBeenUpdated) {
+	persistedInstanceFromProps(props) {
+		return fromSm_resolveItemOfInternalID(props.sm, {smID: props.smID, _id: this.internalID});
+	}
+	get internalID() {
+		return this.effectiveSmEntity._id || this.state._id;
+	}
+	shouldComponentUpdate() {
+		const item = this.persistedInstance || this.state.smEntity;
+		if (!this.effectiveSmEntity._lastResolved) return false;
+		const should = (item._lastResolved > (this.effectiveSmEntity._lastResolved || 0)) || (item || {}).properties !== (this.state.smEntity || {}).properties;
+		console.log(should ? 'SHOULD' : 'NOT');
+		return should;
+	}
+	componentWillUpdate(nextProps) {
+		const item = this.persistedInstanceFromProps(nextProps);
+		console.log(this.state.status);
+		const st_smEntity = this.state.smEntity;
+
+		const hasBeenUpdated = item._lastResolved > (this.effectiveSmEntity._lastResolved || 0);
+		console.log('WILL_UPDATE', hasBeenUpdated);
+
+		if (!this.state._id) {
+			let _id         = this.internalID || randomString();
+			st_smEntity._id = _id;
+			if (this.state._id !== _id) this.setState({_id});
+			return;
+		}
+		if (!item) {
+			console.log('NO PERSISTED INSTANCE');
+			return;
+		}
+
+		if (hasBeenUpdated) {
+			console.log('HAS BEEN UPDATED', JSON.stringify(item.properties));
+			console.log('HAS BEEN UPDATED', JSON.stringify(nextProps.sm.managers.entities.instances));
 			this.setState({
+				              _id:      item._id || this.internalID,
 				              status:   'success',
 				              smEntity: item,
 				              message:  item.message || this.state.message
-			              });
+			              }, done => console.log('SET_STATE', item.properties));
 		}
 	}
 	render() {
@@ -88,9 +112,10 @@ class SmEntityModificationForm extends React.Component {
 
 		const resolveSmEntities        = this.resolveSmEntities;
 		const resolveSmEntitySchematic = this.resolveSmEntitySchematic;
-
+		console.log('RENDER');
 		return (
 			<form onSubmit={this.handleSubmit} className={status ? 'status__' + status : ''}>
+				{this.internalID}
 				<SmEntityFieldset schematic={schematic}
 				                  message={this.state.message}
 				                  smEntity={this.effectiveSmEntity}
@@ -130,7 +155,6 @@ class SmEntityModificationForm extends React.Component {
 
 		smEntity.properties = smEntity.properties || {};
 		smEntity.message    = smEntity.message || {};
-
 		return smEntity;
 	}
 	setFieldDefaultValue(effectiveSchematic, value, message = true) {
@@ -167,7 +191,7 @@ class SmEntityModificationForm extends React.Component {
 			smEntity.message[fieldName] = message;
 		}
 		if (value !== smEntity.properties[name]) {
-			smEntity.properties[name] = value;
+			smEntity.properties = {...smEntity.properties, [name]: value};
 			this.setState({smEntity});
 		}
 	}
@@ -188,7 +212,7 @@ class SmEntityModificationForm extends React.Component {
 		}
 
 		// Otherwise, go through the "loading, success/error" process below
-		let _id = this.state._id;
+		let _id = this.internalID;
 		this.setState({status: 'loading'}, done => this.props.persist({smEntity, _id, intent: this.props.intent}))
 	}
 

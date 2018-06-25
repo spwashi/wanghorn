@@ -14,9 +14,7 @@ export class SlugField extends React.Component {
 			this.props.setDefaultValue(slug);
 		}
 	}
-	componentDidUpdate() {
-		// !this.props.value && this.props.setDefaultValue && this.props.setDefaultValue(this.getSlug())
-	}
+
 	render() {
 		const onValueChange         = this.props.onValueChange;
 		const schematic             = this.props.schematic;
@@ -50,7 +48,9 @@ export class SlugField extends React.Component {
 	getSlug() {
 		const owner = this.props.owner;
 		let slug    = this.props.value;
-
+		if (this.props.value && typeof this.props.value === 'string' && this.props.value.length) {
+			return this.props.value;
+		}
 		if (!this.state.hasBeenModified && owner) {
 			const titlePropertyValue = owner && owner.properties && owner.properties.title;
 			slug                     = titlePropertyValue ? convertToSlug(titlePropertyValue) : '';

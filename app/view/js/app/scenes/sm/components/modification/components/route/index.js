@@ -37,9 +37,10 @@ class Dialog extends React.Component {
 
 		if (!schematic) return ' ...loading';
 
+		const smEntity = resolveSmEntity && resolveSmEntity({id: match.params.id});
 		return <SmEntityModificationDialog smID={smID}
 		                                   title={formTitle}
-		                                   smEntity={resolveSmEntity && resolveSmEntity({id: match.params.id})}
+		                                   smEntity={smEntity}
 		                                   closingUri={closingUri}
 		                                   schematic={schematic}
 		                                   history={history}

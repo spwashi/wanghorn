@@ -32,17 +32,6 @@ export default [
 		          title:      "Add Event"
 	          }),
 	new Route({
-		          name:       'event--edit',
-		          renderedBy: RENDER_METHODS.client,
-		          pattern:    'event/{id}:[a-zA-Z_\\-\\d]+/edit$',
-		          title:      "Edit Event"
-	          }),
-	new Route({
-		          resolution: '[Event]@findEvent',
-		          pattern:    'event/{name}:[a-zA-Z_\\-\\d]+',
-		          name:       'event--find',
-	          }),
-	new Route({
 		          resolution: "[Event]@all",
 		          pattern:    'event/all$',
 		          name:       'event--all',
@@ -53,5 +42,16 @@ export default [
 		          pattern:    'event/{name}:[a-zA-Z_\\-\\d]+/view',
 		          name:       'event--item__view',
 		          title:      "Event View"
+	          }),
+	new Route({
+		          name:       'event--edit',
+		          renderedBy: RENDER_METHODS.client,
+		          pattern:    'event/{id}:[a-zA-Z_\\-\\d]+/edit$',
+		          title:      "Edit Event"
+	          }),
+	new Route({
+		          resolution: '[Event]@findEvent',
+		          pattern:    'event/{name}:[a-zA-Z_\\-\\d]+',
+		          name:       'event--find',
 	          })
 ]
