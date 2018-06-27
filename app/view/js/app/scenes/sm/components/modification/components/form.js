@@ -48,8 +48,9 @@ class SmEntityModificationForm extends React.Component {
 		let smID              = (schematic && schematic.smID) || (smEntity && smEntity.smID) || this.props.smID;
 		let contextName       = this.props.contextName;
 		let schematicResolved = fromSm_selectSchematicOfSmID(this.props.sm, {smID, contextName});
-		schematic             = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
-		const newState        = {hasSoughtSchematic: true, schematic};
+		console.log(schematicResolved);
+		schematic      = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
+		const newState = {hasSoughtSchematic: true, schematic};
 		this.setState(newState)
 	}
 	get persistedInstance() {
@@ -64,15 +65,15 @@ class SmEntityModificationForm extends React.Component {
 	}
 	shouldComponentUpdate() {
 		const item = this.persistedInstance || this.state.smEntity;
-		if (!this.effectiveSmEntity._lastResolved) return false;
-		const should = (item._lastResolved > (this.effectiveSmEntity._lastResolved || 0)) || (item || {}).properties !== (this.state.smEntity || {}).properties;
-		return should;
+		console.log(this.effectiveSmEntity);
+		if (!this.effectiveSmEntity._lastResolved) return true;
+		return (item._lastResolved > (this.effectiveSmEntity._lastResolved || 0)) || (item || {}).properties !== (this.state.smEntity || {}).properties;
 	}
 	componentWillUpdate(nextProps) {
 		const item        = this.persistedInstanceFromProps(nextProps);
 		const st_smEntity = this.state.smEntity;
 
-		const hasBeenUpdated = item._lastResolved > (this.effectiveSmEntity._lastResolved || 0);
+		const hasBeenUpdated = (item || {})._lastResolved > (this.effectiveSmEntity._lastResolved || 0);
 
 		if (!this.state._id) {
 			let _id         = this.internalID || randomString();
