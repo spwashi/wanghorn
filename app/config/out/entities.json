@@ -136,6 +136,9 @@
                "[Entity]verification"
             ],
             "isGenerated": true,
+            "derivedFrom": {
+               "user_id": "[Property]{[Model]user} id"
+            },
             "contexts": [
                "::verification"
             ]
@@ -145,6 +148,9 @@
             "datatypes": [
                "[Entity]password"
             ],
+            "derivedFrom": {
+               "user_id": "[Property]{[Model]user} id"
+            },
             "contexts": [
                "login_process",
                "signup_process"
