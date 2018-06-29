@@ -16,6 +16,9 @@ use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+# prevents the dispatcher from returning JSON
+define('NO_JSON', false);
+
 /** @var Application $app */
 $app = Application::init(APP__APP_PATH, APP__CONFIG_PATH, APP__LOG_PATH);
 
@@ -49,29 +52,16 @@ try {
 		$dispatchResult   = $communicationLayer->dispatch(Http::class, $response); # Not a redirect
 	}
 } catch (\Sm\Core\Exception\Exception|\Throwable $exception) {
-	$is_sm              = $exception instanceof \Sm\Core\Exception\Exception;
-	$exception_messages = [
-		'success'   => false,
-		'type'      => get_class($exception),
-		'message'   => $exception->getMessage(),
-		'file'      => $exception->getFile(),
-		'line'      => $exception->getLine(),
-		'trace'     => Sm\Core\Exception\Exception::getAbbreviatedTrace($exception->getTrace()),
-		'monitors'  => $is_sm ? $exception->getMonitorContainer() : null,
-		'previous'  => $exception->getPrevious(),
-		'exception' => $exception,
-	];
-
 	if ($app->environmentIs(Application::ENV_DEV)) {
 		try {
-			header('Content-Type: application/json');
-			echo json_encode($exception_messages);
+//			header('Content-Type: application/json');
+			$communicationLayer->dispatch(Http::class, $exception);
+//			echo json_encode(\Sm\Logging\LoggingLayer::convertThrowableToLoggable($exception));
 		} catch (Exception $e) {
 			var_dump($e);
 		}
 	}
-
-	$app->logging->log($exception_messages, $is_sm ? 'sm_exception' : 'exception');
+	$app->logging->log($exception);
 } finally {
 	if (isset($_GET['d_lm'])) {
 		$log_level = $_GET['d_lm'];
@@ -80,9 +70,9 @@ try {
 			case 'q':
 				$items = $monitors->getAll(true);
 				foreach ($items as $key => $item) {
-					if (strpos($key, 'query') === false) {
-						unset($items[$key]);
-					}
+
+					if (strpos($key, 'query') === false) unset($items[$key]);
+
 				}
 				$app->logging->log($items, 'monitors/query');
 				break;

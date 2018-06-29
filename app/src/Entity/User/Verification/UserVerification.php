@@ -6,6 +6,7 @@ namespace WANGHORN\Entity\User\Verification;
 use Sm\Core\Context\Context;
 use Sm\Core\Exception\UnimplementedError;
 use Sm\Core\Resolvable\Resolvable;
+use Sm\Core\Schema\Schematic;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
 use Sm\Data\Entity\EntitySchema;
@@ -105,7 +106,7 @@ class UserVerification extends Entity implements Resolvable {
 	##  Serialization
 	public function jsonSerialize() {
 		/** @var \DateTime $creationDatetime */
-		$creationDatetime = $this->persistedIdentity->properties->creation_dt->resolve();
+		$creationDatetime = $this->persistedIdentity && !($this->persistedIdentity instanceof Schematic) ? $this->persistedIdentity->properties->creation_dt->resolve() : null;
 		$is_expired       = $creationDatetime && $creationDatetime->diff(new \DateTime)->days >= 3;
 		$response         = new UserVerificationStatusResponse;
 		$response->setIsExpired($is_expired);

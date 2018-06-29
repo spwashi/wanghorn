@@ -14,7 +14,7 @@ use Sm\Data\Entity\EntitySchema;
 use Sm\Data\Entity\Exception\Persistence\CannotModifyEntityException;
 use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Property\Property;
-use Sm\Data\Property\PropertyContainer;
+#
 use WANGHORN\Entity\Entity\Entity;
 use WANGHORN\Entity\User\Proxy\UserEntityProxy;
 use WANGHORN\Entity\User\Schema\UserEntitySchema;
@@ -73,7 +73,6 @@ class User extends Entity implements UserEntitySchema {
 	}
 	#
 	##  Getters/Setters
-	public function getProperties(): PropertyContainer { return parent::getProperties(); }
 	#
 	##  Initialization/Instantiation
 	public function findPassword(): Property {

@@ -48,24 +48,15 @@ class SmEntityModificationForm extends React.Component {
 		let smID              = (schematic && schematic.smID) || (smEntity && smEntity.smID) || this.props.smID;
 		let contextName       = this.props.contextName;
 		let schematicResolved = fromSm_selectSchematicOfSmID(this.props.sm, {smID, contextName});
-		console.log(schematicResolved);
-		schematic      = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
-		const newState = {hasSoughtSchematic: true, schematic};
+		schematic             = (schematicResolved && schematicResolved.smID ? schematicResolved : this.state.schematic);
+		const newState        = {hasSoughtSchematic: true, schematic};
 		this.setState(newState)
-	}
-	get persistedInstance() {
-		const props = this.props;
-		return this.persistedInstanceFromProps(props);
 	}
 	persistedInstanceFromProps(props) {
 		return fromSm_resolveItemOfInternalID(props.sm, {smID: props.smID, _id: this.internalID});
 	}
-	get internalID() {
-		return this.effectiveSmEntity._id || this.state._id;
-	}
 	shouldComponentUpdate() {
 		const item = this.persistedInstance || this.state.smEntity;
-		console.log(this.effectiveSmEntity);
 		if (!this.effectiveSmEntity._lastResolved) return true;
 		return (item._lastResolved > (this.effectiveSmEntity._lastResolved || 0)) || (item || {}).properties !== (this.state.smEntity || {}).properties;
 	}
@@ -95,6 +86,11 @@ class SmEntityModificationForm extends React.Component {
 			              });
 		}
 	}
+	componentDidCatch(error, info) {
+		// Display fallback UI
+		this.setState({internalError: JSON.stringify(error)});
+		console.log(error, info);
+	}
 	render() {
 		const status    = this.state.status;
 		const schematic = this.state.schematic;
@@ -108,6 +104,14 @@ class SmEntityModificationForm extends React.Component {
 
 		const resolveSmEntities        = this.resolveSmEntities;
 		const resolveSmEntitySchematic = this.resolveSmEntitySchematic;
+		const message                  =
+			      <div className="message--wrapper">
+				      <ApiResponseMessage message={this.state.message}/>
+			      </div>;
+		const internalErrorMessage     =
+			      <div className="message--wrapper">
+				      <ApiResponseMessage message={this.state.internalError}/>
+			      </div>;
 		return (
 			<form onSubmit={this.handleSubmit} className={status ? 'status__' + status : ''}>
 				<SmEntityFieldset schematic={schematic}
@@ -117,9 +121,8 @@ class SmEntityModificationForm extends React.Component {
 				                  resolveSmEntities={resolveSmEntities}
 				                  updatePropertyValueStatus={this.updatePropertyValueStatus.bind(this)}
 				                  resolveSmEntitySchematic={resolveSmEntitySchematic}/>
-				<div className="message--wrapper">
-					<ApiResponseMessage message={this.state.message}/>
-				</div>
+				{message}
+				{internalErrorMessage}
 				<button type="submit">Submit</button>
 			</form>
 		);
@@ -150,6 +153,13 @@ class SmEntityModificationForm extends React.Component {
 		smEntity.properties = smEntity.properties || {};
 		smEntity.message    = smEntity.message || {};
 		return smEntity;
+	}
+	get persistedInstance() {
+		const props = this.props;
+		return this.persistedInstanceFromProps(props);
+	}
+	get internalID() {
+		return this.effectiveSmEntity._id || this.state._id;
 	}
 	setFieldDefaultValue(effectiveSchematic, value, message = true) {
 		const {smID, fieldName, name} = effectiveSchematic;

@@ -19,6 +19,7 @@ export default class SignupForm extends React.Component {
 	get userEntity() {
 		const {username, password} = this.props;
 		return {
+			smID:       '[Entity]user',
 			name:       'user',
 			properties: {
 				username,

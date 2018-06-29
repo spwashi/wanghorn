@@ -15,6 +15,7 @@ use Sm\Data\Entity\Exception\EntityNotFoundException;
 use Sm\Data\Entity\Exception\Persistence\CannotModifyEntityException;
 use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Property\Property;
+use Sm\Logging\LoggingLayer;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 use WANGHORN\Entity\User\Verification\Context\UserVerificationContext;
 use WANGHORN\Entity\User\Verification\Proxy\UserVerificationProxy;
@@ -107,7 +108,6 @@ class UserController extends AppController {
 			$login_response = $this->attemptUserLogin($username, $user->properties->password->resolve());
 
 			$this->sendVerificationEmail($user);
-
 			return $login_response;
 		} catch (CannotDuplicateEntryException $error) {
 			return new ApiResponse(false, 'User already exists');
@@ -118,7 +118,6 @@ class UserController extends AppController {
 		}
 
 		$success = empty($failedProperties);
-
 		return new ApiResponse($success, $messages);
 	}
 	public function login() {

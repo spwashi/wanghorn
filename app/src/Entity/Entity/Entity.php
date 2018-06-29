@@ -20,6 +20,7 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
 	}
 	public function findProperty($property_name): Property {
 		$property = $property_name instanceof Property ? $property_name : $this->properties->{$property_name};
+
 		$this->fillPropertyValue($property);
 
 		if (!($property instanceof EntityAsProperty)) return $property;
