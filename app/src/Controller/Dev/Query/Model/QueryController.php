@@ -26,6 +26,11 @@ use Sm\Modules\Query\Sql\Statements\CreateTableStatement;
 use WANGHORN\Controller\Dev\DevController;
 /** @property-read SqlQueryFormatterManager $formatter */
 class QueryController extends DevController {
+	const INCLUDE_BOTH = 'INCLUDE_BOTH';
+	const ONLY_QUERY   = 'ONLY_QUERY';
+	const ONLY_STRING  = 'ONLY_STRING';
+
+
 	public function __get($name) {
 		switch ($name) {
 			case 'formatter':
@@ -34,12 +39,11 @@ class QueryController extends DevController {
 				return parent::__get($name);
 		}
 	}
-	function queries(): array {
-		$models                   = $this->app->data->models->getRegisteredSchematics();
-		$all_columns              = [];
-		$tableReferenceArr__array = [];
-		$modelPersistenceManager  = $this->app->data->models->persistenceManager;
-		$model_query_array        = [];
+	function queries($include = QueryController::ONLY_STRING): array {
+		$models                  = $this->app->data->models->getRegisteredSchematics();
+		$all_columns             = [];
+		$modelPersistenceManager = $this->app->data->models->persistenceManager;
+		$createTableStatements   = [];
 
 
 		foreach ($models as $modelSmID => $modelSchematic) {
@@ -49,23 +53,37 @@ class QueryController extends DevController {
 			# Don't attempt to create tables that begin with an underscore
 			if (strpos($tableName, '_') === 0) continue;
 
-			$columns                       = $this->convertPropertiesToColumns($modelSchematic);
-			$all_columns                   = array_merge($all_columns, $columns);
-			$createTableStatement          = $this->createCreateTableStatement($modelSchematic, $columns);
-			$create_table_arr              = [];
-			$create_table_arr['string']    = $this->formatter->format($createTableStatement, new SqlDisplayContext);
-			$model_query_array[$modelSmID] = ['create_table' => $create_table_arr];
+			$columns              = $this->convertPropertiesToColumns($modelSchematic);
+			$all_columns          = array_merge($all_columns, $columns);
+			$createTableStatement = $this->createCreateTableStatement($modelSchematic, $columns);
+			switch ($include) {
+				case static::INCLUDE_BOTH:
+					$create_table_entry           = [];
+					$create_table_entry['query']  = $createTableStatement;
+					$create_table_entry['string'] = $this->formatter->format($createTableStatement, new SqlDisplayContext);
+					break;
+				case static::ONLY_QUERY:
+					$create_table_entry = $createTableStatement;
+					break;
+				case static::ONLY_STRING:
+					$create_table_entry = $this->formatter->format($createTableStatement, new SqlDisplayContext);
+					break;
+			}
+			$createTableStatements[$modelSmID] = ['create_table' => $create_table_entry];
 			#$create_table_arr['query']     = $createTableStatement;
 		}
 
-
-		$alterTableStatements = $this->createAlterTableStatements($all_columns);
-		$model_query_array    = array_merge_recursive($model_query_array, $alterTableStatements);
-		return $model_query_array;
+		$alterTableStatements = $this->createAlterTableStatements($all_columns, $include);
+		return array_merge_recursive($createTableStatements, $alterTableStatements);
 	}
 
-	/** @param ColumnMeta[] $all_columns */
-	private function createAlterTableStatements(array $all_columns): array {
+	/**
+	 * @param ColumnMeta[] $all_columns
+	 * @param bool|null    $include If this is
+	 * @return array
+	 * @throws Exception
+	 */
+	private function createAlterTableStatements(array $all_columns, $include = QueryController::ONLY_STRING): array {
 
 		$statements = [];
 		foreach ($all_columns as $smID => $columnMeta) {
@@ -90,10 +108,23 @@ class QueryController extends DevController {
 			$alterTable->withConstraints($foreignKeyConstraint);
 
 			# Add the AlterTableStatement to the array
-			$smID                               = $columnMeta->propertyOwnerSchematic->getSmID();
-			$statements[$smID]                  = $statements[$smID] ?? ['alter_table' => []];
-			$alterTableString                   = $this->formatter->format($alterTable, new SqlDisplayContext);
-			$statements[$smID]['alter_table'][] = ['query' => '', 'string' => $alterTableString];
+			$smID              = $columnMeta->propertyOwnerSchematic->getSmID();
+			$statements[$smID] = $statements[$smID] ?? ['alter_table' => []];
+			switch ($include) {
+				case static::INCLUDE_BOTH:
+					$alter_table_entry           = [];
+					$alter_table_entry['query']  = $alterTable;
+					$alter_table_entry['string'] = $this->formatter->format($alterTable, new SqlDisplayContext);
+					break;
+				case static::ONLY_QUERY:
+					$alter_table_entry = $alterTable;
+					break;
+				case static::ONLY_STRING:
+					$alter_table_entry = $this->formatter->format($alterTable, new SqlDisplayContext);
+					break;
+			}
+
+			$statements[$smID]['alter_table'][] = $alter_table_entry;
 		}
 
 		return $statements;
