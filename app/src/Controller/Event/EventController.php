@@ -4,6 +4,7 @@ namespace WANGHORN\Controller\Event;
 
 
 use Sm\Core\Exception\UnimplementedError;
+use Sm\Core\Sm\Sm;
 use Sm\Data\Entity\Context\EntityModificationContext;
 use DateTime;
 use Modules\Query\Sql\Exception\CannotDuplicateEntryException;
@@ -32,10 +33,10 @@ class EventController extends AppController {
 	 * @throws EntityNotFoundException
 	 */
 	public function findEvent($identity, $context = null, $throw = false): ?Event {
-		$throw = $throw || isset($_GET['throw']);
+		# Flag if we should throw an exception or just return null
+		$throw = $throw || isset(Sm::$globals->get['throw']);
 		try {
 			$entity = $this->find_in_context($identity, $context);
-
 			return $entity;
 		} catch (EntityNotFoundException|\Exception $exception) {
 			if ($throw) {

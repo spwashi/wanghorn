@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sam
- * Date: 6/14/18
- * Time: 4:24 PM
- */
 
 namespace WANGHORN\Entity\Event;
 

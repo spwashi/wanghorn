@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sam
- * Date: 6/10/18
- * Time: 12:02 PM
- */
 
 namespace WANGHORN\Entity\User\Verification\Context;
 

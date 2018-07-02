@@ -15,11 +15,6 @@ use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
  * @property-read  array $requestData
  */
 class AppController extends BaseApplicationController {
-	public function __construct() {
-		if (session_status() === PHP_SESSION_NONE) {
-			@session_start();
-		}
-	}
 	public function __get($name) {
 		switch ($name) {
 			case 'requestData':

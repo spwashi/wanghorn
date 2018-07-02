@@ -3,6 +3,7 @@
 
 use Sm\Application\Application;
 use Sm\Communication\Routing\Exception\RouteNotFoundException;
+use Sm\Core\Sm\Sm;
 use Sm\Modules\Network\Http\Http;
 use Sm\Modules\Network\Http\Request\HttpRequest;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
@@ -55,8 +56,8 @@ try {
 	}
 	$app->logging->log($exception);
 } finally {
-	if (isset($_GET['d_lm'])) {
-		$log_level = $_GET['d_lm'];
+	if (isset(Sm::$globals->get['d_lm'])) {
+		$log_level = Sm::$globals->get['d_lm'];
 		$monitors  = $app->getMonitors();
 		switch ($log_level) {
 			case 'q':

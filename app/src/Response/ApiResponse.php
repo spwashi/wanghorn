@@ -3,6 +3,14 @@
 
 namespace WANGHORN\Response;
 
+/**
+ * Class ApiResponse
+ * @package WANGHORN\Response
+ *
+ * @property-read $status
+ * @property-read $message
+ * @property-read $action
+ */
 class ApiResponse implements \JsonSerializable {
 	protected $action;
 	protected $message;
@@ -13,7 +21,9 @@ class ApiResponse implements \JsonSerializable {
 		$this->message = $message;
 		$this->action  = $action;
 	}
-
+	public function __get($name) {
+		return $this->$name ?? null;
+	}
 	public function setStatus($status = true) {
 		$this->status = $status;
 		return $this;

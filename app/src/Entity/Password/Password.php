@@ -86,10 +86,10 @@ class Password extends Entity implements Resolvable {
 
 		# If we are creating the Entity (e.g. signup)
 		if ($context instanceof EntityCreationContext) {
-			$property               = $properties['password'];
+			$property = $properties['password'];
 
 			# Not sure why this would be the case
-			if(!isset($property)) throw new UnresolvableException("Could not resolve password");
+			if (!isset($property)) throw new UnresolvableException("Could not resolve password");
 
 			$value                  = "{$property->value}";
 			$properties['password'] = password_hash($value, PASSWORD_BCRYPT);;
@@ -107,21 +107,18 @@ class Password extends Entity implements Resolvable {
 	public function validate(Context $context = null): ValidationResult {
 		if ($context instanceof EntityCreationContext) {
 			/** @var \Sm\Data\Entity\Property\EntityProperty $password */
-			$password                = $this->properties->password;
-			$value_validation_result = $password->validate();
-			$isSuccess               = $value_validation_result ? $value_validation_result->isSuccess() : true;
+			$password                 = $this->properties->password;
+			$propertyValidationResult = $password->validate();
+			$isSuccess                = $propertyValidationResult ? $propertyValidationResult->isSuccess() : true;
 
 			if ($isSuccess) {
-				return new EntityValidationResult($isSuccess,
-				                                  'Password is the right length',
-				                                  ['password' => $value_validation_result]);
+				return new EntityValidationResult($isSuccess, 'Password is the right length', ['password' => $propertyValidationResult]);
 			}
 
-			return new EntityValidationResult($isSuccess,
-			                                  $value_validation_result->getMessage(),
-			                                  [
-				                                  'password' => $value_validation_result,
-			                                  ]);
+			$validation_message = $propertyValidationResult->getMessage();
+			$validationResult   = new EntityValidationResult($isSuccess, $validation_message, ['password' => $propertyValidationResult,]);
+			$validationResult->setFailedAttributes($propertyValidationResult->getFailedAttributes());
+			return $validationResult;
 		}
 		return new EntityValidationResult(false, get_class($context));
 	}

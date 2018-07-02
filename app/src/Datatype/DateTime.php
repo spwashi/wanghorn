@@ -1,17 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sam
- * Date: 6/13/18
- * Time: 7:40 AM
- */
 
 namespace WANGHORN\Datatype;
 
 
-use Sm\Core\Resolvable\DateTimeResolvable;
-use Sm\Core\Resolvable\NativeResolvable;
-use Sm\Core\Resolvable\NullResolvable;
 use Sm\Core\Resolvable\Resolvable;
 use Sm\Data\Model\Resolvable\RawModelPropertyResolvable;
 use Sm\Data\Type\DateTime_;

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sam
- * Date: 6/10/18
- * Time: 11:44 AM
- */
 
 namespace WANGHORN\Response;
 

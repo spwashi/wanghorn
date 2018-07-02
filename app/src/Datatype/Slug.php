@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sam
- * Date: 6/13/18
- * Time: 7:40 AM
- */
 
 namespace WANGHORN\Datatype;
 
