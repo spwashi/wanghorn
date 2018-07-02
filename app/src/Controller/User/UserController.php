@@ -85,7 +85,7 @@ class UserController extends AppController {
 	public function create() { return $this->signUp(); }
 	public function signUp() {
 		$entityContext = $this->resolveContext('signup_process');
-		$properties    = HttpRequestFromEnvironment::getRequestData()['properties'] ?? [];;
+		$properties    = $this->requestData['properties'] ?? [];;
 
 		#
 		##  Should probably proxy in contexts
@@ -121,10 +121,7 @@ class UserController extends AppController {
 		return new ApiResponse($success, $messages);
 	}
 	public function login() {
-		$data = HttpRequestFromEnvironment::getRequestData();
-
-		return $this->attemptUserLogin($data['username'] ?? null,
-		                               $data['password'] ?? null);
+		return $this->attemptUserLogin($this->requestData['username'] ?? null, $this->requestData['password'] ?? null);
 	}
 	public function logout() {
 		$_SESSION[static::SESSION_USERNAME_INDEX] = null;

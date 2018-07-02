@@ -1,12 +1,5 @@
 <?php
 
-define('SM_IS_CLI', php_sapi_name() === 'cli');
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-const APP__APP_PATH    = __DIR__ . '/';
-const APP__CONFIG_PATH = __DIR__ . '/config/';
-const APP__LOG_PATH    = __DIR__ . '/../log/';
 
 use Sm\Application\Application;
 use Sm\Communication\Routing\Exception\RouteNotFoundException;
@@ -14,6 +7,7 @@ use Sm\Modules\Network\Http\Http;
 use Sm\Modules\Network\Http\Request\HttpRequest;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 
+require_once __DIR__ . '/_base.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 # prevents the dispatcher from returning JSON
@@ -42,21 +36,19 @@ try {
 		###- Create and dispatch the error response -###
 		$error_route      = $communicationLayer->getRoute('error-404');
 		$primedErrorRoute = $error_route->prime(null, ['path' => $originalRequest->getUrlPath()]);
-		$error_url        = $primedErrorRoute->getRequestDescriptor()
-		                                     ->asUrlPath(['path' => $originalRequest->getUrlPath()]);
-		$errorRequest     = HttpRequest::init()
-		                               ->setParentRequest($originalRequest)
-		                               ->setUrl($error_url);
-		$primedErrorRoute = $error_route->prime($errorRequest);
-		$response         = $primedErrorRoute->resolve();
-		$dispatchResult   = $communicationLayer->dispatch(Http::class, $response); # Not a redirect
+
+		/** @var \Sm\Modules\Network\Http\Request\HttpRequestDescriptor $requestDescriptor */
+		$requestDescriptor = $primedErrorRoute->getRequestDescriptor();
+		$error_url         = $requestDescriptor->asUrlPath(['path' => $originalRequest->getUrlPath()]);
+		$errorRequest      = HttpRequest::init()->setParentRequest($originalRequest)->setUrl($error_url);
+		$primedErrorRoute  = $error_route->prime($errorRequest);
+		$response          = $primedErrorRoute->resolve();
+		$dispatchResult    = $communicationLayer->dispatch(Http::class, $response); # Not a redirect
 	}
 } catch (\Sm\Core\Exception\Exception|\Throwable $exception) {
 	if ($app->environmentIs(Application::ENV_DEV)) {
 		try {
-//			header('Content-Type: application/json');
 			$communicationLayer->dispatch(Http::class, $exception);
-//			echo json_encode(\Sm\Logging\LoggingLayer::convertThrowableToLoggable($exception));
 		} catch (Exception $e) {
 			var_dump($e);
 		}

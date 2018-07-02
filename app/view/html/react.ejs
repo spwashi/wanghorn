@@ -1,62 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118758462-1"></script>
-    <script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() {dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'UA-118758462-1');
-    </script>
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-			w[l] = w[l] || [];
-			w[l].push({
-				          'gtm.start':
-					          new Date().getTime(), event: 'gtm.js'
-			          });
-			var f                          = d.getElementsByTagName(s)[0],
-			    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-			j.async                        = true;
-			j.src                          =
-				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-			f.parentNode.insertBefore(j, f);
-		})(window, document, 'script', 'dataLayer', 'GTM-N99LWLN');</script>
-    <!-- End Google Tag Manager -->
+    <head>
+        <!-- Charset -->
+        <meta charset="utf-8"/>
 
-    <!-- Charset -->
-    <meta charset="utf-8"/>
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.public.vendor %>/fa/css/fontawesome-all.min.css">
+        <style>
+            @font-face {
+                font-family: FontAwesome;
+                src:         url(<%= htmlWebpackPlugin.options.public.vendor %>/fa/fonts/fa-solid.ttf)
+            }
+        </style>
+        <!-- favicon -->
+        <link rel="apple-touch-icon" sizes="180x180" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/apple-touch-icon.png?v=1.1">
+        <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/favicon-32x32.png?v=1.1">
+        <link rel="icon" type="image/png" sizes="16x16" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/favicon-16x16.png?v=1.1">
+        <link rel="manifest" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/site.webmanifest?v=1.1">
+        <link rel="mask-icon" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/safari-pinned-tab.svg?v=1.1" color="#5bbad5">
+        <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/favicon.ico?v=1.1">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="<%= htmlWebpackPlugin.options.public.img %>/favicon/browserconfig.xml?v=1.1">
+        <meta name="theme-color" content="#ffffff">
+        <!--end favicon-->
+        {{inject|raw}}
+    </head>
+    <body>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N99LWLN" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <!-- End Google Tag Manager (noscript) -->
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.public.vendor %>/fa/css/fontawesome-all.min.css">
-    <style>
-        @font-face {
-            font-family: FontAwesome;
-            src:         url(<%= htmlWebpackPlugin.options.public.vendor %>/fa/fonts/fa-solid.ttf)
-        }
-    </style>
-    <!-- favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/apple-touch-icon.png?v=1.1">
-    <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/favicon-32x32.png?v=1.1">
-    <link rel="icon" type="image/png" sizes="16x16" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/favicon-16x16.png?v=1.1">
-    <link rel="manifest" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/site.webmanifest?v=1.1">
-    <link rel="mask-icon" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/safari-pinned-tab.svg?v=1.1" color="#5bbad5">
-    <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.public.img %>/favicon/favicon.ico?v=1.1">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="<%= htmlWebpackPlugin.options.public.img %>/favicon/browserconfig.xml?v=1.1">
-    <meta name="theme-color" content="#ffffff">
-    <!--end favicon-->
+        <!-- React APP inject-->
+        <div id="app"></div>
+        <!-- End React APP inject-->
 
-    {{inject|raw}}
-</head>
-<body>
-<!-- Google Tag Manager (noscript) -->
-<noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N99LWLN"
-            height="0" width="0" style="display:none;visibility:hidden"></iframe>
-</noscript>
-<!-- End Google Tag Manager (noscript) -->
-<div id="app"></div>
-</body>
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118758462-1"></script>
+        <script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-118758462-1');
+        </script>
+        <!-- Google Tag Manager -->
+        <script>(function (w, d, s, l, i) {
+				w[l] = w[l] || [];
+				w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+				var f   = d.getElementsByTagName(s)[0];
+				var j   = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+				j.async = true;
+				j.src   = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+				f.parentNode.insertBefore(j, f);
+			})(window, document, 'script', 'dataLayer', 'GTM-N99LWLN');</script>
+        <!-- End Google Tag Manager -->
+    </body>
 </html>
