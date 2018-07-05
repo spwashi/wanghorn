@@ -2,6 +2,7 @@
    "name": "wanghorn",
    "appDomain": "http://wanghorn",
    "appUrl": "http://wanghorn",
+   "bootLoader": "/var/www/wanghorn/app/config/config.php",
    "appPublicUrl": "http://wanghorn/public",
    "routes": {
       "dev--home": {

@@ -8,6 +8,7 @@
       "public": "/var/www/wanghorn/public",
       "app": "/var/www/wanghorn/app"
    },
+   "bootLoader": "/var/www/wanghorn/app/config/config.php",
    "urls": {
       "src": null,
       "config": null,

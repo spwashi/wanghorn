@@ -19,6 +19,13 @@ export const __CONFIGURATION__     = {
 	// The name of the application without spaces. Case sensitive, I recommend lowercase-with-dashes or camelCased
 	get APP_NAME() { return `wanghorn` },
 
+	get BOOT_LOADER() {
+		switch (this.ENVIRONMENT) {
+			default:
+				return path.resolve(this.DIR_PATHS.APPLICATION, 'config') + '/config.php';
+		}
+	},
+
 	// The namespace used in PHP to prefix app-specific files
 	get APP_NAMESPACE() { return 'WANGHORN' },
 

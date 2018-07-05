@@ -22,6 +22,7 @@ const getAppConfig                = function () {
 
 		rootUrl:     __CONFIGURATION__.URL_PATHS.ROOT,
 		baseUrlPath: __CONFIGURATION__.URL_PATHS.BASE_PATH,
+		bootLoader:  __CONFIGURATION__.BOOT_LOADER,
 
 		urls:  {
 			public: __CONFIGURATION__.URL_PATHS.PUBLIC
