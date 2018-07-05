@@ -14,7 +14,7 @@ use WANGHORN\Controller\Dev\DevController;
 use WANGHORN\Controller\Dev\Query\Model\QueryController;
 class ModelController extends DevController {
 	public function config() {
-		$html_filename = APP__CONFIG_PATH . 'out/models.json';
+		$html_filename = APP__CONFIG_PATH . 'models.json';
 		$json          = file_get_contents($html_filename);
 		$config        = json_decode($json, 1);
 		$config_arr    = [];

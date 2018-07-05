@@ -114,7 +114,7 @@ class DevController extends AppController {
 	}
 
 	public function entityConfig() {
-		$html_filename = APP__CONFIG_PATH . 'out/entities.json';
+		$html_filename = APP__CONFIG_PATH . 'entities.json';
 		$json          = file_get_contents($html_filename);
 		$config        = json_decode($json, 1);
 		$config_arr    = [];

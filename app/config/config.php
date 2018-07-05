@@ -19,16 +19,10 @@ use WANGHORN\Datatype\DatatypeFactory;
 ####################################################################################
 #####              APPLICATION CONSTANTS                                     #######
 ####################################################################################
-require_once APP__CONFIG_PATH . 'autoload.php';
-const CONFIG_FILE          = APP__CONFIG_PATH . 'out/config.json';
-const CONNECTION_INFO_FILE = APP__CONFIG_PATH . 'out/connect.json';
+const CONNECTION_INFO_FILE = APP__CONFIG_PATH . 'connect.json';
 $_required_ci_app = [];
 
-if (file_exists(CONFIG_FILE)) {
-	$json_string        = file_get_contents(CONFIG_FILE);
-	$decoded_json_array = json_decode($json_string, true);
-	$config             = $decoded_json_array;
-}
+const CONFIG_FILE = APP__CONFIG_PATH . 'config.json';
 
 $default = [
 	'env'       => Application::ENV_PROD,
@@ -99,27 +93,17 @@ function _controller_layer(Application $app): void {
 }
 
 function _communication_layer(Application $app): void {
-	$app_events = [];
+	$json_path = APP__CONFIG_PATH . 'routes.json';
 
-	$json_path = APP__CONFIG_PATH . 'out/routes.json';
-	$php_path  = APP__CONFIG_PATH . 'routes/routes.php';
 	if (file_exists($json_path)) {
 		$json_routes = file_get_contents($json_path);
 		$app->communication->registerRoutes($json_routes);
 	} else {
-		$app_events[] = GenericEvent::init('FAILED LOADING ROUTES', $json_path);
+		$app->getMonitor('info')->append(GenericEvent::init('FAILED LOADING ROUTES', $json_path));
 	}
 
-	if (file_exists($php_path)) {
-		$php_routes = include $php_path;
-		$app->communication->registerRoutes($php_routes);
-	} else {
-		$app_events[] = GenericEvent::init('FAILED LOADING ROUTES', $php_path);
-	}
-	$app->getMonitor('info')->append(...$app_events);
 
-
-	$authentication_path = APP__CONFIG_PATH . 'out/connect.json';
+	$authentication_path = APP__CONFIG_PATH . 'connect.json';
 	if (file_exists($authentication_path)) {
 		$authentications = json_decode(file_get_contents($authentication_path), 1);
 		$emailFactory    = new EmailFactory();
@@ -130,7 +114,7 @@ function _communication_layer(Application $app): void {
 		});
 		$app->communication->registerModule($module, CommunicationLayer::MODULE_EMAIL);
 	} else {
-		$app_events[] = GenericEvent::init('FAILED LOADING EMAIL', $json_path);
+		$app->getMonitor('info')->append(GenericEvent::init('FAILED LOADING EMAIL', $json_path));
 	}
 }
 
@@ -141,8 +125,8 @@ function _communication_layer(Application $app): void {
  * @throws \Sm\Core\SmEntity\Exception\InvalidConfigurationException
  */
 function _data_layer(Application $app): void {
-	$model_json_path  = "{$app->config_path}out/models.json";
-	$entity_json_path = "{$app->config_path}out/entities.json";
+	$model_json_path  = "{$app->config_path}models.json";
+	$entity_json_path = "{$app->config_path}entities.json";
 
 	if (file_exists($model_json_path)) {
 		$model_json   = file_get_contents($model_json_path);
