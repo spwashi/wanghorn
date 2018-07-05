@@ -33,7 +33,7 @@ EntityConfigurationContainer           = withRouter(EntityConfigurationContainer
 EntityConfigurationContainer.propTypes = {
     onTogglePropertyClick: PropTypes.func,
     activeProperties:      PropTypes.array,
-    config:                PropTypes.object,
+    CONFIG:                PropTypes.object,
     schematic:             PropTypes.object
 };
 export {EntityConfigurationContainer};

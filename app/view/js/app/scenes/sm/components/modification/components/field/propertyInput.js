@@ -48,7 +48,7 @@ export class PropertyInput extends React.Component {
 }
 
 PropertyInput.propTypes = {
-    config:        PropTypes.object,
+    CONFIG:        PropTypes.object,
     value:         PropTypes.any,
     onValueChange: PropTypes.func,
 };

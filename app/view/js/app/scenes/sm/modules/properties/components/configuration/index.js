@@ -18,7 +18,7 @@ export default class PropertyConfiguration extends Component {
     
     render() {
         const name   = this.props.name;
-        const config = (this.props.config);
+        const config = (this.props.CONFIG);
         
         const {smID, datatypes, ...otherConfig} = config;
         const className                         = "property--configuration " + (this.props.className ? this.props.className : '');
@@ -37,7 +37,7 @@ export default class PropertyConfiguration extends Component {
     }
 }
 PropertyConfiguration.propTypes = {
-    config:    PropTypes.shape({smID: PropTypes.string, datatypes: PropTypes.arrayOf(PropTypes.string), length: PropTypes.number}).isRequired,
+    CONFIG:    PropTypes.shape({smID: PropTypes.string, datatypes: PropTypes.arrayOf(PropTypes.string), length: PropTypes.number}).isRequired,
     name:      PropTypes.string.isRequired,
     className: PropTypes.string.isRequired
 };

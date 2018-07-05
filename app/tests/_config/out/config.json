@@ -1,10 +1,10 @@
 {
-   "env": "production",
+   "env": "testing",
    "name": "wanghorn",
    "namespace": "WANGHORN",
    "paths": {
       "src": null,
-      "config": "/var/www/wanghorn/app/config",
+      "config": "/var/www/wanghorn/app/tests/_config",
       "public": "/var/www/wanghorn/public",
       "app": "/var/www/wanghorn/app"
    },

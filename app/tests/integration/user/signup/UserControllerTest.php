@@ -10,15 +10,10 @@ class UserControllerTest extends \PHPUnit\Framework\TestCase {
 	/** @var Application */
 	protected $app;
 
-	/**
-	 * Sets the superglobals this app will use. Because we are testing this application via the CLI, we want to have fine control over what gets set and where
-	 */
-	public function initSm() { Sm::$globals->server['REQUEST_METHOD'] = 'POST'; }
-	public function setUp() {
-		$this->app = resolveApplication();
-		$this->initSm();
-	}
+	public function setUp() { $this->app = resolveApplication(); }
 	public function testCreate() {
+		Sm::$globals->server['REQUEST_METHOD'] = 'POST';
+
 		$createUser = $this->app->controller->get('[User]@create');
 
 		/** @var ApiResponse $result__empty */
@@ -28,10 +23,18 @@ class UserControllerTest extends \PHPUnit\Framework\TestCase {
 
 
 		# Attempt again with a password that is too short
-		Sm::$globals->post['properties'] = ['username' => 'spwashi', 'password' => 'boonboonboon'];
+		Sm::$globals->post['properties'] = ['username' => 'spiget', 'password' => 'boonboonboon'];
 		$result__tooShort                = $createUser();
 
 //echo json_encode($result, JSON_PRETTY_PRINT);
 		var_dump($result__tooShort);
+	}
+	public function testLogin() {
+		Sm::$globals->server['REQUEST_METHOD'] = 'POST';
+		$login_user                            = $this->app->controller->get('[User]@login');
+		Sm::$globals->post['username']         = 'spiget--' . \Sm\Core\Util::generateRandomString(5);
+		Sm::$globals->post['password']         = 'boonboonboon';
+		$response                              = $login_user();
+		var_dump($response);
 	}
 }

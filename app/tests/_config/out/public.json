@@ -1,0 +1,199 @@
+{
+   "name": "wanghorn",
+   "appDomain": "http://wanghorn",
+   "appUrl": "http://wanghorn",
+   "appPublicUrl": "http://wanghorn/public",
+   "routes": {
+      "dev--home": {
+         "pattern": "dev$",
+         "title": "Dev"
+      },
+      "dev--model": {
+         "pattern": "dev/models/{name}:[a-zA-Z_]+$"
+      },
+      "dev--models": {
+         "pattern": "dev/models$",
+         "title": "Models"
+      },
+      "dev--models__json": {
+         "pattern": "dev/models.json$"
+      },
+      "dev--model--property": {
+         "pattern": "dev/models/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
+         "title": "Model Property"
+      },
+      "dev--all_models": {
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/all",
+         "http_method": [
+            "get"
+         ]
+      },
+      "dev--get_model_schematic": {
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/schematic$",
+         "http_method": [
+            "get"
+         ]
+      },
+      "dev--model--home": {
+         "pattern": "dev/models$"
+      },
+      "dev--create_model": {
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/create$"
+      },
+      "dev--create_model--receive": {
+         "pattern": "dev/models/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
+      },
+      "dev--entities": {
+         "pattern": "dev/entities$",
+         "title": "Entities"
+      },
+      "dev--entity": {
+         "pattern": "dev/entities/{name}:[a-zA-Z_]+$"
+      },
+      "dev--entity--property": {
+         "pattern": "dev/entities/{owner}:[a-zA-Z_]+/property/{property}:[a-zA-Z_]+$",
+         "title": "Entity Property"
+      },
+      "dev--entities__json": {
+         "pattern": "dev/entities.json$"
+      },
+      "dev--create_entity": {
+         "pattern": "dev/entities/{name}:[a-zA-Z]+/create$"
+      },
+      "dev--create_entity--receive": {
+         "pattern": "dev/entities/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
+      },
+      "dev--monitors__json": {
+         "pattern": "dev/monitors.json$"
+      },
+      "dev--status__json": {
+         "pattern": "dev/status.json$"
+      },
+      "dev--routes__json": {
+         "pattern": "dev/routes.json$"
+      },
+      "dev--routes": {
+         "pattern": "dev/routes$",
+         "title": "Routes"
+      },
+      "dev--execute_query": {
+         "pattern": "dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
+      },
+      "user--signup_continue": {
+         "pattern": "dev/email/test/{signup_nonce}"
+      },
+      "error-404": {
+         "pattern": "404/{path}:.*"
+      },
+      "home": {
+         "pattern": "$",
+         "title": "Home"
+      },
+      "about_me": {
+         "pattern": "about-me$",
+         "title": "About Me"
+      },
+      "gallery--home": {
+         "pattern": "gallery$",
+         "title": "Gallery"
+      },
+      "gallery--item__view": {
+         "pattern": "gallery/{name}:[a-zA-Z]+",
+         "title": "Gallery Item View"
+      },
+      "gallery--items": {
+         "pattern": "gallery/items.json$"
+      },
+      "entity--create": {
+         "pattern": "entity/{name}:[a-zA-Z_]+/create$",
+         "title": "Create Entity"
+      },
+      "entity--create--receive": {
+         "pattern": "entity/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
+      },
+      "entity--edit--receive": {
+         "pattern": "entity/{name}:[a-zA-Z_]+/edit/receive$",
+         "http_method": [
+            "post"
+         ]
+      },
+      "user--process_login": {
+         "pattern": "user/login$"
+      },
+      "user--verify": {
+         "pattern": "user/verify/{hash}:[a-zA-Z\\d]+$"
+      },
+      "user--logout$": {
+         "pattern": "user/logout$"
+      },
+      "user--process_signup": {
+         "pattern": "user/signup/receive$"
+      },
+      "user--signup": {
+         "pattern": "user/signup$"
+      },
+      "entity--user--create--receive": {
+         "pattern": "user/signup/receive$"
+      },
+      "event--home": {
+         "pattern": "events$",
+         "title": "Events"
+      },
+      "event--home--fallback": {
+         "pattern": "event$",
+         "title": "Events"
+      },
+      "entity--event--create--receive": {
+         "pattern": "event/create/receive",
+         "title": "Receive Event Creation"
+      },
+      "entity--event--edit--receive": {
+         "pattern": "event/edit/receive",
+         "title": "Receive Event Edit Request"
+      },
+      "event--create": {
+         "pattern": "event/new$",
+         "title": "Add Event"
+      },
+      "event--all": {
+         "pattern": "event/all$",
+         "title": "All Events"
+      },
+      "event--item__view": {
+         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+/view",
+         "title": "Event View"
+      },
+      "event--edit": {
+         "pattern": "event/{id}:[a-zA-Z_\\-\\d]+/edit$",
+         "title": "Edit Event"
+      },
+      "event--find": {
+         "pattern": "event/{name}:[a-zA-Z_\\-\\d]+"
+      },
+      "model--create": {
+         "pattern": "model/{name}:[a-zA-Z_]+/create$",
+         "title": "Create Model"
+      },
+      "model--create--receive": {
+         "pattern": "model/{name}:[a-zA-Z_]+/create/receive$",
+         "http_method": [
+            "post"
+         ]
+      },
+      "file--prime_upload": {
+         "pattern": "file/upload"
+      },
+      "test_email": {
+         "pattern": "email/test$"
+      }
+   }
+}

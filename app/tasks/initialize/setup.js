@@ -4,7 +4,7 @@ import replace from "replace-in-file";
 export function replaceAppBoilerplateConstants(app, appPath) {
     if (!app.namespace) return;
     let srcPath       = app.paths.src || `${appPath}/src`;
-    let configPath    = app.paths.config || `${appPath}/config`;
+    let configPath    = app.paths.CONFIG || `${appPath}/config`;
     const options     = {
         files: [`${srcPath}/**/*`, configPath + '/config.php'],
         from:  new RegExp('WANGHORN', 'g'),

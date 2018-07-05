@@ -52,7 +52,7 @@ export class NavLinkItem extends React.Component {
 		const focusedDescendantClassname = this.state.focusedDescendant ? 'has-focused-descendants' : '';
 		const hasDescendantClassname     = descendants ? 'has-descendants' : '';
 		const descendantClassname        = `${activeDescendantClassname} ${hasDescendantClassname} ${focusedDescendantClassname}`;
-		const uri                        = getURI(name, null, {root: ''});
+		const uri                        = getURI(name, null, {ROOT: ''});
 		const onIsActive                 = () => {
 			let onIsActive = this.props.onIsActive || function () {};
 			return onIsActive(this.props.item);

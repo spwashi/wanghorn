@@ -17,13 +17,13 @@ const _app_path_       = path.resolve(__dirname, '..');
 const _root_path_      = path.resolve(_app_path_, '..');
 const _webpack_config  = {};
 const getWebpackConfig = () => {
-    if (_webpack_config.config) return _webpack_config.config;
+    if (_webpack_config.CONFIG) return _webpack_config.CONFIG;
     
     return _webpack_config.config = require("./webpack.config.babel.js").default;
 };
 const directories      = {
     src:  {
-        config: inputPath__config,
+        CONFIG: inputPath__config,
         js:     path.resolve(_app_path_, 'view/js',),
         css:    path.resolve(_app_path_, 'view/stylesheets',)
     },
@@ -136,9 +136,9 @@ const webpackDevTask  = () => {
 const watchConfigTask = () => {
     configTask();
     return gulp.watch([
-                          directories.src.config + '/**/*.js',
-                          directories.src.config + '/**/**/*.js',
-                          directories.src.config + '/**/**/**/*.js',
+	                      directories.src.CONFIG + '/**/*.js',
+	                      directories.src.CONFIG + '/**/**/*.js',
+	                      directories.src.CONFIG + '/**/**/**/*.js',
                       ], ['config'])
 };
 const watchCSS_Task   = () => {

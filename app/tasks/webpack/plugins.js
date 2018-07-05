@@ -1,30 +1,27 @@
-import path    from "path"
+import path                from "path"
 import ExtractTextPlugin
-               from "extract-text-webpack-plugin";
+                           from "extract-text-webpack-plugin";
 import HtmlPlugin
-               from "html-webpack-plugin";
-import {
-	APP_NAME,
-	ENVIRONMENT
-}              from "../../config/config";
+                           from "html-webpack-plugin";
+import {__CONFIGURATION__} from "../../config/config";
 import CleanWebpackPlugin
-               from "clean-webpack-plugin";
-import webpack from "webpack";
+                           from "clean-webpack-plugin";
+import webpack             from "webpack";
 import {
 	htmlTemplatePath, outputPath__CSS, outputPath__HTML, outputPath__JS,
 	publicURL__CSS, publicURL__HTML, publicURL__IMG, publicURL__JS, publicURL__vendor, relativeCSS_output_filename, relativeHTML_output_filename
-}              from "./paths";
+}                          from "./paths";
 import HtmlWebpackHarddiskPlugin
-               from "html-webpack-harddisk-plugin";
+                           from "html-webpack-harddisk-plugin";
 import HardSourceWebpackPlugin
-               from 'hard-source-webpack-plugin';
+                           from 'hard-source-webpack-plugin';
 
-const IS_PROD                 = ENVIRONMENT === 'production';
+const IS_PROD                 = __CONFIGURATION__.ENVIRONMENT === 'production';
 const extractTextPlugin       =
 	      new ExtractTextPlugin({filename: relativeCSS_output_filename});
 const htmlPlugin              =
 	      new HtmlPlugin({
-		                     title:             APP_NAME,
+		                     title:             __CONFIGURATION__.APP_NAME,
 		                     template:          htmlTemplatePath,
 		                     alwaysWriteToDisk: true,
 		                     inlineSource:      '.(js|css)$',

@@ -65,7 +65,7 @@ SmEntityMeta.propTypes = {
     schematic: PropTypes.object.isRequired,
     smEntity:  PropTypes.object,
     actions:   PropTypes.object,
-    config:    PropTypes.object.isRequired,
+    CONFIG:    PropTypes.object.isRequired,
 };
 
 export default SmEntityMeta;

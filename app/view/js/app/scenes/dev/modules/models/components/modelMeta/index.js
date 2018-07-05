@@ -31,7 +31,7 @@ class ModelMeta extends React.Component {
     render() {
         if (!this.modelMeta) return '...loading';
         
-        const config               = this.modelMeta.config;
+        const config               = this.modelMeta.CONFIG;
         const schematic            = this.modelMeta.schematic;
         const alterTableStatements = this.modelMeta.alterTableStatements;
         const createTableStatement = this.modelMeta.createTableStatement;

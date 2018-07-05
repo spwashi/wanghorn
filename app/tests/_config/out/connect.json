@@ -1,0 +1,24 @@
+{
+   "database": {
+      "std": {
+         "dbms": "mysql",
+         "host": "localhost",
+         "username": "wanghorn",
+         "password": "wanghorn",
+         "database": "wanghorn__test"
+      },
+      "meta": {
+         "dbms": "mysql",
+         "host": "localhost",
+         "username": "wanghorn",
+         "password": "wanghorn",
+         "database": "wanghorn__test"
+      }
+   },
+   "email": {
+      "std": {
+         "username": "support@spwashi.com",
+         "password": "example"
+      }
+   }
+}

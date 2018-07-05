@@ -33,7 +33,7 @@ class EntityMeta extends React.Component {
 
 EntityMeta.propTypes = {
     smID:                  PropTypes.string,
-    config:                PropTypes.object,
+    CONFIG:                PropTypes.object,
     entity:                PropTypes.object,
     activeProperties:      PropTypes.arrayOf(PropTypes.string),
     onTogglePropertyClick: PropTypes.func,

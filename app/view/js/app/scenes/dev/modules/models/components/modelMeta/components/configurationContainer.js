@@ -29,7 +29,7 @@ let ModelConfigurationContainer       = function ({activeProperties, config, sch
 ModelConfigurationContainer           = withRouter(ModelConfigurationContainer);
 ModelConfigurationContainer.propTypes = {
     activeProperties: PropTypes.array,
-    config:           PropTypes.object,
+    CONFIG:           PropTypes.object,
     model:            PropTypes.object
 };
 export {ModelConfigurationContainer};

@@ -1,11 +1,10 @@
-import {APP_BASE_URL_PATH}      from "../../config";
+import {__CONFIGURATION__}      from "../../config";
 import {normalizeRoutes, Route} from "./route";
 
 import devRoutes    from './dev';
 import errorRoutes  from './error';
 import entityRoutes from './entity';
 import homeRoutes   from './home';
-import eventRoutes  from '../entities/event/routes';
 import modelRoutes  from './model';
 import fileRoutes   from './file';
 
@@ -28,7 +27,7 @@ const routes = [
 ];
 const config = {
 	frontend_renderer: '[Home]@index',
-	pattern_prefix:    APP_BASE_URL_PATH && APP_BASE_URL_PATH.length ? `${APP_BASE_URL_PATH}/` : '',
+	pattern_prefix:    __CONFIGURATION__.URL_PATHS.BASE_PATH && __CONFIGURATION__.URL_PATHS.BASE_PATH.length ? `${__CONFIGURATION__.URL_PATHS.BASE_PATH}/` : '',
 	routes
 };
 

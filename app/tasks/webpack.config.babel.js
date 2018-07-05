@@ -1,9 +1,7 @@
-import {ENVIRONMENT} from "../config/config";
 import {webpackPlugins} from "./webpack/plugins";
 import {inputPath__CSS, outputJS_Filename, outputPath, outputPath__JS, publicURL__JS} from "./webpack/paths";
 import {rules} from "./webpack/rules";
 
-const IS_PROD = ENVIRONMENT === 'production';
 export default {
     entry:     {'app': ['style.scss', '../view/js']},
     output:    {
