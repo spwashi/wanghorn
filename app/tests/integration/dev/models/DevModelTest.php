@@ -4,30 +4,34 @@ require_once __DIR__ . '/../../app.php';
 
 class DevModelTest extends \PHPUnit\Framework\TestCase {
 	/** @var \Sm\Application\Application $app */
-	protected $app;
+	protected static $app;
 
 	##  Logging
-	const MODEL_META_LOG__LOCATION     = 'test/models/config/metas';
-	const MODEL_DB_SETUP_LOG__LOCATION = 'test/models/database/setup';
+	const MODEL_META_LOG__LOCATION     = 'models/config/metas';
+	const MODEL_DB_SETUP_LOG__LOCATION = 'models/database/setup';
 
 	#
 	##  Setup
-	public function setUp() { $this->app = resolveApplication(); }
+	public static function setUpBeforeClass() { static::$app = resolveApplication(); }
 
 	#
 	##  Tests
 	public function testAllModelMetas() {
-		$model_metas = $this->app->controller->get('Dev|[Model]@metas')->resolve();
+		$model_metas = static::$app->controller->get('Dev|[Model]@metas')->resolve();
 
-		$this->app->logging->log($model_metas, static::MODEL_META_LOG__LOCATION);
+		static::$app->logging->log($model_metas, static::MODEL_META_LOG__LOCATION);
 
 		$this->expectNotToPerformAssertions();
 	}
 	public function testCanSetup() {
 		# All of these queries should end up being "successful" when run on an empty Database
-		$response = $this->app->controller->get('Dev|[Model]@executeAll')->resolve();
-
-		$this->app->logging->log($response, static::MODEL_DB_SETUP_LOG__LOCATION);
+		try {
+			$response = static::$app->controller->get('Dev|[Model]@executeAll')->resolve();
+		} catch (\Throwable $exception) {
+			var_dump(($exception->getMessage()));
+			return;
+		}
+		static::$app->logging->log($response, static::MODEL_DB_SETUP_LOG__LOCATION);
 
 		foreach ($response as $result) {
 			$success = $result['success'] ?? false;
