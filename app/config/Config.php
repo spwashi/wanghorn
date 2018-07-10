@@ -36,6 +36,9 @@ class Config {
 		$this->app    = $app;
 		$this->config = Util::arrayMergeRecursive($this->default, $config);
 	}
+	public static function init(Application $application, array $config) {
+		return new static($application, $config);
+	}
 	public function run() {
 		$this->defineConstants();
 		$this->app->setEnvironment($this->config['env']);
@@ -75,7 +78,7 @@ class Config {
 			define('APP__SRC_PATH', APP__APP_PATH . 'src/');
 		}
 	}
-	public function configureQueryLayer(): void {
+	protected function configureQueryLayer(): void {
 		$queryModule = new MySqlQueryModule;
 		$this->app->registerDefaultQueryModule($queryModule);
 		$connect_json = APP__CONFIG_PATH . 'connect.json';
@@ -91,11 +94,11 @@ class Config {
 			                                                                         $database['database'] ?? null));
 		}
 	}
-	public function configureControllerLayer(): void {
+	protected function configureControllerLayer(): void {
 		$controllerNamespace = APP__NAMESPACE . '\\Controller\\';
 		$this->app->controller->addControllerNamespace($controllerNamespace);
 	}
-	public function configureCommunicationLayer(): void {
+	protected function configureCommunicationLayer(): void {
 		$json_path = APP__CONFIG_PATH . 'routes.json';
 
 		if (file_exists($json_path)) {
@@ -122,7 +125,7 @@ class Config {
 			$this->app->getMonitor('info')->append(GenericEvent::init('FAILED LOADING EMAIL', $json_path));
 		}
 	}
-	public function configureDataLayer(): void {
+	protected function configureDataLayer(): void {
 		$model_json_path  = "{$this->app->config_path}models.json";
 		$entity_json_path = "{$this->app->config_path}entities.json";
 
@@ -182,7 +185,7 @@ class Config {
 			}
 		});
 	}
-	public function configureRepresentationLayer(): void {
+	protected function configureRepresentationLayer(): void {
 
 		# This is a module that will allow us to reference files we want to represent as Views as they literally exist.
 		#   We'd ideally use this for returning pre - generated HTML or static JSON
