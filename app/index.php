@@ -1,6 +1,5 @@
 <?php
 
-
 use Sm\Application\Application;
 use Sm\Communication\Routing\Exception\RouteNotFoundException;
 use Sm\Core\Sm\Sm;
@@ -61,16 +60,19 @@ try {
 		$monitors  = $app->getMonitors();
 		switch ($log_level) {
 			case 'q':
-				$items = $monitors->getAll(true);
+				$items = $monitors->getAll();
 				foreach ($items as $key => $item) {
-
+					if ($item instanceof \Sm\Core\Resolvable\Resolvable) $item = $item->resolve();
 					if (strpos($key, 'query') === false) unset($items[$key]);
 
 				}
 				$app->logging->log($items, 'monitors/query');
 				break;
 			default:
-				$app->logging->log($monitors->getAll(true), 'monitors/monitors');
+				$monitor_array = [];
+				foreach ($monitors->getAll() as $name => $monitor) $monitor_array[$name] = $monitor instanceof \Sm\Core\Resolvable\Resolvable ? $monitor->resolve() : $monitor;
+
+				$app->logging->log($monitor_array, 'monitors/monitors');
 				break;
 		}
 	}

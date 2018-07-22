@@ -64,9 +64,8 @@ class User extends Entity implements UserEntitySchema {
 
 		if (!isset($entitySchematic)) return $this;
 
-		$all_property   = $entitySchematic->getProperties()->getAll(true);
+		$all_property   = $entitySchematic->getProperties()->getAll();
 		$property_names = array_keys($all_property);
-
 		foreach ($property_names as $property_name) $this->findProperty($property_name);
 
 		return $this;

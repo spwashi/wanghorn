@@ -10,7 +10,10 @@ use Sm\Data\Entity\Property\EntityAsProperty;
 use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Evaluation\Validation\ValidationResult;
 use Sm\Data\Property\Property;
-
+use Sm\Data\Property\PropertyContainer;
+/**
+ * @property-read PropertyContainer $properties
+ */
 abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
 
 	#
@@ -29,11 +32,6 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
 
 		return $property;
 	}
-
-
-	#
-	##  Persistence
-	abstract public function create(Context $context);
 
 
 	#

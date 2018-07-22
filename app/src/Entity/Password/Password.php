@@ -11,6 +11,8 @@ use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntityHasPrimaryModelTrait;
 use Sm\Data\Entity\Validation\EntityValidationResult;
 use Sm\Data\Evaluation\Validation\ValidationResult;
+use Sm\Data\Property\Context\PropertyContainerProxy;
+use Sm\Data\Property\PropertyContainer;
 use WANGHORN\Entity\Entity\Entity;
 
 
@@ -36,6 +38,9 @@ class Password extends Entity implements Resolvable {
 		/** @var \Sm\Data\Entity\Property\EntityProperty $password */
 		$password = $this->properties->password;
 		return $password->resolve();
+	}
+	public function proxyPropertiesInContext(Context $context = null): PropertyContainerProxy {
+		return PropertyContainerProxy::init($this->getProperties(), $context);
 	}
 
 	#
