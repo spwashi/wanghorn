@@ -24,8 +24,6 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
 	public function findProperty($property_name): Property {
 		$property = $property_name instanceof Property ? $property_name : $this->properties->{$property_name};
 
-		$this->fillPropertyValue($property);
-
 		if (!($property instanceof EntityAsProperty)) return $property;
 
 		$property->find();
@@ -33,11 +31,10 @@ abstract class Entity extends \Sm\Data\Entity\Entity implements Monitored {
 		return $property;
 	}
 
-
 	#
 	##  Validation
 	public function validate(Context $context = null): ?ValidationResult {
-		$property_errors = $this->getPropertyValidationErrors($context);
+		$property_errors = $this->properties->getPropertyValidationErrors($context);
 		$property_errors = array_filter($property_errors);
 		return new EntityValidationResult(count($property_errors) < 1, 'entity properties checked', $property_errors);
 	}

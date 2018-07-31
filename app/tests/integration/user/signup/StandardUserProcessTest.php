@@ -89,8 +89,8 @@ class StandardUserProcessTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($PASSWORD, $resolved_in_context);
 
         ##  Can save entity
-        echo "User Entity:\n" . json_encode($e_user->properties, JSON_PRETTY_PRINT) . "\n\n";
-        echo "User Model:\n" . json_encode($m_user->properties, JSON_PRETTY_PRINT) . "\n\n";
+        $this->print_item($e_user->properties, 'User Entity');
+        $this->print_item($m_user->properties, 'User Model');
     }
 
     public function testCreate() {
@@ -115,9 +115,17 @@ class StandardUserProcessTest extends \PHPUnit\Framework\TestCase {
         ##  USER
         $user_model = $this->app->data->models->instantiate('user')->set(['username' => $username]);
         $user_id    = $modelPersistenceManager->find($user_model)->properties->id->value;
+
+        /** @var User $e_user */
+        $e_user                       = $this->app->data->entities->instantiate('user');
+        $e_user->properties->username = $username;
+        $e_user                       = $e_user->find();
+
         $this->assertInternalType('int', $user_id);
 
         ##  PASSWORD
+
+
         $password_model  = $this->app->data->models->instantiate('password')->set(['user_id' => $user_id]);
         $hashed_password = $modelPersistenceManager->find($password_model)->properties->password->value;
 
@@ -125,17 +133,15 @@ class StandardUserProcessTest extends \PHPUnit\Framework\TestCase {
         $this->assertNotEquals($hashed_password, $password);
         $this->assertTrue(password_verify($password, $hashed_password));
 
-        echo json_encode($result__okay, JSON_PRETTY_PRINT);
-        //		var_dump($result__okay);
-    }
+        $this->print_item($result__okay, '`Create User` Result');
 
-    public function testLogin() {
-        Sm::$globals->server['REQUEST_METHOD'] = 'POST';
-        $login_user                            = $this->app->controller->get('[User]@login');
-        Sm::$globals->post['username']         = 'spiget--' . \Sm\Core\Util::generateRandomString(5);
-        Sm::$globals->post['password']         = 'boonboonboon';
-        $response                              = $login_user();
-        var_dump($response);
+
+        $login_user        = $this->app->controller->get('[User]@login');
+        Sm::$globals->post = ['username' => $username, 'password' => $password];
+        $result__login     = $login_user();
+        $this->assertInstanceOf(ApiResponse::class, $result__login);
+        $this->assertTrue($result__login->status);
+        $this->print_item($result__login, 'Attempt Login Post Creation');
     }
 
     #
@@ -144,5 +150,8 @@ class StandardUserProcessTest extends \PHPUnit\Framework\TestCase {
         /** @var User $user */
         $user = $this->app->data->entities->instantiate('user');
         return $user;
+    }
+    protected function print_item($item, string $id): void {
+        echo "{$id}:\n" . json_encode($item, JSON_PRETTY_PRINT) . "\n\n";
     }
 }

@@ -48,6 +48,8 @@ class User extends Entity implements UserEntitySchema {
 
 		if (!$result->isSuccess()) return $result;
 
+		$this->components->update();
+
 		$this->createPassword($context);
 		$this->createVerification($context);
 
@@ -89,7 +91,6 @@ class User extends Entity implements UserEntitySchema {
 	 */
 	protected function createPassword(Context $context = null) {
 		$password = $this->properties->password;
-		$this->fillPropertyValue($password);
 		$password->create($context);
 	}
 
@@ -101,7 +102,6 @@ class User extends Entity implements UserEntitySchema {
 	 */
 	protected function createVerification(Context $context = null) {
 		$verification_hash = $this->properties->verification;
-		$this->fillPropertyValue($verification_hash);
 		$verification_hash->create($context);
 	}
 
