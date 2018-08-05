@@ -9,3 +9,4 @@ const APP__CONFIG_PATH = __DIR__ . '/_config/out/';
 const APP__LOG_PATH    = __DIR__ . '/_log/';
 
 require_once APP__APP_PATH . 'autoload.php';
+require_once APP__APP_PATH . '../vendor/autoload.php';
