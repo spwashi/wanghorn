@@ -73,7 +73,7 @@ const dev = {
                       renderedBy: "client"
                   }),
         new Route({
-            
+
                       resolution: "[Dev]@entities",
                       pattern:    "dev/entities.json$",
                       name:       "dev--entities__json"
@@ -108,7 +108,7 @@ export default [
                   pattern:    "dev/monitors.json$",
                   name:       "dev--monitors__json"
               }),
-    
+
     // TRU dev
     new Route({
                   resolution: "[Dev]@status",
@@ -131,7 +131,12 @@ export default [
                   pattern:    `dev/models/{smID}:${smID_regex}/execute/{query}:[a-zA-Z_]+`,
                   name:       "dev--execute_query"
               }),
-    
+    new Route({
+                  resolution: "[Dev]@setup",
+                  pattern:    `dev/setup_all`,
+                  name:       "dev--setup"
+              }),
+
     //
     new Route({
                   resolution: "[Email]@test",

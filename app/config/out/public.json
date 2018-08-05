@@ -86,6 +86,9 @@
       "dev--execute_query": {
          "pattern": "dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
+      "dev--setup": {
+         "pattern": "dev/setup_all"
+      },
       "user--signup_continue": {
          "pattern": "dev/email/test/{signup_nonce}"
       },
