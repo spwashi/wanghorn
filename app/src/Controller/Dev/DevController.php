@@ -137,7 +137,7 @@ class DevController extends AppController {
 		return $all;
 	}
 	public function models() {
-
+        return $this->app->data->models->getRegisteredSchematics();
 	}
 
 	public function findAll($smID) {

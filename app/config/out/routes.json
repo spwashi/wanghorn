@@ -19,7 +19,7 @@
       },
       {
          "name": "dev--models__json",
-         "resolution": "Dev\\Dev@models",
+         "resolution": "Dev\\Model\\Model@metas",
          "pattern": "dev/models.json$"
       },
       {

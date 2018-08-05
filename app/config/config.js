@@ -1,7 +1,7 @@
 import path from "path";
 
 // ASSUMED TO CHANGE
-let env                            = 'testing' || process.env.NODE_ENV;
+let env                            = process.env.NODE_ENV;
 export const POSSIBLE_ENVIRONMENTS = {
 	TESTING:     'testing',
 	PRODUCTION:  'production',

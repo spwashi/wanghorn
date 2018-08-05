@@ -15,7 +15,7 @@ const dev = {
                       pattern:    "dev/models$"
                   }),
         new Route({
-                      resolution: "[Dev]@models",
+                      resolution: "Dev\\[Model]@metas",
                       pattern:    "dev/models.json$",
                       name:       "dev--models__json"
                   }),
