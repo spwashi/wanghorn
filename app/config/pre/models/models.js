@@ -2,6 +2,7 @@ import * as _ from './_';
 import * as _uploaded from './_/_uploaded';
 import * as user from './user';
 import * as user_verification_hash from './user/verification_hash';
+import * as user_role from './user/role';
 import * as file from './file';
 import * as tag from './tag';
 import * as email from './email';
@@ -16,21 +17,22 @@ import * as password from './password';
 export const models = {
     _,
     _uploaded,
-    
+
     tag,
     file,
     file_location,
     image,
-    
+
     user,
+    user_role,
     user_verification_hash,
     event,
     email,
     person,
-    
+
     project,
     project_tag_map,
-    
+
     password,
 };
 

@@ -8,6 +8,7 @@ use Modules\Query\Sql\Exception\CannotDuplicateEntryException;
 use Sm\Core\Exception\InvalidArgumentException;
 use Sm\Core\Resolvable\Exception\UnresolvableException;
 use Sm\Core\Resolvable\Resolvable;
+use Sm\Core\Util;
 use Sm\Data\Entity\Context\EntityContext;
 use Sm\Data\Entity\Context\EntityCreationContext;
 use Sm\Data\Entity\EntitySchema;
@@ -17,6 +18,7 @@ use Sm\Data\Model\Exception\ModelNotFoundException;
 use Sm\Data\Property\Property;
 use Sm\Logging\LoggingLayer;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
+use WANGHORN\Entity\User\Proxy\UserEntityProxy;
 use WANGHORN\Entity\User\Verification\Context\UserVerificationContext;
 use WANGHORN\Entity\User\Verification\Proxy\UserVerificationProxy;
 use WANGHORN\Entity\User\Verification\UserVerification;
@@ -87,9 +89,7 @@ class UserController extends AppController {
         $entityContext = $this->resolveContext('signup_process');
         $properties    = $this->requestData['properties'] ?? [];;
 
-        if (empty($properties)) {
-            return new ApiResponse(false, "Empty Credentials provided");
-        }
+        if (empty($properties)) return new ApiResponse(false, "Empty Credentials provided");
 
         #
         ##  Should probably proxy in contexts
@@ -114,7 +114,7 @@ class UserController extends AppController {
             $this->sendVerificationEmail($user);
             return $login_response;
         } catch (CannotDuplicateEntryException $error) {
-            return new ApiResponse(false, 'User already exists');
+            return new ApiResponse(false, 'Error: user already registered');
         } catch (CannotModifyEntityException $exception) {
             $failedProperties     = $exception->getFailedProperties();
             $messages             = $failedProperties;
@@ -131,15 +131,9 @@ class UserController extends AppController {
         $_SESSION[static::SESSION_USERNAME_INDEX] = null;
         return $this->redirect('home');
     }
-    /**
-     * This logic should /probably/ move out of here
-     *
-     * @param $hash
-     * @return ApiResponse|UserVerificationProxy
-     * @throws InvalidArgumentException
-     * @throws \Sm\Data\Property\Exception\NonexistentPropertyException
-     */
     public function verifyUser($hash) {
+        # This function is used to verify the user's account upon activation
+
         $verificationContext = $this->resolveContext('::verification');
         try {
             /** @var UserVerification $verification */
@@ -169,6 +163,7 @@ class UserController extends AppController {
 
         return $verification->proxyInContext($verificationContext);
     }
+
     #
     ##  Contextualization
     /**
@@ -232,6 +227,11 @@ class UserController extends AppController {
             return new ApiResponse(false, 'Could not log in with the provided username and password');
         }
     }
+    protected function declareUserLoggedIn($user) {
+        if (!$user instanceof UserEntitySchema) throw new InvalidArgumentException("Can only declare USERs logged in -- " . Util::getShape($user));
+
+        return $_SESSION[static::SESSION_USERNAME_INDEX] = $user->properties->username->value;
+    }
 
     #
     ##  Sign-up Helpers
@@ -246,11 +246,6 @@ class UserController extends AppController {
     public function getUserAlreadyExistsStatusResponse() {
         return new ApiResponse(false, 'User Already Exists');
     }
-    /**
-     * @param $username_str
-     * @param $verification_link
-     * @return string
-     */
     protected function createUserVerificationEmailHTML($username_str, $verification_link): string {
         $html = "Hi, {$username_str}! Thanks for signing up. <br>Please " .
                 "<a href='{$verification_link}'>Click Here to verify your account</a>, and then we can get things set up.";
@@ -286,12 +281,4 @@ class UserController extends AppController {
                        $recipients);
         ob_end_clean();
     }
-    /**
-     * @param $user
-     * @return mixed
-     */
-    protected function declareUserLoggedIn($user) {
-        return $_SESSION[static::SESSION_USERNAME_INDEX] = $user->properties->username->value;
-    }
-
 }

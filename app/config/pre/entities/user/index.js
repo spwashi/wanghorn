@@ -3,6 +3,8 @@ import {CONTEXT_TYPES, normalizeContexts} from "../helpers";
 import * as password from './password'
 import {Entity} from "../helpers";
 import * as verification from "./verification";
+import * as role from "./role";
+import {role__identity} from "../../models/user/role";
 
 const getContexts = () => {
     const self = {
@@ -13,6 +15,7 @@ const getContexts = () => {
     return {
         self,
         login_process: {self},
+        '::authorization': {self},
         '::verification': {self},
         signup_process: {self}
     }
@@ -24,6 +27,11 @@ export const persistedIdentity = user__identity;
 export const properties = {
     username: true,
     email: {identity: true},
+    role: {
+        derivedFrom: {role_id: 'id'},
+        identity: role.identity,
+        contexts: ['::authorization']
+    },
     password: {
         // This property is derived by joining on the password entity's persisted identity injecting this as the user_id
         derivedFrom: {user_id: true},

@@ -18,6 +18,25 @@
          }
       }
    },
+   "user_role": {
+      "smID": "[Entity]user_role",
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Entity]user_role} id",
+            "role": "value"
+         },
+         "role": {
+            "smID": "[Property]{[Entity]user_role} role",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255,
+            "derivedFrom": "[Property]{[Model]user_role} role"
+         }
+      },
+      "persistedIdentity": "[Model]user_role",
+      "contexts": {}
+   },
    "event": {
       "smID": "[Entity]event",
       "properties": {
@@ -112,6 +131,18 @@
    "user": {
       "smID": "[Entity]user",
       "properties": {
+         "role": {
+            "smID": "[Property]{[Entity]user} role",
+            "datatypes": [
+               "[Entity]user_role"
+            ],
+            "derivedFrom": {
+               "role_id": "[Property]{[Model]user_role} id"
+            },
+            "contexts": [
+               "::authorization"
+            ]
+         },
          "username": {
             "smID": "[Property]{[Entity]user} username",
             "datatypes": [
@@ -160,6 +191,12 @@
       "persistedIdentity": "[Model]user",
       "contexts": {
          "login_process": {
+            "self": {
+               "title": "User",
+               "name": "user"
+            }
+         },
+         "::authorization": {
             "self": {
                "title": "User",
                "name": "user"

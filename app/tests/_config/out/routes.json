@@ -124,6 +124,11 @@
          "pattern": "dev/models/{smID}:[\\[_a-zA-Z\\]\\s]+/execute/{query}:[a-zA-Z_]+"
       },
       {
+         "name": "dev--setup",
+         "resolution": "Dev\\Dev@setup",
+         "pattern": "dev/setup_all"
+      },
+      {
          "resolution": "Email\\Email@test",
          "pattern": "dev/email/test$"
       },

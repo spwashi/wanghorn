@@ -6,7 +6,7 @@ export function replaceAppBoilerplateConstants(app, appPath) {
     let srcPath       = app.paths.src || `${appPath}/src`;
     let configPath    = app.paths.CONFIG || `${appPath}/config`;
     const options     = {
-        files: [`${srcPath}/**/*`, configPath + '/config.php'],
+        files: [`${srcPath}/**/*`, configPath + '/config.php', configPath + '/Config.php'],
         from:  new RegExp('WANGHORN', 'g'),
         to:    app.namespace,
     };

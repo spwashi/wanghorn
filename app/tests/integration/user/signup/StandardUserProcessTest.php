@@ -109,8 +109,13 @@ class StandardUserProcessTest extends \PHPUnit\Framework\TestCase {
         $password = 'boonboonboon';
 
         Sm::$globals->post['properties'] = ['username' => $username, 'password' => $password];
-        $result__okay                    = $createUser();
-        $modelPersistenceManager         = $this->app->data->models->persistenceManager;
+        /** @var ApiResponse $result__okay */
+        $result__okay            = $createUser();
+        $modelPersistenceManager = $this->app->data->models->persistenceManager;
+        $this->print_item($result__okay, 'Just Created User (hopefully)');
+        $this->assertTrue($result__okay->status);
+
+
 
         ##  USER
         $user_model = $this->app->data->models->instantiate('user')->set(['username' => $username]);

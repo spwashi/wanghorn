@@ -181,6 +181,8 @@ class Config {
                     return new \WANGHORN\Entity\Event\Event($entityDataManager);
                 case '[Entity]password':
                     return new \WANGHORN\Entity\Password\Password($entityDataManager);
+                case '[Entity]user_role':
+                    return new \WANGHORN\Entity\User\Role\UserRole($entityDataManager);
                 case '[Entity]verification':
                     return new \WANGHORN\Entity\User\Verification\UserVerification($entityDataManager);
                 default:

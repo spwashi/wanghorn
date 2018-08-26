@@ -193,25 +193,20 @@
          }
       }
    },
-   "user": {
-      "smID": "[Model]user",
+   "user_role": {
+      "smID": "[Model]user_role",
       "inherits": [
          "[Model]_"
       ],
       "propertyMeta": {
          "primary": [
-            "[Property]{[Model]user} id"
+            "[Property]{[Model]user_role} id"
          ],
-         "unique": {
-            "unique_key": [
-               "[Property]{[Model]user} username",
-               "[Property]{[Model]user} email"
-            ]
-         }
+         "unique": {}
       },
       "properties": {
          "id": {
-            "smID": "[Property]{[Model]user} id",
+            "smID": "[Property]{[Model]user_role} id",
             "datatypes": [
                "int"
             ],
@@ -220,7 +215,7 @@
             "isGenerated": true
          },
          "delete_dt": {
-            "smID": "[Property]{[Model]user} delete_dt",
+            "smID": "[Property]{[Model]user_role} delete_dt",
             "datatypes": [
                "datetime",
                "null"
@@ -228,7 +223,7 @@
             "isGenerated": true
          },
          "creation_dt": {
-            "smID": "[Property]{[Model]user} creation_dt",
+            "smID": "[Property]{[Model]user_role} creation_dt",
             "datatypes": [
                "datetime"
             ],
@@ -236,7 +231,7 @@
             "defaultValue": "now"
          },
          "last_update_dt": {
-            "smID": "[Property]{[Model]user} last_update_dt",
+            "smID": "[Property]{[Model]user_role} last_update_dt",
             "datatypes": [
                "datetime"
             ],
@@ -244,29 +239,12 @@
             "defaultValue": "now",
             "updateValue": "now"
          },
-         "username": {
-            "smID": "[Property]{[Model]user} username",
+         "role": {
+            "smID": "[Property]{[Model]user_role} role",
             "datatypes": [
                "string"
             ],
-            "length": 40,
-            "unique": true
-         },
-         "email": {
-            "smID": "[Property]{[Model]user} email",
-            "datatypes": [
-               "string"
-            ],
-            "length": 255,
-            "unique": true
-         },
-         "verification_dt": {
-            "smID": "[Property]{[Model]user} verification_dt",
-            "datatypes": [
-               "datetime",
-               "null"
-            ],
-            "isGenerated": true
+            "length": 255
          }
       }
    },
@@ -415,6 +393,96 @@
                "string"
             ],
             "length": 255
+         }
+      }
+   },
+   "user": {
+      "smID": "[Model]user",
+      "inherits": [
+         "[Model]_"
+      ],
+      "propertyMeta": {
+         "primary": [
+            "[Property]{[Model]user} id"
+         ],
+         "unique": {
+            "unique_key": [
+               "[Property]{[Model]user} username",
+               "[Property]{[Model]user} email"
+            ]
+         }
+      },
+      "properties": {
+         "id": {
+            "smID": "[Property]{[Model]user} id",
+            "datatypes": [
+               "int"
+            ],
+            "length": 11,
+            "primary": true,
+            "isGenerated": true
+         },
+         "delete_dt": {
+            "smID": "[Property]{[Model]user} delete_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "creation_dt": {
+            "smID": "[Property]{[Model]user} creation_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now"
+         },
+         "last_update_dt": {
+            "smID": "[Property]{[Model]user} last_update_dt",
+            "datatypes": [
+               "datetime"
+            ],
+            "isGenerated": true,
+            "defaultValue": "now",
+            "updateValue": "now"
+         },
+         "username": {
+            "smID": "[Property]{[Model]user} username",
+            "datatypes": [
+               "string"
+            ],
+            "length": 40,
+            "unique": true
+         },
+         "email": {
+            "smID": "[Property]{[Model]user} email",
+            "datatypes": [
+               "string"
+            ],
+            "length": 255,
+            "unique": true
+         },
+         "verification_dt": {
+            "smID": "[Property]{[Model]user} verification_dt",
+            "datatypes": [
+               "datetime",
+               "null"
+            ],
+            "isGenerated": true
+         },
+         "role_id": {
+            "smID": "[Property]{[Model]user} role_id",
+            "datatypes": [
+               "int",
+               "null"
+            ],
+            "length": 11,
+            "defaultValue": 1,
+            "reference": {
+               "identity": "[Model]user_role",
+               "hydrationMethod": "[Property]{[Model]user_role} id"
+            }
          }
       }
    },
