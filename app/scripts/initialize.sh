@@ -15,6 +15,8 @@ cd ${CONFIG_PATH}
 mkdir -p out
 
 cd ${APPLICATION_PATH}
+mkdir ../log/git
+
 
 npm install
 
@@ -25,5 +27,7 @@ cd scripts
 git branch -m master local
 git branch dev.live
 git branch prod.live
+
+git checkout local
 
 ./initApplication.sh
