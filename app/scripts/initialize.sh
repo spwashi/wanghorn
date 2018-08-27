@@ -15,7 +15,7 @@ cd ${CONFIG_PATH}
 mkdir -p out
 
 cd ${APPLICATION_PATH}
-mkdir ../log/git
+mkdir ../log/
 
 
 npm install
