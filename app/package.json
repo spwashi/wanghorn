@@ -76,7 +76,7 @@
     "anchorate": "^1.2.3",
     "axios": "latest",
     "base-components": "file:view/js/components",
-    "base-modules": "file:view/js/modules",
+    "base-constructs": "file:view/js/constructs",
     "bind-decorator": "^1.0.11",
     "deep-sort-object": "^1.0.2",
     "gsap": "^1.20.4",

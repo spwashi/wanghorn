@@ -1,7 +1,7 @@
 import React                             from "react"
 import * as PropTypes                    from "prop-types"
 import bind                              from "bind-decorator";
-import {Factory}                         from "../../../../../../../modules/factory/index";
+import {Factory}                         from "../../../../../../../constructs/factory/index";
 import {DefaultPropertyField}            from "./smEntity/default";
 import {getTitleFromPropName, parseSmID} from "../../../../utility";
 import {PropertyOwnerField}              from "./smEntity/propertyOwner";
