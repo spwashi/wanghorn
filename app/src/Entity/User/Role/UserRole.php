@@ -19,9 +19,9 @@ use WANGHORN\Entity\User\Verification\Response\UserVerificationStatusResponse;
 
 
 /**
- * Class VerificationHash
+ * Class VerificationRole
  *
- * * Currently hashed using the BCRYPT algorithm
+ * * Currently roled using the BCRYPT algorithm
  */
 class UserRole extends Entity implements Resolvable {
     protected $internal = [];
@@ -33,7 +33,7 @@ class UserRole extends Entity implements Resolvable {
     ##  Resolution
     public function resolve() {
         /** @var \Sm\Data\Entity\Property\EntityProperty $role */
-        $role = $this->properties->role;
+        $role = $this->properties->id;
         return $role->resolve();
     }
 
@@ -48,14 +48,14 @@ class UserRole extends Entity implements Resolvable {
     public function create(Context $context, $attributes = []): ?EntityValidationResult {
         $result                 = $this->createPrimaryModel($context, $attributes);
         $model                  = $this->getPersistedIdentity();
-        $this->properties->hash = $model->properties->hash->resolve();
+        $this->properties->role = $model->properties->role->resolve();
         return $result;
     }
     public function destroy() {
-        throw new UnimplementedError("Cannot yet delete verificationHashes");
+        throw new UnimplementedError("Cannot yet delete verificationRoles");
     }
     public function save($attributes = []) {
-        throw new UnimplementedError("Cannot yet update verificationHashes");
+        throw new UnimplementedError("Cannot yet update verificationRoles");
     }
 
     #

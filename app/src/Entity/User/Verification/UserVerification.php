@@ -57,9 +57,6 @@ class UserVerification extends Entity implements Resolvable {
     public function save($attributes = []) {
         throw new UnimplementedError("Cannot yet update verificationHashes");
     }
-    public function matches($verificationHash) {
-        return verificationHash_verify($verificationHash, $this->getPersistedIdentity()->properties->verificationHash);
-    }
     protected function getPropertiesForModel(\Sm\Data\Entity\Entity $entity, Context $context = null): array {
         $properties = $this->gProps($entity);
         if ($context instanceof EntityCreationContext) {

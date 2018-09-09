@@ -22,97 +22,82 @@ use WANGHORN\Entity\User\Schema\UserEntitySchema;
 /**
  */
 class User extends Entity implements UserEntitySchema {
-	use EntityHasPrimaryModelTrait;
+    use EntityHasPrimaryModelTrait;
 
-	#
-	##  Persistence
-	public function save($attributes = []) {
-		throw new UnimplementedError("Cannot save User");
-	}
+    #
+    ##  Persistence
+    public function save($attributes = []) {
+        throw new UnimplementedError("Cannot save User");
+    }
+    public function destroy() { }
+    /**
+     * Create the User record -- assume we know everything we'd want to
+     *
+     * @param Context $context
+     * @param array $attributes
+     * @return EntityValidationResult
+     * @throws UnimplementedError
+     * @throws InvalidArgumentException
+     * @throws UnresolvableException
+     * @throws CannotModifyEntityException
+     */
+    public function create(Context $context, $attributes = []): EntityValidationResult {
+        $result = $this->createPrimaryModel($context, $attributes);
 
-	public function destroy() { }
+        if (!$result->isSuccess()) return $result;
 
-	/**
-	 * Create the User record -- assume we know everything we'd want to
-	 *
-	 * @param Context $context
-	 * @param array   $attributes
-	 * @return EntityValidationResult
-	 * @throws UnimplementedError
-	 * @throws InvalidArgumentException
-	 * @throws UnresolvableException
-	 * @throws CannotModifyEntityException
-	 */
-	public function create(Context $context, $attributes = []): EntityValidationResult {
-		$result = $this->createPrimaryModel($context, $attributes);
+        $this->components->update();
 
-		if (!$result->isSuccess()) return $result;
+        $this->createPassword($context);
+        $this->createVerification($context);
 
-		$this->components->update();
+        return $result;
+    }
+    public function find($attributes = [], Context $context = null) {
+        $this->findPrimaryModel($attributes, $context);
 
-		$this->createPassword($context);
-		$this->createVerification($context);
+        if (!($context instanceof EntityContext)) return $this;
 
-		return $result;
-	}
+        $smID            = $this->getSmID();
+        $entitySchematic = $context->getSchematic($smID);
 
-	public function find($attributes = [], Context $context = null) {
-		$this->findPrimaryModel($attributes, $context);
+        if (!isset($entitySchematic)) return $this;
 
-		if (!($context instanceof EntityContext)) return $this;
+        $all_property   = $entitySchematic->getProperties()->getAll();
+        $property_names = array_keys($all_property);
+        foreach ($property_names as $property_name) $this->findProperty($property_name);
 
-		$smID            = $this->getSmID();
-		$entitySchematic = $context->getSchematic($smID);
+        return $this;
+    }
 
-		if (!isset($entitySchematic)) return $this;
+    #
+    ##  Getters/Setters
 
-		$all_property   = $entitySchematic->getProperties()->getAll();
-		$property_names = array_keys($all_property);
-		foreach ($property_names as $property_name) $this->findProperty($property_name);
 
-		return $this;
-	}
-	#
-	##  Getters/Setters
-	#
-	##  Initialization/Instantiation
-	public function findPassword(): Property {
-		return $this->findProperty($this->properties->password);
-	}
+    #
+    ##  Initialization/Instantiation
+    public function findPassword(): Property {
+        return $this->findProperty($this->properties->password);
+    }
+    public function findUsername(): Property {
+        return $this->findProperty($this->properties->username);
+    }
+    protected function createPassword(Context $context = null) {
+        $password = $this->properties->password;
+        $password->create($context);
+    }
+    protected function createVerification(Context $context = null) {
+        $verification_hash = $this->properties->verification;
+        $verification_hash->create($context);
+    }
 
-	public function findUsername(): Property {
-		return $this->findProperty($this->properties->username);
-	}
-
-	/**
-	 * @param Context|null $context
-	 * @throws UnresolvableException
-	 * @throws InvalidArgumentException
-	 */
-	protected function createPassword(Context $context = null) {
-		$password = $this->properties->password;
-		$password->create($context);
-	}
-
-	/**
-	 * Create the hash that would verify the user (via link)
-	 * @param Context|null $context
-	 * @throws UnresolvableException
-	 * @throws InvalidArgumentException
-	 */
-	protected function createVerification(Context $context = null) {
-		$verification_hash = $this->properties->verification;
-		$verification_hash->create($context);
-	}
-
-	#
-	##  Contextualization
-	/**
-	 * @param Context|null $context
-	 * @return EntitySchema|UserEntityProxy
-	 * @throws InvalidArgumentException
-	 */
-	public function proxyInContext(Context $context = null): EntitySchema {
-		return new UserEntityProxy($this, $context);
-	}
+    #
+    ##  Contextualization
+    /**
+     * @param Context|null $context
+     * @return EntitySchema|UserEntityProxy
+     */
+    public function proxyInContext(Context $context = null): EntitySchema {
+        return new UserEntityProxy($this, $context);
+    }
 }

@@ -27,7 +27,9 @@ class StandardUserProcessTest extends \PHPUnit\Framework\TestCase {
         $this->assertInstanceOf(User::class, $user);
 
         $property_names = array_keys($user->properties->getAll());
+        $this->print_item($property_names, 'Property Names');
         $this->assertContains('verification', $property_names);
+        $this->assertContains('role', $property_names);
         $this->assertContains('password', $property_names);
         $this->assertContains('email', $property_names);
         $this->assertContains('username', $property_names);
@@ -129,8 +131,6 @@ class StandardUserProcessTest extends \PHPUnit\Framework\TestCase {
         $this->assertInternalType('int', $user_id);
 
         ##  PASSWORD
-
-
         $password_model  = $this->app->data->models->instantiate('password')->set(['user_id' => $user_id]);
         $hashed_password = $modelPersistenceManager->find($password_model)->properties->password->value;
 

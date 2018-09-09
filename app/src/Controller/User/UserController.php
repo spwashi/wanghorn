@@ -91,6 +91,7 @@ class UserController extends AppController {
 
         if (empty($properties)) return new ApiResponse(false, "Empty Credentials provided");
 
+        $properties['role'] = '1';
         #
         ##  Should probably proxy in contexts
         $user = $this->init_entity()->set($properties);

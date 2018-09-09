@@ -16,13 +16,24 @@ Wanghorn has only been tested on
 * PHP 7.1/7.2
 * Apache 2.4.25
 
+```bash
+git clone wanghorn/ wanghorn_test/; 
+cd wanghorn_test/; 
+phpstorm app/config/config.js
+```
+
+```bash
+cd app;
+npm run init;
+node initialize;
+```
 
 # Installation
 
 1. Clone the project into a folder named SITE_ROOT
 2. Configure the SITE_ROOT/app/config/index.js file
 
-   ```JavaScript
+   ```javascript
     // The domain name of the site we are configuring
     export const APP_ROOT_URL      = 'http://localhost';
     // The URL Path (sans leading or trailing slash) at which the main site can be found relative to the domain
