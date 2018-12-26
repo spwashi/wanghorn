@@ -1,6 +1,6 @@
 import {Sm}                             from "spwashi-sm";
-import {connection}                     from "../../config/pre/connection";
 import {createConfigOutput, saveJSON}   from "./save";
+import {connection}                     from "../../config/pre/connections";
 import {models}                         from "../../config/pre/models";
 import routes
                                         from "../../config/pre/routes/index";

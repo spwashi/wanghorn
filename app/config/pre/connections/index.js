@@ -1,4 +1,4 @@
-import {__CONFIGURATION__, POSSIBLE_ENVIRONMENTS} from "../config";
+import {__CONFIGURATION__, POSSIBLE_ENVIRONMENTS} from "../../config";
 const std = {
 	dbms:     'mysql',
 	host:     'localhost',
