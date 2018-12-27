@@ -8,6 +8,22 @@ use Sm\Modules\Network\Http\Request\HttpRequest;
 use Sm\Modules\Network\Http\Request\HttpRequestFromEnvironment;
 
 require_once __DIR__ . '/_base.php';
+
+/**
+ * @param string $url
+ *
+ * @return string
+ */
+if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
+  $std_config_path           = APP__APP_PATH . 'config/config.js';
+  $open_config_in_pstorm_url = get_pstorm_url($std_config_path, 12);
+  needs_more_config(
+    [
+      "Run the initialization script: <a href='{$open_config_in_pstorm_url}'>{$std_config_path}</a>",
+    ]
+  );
+}
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 # prevents the dispatcher from returning JSON
@@ -19,64 +35,64 @@ if (session_status() == PHP_SESSION_NONE) session_start();
 $app = Application::init(APP__APP_PATH, APP__CONFIG_PATH, APP__LOG_PATH);
 
 try {
-    #   - Create & Boot the application
+  #   - Create & Boot the application
 
-    $app                = $app->boot();
-    $communicationLayer = $app->communication;
+  $app                = $app->boot();
+  $communicationLayer = $app->communication;
 
-    /** @var HttpRequestFromEnvironment $originalRequest */
-    $originalRequest = $communicationLayer->resolveRequest();
+  /** @var HttpRequestFromEnvironment $originalRequest */
+  $originalRequest = $communicationLayer->resolveRequest();
 
-    try {
+  try {
 
-        ###- Create and dispatch the response -###
-        $request        = $originalRequest;
-        $route          = $communicationLayer->getRoute($request);
-        $response       = $route->resolve();
-        $dispatchResult = $communicationLayer->dispatch(Http::class, $response);
-    } catch (RouteNotFoundException $exception) {
-        ###- Create and dispatch the error response -###
-        $error_route      = $communicationLayer->getRoute('error-404');
-        $primedErrorRoute = $error_route->prime(null, ['path' => $originalRequest->getUrlPath()]);
+    ###- Create and dispatch the response -###
+    $request        = $originalRequest;
+    $route          = $communicationLayer->getRoute($request);
+    $response       = $route->resolve();
+    $dispatchResult = $communicationLayer->dispatch(Http::class, $response);
+  } catch (RouteNotFoundException $exception) {
+    ###- Create and dispatch the error response -###
+    $error_route      = $communicationLayer->getRoute('error-404');
+    $primedErrorRoute = $error_route->prime(null, ['path' => $originalRequest->getUrlPath()]);
 
-        /** @var \Sm\Modules\Network\Http\Request\HttpRequestDescriptor $requestDescriptor */
-        $requestDescriptor = $primedErrorRoute->getRequestDescriptor();
-        $error_url         = $requestDescriptor->asUrlPath(['path' => $originalRequest->getUrlPath()]);
-        $errorRequest      = HttpRequest::init()->setParentRequest($originalRequest)->setUrl($error_url);
-        $primedErrorRoute  = $error_route->prime($errorRequest);
-        $response          = $primedErrorRoute->resolve();
-        $dispatchResult    = $communicationLayer->dispatch(Http::class, $response); # Not a redirect
-    }
+    /** @var \Sm\Modules\Network\Http\Request\HttpRequestDescriptor $requestDescriptor */
+    $requestDescriptor = $primedErrorRoute->getRequestDescriptor();
+    $error_url         = $requestDescriptor->asUrlPath(['path' => $originalRequest->getUrlPath()]);
+    $errorRequest      = HttpRequest::init()->setParentRequest($originalRequest)->setUrl($error_url);
+    $primedErrorRoute  = $error_route->prime($errorRequest);
+    $response          = $primedErrorRoute->resolve();
+    $dispatchResult    = $communicationLayer->dispatch(Http::class, $response); # Not a redirect
+  }
 } catch (\Sm\Core\Exception\Exception|\Throwable $exception) {
-    if ($app->environmentIs(Application::ENV_DEV)) {
-        try {
-            $communicationLayer->dispatch(Http::class, $exception);
-        } catch (Exception $e) {
-            var_dump($e);
-        }
+  if ($app->environmentIs(Application::ENV_DEV)) {
+    try {
+      $communicationLayer->dispatch(Http::class, $exception);
+    } catch (Exception $e) {
+      var_dump($e);
     }
-    $app->logging->log($exception);
+  }
+  $app->logging->log($exception);
 } finally {
-    if (isset(Sm::$globals->get['d_lm'])) {
-        $log_level = Sm::$globals->get['d_lm'];
-        $monitors  = $app->getMonitors();
-        switch ($log_level) {
-            case 'q':
-                $items = $monitors->getAll();
-                foreach ($items as $key => $item) {
-                    if ($item instanceof \Sm\Core\Resolvable\Resolvable) $item = $item->resolve();
-                    if (strpos($key, 'query') === false) unset($items[$key]);
+  if (isset(Sm::$globals->get['d_lm'])) {
+    $log_level = Sm::$globals->get['d_lm'];
+    $monitors  = $app->getMonitors();
+    switch ($log_level) {
+      case 'q':
+        $items = $monitors->getAll();
+        foreach ($items as $key => $item) {
+          if ($item instanceof \Sm\Core\Resolvable\Resolvable) $item = $item->resolve();
+          if (strpos($key, 'query') === false) unset($items[$key]);
 
-                }
-                $app->logging->log($items, 'monitors/query');
-                break;
-            default:
-                $monitor_array = [];
-                foreach ($monitors->getAll() as $name => $monitor) $monitor_array[$name] = $monitor instanceof \Sm\Core\Resolvable\Resolvable ? $monitor->resolve() : $monitor;
-
-                $app->logging->log($monitor_array, 'monitors/monitors');
-                break;
         }
+        $app->logging->log($items, 'monitors/query');
+        break;
+      default:
+        $monitor_array = [];
+        foreach ($monitors->getAll() as $name => $monitor) $monitor_array[$name] = $monitor instanceof \Sm\Core\Resolvable\Resolvable ? $monitor->resolve() : $monitor;
+
+        $app->logging->log($monitor_array, 'monitors/monitors');
+        break;
     }
-    die; /* terminate the script */
+  }
+  die; /* terminate the script */
 }
