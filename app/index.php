@@ -17,11 +17,8 @@ require_once __DIR__ . '/_base.php';
 if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
   $std_config_path           = APP__APP_PATH . 'config/config.js';
   $open_config_in_pstorm_url = get_pstorm_url($std_config_path, 12);
-  needs_more_config(
-    [
-      "Run the initialization script: <a href='{$open_config_in_pstorm_url}'>{$std_config_path}</a>",
-    ]
-  );
+  $config_app_message        = "Run the initialization script: <a href='{$open_config_in_pstorm_url}'>{$std_config_path}</a>";
+  needs_more_config([$config_app_message]);
 }
 
 require_once __DIR__ . '/../vendor/autoload.php';

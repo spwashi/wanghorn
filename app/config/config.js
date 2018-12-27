@@ -10,7 +10,7 @@ export const POSSIBLE_ENVIRONMENTS = {
 };
 
 const _app_name  = `~appName~`;
-const _namespace = '~namespace~';
+const _namespace = '~appNamespace~';
 const _app_url   = '~appUrl~';
 
 export const __CONFIGURATION__ = {
