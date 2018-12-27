@@ -44,4 +44,4 @@ fi
 
 
 echo "COPYING REPO..." && ls
-cp -r "${local_smphp_root}/src" "${vendor_spwashi_path_smphp}"
+ln -s "${local_smphp_root}/src" "${vendor_spwashi_path_smphp}"
