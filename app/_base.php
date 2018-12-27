@@ -22,7 +22,7 @@ if (!function_exists("needs_more_config")) {
     endforeach;
     echo "</ol>";
 
-    echo "</div>'";
+    echo "</div>";
 
     die;
   }

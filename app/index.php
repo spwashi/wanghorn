@@ -19,7 +19,7 @@ if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
   $open_initialize_anchor = get_pstorm_link(APP__APP_PATH . 'scripts/initialize.sh', 'here', 0);
   $config_app_message     = "Configure the application: {$open_config_anchor}";
   $init_app_message       = "Run the initialization script: {$open_config_anchor}";
-  needs_more_config([$config_app_message]);
+  needs_more_config([$config_app_message, $init_app_message]);
 }
 
 require_once __DIR__ . '/../vendor/autoload.php';
