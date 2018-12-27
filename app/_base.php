@@ -29,8 +29,13 @@ if (!function_exists("needs_more_config")) {
 }
 
 if (!function_exists("get_pstorm_url")) {
-  function get_pstorm_url(string $url, $line = 0): string {
-    $open_config_in_pstorm_url = "phpstorm://open?url=file://${url}&line={$line}";
+  function get_pstorm_url(string $filepath, $line = 0): string {
+    $open_config_in_pstorm_url = "phpstorm://open?url=file://${filepath}&line={$line}";
     return $open_config_in_pstorm_url;
+  }
+  function get_pstorm_link($filepath, $title = null, $line = 0) {
+    $title = $title ?? $filepath;
+    $url   = get_pstorm_url($filepath, $line);
+    return "<a href='{$url}'>{$title}</a>";
   }
 }
