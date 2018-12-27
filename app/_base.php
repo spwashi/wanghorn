@@ -12,7 +12,7 @@ require_once APP__APP_PATH . 'autoload.php';
 
 if (!function_exists("needs_more_config")) {
   function needs_more_config(array $tasks = ['Finish configuring the app']) {
-    echo "<div>The application is not done being configured:</div>";
+    echo "<div>The application is not done being configured:</div><br>";
 
     echo "<div> Please do the following:";
 

@@ -15,11 +15,10 @@ require_once __DIR__ . '/_base.php';
  * @return string
  */
 if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
-  $std_config_path    = APP__APP_PATH . 'config/config.js';
-  $open_config_anchor = get_pstorm_link($std_config_path,
-                                        'Change the app name, namespace, and url',
-                                        12);
-  $config_app_message = "Configure the application: {$open_config_anchor}";
+  $open_config_anchor     = get_pstorm_link(APP__APP_PATH . 'config/config.js', 'Change the app name, namespace, and url', 12);
+  $open_initialize_anchor = get_pstorm_link(APP__APP_PATH . 'scripts/initialize.sh', 'here', 0);
+  $config_app_message     = "Configure the application: {$open_config_anchor}";
+  $init_app_message       = "Run the initialization script: {$open_config_anchor}";
   needs_more_config([$config_app_message]);
 }
 
